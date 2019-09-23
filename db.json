@@ -1,14 +1,31 @@
 {
-  "posts": [
-    { "id": 1, "title": "Post 1" },
-    { "id": 2, "title": "Post 2" },
-    { "id": 3, "title": "Post 3" }
-  ],
-  "comments": [
-    { "id": 1, "body": "some comment", "postId": 1 },
-    { "id": 2, "body": "some comment", "postId": 1 }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  "tasks": [
+    {
+      "id": 1,
+      "userId": 1,
+      "title": "Task 1",
+      "description": "1Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w. przez nieznanego drukarza do wypełnienia tekstem próbnej książki. Pięć wieków później zaczął być używany przemyśle elektronicznym, pozostając praktycznie niezmienionym.",
+      "status": "done",
+      "createdAt": "01-10-2019",
+      "finishedAt": "05-10-2019"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "title": "Task 2",
+      "description": "2Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w. przez nieznanego drukarza do wypełnienia tekstem próbnej książki. Pięć wieków później zaczął być używany przemyśle elektronicznym, pozostając praktycznie niezmienionym.",
+      "status": "active",
+      "createdAt": "07-10-2019",
+      "finishedAt": null
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "title": "Task 3",
+      "description": "3Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w. przez nieznanego drukarza do wypełnienia tekstem próbnej książki. Pięć wieków później zaczął być używany przemyśle elektronicznym, pozostając praktycznie niezmienionym.",
+      "status": "active",
+      "createdAt": "10-10-2019",
+      "finishedAt": null
+    }
+  ]
 }
