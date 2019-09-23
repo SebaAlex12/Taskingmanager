@@ -1,4 +1,4 @@
-import { FETCH_TASKS, ADD_TASK, REMOVE_TASK } from "./types";
+import { FETCH_TASKS, ADD_TASK, REMOVE_TASK, UPDATE_TASK } from "./types";
 
 const initialState = {
   tasks: []
@@ -19,7 +19,14 @@ export const tasksReducer = (state = initialState, action) => {
     case REMOVE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter(task => task._id !== action.payload._id)
+        tasks: state.tasks.filter(task => task.id !== action.payload)
+      };
+    case UPDATE_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.map(task => {
+          return task.id === action.payload.id ? action.payload : task;
+        })
       };
     default:
       return state;

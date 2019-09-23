@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FETCH_TASKS, ADD_TASK, REMOVE_TASK } from "./types";
+import { FETCH_TASKS, ADD_TASK, REMOVE_TASK, UPDATE_TASK } from "./types";
 
 export const fetchTasks = () => {
   return async dispatch => {
@@ -15,37 +15,51 @@ export const fetchTasks = () => {
   };
 };
 
-// export const addTask = (data) => {
-//   const presentDate = new Date();
+export const addTask = data => {
+  const presentDate = new Date();
 
-//   return async (dispatch) => {
-//     await axios
-//       .post("/graphql", JSON.stringify(graph), {
-//         headers: { "Content-Type": "application/json" }
-//       })
-//       .then(res => {
-//         dispatch({
-//           type: ADD_TASK,
-//           payload: res.data.data.addTask
-//         });
-//       })
-//       .catch(err => console.log(err));
-//   };
-// };
-// export const removeTask = (taskId) => {
-//   console.log("id", taskId);
-//   return async (dispatch) => {
+  const taskData = {
+    id: data.id,
+    userId: 1,
+    title: data.title,
+    description: data.description,
+    createdAt: presentDate.toDateString(),
+    status: "active",
+    finishedAt: null
+  };
 
-//     await axios
-//       .post("/graphql", JSON.stringify(graph), {
-//         headers: { "Content-Type": "application/json" }
-//       })
-//       .then(res => {
-//         dispatch({
-//           type: REMOVE_TASK,
-//           payload: res.data.data.removeTask
-//         });
-//       })
-//       .catch(err => console.log(err));
-//   };
-// };
+  return async dispatch => {
+    dispatch({
+      type: ADD_TASK,
+      payload: taskData
+    });
+  };
+};
+export const updateTask = data => {
+  const presentDate = new Date();
+
+  const taskData = {
+    id: data.id,
+    userId: 1,
+    title: data.title,
+    description: data.description,
+    createdAt: data.createdAt,
+    status: data.status,
+    finishedAt: presentDate.toDateString()
+  };
+
+  return async dispatch => {
+    dispatch({
+      type: UPDATE_TASK,
+      payload: taskData
+    });
+  };
+};
+export const removeTask = taskId => {
+  return async dispatch => {
+    dispatch({
+      type: REMOVE_TASK,
+      payload: taskId
+    });
+  };
+};

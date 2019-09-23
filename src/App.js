@@ -11,8 +11,7 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div className="App">
-          <h1>Tasks</h1>
+        <div className="App container">
           <TasksList />
         </div>
       </Router>
