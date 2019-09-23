@@ -2,9 +2,10 @@ import React from "react";
 import "./App.css";
 
 import store from "./store/store";
-
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
+
+import TasksList from "./store/Tasks/components/TasksList";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Router>
         <div className="App">
           <h1>Tasks</h1>
+          <TasksList />
         </div>
       </Router>
     </Provider>

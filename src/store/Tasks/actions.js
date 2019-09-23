@@ -8,7 +8,7 @@ export const fetchTasks = () => {
       .then(res => {
         dispatch({
           type: FETCH_TASKS,
-          payload: res.data.data.fetchTasks
+          payload: res.data.tasks
         });
       })
       .catch(err => console.log(err));
