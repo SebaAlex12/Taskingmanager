@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import nextId from "react-id-generator";
 import uuidv1 from "uuid";
 
 import { addTask } from "../actions";
@@ -34,9 +33,9 @@ class TasksAddForm extends Component {
   };
   render() {
     return (
-      <div className="clearfix">
+      <div className="task-add-form-box">
         <form action="">
-          <div className="form-group form-row">
+          <div className="form-group">
             <label htmlFor="title">Title:</label>
             <input
               onChange={this.onChangeInput}
@@ -45,13 +44,14 @@ class TasksAddForm extends Component {
               className="form-control"
             />
           </div>
-          <div className="form-group form-row">
+          <div className="form-group">
             <label htmlFor="description">Description:</label>
-            <input
+            <textarea
               onChange={this.onChangeInput}
               type="text"
               name="description"
               className="form-control"
+              rows="10"
             />
           </div>
           <div className="form-group">
