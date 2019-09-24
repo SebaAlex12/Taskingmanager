@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 import { call, put, takeEvery } from "redux-saga/effects";
 import {
   FETCHING_TASKS,
@@ -25,14 +26,14 @@ export function* fetchTasksWatcher() {
 
 function* addTaskAsync(action) {
   const data = action.data;
-  const presentDate = new Date();
+  const presentDate = moment().format("LLLL");
 
   const taskData = {
     id: data.id,
     userId: 1,
     title: data.title,
     description: data.description,
-    createdAt: presentDate.toDateString(),
+    createdAt: presentDate,
     status: "active",
     finishedAt: null
   };
@@ -46,7 +47,7 @@ export function* addTaskWatcher() {
 function* updateTaskAsync(action) {
   //   console.log(action);
   const data = action.data;
-  const presentDate = new Date();
+  const presentDate = moment().format("LLLL");
 
   const taskData = {
     id: data.id,
@@ -55,7 +56,7 @@ function* updateTaskAsync(action) {
     description: data.description,
     createdAt: data.createdAt,
     status: data.status,
-    finishedAt: presentDate.toDateString()
+    finishedAt: presentDate
   };
 
   yield put({ type: UPDATE_TASK_SUCCESS, payload: taskData });

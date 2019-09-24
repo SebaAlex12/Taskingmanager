@@ -33,12 +33,6 @@ class TasksList extends Component {
     // you cannot add more than 10 tasks
     const formDisabled = tasks.length < 10 ? false : true;
 
-    // console.log("form disabled:", formDisabled);
-
-    if (tasks.length > 0) {
-      console.log("tasks counter:", tasks.length);
-    }
-
     const tasksListContent = tasks
       ? tasks.map(task => (
           <TasksItem
@@ -58,13 +52,14 @@ class TasksList extends Component {
     return (
       <div className="row">
         <div className="col-lg-12">
-          <Title>Tasks list</Title>
+          <Title>List of tasks</Title>
           <div
             className="flow-box"
             style={{
               position: "fixed",
               float: "left",
               textAlign: "left",
+              top: "5px",
               left: "0px",
               padding: "15px",
               backgroundColor: "#fff",
