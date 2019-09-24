@@ -33,7 +33,7 @@ class TasksList extends Component {
     // you cannot add more than 10 tasks
     const formDisabled = tasks.length < 10 ? false : true;
 
-    console.log("form disabled:", formDisabled);
+    // console.log("form disabled:", formDisabled);
 
     if (tasks.length > 0) {
       console.log("tasks counter:", tasks.length);

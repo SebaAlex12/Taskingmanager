@@ -1,4 +1,9 @@
-import { FETCH_TASKS, ADD_TASK, REMOVE_TASK, UPDATE_TASK } from "./types";
+import {
+  FETCH_TASKS_SUCCESS,
+  ADD_TASK_SUCCESS,
+  REMOVE_TASK_SUCCESS,
+  UPDATE_TASK_SUCCESS
+} from "./types";
 
 const initialState = {
   tasks: []
@@ -6,22 +11,22 @@ const initialState = {
 
 export const tasksReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_TASKS:
+    case FETCH_TASKS_SUCCESS:
       return {
         ...state,
         tasks: action.payload
       };
-    case ADD_TASK:
+    case ADD_TASK_SUCCESS:
       return {
         ...state,
         tasks: [...state.tasks, action.payload]
       };
-    case REMOVE_TASK:
+    case REMOVE_TASK_SUCCESS:
       return {
         ...state,
         tasks: state.tasks.filter(task => task.id !== action.payload)
       };
-    case UPDATE_TASK:
+    case UPDATE_TASK_SUCCESS:
       return {
         ...state,
         tasks: state.tasks.map(task => {
