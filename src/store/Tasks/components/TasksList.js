@@ -30,6 +30,15 @@ class TasksList extends Component {
     const { tasks } = this.props;
     const { toggleTasksAddForm } = this.state;
 
+    // you cannot add more than 10 tasks
+    const formDisabled = tasks.length < 10 ? false : true;
+
+    console.log("form disabled:", formDisabled);
+
+    if (tasks.length > 0) {
+      console.log("tasks counter:", tasks.length);
+    }
+
     const tasksListContent = tasks
       ? tasks.map(task => (
           <TasksItem
@@ -72,7 +81,13 @@ class TasksList extends Component {
             >
               Show/Hide task form
             </Button>
-            {toggleTasksAddForm ? <TaskAddForm /> : null}
+            {toggleTasksAddForm && formDisabled === false ? (
+              <TaskAddForm />
+            ) : formDisabled === true ? (
+              <div style={{ color: "red" }}>
+                You can have max 10 tasks - form is disabled
+              </div>
+            ) : null}
           </div>
           {tasksListContent}
         </div>
