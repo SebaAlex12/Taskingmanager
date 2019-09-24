@@ -19,7 +19,7 @@ class TasksAddForm extends Component {
     });
   };
   addHandler = event => {
-    const { addTask, user } = this.props;
+    const { addTask } = this.props;
     const { title, description } = this.state;
 
     const data = {

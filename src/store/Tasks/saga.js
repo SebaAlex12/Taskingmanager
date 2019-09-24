@@ -9,15 +9,20 @@ import {
   REMOVING_TASK,
   REMOVE_TASK_SUCCESS,
   UPDATING_TASK,
-  UPDATE_TASK_SUCCESS
+  UPDATE_TASK_SUCCESS,
+  TASKS_ERROR
 } from "./types";
 
 function* fetchTasksAsync() {
-  const res = yield call(
-    [axios, axios.get],
-    "https://my-json-server.typicode.com/SebaAlex12/Tasks/db"
-  );
-  yield put({ type: FETCH_TASKS_SUCCESS, payload: res.data.tasks });
+  try {
+    const res = yield call(
+      [axios, axios.get],
+      "https://my-json-server.typicode.com/SebaAlex12/Tasks/db"
+    );
+    yield put({ type: FETCH_TASKS_SUCCESS, payload: res.data.tasks });
+  } catch (error) {
+    yield put({ type: TASKS_ERROR, payload: error });
+  }
 }
 
 export function* fetchTasksWatcher() {
@@ -25,19 +30,23 @@ export function* fetchTasksWatcher() {
 }
 
 function* addTaskAsync(action) {
-  const data = action.data;
-  const presentDate = moment().format("LLLL");
+  try {
+    const data = action.data;
+    const presentDate = moment().format("LLLL");
 
-  const taskData = {
-    id: data.id,
-    userId: 1,
-    title: data.title,
-    description: data.description,
-    createdAt: presentDate,
-    status: "active",
-    finishedAt: null
-  };
-  yield put({ type: ADD_TASK_SUCCESS, payload: taskData });
+    const taskData = {
+      id: data.id,
+      userId: 1,
+      title: data.title,
+      description: data.description,
+      createdAt: presentDate,
+      status: "active",
+      finishedAt: null
+    };
+    yield put({ type: ADD_TASK_SUCCESS, payload: taskData });
+  } catch (error) {
+    yield put({ type: TASKS_ERROR, payload: error });
+  }
 }
 
 export function* addTaskWatcher() {
@@ -45,21 +54,24 @@ export function* addTaskWatcher() {
 }
 
 function* updateTaskAsync(action) {
-  //   console.log(action);
-  const data = action.data;
-  const presentDate = moment().format("LLLL");
+  try {
+    const data = action.data;
+    const presentDate = moment().format("LLLL");
 
-  const taskData = {
-    id: data.id,
-    userId: 1,
-    title: data.title,
-    description: data.description,
-    createdAt: data.createdAt,
-    status: data.status,
-    finishedAt: presentDate
-  };
+    const taskData = {
+      id: data.id,
+      userId: 1,
+      title: data.title,
+      description: data.description,
+      createdAt: data.createdAt,
+      status: data.status,
+      finishedAt: presentDate
+    };
 
-  yield put({ type: UPDATE_TASK_SUCCESS, payload: taskData });
+    yield put({ type: UPDATE_TASK_SUCCESS, payload: taskData });
+  } catch (error) {
+    yield put({ type: TASKS_ERROR, payload: error });
+  }
 }
 
 export function* updateTaskWatcher() {
@@ -67,7 +79,11 @@ export function* updateTaskWatcher() {
 }
 
 function* removeTaskAsync(action) {
-  yield put({ type: REMOVE_TASK_SUCCESS, payload: action.taskId });
+  try {
+    yield put({ type: REMOVE_TASK_SUCCESS, payload: action.taskId });
+  } catch (error) {
+    yield put({ type: TASKS_ERROR, payload: error });
+  }
 }
 
 export function* removeTaskWatcher() {
