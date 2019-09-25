@@ -30,10 +30,8 @@ class TasksList extends Component {
     updateTask(data);
   };
   render() {
-    const { tasks, user } = this.props;
+    const { tasks, loggedUser } = this.props;
     const { toggleTasksAddForm } = this.state;
-
-    console.log(user);
 
     // you cannot add more than 10 tasks
     const formDisabled = tasks.length < 10 ? false : true;
@@ -57,6 +55,9 @@ class TasksList extends Component {
     return (
       <StyledTaskList>
         <div className="col-lg-12">
+          <div className="logged-user">
+            Welcome: {loggedUser ? loggedUser.nickname : null}
+          </div>
           <Title>List of tasks</Title>
           <div className="flow-box">
             <Button
@@ -87,7 +88,7 @@ class TasksList extends Component {
 const mapStateToProps = state => {
   return {
     tasks: state.tasks.tasks,
-    user: state.user
+    loggedUser: state.users.logged_user
   };
 };
 

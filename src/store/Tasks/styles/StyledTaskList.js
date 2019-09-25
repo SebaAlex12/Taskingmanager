@@ -11,4 +11,8 @@ export const StyledTaskList = styled.div`
     background-color: #fff;
     width: 320px;
   }
+  .logged-user {
+    text-align: right;
+    color: grey;
+  }
 `;

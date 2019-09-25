@@ -2,6 +2,7 @@ import { FETCH_LOGGED_USER_SUCCESS, USER_ERROR } from "./types";
 
 const initialState = {
   users: [],
+  logged_user: null,
   errors: []
 };
 
@@ -10,7 +11,7 @@ export const usersReducer = (state = initialState, action) => {
     case FETCH_LOGGED_USER_SUCCESS:
       return {
         ...state,
-        tasks: action.payload
+        logged_user: action.payload
       };
     case USER_ERROR:
       return {

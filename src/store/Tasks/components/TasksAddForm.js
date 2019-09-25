@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import uuidv1 from "uuid";
 
 import { addTask } from "../actions";
+import { fetchLoggedUser } from "../../Users/actions";
 
 class TasksAddForm extends Component {
   constructor(props) {
@@ -12,6 +13,10 @@ class TasksAddForm extends Component {
       description: ""
     };
   }
+  componentDidMount() {
+    const { fetchLoggedUser } = this.props;
+    fetchLoggedUser();
+  }
   onChangeInput = event => {
     this.setState({
       ...this.state,
@@ -19,12 +24,12 @@ class TasksAddForm extends Component {
     });
   };
   addHandler = event => {
-    const { addTask } = this.props;
+    const { addTask, loggedUser } = this.props;
     const { title, description } = this.state;
 
     const data = {
       id: uuidv1(),
-      userId: 1,
+      userId: loggedUser.id,
       title,
       description
     };
@@ -68,7 +73,13 @@ class TasksAddForm extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    loggedUser: state.users.logged_user
+  };
+};
+
 export default connect(
-  null,
-  { addTask }
+  mapStateToProps,
+  { addTask, fetchLoggedUser }
 )(TasksAddForm);

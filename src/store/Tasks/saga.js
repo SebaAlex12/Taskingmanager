@@ -36,7 +36,7 @@ function* addTaskAsync(action) {
 
     const taskData = {
       id: data.id,
-      userId: 1,
+      userId: data.userId,
       title: data.title,
       description: data.description,
       createdAt: presentDate,

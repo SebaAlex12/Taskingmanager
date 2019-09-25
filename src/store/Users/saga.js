@@ -7,14 +7,14 @@ import {
 } from "./types";
 
 function* fetchLoggedUserAsync() {
-  console.log("sssss");
   try {
     const res = yield call(
       [axios, axios.get],
       "https://my-json-server.typicode.com/SebaAlex12/Tasks/db"
     );
-    console.log(res);
-    yield put({ type: FETCH_LOGGED_USER_SUCCESS, payload: res.data.user });
+    const loggedUserData = res.data.users.filter(user => user.logged === true);
+    // console.log(loggedUserData[0]); // toDo better
+    yield put({ type: FETCH_LOGGED_USER_SUCCESS, payload: loggedUserData[0] });
   } catch (error) {
     yield put({ type: USER_ERROR, payload: error });
   }
