@@ -1,5 +1,5 @@
-import { FETCHING_USER } from "./types";
+import { FETCHING_LOGGED_USER } from "./types";
 
-export const fetchUser = () => ({
-  type: FETCHING_USER
+export const fetchLoggedUser = () => ({
+  type: FETCHING_LOGGED_USER
 });

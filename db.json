@@ -28,9 +28,18 @@
       "finishedAt": null
     }
   ],
-  "logged_user": {
-	"id": 1,
-	"nickname": "spider",
-	"mail": "spider@nest.com"
-  }
+  "users": [
+    {
+      "id": 1,
+      "nickname": "spider",
+      "mail": "spider@nest.com",
+      "logged": false
+    },
+    {
+      "id": 2,
+      "nickname": "spider",
+      "mail": "spider@nest.com",
+      "logged": true
+    }
+  ]
 }

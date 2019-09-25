@@ -1,4 +1,4 @@
-import { FETCH_USER_SUCCESS, USER_ERROR } from "./types";
+import { FETCH_LOGGED_USER_SUCCESS, USER_ERROR } from "./types";
 
 const initialState = {
   users: [],
@@ -7,7 +7,7 @@ const initialState = {
 
 export const usersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_USER_SUCCESS:
+    case FETCH_LOGGED_USER_SUCCESS:
       return {
         ...state,
         tasks: action.payload

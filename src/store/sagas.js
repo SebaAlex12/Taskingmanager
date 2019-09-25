@@ -5,7 +5,7 @@ import {
   updateTaskWatcher,
   removeTaskWatcher
 } from "./Tasks/saga";
-import { fetchUserWatcher } from "./Users/saga";
+import { fetchLoggedUserWatcher } from "./Users/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -13,6 +13,6 @@ export default function* rootSaga() {
     fork(addTaskWatcher),
     fork(updateTaskWatcher),
     fork(removeTaskWatcher),
-    fork(fetchUserWatcher)
+    fork(fetchLoggedUserWatcher)
   ]);
 }
