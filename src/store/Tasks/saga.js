@@ -33,7 +33,6 @@ function* addTaskAsync(action) {
   try {
     const data = action.data;
     const presentDate = moment().format("LLLL");
-    console.log(data);
     const taskData = {
       id: data.id,
       userId: data.userId,
@@ -62,6 +61,7 @@ function* updateTaskAsync(action) {
     const taskData = {
       id: data.id,
       userId: 1,
+      userNickname: data.userNickname,
       title: data.title,
       description: data.description,
       createdAt: data.createdAt,
