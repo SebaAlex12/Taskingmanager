@@ -14,7 +14,10 @@ export default function TasksItem({
   return (
     <StyledTasksItem>
       <div className="info">
-        <SubTitle>{item.title}</SubTitle>
+        <SubTitle>
+          {item.title}{" "}
+          <span className="author">(author: {item.userNickname})</span>
+        </SubTitle>
         <div className="create-date">Created: {item.createdAt}</div>
       </div>
       <div className="decription">{item.description}</div>

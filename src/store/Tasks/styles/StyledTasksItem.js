@@ -8,4 +8,7 @@ export const StyledTasksItem = styled.div`
     font-weight: bold;
     color: #af3232;
   }
+  .author {
+    color: grey;
+  }
 `;

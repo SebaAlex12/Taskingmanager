@@ -26,10 +26,10 @@ class TasksAddForm extends Component {
   addHandler = event => {
     const { addTask, loggedUser } = this.props;
     const { title, description } = this.state;
-
     const data = {
       id: uuidv1(),
       userId: loggedUser.id,
+      userNickname: loggedUser.nickname,
       title,
       description
     };
