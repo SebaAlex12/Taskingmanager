@@ -27,5 +27,10 @@
       "createdAt": "Tuesday, September 24, 2019 6:57 PM",
       "finishedAt": null
     }
-  ]
+  ],
+  "logged_user": {
+	"id": 1,
+	"nickname": "spider",
+	"mail": "spider@nest.com"
+  }
 }

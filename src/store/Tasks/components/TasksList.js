@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Title, Button } from "../../../themes/basic";
+import { StyledTaskList } from "../styles/StyledTaskList";
 
 import TasksItem from "./TasksItem";
 import TaskAddForm from "./TasksAddForm";
 import { fetchTasks, removeTask, updateTask } from "../actions";
+import { fetchUser } from "../../Users/actions";
 
 class TasksList extends Component {
   constructor(props) {
@@ -15,8 +17,9 @@ class TasksList extends Component {
     };
   }
   componentDidMount() {
-    const { fetchTasks } = this.props;
+    const { fetchTasks, fetchUser } = this.props;
     fetchTasks();
+    fetchUser();
   }
   removeTaskHandler = id => {
     const { removeTask } = this.props;
@@ -27,8 +30,10 @@ class TasksList extends Component {
     updateTask(data);
   };
   render() {
-    const { tasks } = this.props;
+    const { tasks, user } = this.props;
     const { toggleTasksAddForm } = this.state;
+
+    console.log(user);
 
     // you cannot add more than 10 tasks
     const formDisabled = tasks.length < 10 ? false : true;
@@ -50,22 +55,10 @@ class TasksList extends Component {
       : "loading...";
 
     return (
-      <div className="row">
+      <StyledTaskList>
         <div className="col-lg-12">
           <Title>List of tasks</Title>
-          <div
-            className="flow-box"
-            style={{
-              position: "fixed",
-              float: "left",
-              textAlign: "left",
-              top: "5px",
-              left: "0px",
-              padding: "15px",
-              backgroundColor: "#fff",
-              width: "320px"
-            }}
-          >
+          <div className="flow-box">
             <Button
               variant="primary"
               onClick={() =>
@@ -86,18 +79,19 @@ class TasksList extends Component {
           </div>
           {tasksListContent}
         </div>
-      </div>
+      </StyledTaskList>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    tasks: state.tasks.tasks
+    tasks: state.tasks.tasks,
+    user: state.user
   };
 };
 
 export default connect(
   mapStateToProps,
-  { fetchTasks, removeTask, updateTask }
+  { fetchTasks, removeTask, updateTask, fetchUser }
 )(TasksList);
