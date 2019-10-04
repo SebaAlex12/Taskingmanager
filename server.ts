@@ -1,15 +1,15 @@
-const mongoose = require("mongoose");
-const express = require("express");
-const bodyParser = require("body-parser");
-const path = require("path");
+import mongoose = require("mongoose");
+import express = require("express");
+import bodyParser = require("body-parser");
+import path = require("path");
 
-const graphqlHttp = require("express-graphql");
-const graphqlSchema = require("./graphql/schema_old");
-const graphqlResolver = require("./graphql/resolvers");
+import graphqlHttp = require("express-graphql");
+import graphqlSchema = require("./graphql/schema_old");
+import graphqlResolver = require("./graphql/resolvers");
 
-const app = express();
+const app: express.Application = express();
 
-const fs = require("fs");
+import fs = require("fs");
 
 const bodyParserJson = bodyParser.json({ limit: "50mb" });
 const bodyParserUrlencoded = bodyParser.urlencoded({
