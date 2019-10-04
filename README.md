@@ -1,72 +1,28 @@
-Demo is available on:
+# Pocket-Gallery
+react, redux, node, graphql, typescript
 
-https://tasking-manager.herokuapp.com/
+ You can build your own albums and give access to your friends very fast and ease. Application allow create, delete( this is available for administrator level) albums. Also you can register and login. This allow you to have albums in own private.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Demo:
+https://gallery-pocket.herokuapp.com/
 
-## Available Scripts
+There you can add albums in three ways.
 
-In the project directory, you can run:
+1. Open Gallery - albums that can see everyone. ( Public Level ).
 
-### `npm start`
+There are two examples of open galleries named: Fruit and Vegetables. Access to this galleries is open so anyone can see them.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+2. Private Gallery - albums that can see persons who knows access key. ( Private Level ).
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+There are one example of private gallery named: Cats. Access to this gallery is when you type in access token - [ cats ].
 
-### `npm test`
+3. Administrator Gallery - albums that can be see when you login. ( Administrator Level ).
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+There are one example of administrator gallery named: Animals. Access to this gallery is only when you are registered user and you have login and password.
 
-### `npm run build`
+Example of registered user:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+login: franek@wp.pl
+password: 123456
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Comment: Heroku doesnt allow to upload image in simple way - this will be fixed as soon as possible.
