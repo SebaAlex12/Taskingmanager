@@ -7,7 +7,6 @@ import { StyledTaskList } from "../styles/StyledTaskList";
 import TasksItem from "./TasksItem";
 import TaskAddForm from "./TasksAddForm";
 import { fetchTasks, removeTask, updateTask } from "../actions";
-import { fetchLoggedUser } from "../../Users/actions";
 
 class TasksList extends Component {
   constructor(props) {
@@ -19,7 +18,6 @@ class TasksList extends Component {
   componentDidMount() {
     const { fetchTasks, fetchLoggedUser } = this.props;
     fetchTasks();
-    fetchLoggedUser();
   }
   removeTaskHandler = id => {
     const { removeTask } = this.props;
@@ -94,5 +92,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { fetchTasks, removeTask, updateTask, fetchLoggedUser }
+  { fetchTasks, removeTask, updateTask }
 )(TasksList);
