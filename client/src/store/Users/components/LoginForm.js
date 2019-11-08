@@ -31,11 +31,11 @@ class LoginForm extends Component {
       message: "Logowanie do systemu..."
     });
 
-    if (response) {
-      setTimeout(function() {
-        reload();
-      }, 4000);
-    }
+    // if (response) {
+    //   setTimeout(function() {
+    //     reload();
+    //   }, 4000);
+    // }
   };
   render() {
     const { message } = this.state;
