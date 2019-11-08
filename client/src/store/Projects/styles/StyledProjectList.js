@@ -20,6 +20,8 @@ export const StyledProjectList = styled.div`
     top: 32px;
     left: 0px;
     z-index: 100;
+    overflow-y: auto;
+    height: 500px;
   }
   .projects-list > div {
     display: block;
