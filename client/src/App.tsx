@@ -54,14 +54,14 @@ function App() {
       <ThemeProvider theme={{ mode: "light" }}>
         <Router>
           <div className="App container">
-            {!localStorage.jwtTokenAuthorization ||
+            {/* {!localStorage.jwtTokenAuthorization ||
             localStorage.jwtTokenAuthorization === undefined ? (
               <div className="login-box">
                 <LoginForm />
               </div>
-            ) : (
-              <Dashboard />
-            )}
+            ) : ( */}
+            <Dashboard />
+            {/* )} */}
           </div>
         </Router>
       </ThemeProvider>
