@@ -9,26 +9,40 @@ import { ThemeProvider } from "styled-components";
 
 import jwt_decode from "jwt-decode";
 
-import { fetchLoggedUser } from "./store/Users/actions";
+import { fetchLoggedUser, fetchUsers } from "./store/Users/actions";
 import LoginForm from "./store/Users/components/LoginForm";
-import RegistryForm from "./store/Users/components/RegistryForm";
 
 import Dashboard from "./themes/layout/Dashboard";
 
 if (localStorage.jwtTokenAuthorization) {
-  const { _id, name, email, createdAt, tokenCreatedAt, logged } = jwt_decode(
-    localStorage.jwtTokenAuthorization
-  );
+  const {
+    _id,
+    name,
+    email,
+    status,
+    createdAt,
+    tokenCreatedAt,
+    logged
+  } = jwt_decode(localStorage.jwtTokenAuthorization);
 
-  const expiredMinutes = 60;
+  const expiredMinutes = 560;
 
   const difference = moment(new Date()).diff(tokenCreatedAt, "minutes");
   // console.log("difference", difference);
 
   if (difference < expiredMinutes) {
     store.dispatch(
-      fetchLoggedUser({ _id, name, email, createdAt, tokenCreatedAt, logged })
+      fetchLoggedUser({
+        _id,
+        name,
+        email,
+        status,
+        createdAt,
+        tokenCreatedAt,
+        logged
+      })
     );
+    store.dispatch(fetchUsers());
   } else {
     localStorage.removeItem("jwtTokenAuthorization");
   }
@@ -44,7 +58,6 @@ function App() {
             localStorage.jwtTokenAuthorization === undefined ? (
               <div className="login-box">
                 <LoginForm />
-                <RegistryForm />
               </div>
             ) : (
               <Dashboard />

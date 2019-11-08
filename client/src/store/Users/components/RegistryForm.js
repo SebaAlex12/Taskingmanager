@@ -1,74 +1,103 @@
-import React, { Component, FormEvent } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { registerUser } from "../actions";
 
-interface Iprops {
-  registerUser(data: any): void;
-}
-interface Istate {
-  name: String;
-  email: String;
-  password: String;
-}
-
-class RegistryForm extends Component<Iprops, Istate> {
-  constructor(props: Iprops) {
+class RegistryForm extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       name: "",
       email: "",
-      password: ""
+      password: "",
+      status: ""
     };
   }
-  onChangeInput = (event: FormEvent<HTMLInputElement>): void => {
+  onChangeInput = event => {
     this.setState({
       ...this.state,
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
-  registerHandler = (event: FormEvent<HTMLInputElement>): void => {
+  onChangeSelect = event => {
+    this.setState({
+      ...this.state,
+      [event.currentTarget.name]: event.currentTarget.value
+    });
+  };
+  registerHandler = event => {
     event.preventDefault();
     const { registerUser } = this.props;
     registerUser(this.state);
   };
   render() {
+    const statuses = [
+      {
+        _id: 1,
+        name: "Administrator"
+      },
+      {
+        _id: 2,
+        name: "Pracownik"
+      }
+    ];
     return (
       <div className="registry-form-box mt-3 mb-3">
-        <h2>Registry form</h2>
         <form action="post">
           <div className="form-group form-row">
-            <label htmlFor="">Name:</label>
             <input
               onChange={this.onChangeInput}
               className="form-control"
               type="text"
               name="name"
+              placeholder="Nazwa"
+              required
             />
           </div>
           <div className="form-group form-row">
-            <label htmlFor="">Email:</label>
             <input
               onChange={this.onChangeInput}
               className="form-control"
               type="text"
               name="email"
+              placeholder="Email"
+              required
             />
           </div>
           <div className="form-group form-row">
-            <label htmlFor="">Password:</label>
             <input
               onChange={this.onChangeInput}
               className="form-control"
               type="password"
               name="password"
+              placeholder="Hasło"
+              required
             />
+          </div>
+          <div className="form-group form-row">
+            <select
+              className="form-control"
+              onChange={this.onChangeSelect}
+              name="status"
+              required
+            >
+              <option value="">Status</option>
+              {statuses
+                ? statuses.map(status => {
+                    return (
+                      <option key={status._id} value={status.name}>
+                        {status.name}
+                      </option>
+                    );
+                  })
+                : null}
+            </select>
           </div>
           <div className="form-group">
             <input
               onClick={this.registerHandler}
               className="btn btn-primary float-right"
               type="submit"
-              value="send"
+              value="dodaj"
             />
           </div>
         </form>
@@ -77,7 +106,7 @@ class RegistryForm extends Component<Iprops, Istate> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = state => {
   return {};
 };
 

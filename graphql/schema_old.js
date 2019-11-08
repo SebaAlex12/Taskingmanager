@@ -7,7 +7,24 @@ module.exports = buildSchema(`
         name: String!
         email: String!
         password: String!
-        createdAt: String!
+        status: String!
+        createdAt: String
+    }
+
+    type Task {
+        _id: ID!
+        userId: String!
+        createdBy: String!
+        projectId: String!
+        projectName: String!
+        responsiblePerson: String!
+        title: String!
+        description: String!
+        priority: String!
+        status: String!
+        createdAt: String
+        finishedAt: String
+        termAt: String
     }
 
     type Photo {
@@ -31,11 +48,34 @@ module.exports = buildSchema(`
         createdAt: String!
     }
 
+    type Project {
+        _id: ID!
+        name: String!
+        description: String
+    }
+
     input UserInputData {
         name: String!
         email: String!
         password: String!
+        status: String!
         createdAt: String!
+    }
+
+    input TaskInputData {
+        _id: String
+        userId: String
+        createdBy: String
+        projectId: String
+        projectName: String
+        responsiblePerson: String
+        title: String
+        description: String
+        priority: String
+        status: String
+        createdAt: String
+        finishedAt: String
+        termAt: String
     }
 
     input PhotoInputData {
@@ -56,17 +96,30 @@ module.exports = buildSchema(`
         createdAt: String!
     }
 
+    input ProjectInputData {
+        _id: String
+        name: String!
+        description: String
+    }
+
     type UserLoginData {
         _id: ID!
         name: String!
         email: String!
         createdAt: String!
         password: String!
+        status: String!
         token: String!
     }
 
     type RootMutation {
         createUser(userInput: UserInputData): User!
+        addTask(taskInput: TaskInputData): Task!
+        updateTask(taskInput: TaskInputData): Task!
+        removeTask(taskId: String!): Task!
+        addProject(projectInput: ProjectInputData): Project!
+        updateProject(projectInput: ProjectInputData): Project!
+        removeProject(projectId: String!): Project!
         addPhoto(photoInput: PhotoInputData): Photo!
         addAlbum(albumInput: AlbumInputData): Album!
         removeAlbum(albumId: String!): Album!
@@ -74,6 +127,9 @@ module.exports = buildSchema(`
 
     type RootQuery {
         loginUser(email: String!, password: String!): UserLoginData!
+        fetchUsers: [User]!
+        fetchTasks(taskInput: TaskInputData): [Task]!
+        fetchProjects: [Project]!
         fetchPhotos(album: String, category: String, status: String!): [Photo]!
         fetchAlbums(userId: String!, status: String!, access: String!): [Album]!
     }

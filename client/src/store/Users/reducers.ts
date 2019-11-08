@@ -1,5 +1,7 @@
 import {
   FETCH_LOGGED_USER_SUCCESS,
+  FETCH_USERS_SUCCESS,
+  REGISTER_USER_SUCCESS,
   USER_ERROR,
   LOGGED_OUT_SUCCESS
 } from "./types";
@@ -16,6 +18,16 @@ export const usersReducer = (state = initialState, action: any) => {
       return {
         ...state,
         logged_user: action.payload
+      };
+    case FETCH_USERS_SUCCESS:
+      return {
+        users: action.payload,
+        logged_user: state.logged_user
+      };
+    case REGISTER_USER_SUCCESS:
+      return {
+        users: [...state.users, action.payload],
+        logged_user: state.logged_user
       };
     case LOGGED_OUT_SUCCESS:
       return {

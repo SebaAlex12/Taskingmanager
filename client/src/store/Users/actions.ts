@@ -1,5 +1,6 @@
 import {
   FETCHING_LOGGED_USER,
+  FETCHING_USERS,
   REGISTERING_USER,
   LOGGING_USER,
   LOGGING_OUT_USER
@@ -19,6 +20,14 @@ export const fetchLoggedUser = (data: any) => ({
   type: FETCHING_LOGGED_USER,
   data
 });
+
+export const fetchUsers = () => ({
+  type: FETCHING_USERS
+});
+
+export const removeUser = () => ({});
+
+export const updateUser = () => ({});
 
 export const logoutUser = () => ({
   type: LOGGING_OUT_USER

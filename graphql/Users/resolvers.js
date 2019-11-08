@@ -6,6 +6,10 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
+  fetchUsers: async function() {
+    const users = await User.find();
+    return users;
+  },
   createUser: async function({ userInput }, req) {
     if (!userInput.name || !userInput.email || !userInput.password) {
       const err = new Error("You left input fields epmty");
@@ -26,6 +30,7 @@ module.exports = {
       name: userInput.name,
       email: userInput.email,
       password: hash,
+      status: userInput.status,
       createdAt: userInput.createdAt
     });
 
@@ -58,6 +63,7 @@ module.exports = {
         _id: userData._id.toString(),
         name: userData.name,
         email: userData.email,
+        status: userData.status,
         createdAt: userData.createdAt,
         tokenCreatedAt: new Date(),
         logged: true

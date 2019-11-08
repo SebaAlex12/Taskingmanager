@@ -13,13 +13,37 @@ import {
   TASKS_ERROR
 } from "./types";
 
-function* fetchTasksAsync() {
+function* fetchTasksAsync(action) {
   try {
+    const graph = {
+      query: `
+        query {
+          fetchTasks(taskInput:{createdBy: "${action.data.createdBy}", responsiblePerson: "${action.data.responsiblePerson}"}){
+            _id
+            createdBy
+            projectId
+            projectName
+            responsiblePerson
+            title
+            description
+            priority
+            status
+            createdAt
+            finishedAt
+            termAt
+          }
+        }
+    `
+    };
+
     const res = yield call(
-      [axios, axios.get],
-      "https://my-json-server.typicode.com/SebaAlex12/Tasks/db"
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
     );
-    yield put({ type: FETCH_TASKS_SUCCESS, payload: res.data.tasks });
+    // console.log(res.data.data.fetchTasks);
+    yield put({ type: FETCH_TASKS_SUCCESS, payload: res.data.data.fetchTasks });
   } catch (error) {
     yield put({ type: TASKS_ERROR, payload: error });
   }
@@ -32,19 +56,62 @@ export function* fetchTasksWatcher() {
 function* addTaskAsync(action) {
   try {
     const data = action.data;
-    const presentDate = moment().format("LLLL");
-    const taskData = {
-      id: data.id,
-      userId: data.userId,
-      userNickname: data.userNickname,
+
+    const taskInput = {
+      userId: 1,
+      createdBy: data.createdBy,
+      projectId: data.projectId,
+      projectName: data.projectName,
+      responsiblePerson: data.responsiblePerson,
       title: data.title,
       description: data.description,
-      createdAt: presentDate,
-      status: "active",
-      finishedAt: null
+      priority: data.priority,
+      status: data.status,
+      createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
+      termAt: moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
+      // finishedAt: data.finishedAt
     };
-    yield put({ type: ADD_TASK_SUCCESS, payload: taskData });
+
+    const graph = {
+      query: `mutation {
+      addTask(taskInput: {userId: "${taskInput.userId}",
+      createdBy: "${taskInput.createdBy}",
+      projectId: "${taskInput.projectId}",
+      projectName: "${taskInput.projectName}",
+      responsiblePerson: "${taskInput.responsiblePerson}",
+      title: "${taskInput.title}",
+      description: "${taskInput.description}",
+      priority: "${taskInput.priority}",
+      status: "${taskInput.status}",
+      createdAt: "${taskInput.createdAt}",
+      finishedAt: "",
+      termAt: "${taskInput.termAt}"}){
+        _id
+        createdBy
+        projectId
+        projectName
+        responsiblePerson
+        title
+        description
+        priority
+        status
+        createdAt
+        finishedAt
+        termAt
+      }
+    }`
+    };
+
+    const taskData = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
+    // console.log(taskData.data.data.addTask);
+    yield put({ type: ADD_TASK_SUCCESS, payload: taskData.data.data.addTask });
   } catch (error) {
+    console.log("error:", error);
     yield put({ type: TASKS_ERROR, payload: error });
   }
 }
@@ -56,20 +123,68 @@ export function* addTaskWatcher() {
 function* updateTaskAsync(action) {
   try {
     const data = action.data;
-    const presentDate = moment().format("LLLL");
 
-    const taskData = {
-      id: data.id,
+    const taskInput = {
+      _id: data._id,
       userId: 1,
-      userNickname: data.userNickname,
-      title: data.title,
-      description: data.description,
-      createdAt: data.createdAt,
-      status: data.status,
-      finishedAt: presentDate
+      createdBy: data.createdBy ? data.createdBy : "",
+      projectId: data.projectId ? data.projectId : "",
+      projectName: data.projectName ? data.projectName : "",
+      responsiblePerson: data.responsiblePerson ? data.responsiblePerson : "",
+      title: data.title ? data.title : "",
+      description: data.description ? data.description : "",
+      priority: data.priority ? data.priority : "",
+      status: data.status ? data.status : "",
+      termAt: data.termAt
+        ? moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
+        : "",
+      finishedAt: data.finishedAt
+        ? moment(data.finishedAt, "YYYY-MM-DD HH:mm:ss").format()
+        : ""
     };
-
-    yield put({ type: UPDATE_TASK_SUCCESS, payload: taskData });
+    // console.log("saga", taskInput);
+    const graph = {
+      query: `mutation {
+      updateTask(taskInput: {
+      _id: "${taskInput._id}",  
+      userId: "${taskInput.userId}",
+      createdBy: "${taskInput.createdBy}",
+      projectId: "${taskInput.projectId}",
+      projectName: "${taskInput.projectName}",
+      responsiblePerson: "${taskInput.responsiblePerson}",
+      title: "${taskInput.title}",
+      description: "${taskInput.description}",
+      priority: "${taskInput.priority}",
+      status: "${taskInput.status}",
+      finishedAt: "${taskInput.finishedAt}",
+      termAt: "${taskInput.termAt}"}){
+        _id
+        createdBy
+        projectId
+        projectName
+        responsiblePerson
+        title
+        description
+        priority
+        status
+        createdAt
+        finishedAt
+        termAt
+      }
+    }`
+    };
+    // console.log(graph);
+    const taskData = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
+    console.log("saga", taskData.data.data.updateTask);
+    yield put({
+      type: UPDATE_TASK_SUCCESS,
+      payload: taskData.data.data.updateTask
+    });
   } catch (error) {
     yield put({ type: TASKS_ERROR, payload: error });
   }

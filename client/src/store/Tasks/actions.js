@@ -5,8 +5,9 @@ import {
   UPDATING_TASK
 } from "./types";
 
-export const fetchTasks = () => ({
-  type: FETCHING_TASKS
+export const fetchTasks = data => ({
+  type: FETCHING_TASKS,
+  data
 });
 export const addTask = data => ({
   type: ADDING_TASK,
