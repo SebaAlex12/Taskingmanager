@@ -211,7 +211,6 @@ class TasksListContainer extends Component {
           ))
         : "loading...";
     }
-    const formDisabled = false;
 
     return (
       <StyledTaskListContainer>
@@ -227,20 +226,14 @@ class TasksListContainer extends Component {
             >
               Dodaj zadanie
             </Button>
-            {toggleTasksAddForm && formDisabled === false ? (
-              <TaskAddForm />
-            ) : formDisabled === true ? (
-              <div style={{ color: "red" }}>
-                You can have max 10 tasks - form is disabled
-              </div>
-            ) : null}
+            {toggleTasksAddForm ? <TaskAddForm /> : null}
           </div>
           <div className="task-items-box">
             <div className="title">
               {tasks.length > 0 ? `Liczba tasków: ${tasks.length}` : null}
             </div>
             <form className="task-switcher">
-              <label htmlFor="">Moje zadania:</label>
+              <label htmlFor="">Zadania które utworzyłem:</label>
               <label className="switch">
                 <input
                   className="switch-input"
