@@ -34,7 +34,7 @@ export const projectsReducer = (state = initialState, action) => {
       return {
         ...state,
         projects: state.projects.map(project => {
-          return project.id === action.payload.id ? action.payload : project;
+          return project._id === action.payload._id ? action.payload : project;
         })
       };
     case PROJECTS_ERROR:

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Moment from "react-moment";
+import moment from "moment";
 
 import { updateTask } from "../actions";
 
@@ -247,10 +247,10 @@ class TasksItem extends Component {
           </td>
           <td className="createdBy">{createdBy}</td>
           <td className="responsiblePerson">{responsiblePerson}</td>
-          <td className="term">
-            <Moment format="YYYY-MM-DD HH:mm">{termAt}</Moment>
+          <td className="term">{moment(new Date(termAt)).format("D/M/Y")}</td>
+          <td className="createdAt">
+            {moment(new Date(createdAt)).format("D/M/Y")}
           </td>
-          <td className="createdAt">{createdAt}</td>
           <td className="description">
             <i
               className="glyphicon glyphicon-edit"

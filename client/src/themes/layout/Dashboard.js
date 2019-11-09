@@ -19,7 +19,8 @@ class Dashboard extends Component {
     return (
       <div>
         <div className="logged-user">
-          Welcome: {loggedUser ? loggedUser.name : null}
+          Witaj:{" "}
+          {loggedUser ? `${loggedUser.name} / ${loggedUser.status}` : null}
         </div>
         <Link className="btn btn-default" to="/tasks">
           Zadania

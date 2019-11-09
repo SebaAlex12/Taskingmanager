@@ -8,6 +8,7 @@ import { fetchUsers, removeUser, updateUser } from "../actions";
 import RegistryForm from "./RegistryForm";
 
 import { updateFilter } from "../../Filters/actions";
+import UsersItem from "./UsersItem";
 
 class UsersList extends Component {
   constructor(props) {
@@ -30,48 +31,43 @@ class UsersList extends Component {
     updateUser(data);
   };
   userNameHandler(name) {
-    const {
-      updateFilter,
-      filters: { statuses, priorities, projectName }
-    } = this.props;
-    console.log(name);
-    const response = updateFilter({
-      priorities,
-      statuses,
-      projectName,
-      responsiblePerson: name
-    });
+    // const {
+    //   updateFilter,
+    //   filters: { statuses, priorities, projectName }
+    // } = this.props;
+    // console.log(name);
+    // const response = updateFilter({
+    //   priorities,
+    //   statuses,
+    //   projectName,
+    //   responsiblePerson: name
+    // });
   }
   render() {
-    const { users } = this.props;
+    const { users, loggedUser } = this.props;
     const { toggleRegistryForm, toggleUsersList } = this.state;
     const usersContent = users.map(user => {
-      return (
-        <div
-          className="btn btn-default"
-          onClick={() => this.userNameHandler(user.name)}
-          key={user._id}
-        >
-          {user.name}
-        </div>
-      );
+      return <UsersItem item={user} key={user._id} />;
     });
+    const windowHeight = window.innerHeight - 50;
     return (
       <StyledUserList>
         <div className="users-box">
-          <div className="flow-box">
-            <Button
-              variant="primary"
-              onClick={() =>
-                this.setState({
-                  toggleRegistryForm: !toggleRegistryForm
-                })
-              }
-            >
-              Dodaj użytkownika
-            </Button>
-            {toggleRegistryForm ? <RegistryForm /> : null}
-          </div>
+          {loggedUser.status === "Administrator" ? (
+            <div className="flow-box">
+              <Button
+                variant="primary"
+                onClick={() =>
+                  this.setState({
+                    toggleRegistryForm: !toggleRegistryForm
+                  })
+                }
+              >
+                Dodaj użytkownika
+              </Button>
+              {toggleRegistryForm ? <RegistryForm /> : null}
+            </div>
+          ) : null}
           <div className="user-list-flow-box">
             <Button
               variant="primary"
@@ -84,7 +80,12 @@ class UsersList extends Component {
               Lista użytkowników
             </Button>
             {toggleUsersList ? (
-              <div className="users-list">{usersContent}</div>
+              <div
+                className="users-list"
+                style={{ height: `${windowHeight}px` }}
+              >
+                {usersContent}
+              </div>
             ) : null}
           </div>
         </div>

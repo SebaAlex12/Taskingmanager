@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { registerUser } from "../actions";
+import { updateUser } from "../actions";
 import { user_statuses } from "../../ini";
 
-class RegistryForm extends Component {
+class UsersEditFrom extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,6 +13,19 @@ class RegistryForm extends Component {
       password: "",
       status: ""
     };
+  }
+  componentDidMount() {
+    console.log(this.props);
+    const {
+      item: { _id, name, email, password, status }
+    } = this.props;
+    this.setState({
+      _id,
+      name,
+      email,
+      password,
+      status
+    });
   }
   onChangeInput = event => {
     this.setState({
@@ -26,15 +39,27 @@ class RegistryForm extends Component {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
-  registerHandler = event => {
+  updateHandler = event => {
+    const { updateUser } = this.props;
+    const { _id, name, email, password, status } = this.state;
+
+    const data = {
+      _id,
+      name,
+      email,
+      password,
+      status
+    };
+
+    updateUser(data);
     event.preventDefault();
-    const { registerUser } = this.props;
-    registerUser(this.state);
   };
   render() {
+    const { name, email, password, status } = this.state;
+
     return (
       <div
-        className="registry-form-box mt-3 mb-3"
+        className="user-update-form-box mt-3 mb-3"
         style={{ backgroundColor: "#fff", padding: "5px" }}
       >
         <form action="post">
@@ -44,7 +69,9 @@ class RegistryForm extends Component {
               className="form-control"
               type="text"
               name="name"
+              value={name}
               placeholder="Nazwa"
+              disabled
               required
             />
           </div>
@@ -54,6 +81,7 @@ class RegistryForm extends Component {
               className="form-control"
               type="text"
               name="email"
+              value={email}
               placeholder="Email"
               required
             />
@@ -64,6 +92,7 @@ class RegistryForm extends Component {
               className="form-control"
               type="password"
               name="password"
+              value={password}
               placeholder="Hasło"
               required
             />
@@ -77,10 +106,14 @@ class RegistryForm extends Component {
             >
               <option value="">Status</option>
               {user_statuses
-                ? user_statuses.map(status => {
+                ? user_statuses.map(stats => {
                     return (
-                      <option key={status._id} value={status.name}>
-                        {status.name}
+                      <option
+                        key={stats._id}
+                        value={stats.name}
+                        selected={stats.name === status ? "selected" : null}
+                      >
+                        {stats.name}
                       </option>
                     );
                   })
@@ -89,10 +122,10 @@ class RegistryForm extends Component {
           </div>
           <div className="form-group">
             <input
-              onClick={this.registerHandler}
+              onClick={this.updateHandler}
               className="btn btn-primary float-right"
               type="submit"
-              value="dodaj"
+              value="zapisz"
             />
           </div>
         </form>
@@ -102,10 +135,12 @@ class RegistryForm extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    loggedUser: state.users.logged_user
+  };
 };
 
 export default connect(
   mapStateToProps,
-  { registerUser }
-)(RegistryForm);
+  { updateUser }
+)(UsersEditFrom);

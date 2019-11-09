@@ -11,10 +11,12 @@ import {
   FETCH_USERS_SUCCESS,
   LOGGING_OUT_USER,
   LOGGED_OUT_SUCCESS,
+  UPDATING_USER,
+  UPDATE_USER_SUCCESS,
   USER_ERROR
 } from "./types";
 
-function* loginUserAsync(action: any) {
+function* loginUserAsync(action) {
   try {
     const graph = {
       query: `query {
@@ -55,7 +57,7 @@ export function* loginUserWatcher() {
   yield takeEvery(LOGGING_USER, loginUserAsync);
 }
 
-function* registerUserAsync(action: any) {
+function* registerUserAsync(action) {
   try {
     const presentDate = moment(new Date(), "YYYY-MM-DD HH:mm:ss").format();
 
@@ -92,7 +94,7 @@ export function* registerUserWatcher() {
   yield takeEvery(REGISTERING_USER, registerUserAsync);
 }
 
-function* fetchLoggedUserAsync(action: any) {
+function* fetchLoggedUserAsync(action) {
   try {
     yield put({ type: FETCH_LOGGED_USER_SUCCESS, payload: action.data });
   } catch (error) {
@@ -104,7 +106,7 @@ export function* fetchLoggedUserWatcher() {
   yield takeEvery(FETCHING_LOGGED_USER, fetchLoggedUserAsync);
 }
 
-function* fetchUsersAsync(action: any) {
+function* fetchUsersAsync(action) {
   try {
     const graph = {
       query: `
@@ -133,6 +135,53 @@ function* fetchUsersAsync(action: any) {
 
 export function* fetchUsersWatcher() {
   yield takeEvery(FETCHING_USERS, fetchUsersAsync);
+}
+
+function* updateUserAsync(action) {
+  try {
+    const data = action.data;
+
+    const userInput = {
+      _id: data._id,
+      name: data.name ? data.name : "",
+      email: data.email ? data.email : "",
+      password: data.password ? data.password : "",
+      status: data.status ? data.status : ""
+    };
+
+    const graph = {
+      query: `mutation {
+      updateUser(userInput: {
+      _id: "${userInput._id}",  
+      name: "${userInput.name}",
+      email: "${userInput.email}",
+      password: "${userInput.password}",
+      status: "${userInput.status}"}){
+        _id
+        name
+        email
+        status
+      }
+    }`
+    };
+    // console.log(graph);
+    const userData = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
+    yield put({
+      type: UPDATE_USER_SUCCESS,
+      payload: userData.data.data.updateUser
+    });
+  } catch (error) {
+    yield put({ type: USER_ERROR, payload: error });
+  }
+}
+
+export function* updateUserWatcher() {
+  yield takeEvery(UPDATING_USER, updateUserAsync);
 }
 
 function* logoutUserAsync() {

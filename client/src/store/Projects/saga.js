@@ -113,7 +113,10 @@ function* updateProjectAsync(action) {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
-    yield put({ type: UPDATE_PROJECT_SUCCESS, payload: projectData });
+    yield put({
+      type: UPDATE_PROJECT_SUCCESS,
+      payload: projectData.data.data.updateProject
+    });
   } catch (error) {
     yield put({ type: PROJECTS_ERROR, payload: error });
   }

@@ -8,6 +8,7 @@ import {
 import {
   loginUserWatcher,
   registerUserWatcher,
+  updateUserWatcher,
   fetchLoggedUserWatcher,
   fetchUsersWatcher,
   logoutUserWatcher
@@ -24,6 +25,7 @@ export default function* rootSaga() {
   yield all([
     fork(loginUserWatcher),
     fork(registerUserWatcher),
+    fork(updateUserWatcher),
     fork(fetchLoggedUserWatcher),
     fork(fetchUsersWatcher),
     fork(logoutUserWatcher),

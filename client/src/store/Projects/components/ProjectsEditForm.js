@@ -1,15 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { addProject } from "../actions";
+import { updateProject } from "../actions";
 
-class ProjectsAddForm extends Component {
+class ProjectsEditFrom extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       name: "",
       description: ""
     };
+  }
+  componentDidMount() {
+    const {
+      item: { _id, name, description }
+    } = this.props;
+    this.setState({
+      _id,
+      name,
+      description
+    });
   }
   onChangeInput = event => {
     this.setState({
@@ -23,30 +34,32 @@ class ProjectsAddForm extends Component {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
-  addHandler = event => {
-    const { addProject } = this.props;
-    const { name, description } = this.state;
+  updateHandler = event => {
+    const { updateProject } = this.props;
+    const { _id, name, description } = this.state;
 
     const data = {
+      _id,
       name,
       description
     };
-
+    updateProject(data);
     event.preventDefault();
-
-    addProject(data);
   };
   render() {
+    const { name, description } = this.state;
     return (
-      <div className="project-add-form-box">
+      <div className="project-update-form-box">
         <form action="">
           <div className="form-group">
             <input
               onChange={this.onChangeInput}
               type="text"
               name="name"
+              value={name}
               className="form-control"
               placeholder="Nazwa"
+              disabled
               required
             />
           </div>
@@ -55,6 +68,7 @@ class ProjectsAddForm extends Component {
               onChange={this.onChangeInput}
               type="text"
               name="description"
+              value={description}
               className="form-control"
               rows="5"
               placeholder="Opis"
@@ -63,10 +77,10 @@ class ProjectsAddForm extends Component {
           </div>
           <div className="form-group">
             <input
-              onClick={this.addHandler}
+              onClick={this.updateHandler}
               className="btn btn-primary float-right"
               type="submit"
-              value="dodaj"
+              value="zapisz"
             />
           </div>
         </form>
@@ -83,5 +97,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { addProject }
-)(ProjectsAddForm);
+  { updateProject }
+)(ProjectsEditFrom);

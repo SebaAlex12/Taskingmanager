@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import uuidv1 from "uuid";
 
 import { addTask } from "../actions";
 import { priorities, statuses } from "../../ini";
+import Messages from "../../common/Messages";
 
 class TasksAddForm extends Component {
   constructor(props) {
@@ -14,9 +14,10 @@ class TasksAddForm extends Component {
       responsiblePerson: "",
       title: "",
       description: "",
-      priority: "",
-      status: "",
-      termAt: ""
+      priority: "Normalny",
+      status: "Do wykonania",
+      termAt: "",
+      messages: []
     };
   }
   onChangeInput = event => {
@@ -32,7 +33,7 @@ class TasksAddForm extends Component {
     });
   };
   addHandler = event => {
-    const { addTask } = this.props;
+    const { addTask, loggedUser } = this.props;
     const {
       projectName,
       responsiblePerson,
@@ -44,10 +45,9 @@ class TasksAddForm extends Component {
     } = this.state;
 
     const data = {
-      id: uuidv1(),
-      userId: "1",
-      createdBy: "franek",
-      projectId: "5",
+      userId: loggedUser._id,
+      createdBy: loggedUser.name,
+      projectId: "1",
       projectName,
       responsiblePerson,
       title,
@@ -59,13 +59,29 @@ class TasksAddForm extends Component {
     // console.log(data);
     event.preventDefault();
 
-    addTask(data);
+    const response = addTask(data);
+    if (response) {
+      this.setState({
+        messages: ["Zadanie dodane"]
+      });
+    }
   };
   render() {
     const { projects, users } = this.props;
+    const {
+      projectName,
+      responsiblePerson,
+      title,
+      description,
+      priority,
+      status,
+      termAt,
+      messages
+    } = this.state;
 
     return (
       <div className="task-add-form-box">
+        {messages.length > 0 ? <Messages messages={messages} /> : null}
         <form action="">
           <div className="form-group">
             <input
@@ -93,14 +109,19 @@ class TasksAddForm extends Component {
               className="form-control"
               onChange={this.onChangeSelect}
               name="priority"
+              value={priority}
               required
             >
               <option value="">Priorytet</option>
               {priorities
-                ? priorities.map(priority => {
+                ? priorities.map(prt => {
                     return (
-                      <option key={priority._id} value={priority.name}>
-                        {priority.name}
+                      <option
+                        key={prt._id}
+                        value={prt.name}
+                        selected={prt.name === status ? "selected" : null}
+                      >
+                        {prt.name}
                       </option>
                     );
                   })
@@ -160,14 +181,18 @@ class TasksAddForm extends Component {
               className="form-control"
               onChange={this.onChangeSelect}
               name="status"
+              value={status}
               required
             >
               <option value="">Stan</option>
               {statuses
-                ? statuses.map(status => {
+                ? statuses.map(sts => {
                     return (
-                      <option key={status._id} value={status.name}>
-                        {status.name}
+                      <option
+                        key={sts._id}
+                        selected={sts.name === status ? "selected" : null}
+                      >
+                        {sts.name}
                       </option>
                     );
                   })
@@ -179,7 +204,7 @@ class TasksAddForm extends Component {
               onClick={this.addHandler}
               className="btn btn-primary float-right"
               type="submit"
-              value="add"
+              value="dodaj"
             />
           </div>
         </form>
@@ -191,7 +216,8 @@ class TasksAddForm extends Component {
 const mapStateToProps = state => {
   return {
     users: state.users.users,
-    projects: state.projects.projects
+    projects: state.projects.projects,
+    loggedUser: state.users.logged_user
   };
 };
 

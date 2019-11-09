@@ -21,7 +21,8 @@ class TasksListContainer extends Component {
       },
       toggleTasksAddForm: false,
       orderColumn: "status",
-      orderDirection: "asc"
+      orderDirection: "asc",
+      userTasks: false
     };
   }
   componentDidMount() {
@@ -49,20 +50,43 @@ class TasksListContainer extends Component {
   componentDidUpdate(prevProps, prevState) {
     // console.log("this props", this.props);
     // const { tasks } = this.props;
-    if (
-      this.props.filters.responsiblePerson !==
-      prevProps.filters.responsiblePerson
-    ) {
-      // console.log("tasks", prevState);
-      // this.setState({
-      //   ...this.state,
-      //   tasks,
-      //   filters: {
-      //     responsiblePerson: this.state.filters.responsiblePerson
-      //   }
-      // });
-    }
+    // if (
+    //   this.props.filters.responsiblePerson !==
+    //   prevProps.filters.responsiblePerson
+    // ) {
+    // console.log("tasks", prevState);
+    // this.setState({
+    //   ...this.state,
+    //   tasks,
+    //   filters: {
+    //     responsiblePerson: this.state.filters.responsiblePerson
+    //   }
+    // });
+    // }
   }
+  switchTasks = () => {
+    const {
+      fetchTasks,
+      loggedUser: { status, name },
+      filters: { statuses }
+    } = this.props;
+    const { userTasks } = this.state;
+
+    if (!userTasks) {
+      console.log("user tasks");
+      fetchTasks({ createdBy: name });
+    } else {
+      if (status === "Administrator") {
+        fetchTasks({ statuses });
+      } else {
+        fetchTasks({ responsiblePerson: name });
+      }
+    }
+
+    this.setState({
+      userTasks: !userTasks
+    });
+  };
   removeTaskHandler = id => {
     const { removeTask } = this.props;
     removeTask(id);
@@ -91,7 +115,7 @@ class TasksListContainer extends Component {
     if (direction === "desc") {
       this.sortArray(items, column, -1);
     }
-    console.log(items);
+    // console.log(items);
     this.setState({
       tasks: items,
       orderColumn: column,
@@ -103,8 +127,8 @@ class TasksListContainer extends Component {
   filterItems = (items, filters) => {
     const {
       orderColumn,
-      orderDirection,
-      filters: { projectName, responsiblePerson }
+      orderDirection
+      // filters: { projectName, responsiblePerson }
     } = this.state;
     // console.log("items", items);
     // console.log("filters", filters);
@@ -212,7 +236,25 @@ class TasksListContainer extends Component {
             ) : null}
           </div>
           <div className="task-items-box">
-            {tasks.length > 0 ? `Liczba tasków: ${tasks.length}` : null}
+            <div className="title">
+              {tasks.length > 0 ? `Liczba tasków: ${tasks.length}` : null}
+            </div>
+            <form className="task-switcher">
+              <label htmlFor="">Moje zadania:</label>
+              <label className="switch">
+                <input
+                  className="switch-input"
+                  type="checkbox"
+                  onClick={this.switchTasks}
+                />
+                <span
+                  className="switch-label"
+                  data-on="Ukryj"
+                  data-off="Pokaż"
+                ></span>
+                <span className="switch-handle"></span>
+              </label>
+            </form>
             <table className="table table-striped">
               <thead>
                 <tr>

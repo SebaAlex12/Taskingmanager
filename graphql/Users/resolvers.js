@@ -75,5 +75,33 @@ module.exports = {
     );
 
     return { ...userData._doc, _id: userData._id.toString(), token: token };
+  },
+  updateUser: async function({ userInput }, req) {
+    // console.log("user input", userInput);
+    if (!userInput.name || !userInput.email) {
+      const err = new Error("You left input fields epmty");
+      throw err;
+    }
+    const _id = userInput._id;
+    const user = await User.findOne({ _id });
+
+    const data = {
+      name: userInput.name,
+      email: userInput.email,
+      // password: hash,
+      status: userInput.status
+    };
+
+    if (userInput.password.length > 0) {
+      const salt = bcrypt.genSaltSync(14);
+      const hash = bcrypt.hashSync(userInput.password, salt);
+      data.password = hash;
+    }
+
+    // console.log("data push", data);
+    user.overwrite(data);
+    const storedUser = await user.save();
+
+    return { ...storedUser._doc, _id: storedUser._id.toString() };
   }
 };

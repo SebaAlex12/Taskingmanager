@@ -18,8 +18,10 @@ export const StyledUserList = styled.div`
   .users-list {
     position: fixed;
     top: 35px;
-    left: 120px;
+    left: 0px;
     z-index: 100;
+    overflow-y: auto;
+    width: 260px;
   }
   .users-list > div {
     display: block;

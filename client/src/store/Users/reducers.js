@@ -2,6 +2,7 @@ import {
   FETCH_LOGGED_USER_SUCCESS,
   FETCH_USERS_SUCCESS,
   REGISTER_USER_SUCCESS,
+  UPDATE_USER_SUCCESS,
   USER_ERROR,
   LOGGED_OUT_SUCCESS
 } from "./types";
@@ -12,7 +13,7 @@ const initialState = {
   errors: []
 };
 
-export const usersReducer = (state = initialState, action: any) => {
+export const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_LOGGED_USER_SUCCESS:
       return {
@@ -28,6 +29,13 @@ export const usersReducer = (state = initialState, action: any) => {
       return {
         users: [...state.users, action.payload],
         logged_user: state.logged_user
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        users: state.users.map(user => {
+          return user._id === action.payload._id ? action.payload : user;
+        })
       };
     case LOGGED_OUT_SUCCESS:
       return {

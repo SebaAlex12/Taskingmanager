@@ -10,6 +10,10 @@ export const StyledProjectList = styled.div`
     background-color: #fff;
     z-index: 1000;
   }
+  .flow-box .project-add-form-box {
+    background-color: #fff;
+    padding: 5px;
+  }
   .projects-box > .flow-box > button:last-child {
     left: 0px;
     right: auto;
@@ -21,7 +25,7 @@ export const StyledProjectList = styled.div`
     left: 0px;
     z-index: 100;
     overflow-y: auto;
-    height: 500px;
+    width: 260px;
   }
   .projects-list > div {
     display: block;

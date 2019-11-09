@@ -1,3 +1,14 @@
+export const user_statuses = [
+  {
+    _id: 1,
+    name: "Administrator"
+  },
+  {
+    _id: 2,
+    name: "Pracownik"
+  }
+];
+
 export const priorities = [
   {
     _id: 0,

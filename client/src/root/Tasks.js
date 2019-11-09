@@ -9,10 +9,11 @@ import FiltersContainer from "../store/Filters/components/FiltersContainer";
 
 class Tasks extends Component {
   render() {
+    const { loggedUser } = this.props;
     return (
       <div className="tasks-box">
         <ProjectsList />
-        <UsersList />
+        {loggedUser.status === "Administrator" ? <UsersList /> : null}
         {/* <TasksList /> */}
         <FiltersContainer />
         <TasksListContainer />
@@ -22,7 +23,9 @@ class Tasks extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    loggedUser: state.users.logged_user
+  };
 };
 
 export default connect(

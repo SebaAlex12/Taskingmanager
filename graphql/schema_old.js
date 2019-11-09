@@ -6,7 +6,7 @@ module.exports = buildSchema(`
         _id: ID!
         name: String!
         email: String!
-        password: String!
+        password: String
         status: String!
         createdAt: String
     }
@@ -55,11 +55,12 @@ module.exports = buildSchema(`
     }
 
     input UserInputData {
+        _id: String
         name: String!
         email: String!
-        password: String!
+        password: String
         status: String!
-        createdAt: String!
+        createdAt: String
     }
 
     input TaskInputData {
@@ -120,6 +121,7 @@ module.exports = buildSchema(`
         addProject(projectInput: ProjectInputData): Project!
         updateProject(projectInput: ProjectInputData): Project!
         removeProject(projectId: String!): Project!
+        updateUser(userInput: UserInputData): User!
         addPhoto(photoInput: PhotoInputData): Photo!
         addAlbum(albumInput: AlbumInputData): Album!
         removeAlbum(albumId: String!): Album!

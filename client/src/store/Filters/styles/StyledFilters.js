@@ -11,4 +11,7 @@ export const StyledFilters = styled.div`
     display: inline-block;
     margin: 5px;
   }
+  .filter-form-box .form-group .form-check input {
+    cursor: pointer;
+  }
 `;

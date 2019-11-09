@@ -6,6 +6,7 @@ import { StyledProjectList } from "../styles/StyledProjectList";
 
 import { fetchProjects, removeProject, updateProject } from "../actions";
 import ProjectsAddForm from "./ProjectsAddForm";
+import ProjectsItem from "./ProjectsItem";
 
 class ProjectsList extends Component {
   constructor(props) {
@@ -28,27 +29,30 @@ class ProjectsList extends Component {
     updateProject(data);
   };
   render() {
-    const { projects } = this.props;
+    const { projects, loggedUser } = this.props;
     const { toggleProjectsAddForm, toggleProjectsList } = this.state;
     const projectsContent = projects.map(project => {
-      return <div className="btn btn-default">{project.name}</div>;
+      return <ProjectsItem item={project} key={project._id} />;
     });
+    const windowHeight = window.innerHeight - 50;
     return (
       <StyledProjectList>
         <div className="projects-box">
-          <div className="flow-box">
-            <Button
-              variant="primary"
-              onClick={() =>
-                this.setState({
-                  toggleProjectsAddForm: !toggleProjectsAddForm
-                })
-              }
-            >
-              Dodaj projekt
-            </Button>
-            {toggleProjectsAddForm ? <ProjectsAddForm /> : null}
-          </div>
+          {loggedUser.status === "Administrator" ? (
+            <div className="flow-box">
+              <Button
+                variant="primary"
+                onClick={() =>
+                  this.setState({
+                    toggleProjectsAddForm: !toggleProjectsAddForm
+                  })
+                }
+              >
+                Dodaj projekt
+              </Button>
+              {toggleProjectsAddForm ? <ProjectsAddForm /> : null}
+            </div>
+          ) : null}
           <div className="project-list-flow-box">
             <Button
               variant="primary"
@@ -61,7 +65,12 @@ class ProjectsList extends Component {
               Lista projektów
             </Button>
             {toggleProjectsList ? (
-              <div className="projects-list">{projectsContent}</div>
+              <div
+                className="projects-list"
+                style={{ height: `${windowHeight}px` }}
+              >
+                {projectsContent}
+              </div>
             ) : null}
           </div>
         </div>
