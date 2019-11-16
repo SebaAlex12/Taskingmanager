@@ -14,6 +14,7 @@ class TasksAddForm extends Component {
       responsiblePerson: "",
       title: "",
       description: "",
+      responsiblePersonLastComment: false,
       priority: "Normalny",
       status: "Do wykonania",
       termAt: "",
@@ -39,6 +40,7 @@ class TasksAddForm extends Component {
       responsiblePerson,
       title,
       description,
+      responsiblePersonLastComment,
       priority,
       status,
       termAt
@@ -52,6 +54,7 @@ class TasksAddForm extends Component {
       responsiblePerson,
       title,
       description,
+      responsiblePersonLastComment,
       priority,
       status,
       termAt
@@ -68,16 +71,7 @@ class TasksAddForm extends Component {
   };
   render() {
     const { projects, users } = this.props;
-    const {
-      projectName,
-      responsiblePerson,
-      title,
-      description,
-      priority,
-      status,
-      termAt,
-      messages
-    } = this.state;
+    const { priority, status, messages } = this.state;
 
     return (
       <div className="task-add-form-box">
@@ -221,7 +215,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { addTask }
-)(TasksAddForm);
+export default connect(mapStateToProps, { addTask })(TasksAddForm);

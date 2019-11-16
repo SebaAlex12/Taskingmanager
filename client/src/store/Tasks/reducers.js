@@ -32,7 +32,7 @@ export const tasksReducer = (state = initialState, action) => {
       return {
         ...state,
         tasks: state.tasks.map(task => {
-          return task.id === action.payload._id ? action.payload : task;
+          return task._id === action.payload._id ? action.payload : task;
         })
       };
     case TASKS_ERROR:

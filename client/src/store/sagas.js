@@ -5,6 +5,7 @@ import {
   updateTaskWatcher,
   removeTaskWatcher
 } from "./Tasks/saga";
+import { fetchCommentsWatcher, addCommentWatcher } from "./Comments/saga";
 import {
   loginUserWatcher,
   registerUserWatcher,
@@ -31,6 +32,8 @@ export default function* rootSaga() {
     fork(logoutUserWatcher),
     fork(fetchTasksWatcher),
     fork(addTaskWatcher),
+    fork(fetchCommentsWatcher),
+    fork(addCommentWatcher),
     fork(updateTaskWatcher),
     fork(removeTaskWatcher),
     fork(fetchProjectsWatcher),

@@ -6,11 +6,16 @@ module.exports = {
     return projects;
   },
   addProject: async function({ projectInput }, req) {
+    const result = await Project.findOne({ name: projectInput.name });
+    if (result) {
+      const err = new Error("Project already exists");
+      throw err;
+    }
+
     const project = new Project({
       name: projectInput.name,
       description: projectInput.description
     });
-
     const storedProject = await project.save();
 
     return { ...storedProject._doc, _id: storedProject._id.toString() };

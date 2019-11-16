@@ -53,7 +53,7 @@ function App() {
     <Provider store={store}>
       <ThemeProvider theme={{ mode: "light" }}>
         <Router>
-          <div className="App container">
+          <div className="App">
             {!localStorage.jwtTokenAuthorization ||
             localStorage.jwtTokenAuthorization === undefined ? (
               <div className="login-box">

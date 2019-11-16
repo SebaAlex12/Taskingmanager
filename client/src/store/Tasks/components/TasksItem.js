@@ -3,13 +3,15 @@ import { connect } from "react-redux";
 import moment from "moment";
 
 import { updateTask } from "../actions";
+import CommentsAddForm from "../../Comments/components/CommentsAddForm";
+import CommentsList from "../../Comments/components/CommentsList";
+import { priorities, statuses } from "../../ini";
 
 class TasksItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      toggle: false,
-      toggleDescription: false
+      toggle: false
     };
   }
 
@@ -20,6 +22,7 @@ class TasksItem extends Component {
       description,
       projectName,
       responsiblePerson,
+      responsiblePersonLastComment,
       status,
       priority,
       createdBy,
@@ -32,6 +35,7 @@ class TasksItem extends Component {
       description,
       projectName,
       responsiblePerson,
+      responsiblePersonLastComment,
       status,
       priority,
       createdBy,
@@ -77,8 +81,6 @@ class TasksItem extends Component {
         termAt,
         createdAt
       } = this.state;
-
-      console.log("keypress");
       const data = {
         _id,
         title,
@@ -117,69 +119,26 @@ class TasksItem extends Component {
   };
 
   render() {
-    const priorities = [
-      {
-        _id: 1,
-        name: "Pali się"
-      },
-      {
-        _id: 2,
-        name: "Priorytetowo"
-      },
-      {
-        _id: 3,
-        name: "Normalny"
-      },
-      {
-        _id: 4,
-        name: "W wolnym czasie"
-      },
-      {
-        _id: 5,
-        name: "Można wykonać ale nie trzeba"
-      }
-    ];
-    const statuses = [
-      {
-        _id: 1,
-        name: "Do wykonania"
-      },
-      {
-        _id: 2,
-        name: "W trakcie"
-      },
-      {
-        _id: 3,
-        name: "Do akceptacji"
-      },
-      {
-        _id: 4,
-        name: "Wykonane"
-      },
-      {
-        _id: 5,
-        name: "Zawieszone"
-      }
-    ];
-    // const { item } = this.props;
     const {
+      _id,
       toggle,
-      toggleDescription,
       title,
       description,
       projectName,
       responsiblePerson,
+      responsiblePersonLastComment,
       status,
       priority,
       createdBy,
       termAt,
       createdAt
     } = this.state;
+    const { setActiveTaskHandler, active } = this.props;
+    // console.log("state item", this.state);
     return (
       <React.Fragment>
         <tr>
           <td className="name">
-            {" "}
             {toggle ? (
               <i
                 className="glyphicon glyphicon-remove"
@@ -197,6 +156,13 @@ class TasksItem extends Component {
             ) : (
               <div onClick={this.switch}>{title}</div>
             )}
+            <i
+              className={
+                responsiblePersonLastComment === "true"
+                  ? "glyphicon glyphicon-cloud-download lights active"
+                  : "glyphicon glyphicon-cloud-upload lights"
+              }
+            ></i>
           </td>
           <td className="project-name">{projectName}</td>
           <td className="status">
@@ -251,32 +217,41 @@ class TasksItem extends Component {
           <td className="createdAt">
             {moment(new Date(createdAt)).format("D/M/Y")}
           </td>
-          <td className="description">
+          <td className="details">
             <i
               className="glyphicon glyphicon-edit"
-              onClick={() =>
-                this.setState({ toggleDescription: !toggleDescription })
-              }
+              onClick={setActiveTaskHandler}
             ></i>
-            {toggleDescription ? (
+          </td>
+        </tr>
+        {active ? (
+          <tr>
+            <td colSpan="9">
               <div className="desc-box">
+                <i
+                  className="glyphicon glyphicon-pencil"
+                  onClick={this.onClickDescriptionHandler}
+                ></i>
                 <textarea
+                  className="form-control"
                   onChange={this.onChangeHandler}
                   name="description"
                   value={description}
-                  cols="45"
+                  cols="40"
                   rows="10"
                 ></textarea>
-                <button
-                  onClick={this.onClickDescriptionHandler}
-                  className="btn btn-default pull-right"
-                >
-                  zapisz
-                </button>
               </div>
-            ) : null}
-          </td>
-        </tr>
+              <CommentsList
+                taskId={_id}
+                responsiblePerson={responsiblePerson}
+              />
+              <CommentsAddForm
+                taskId={_id}
+                responsiblePerson={responsiblePerson}
+              />
+            </td>
+          </tr>
+        ) : null}
       </React.Fragment>
     );
   }
@@ -286,7 +261,4 @@ const mapStateToProps = state => {
   return {};
 };
 
-export default connect(
-  mapStateToProps,
-  { updateTask }
-)(TasksItem);
+export default connect(mapStateToProps, { updateTask })(TasksItem);

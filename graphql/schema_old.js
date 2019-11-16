@@ -19,12 +19,22 @@ module.exports = buildSchema(`
         projectName: String!
         responsiblePerson: String!
         title: String!
-        description: String!
+        description: String
         priority: String!
         status: String!
+        responsiblePersonLastComment: String
         createdAt: String
         finishedAt: String
         termAt: String
+    }
+
+    type Comment {
+        _id: String
+        taskId: String
+        userId: String
+        createdBy: String
+        description: String
+        createdAt: String
     }
 
     type Photo {
@@ -74,9 +84,19 @@ module.exports = buildSchema(`
         description: String
         priority: String
         status: String
+        responsiblePersonLastComment: String
         createdAt: String
         finishedAt: String
         termAt: String
+    }
+
+    input CommentInputData {
+        _id: String
+        taskId: String
+        userId: String
+        createdBy: String
+        description: String
+        createdAt: String
     }
 
     input PhotoInputData {
@@ -117,6 +137,7 @@ module.exports = buildSchema(`
         createUser(userInput: UserInputData): User!
         addTask(taskInput: TaskInputData): Task!
         updateTask(taskInput: TaskInputData): Task!
+        addComment(commentInput: CommentInputData): Comment!
         removeTask(taskId: String!): Task!
         addProject(projectInput: ProjectInputData): Project!
         updateProject(projectInput: ProjectInputData): Project!
@@ -131,6 +152,7 @@ module.exports = buildSchema(`
         loginUser(email: String!, password: String!): UserLoginData!
         fetchUsers: [User]!
         fetchTasks(taskInput: TaskInputData): [Task]!
+        fetchComments(commentInput: CommentInputData): [Comment]!
         fetchProjects: [Project]!
         fetchPhotos(album: String, category: String, status: String!): [Photo]!
         fetchAlbums(userId: String!, status: String!, access: String!): [Album]!

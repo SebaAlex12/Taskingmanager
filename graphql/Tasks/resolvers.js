@@ -1,4 +1,5 @@
 const Task = require("../../models/Task");
+const Comment = require("../../models/Comment");
 
 module.exports = {
   fetchTasks: async function({ taskInput }) {
@@ -10,9 +11,7 @@ module.exports = {
     if (taskInput.createdBy !== "undefined")
       params.createdBy = taskInput.createdBy;
 
-    console.log("taskinputxx", params);
-
-    const tasks = await Task.find(params);
+    let tasks = await Task.find(params);
 
     return tasks;
   },
@@ -26,6 +25,7 @@ module.exports = {
       title: taskInput.title,
       description: taskInput.description,
       priority: taskInput.priority,
+      responsiblePersonLastComment: taskInput.responsiblePersonLastComment,
       status: taskInput.status,
       createdAt: taskInput.createdAt,
       termAt: taskInput.termAt
@@ -36,9 +36,9 @@ module.exports = {
     return { ...storedTask._doc, _id: storedTask._id.toString() };
   },
   updateTask: async function({ taskInput }, req) {
+    // console.log("resolver", taskInput);
     const _id = taskInput._id;
     const task = await Task.findOne({ _id });
-    console.log("task input", taskInput);
     const data = {
       _id: taskInput.id,
       userId: taskInput.userId !== "" ? taskInput.userId : task.userId,
@@ -57,9 +57,13 @@ module.exports = {
         taskInput.description !== "" ? taskInput.description : task.description,
       priority: taskInput.priority !== "" ? taskInput.priority : task.priority,
       status: taskInput.status !== "" ? taskInput.status : task.status,
+      responsiblePersonLastComment:
+        taskInput.responsiblePersonLastComment !== ""
+          ? stringToBoolean(taskInput.responsiblePersonLastComment)
+          : task.responsiblePersonLastComment,
       termAt: taskInput.termAt !== "" ? taskInput.termAt : task.termAt
     };
-
+    // console.log("resolver", data);
     data.createdAt = task.createdAt;
     task.overwrite(data);
     const storedTask = await task.save();
@@ -76,3 +80,11 @@ module.exports = {
     return { _id: taskId };
   }
 };
+
+function stringToBoolean(val) {
+  var a = {
+    true: true,
+    false: false
+  };
+  return a[val];
+}

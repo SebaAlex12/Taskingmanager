@@ -15,7 +15,6 @@ class UsersEditFrom extends Component {
     };
   }
   componentDidMount() {
-    console.log(this.props);
     const {
       item: { _id, name, email, password, status }
     } = this.props;

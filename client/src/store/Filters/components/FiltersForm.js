@@ -27,6 +27,7 @@ class FiltersForm extends Component {
   }
 
   onChangeStatusHandler = event => {
+    // console.log("lll");
     const { updateFilter } = this.props;
     let { statuses, priorities, projectName, responsiblePerson } = this.state;
     event.preventDefault();
@@ -40,6 +41,7 @@ class FiltersForm extends Component {
     this.setState({
       statuses
     });
+    // console.log(event.target);
   };
 
   onChangePriorityHandler = event => {
@@ -68,16 +70,16 @@ class FiltersForm extends Component {
     if (statuses) {
       let counter = 1;
       stateContent = statuses.map(status => {
-        // console.log(status);
+        // console.log(status.active);
+        // let checked = status.active ? checked=true : null;
         return (
           <div className="form-check" key={counter++}>
             <input
               className="form-check-input"
               type="checkbox"
               name={status.name}
-              value={status.active}
+              // value={status.active}
               onChange={this.onChangeStatusHandler}
-              // onClick={}
               checked={status.active}
             />
             <label className="form-check-label" htmlFor={status.name}>

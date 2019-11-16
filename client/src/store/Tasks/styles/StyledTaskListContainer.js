@@ -23,10 +23,10 @@ export const StyledTaskListContainer = styled.div`
   .task-items-box > div {
     clear: both;
   }
-  .task-items-box table .description {
+  .task-items-box table .details {
     text-align: left;
   }
-  .task-items-box .description i {
+  .task-items-box .details i {
     cursor: pointer;
   }
   .task-items-box>table>thead>tr>th: first-child {
@@ -45,14 +45,25 @@ export const StyledTaskListContainer = styled.div`
     left: -7px;
     cursor: pointer;
   }
+  .task-items-box > table > tbody .name .lights {
+    color: red;
+  }
+  .task-items-box > table > tbody .name .lights.active {
+    color: green;
+  }
   .task-items-box > table > tbody > tr > td {
     position: relative;
   }
   .task-items-box > table > tbody .desc-box {
+    float: left;
+    position: relative;
+  }
+  .task-items-box > table > tbody .desc-box i {
     position: absolute;
-    right: 0px;
-    top: 30px;
-    z-index: 100;
+    right: 10px;
+    top: 10px;
+    display: block;
+    cursor: pointer;
   }
   .task-switcher {
     float: right;

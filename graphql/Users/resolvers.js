@@ -19,7 +19,14 @@ module.exports = {
     const userExists = await User.findOne({ email: userInput.email });
 
     if (userExists) {
-      const err = new Error("User already exists");
+      const err = new Error("User email already exists");
+      throw err;
+    }
+
+    const userNameExists = await User.findOne({ name: userInput.name });
+
+    if (userNameExists) {
+      const err = new Error("User name already exists");
       throw err;
     }
 

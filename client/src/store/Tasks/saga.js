@@ -28,6 +28,7 @@ function* fetchTasksAsync(action) {
             description
             priority
             status
+            responsiblePersonLastComment
             createdAt
             finishedAt
             termAt
@@ -67,6 +68,7 @@ function* addTaskAsync(action) {
       description: data.description,
       priority: data.priority,
       status: data.status,
+      responsiblePersonLastComment: data.responsiblePersonLastComment,
       createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
       termAt: moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
       // finishedAt: data.finishedAt
@@ -83,6 +85,7 @@ function* addTaskAsync(action) {
       description: "${taskInput.description}",
       priority: "${taskInput.priority}",
       status: "${taskInput.status}",
+      responsiblePersonLastComment: "${taskInput.responsiblePersonLastComment}",
       createdAt: "${taskInput.createdAt}",
       finishedAt: "",
       termAt: "${taskInput.termAt}"}){
@@ -95,6 +98,7 @@ function* addTaskAsync(action) {
         description
         priority
         status
+        responsiblePersonLastComment
         createdAt
         finishedAt
         termAt
@@ -123,7 +127,7 @@ export function* addTaskWatcher() {
 function* updateTaskAsync(action) {
   try {
     const data = action.data;
-
+    // console.log("saga", data);
     const taskInput = {
       _id: data._id,
       userId: 1,
@@ -135,6 +139,8 @@ function* updateTaskAsync(action) {
       description: data.description ? data.description : "",
       priority: data.priority ? data.priority : "",
       status: data.status ? data.status : "",
+      responsiblePersonLastComment:
+        data.responsiblePersonLastComment === true ? true : false,
       termAt: data.termAt
         ? moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
         : "",
@@ -156,6 +162,7 @@ function* updateTaskAsync(action) {
       description: "${taskInput.description}",
       priority: "${taskInput.priority}",
       status: "${taskInput.status}",
+      responsiblePersonLastComment: "${taskInput.responsiblePersonLastComment}",
       finishedAt: "${taskInput.finishedAt}",
       termAt: "${taskInput.termAt}"}){
         _id
@@ -167,6 +174,7 @@ function* updateTaskAsync(action) {
         description
         priority
         status
+        responsiblePersonLastComment
         createdAt
         finishedAt
         termAt
@@ -180,7 +188,7 @@ function* updateTaskAsync(action) {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
-    console.log("saga", taskData.data.data.updateTask);
+    // console.log("saga", taskData.data.data.updateTask);
     yield put({
       type: UPDATE_TASK_SUCCESS,
       payload: taskData.data.data.updateTask

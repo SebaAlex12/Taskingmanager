@@ -27,8 +27,7 @@ const TaskSchema = new Schema({
     required: true
   },
   description: {
-    type: String,
-    required: true
+    type: String
   },
   priority: {
     type: String,
@@ -40,6 +39,9 @@ const TaskSchema = new Schema({
   },
   createdAt: {
     type: String
+  },
+  responsiblePersonLastComment: {
+    type: Boolean
   },
   finishedAt: {
     type: String

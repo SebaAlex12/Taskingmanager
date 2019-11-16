@@ -22,7 +22,8 @@ class TasksListContainer extends Component {
       toggleTasksAddForm: false,
       orderColumn: "status",
       orderDirection: "asc",
-      userTasks: false
+      userTasks: false,
+      activeTaskId: false
     };
   }
   componentDidMount() {
@@ -44,7 +45,8 @@ class TasksListContainer extends Component {
         priorities,
         projectName,
         responsiblePerson
-      }
+      },
+      activeTaskId: false
     });
   }
   componentDidUpdate(prevProps, prevState) {
@@ -64,6 +66,11 @@ class TasksListContainer extends Component {
     // });
     // }
   }
+  setActiveTaskHandler = id => {
+    this.setState({
+      activeTaskId: id
+    });
+  };
   switchTasks = () => {
     const {
       fetchTasks,
@@ -73,7 +80,6 @@ class TasksListContainer extends Component {
     const { userTasks } = this.state;
 
     if (!userTasks) {
-      console.log("user tasks");
       fetchTasks({ createdBy: name });
     } else {
       if (status === "Administrator") {
@@ -84,13 +90,14 @@ class TasksListContainer extends Component {
     }
 
     this.setState({
-      userTasks: !userTasks
+      userTasks: !userTasks,
+      activeTaskId: false
     });
   };
-  removeTaskHandler = id => {
-    const { removeTask } = this.props;
-    removeTask(id);
-  };
+  // removeTaskHandler = id => {
+  //   const { removeTask } = this.props;
+  //   removeTask(id);
+  // };
   updateTaskHandler = data => {
     const { updateTask } = this.props;
     updateTask(data);
@@ -106,7 +113,7 @@ class TasksListContainer extends Component {
       }
       return comparison;
     });
-    return array; // Chainable
+    return array;
   }
   sortItems = (items, column, direction) => {
     if (direction === "asc") {
@@ -177,7 +184,7 @@ class TasksListContainer extends Component {
   };
 
   render() {
-    const { toggleTasksAddForm, filters } = this.state;
+    const { toggleTasksAddForm, filters, activeTaskId } = this.state;
     let tasks = this.state.tasks > 0 ? this.state.tasks : this.props.tasks;
     let tasksListContent;
 
@@ -200,7 +207,9 @@ class TasksListContainer extends Component {
             <TasksItem
               item={task}
               key={task._id}
-              removeTaskHandler={() => this.removeTaskHandler(task.id)}
+              active={task._id == activeTaskId ? true : false}
+              // removeTaskHandler={() => this.removeTaskHandler(task.id)}
+              setActiveTaskHandler={() => this.setActiveTaskHandler(task._id)}
               updateStatusTaskHandler={() =>
                 this.updateTaskHandler({
                   ...task,
@@ -233,7 +242,7 @@ class TasksListContainer extends Component {
               {tasks.length > 0 ? `Liczba tasków: ${tasks.length}` : null}
             </div>
             <form className="task-switcher">
-              <label htmlFor="">Zadania które utworzyłem:</label>
+              <label htmlFor="">Zadania utworzone przeze mnie:</label>
               <label className="switch">
                 <input
                   className="switch-input"
@@ -367,7 +376,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { fetchTasks, removeTask, updateTask }
-)(TasksListContainer);
+export default connect(mapStateToProps, { fetchTasks, removeTask, updateTask })(
+  TasksListContainer
+);
