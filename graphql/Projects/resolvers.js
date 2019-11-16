@@ -8,8 +8,9 @@ module.exports = {
   addProject: async function({ projectInput }, req) {
     const result = await Project.findOne({ name: projectInput.name });
     if (result) {
-      const err = new Error("Project already exists");
-      throw err;
+      // const error = new Error("Project already exists");
+      const error = "Project already exists";
+      throw error;
     }
 
     const project = new Project({

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { addComment } from "../actions";
 import { updateTask } from "../../Tasks/actions";
 import { StyledCommentAddForm } from "../styles/StyledCommentAddForm";
+import { updateMessages } from "../../Messages/actions";
 
 class CommentsAddForm extends Component {
   constructor(props) {
@@ -24,7 +25,8 @@ class CommentsAddForm extends Component {
       taskId,
       responsiblePerson,
       loggedUser,
-      updateTask
+      updateTask,
+      updateMessages
     } = this.props;
     const { description } = this.state;
 
@@ -42,11 +44,14 @@ class CommentsAddForm extends Component {
 
     event.preventDefault();
     // console.log(data);
-    addComment(data);
+    const response = addComment(data);
     updateTask({
       _id: taskId,
       responsiblePersonLastComment: responsiblePersonLastComment
     });
+    if (response) {
+      updateMessages([{ name: "komentarze" }, { value: "komentarz dodany" }]);
+    }
   };
   render() {
     return (
@@ -85,6 +90,8 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { addComment, updateTask })(
-  CommentsAddForm
-);
+export default connect(mapStateToProps, {
+  addComment,
+  updateTask,
+  updateMessages
+})(CommentsAddForm);

@@ -1,4 +1,5 @@
 import { fork, all } from "redux-saga/effects";
+import { updateMessagesWatcher, fetchMessagesWatcher } from "./Messages/saga";
 import {
   fetchTasksWatcher,
   addTaskWatcher,
@@ -24,6 +25,8 @@ import { fetchFiltersWatcher, updateFilterWatcher } from "./Filters/saga";
 
 export default function* rootSaga() {
   yield all([
+    fork(updateMessagesWatcher),
+    fork(fetchMessagesWatcher),
     fork(loginUserWatcher),
     fork(registerUserWatcher),
     fork(updateUserWatcher),

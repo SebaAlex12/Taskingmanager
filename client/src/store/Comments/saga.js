@@ -62,7 +62,7 @@ function* addCommentAsync(action) {
       taskId: "${commentInput.taskId}",
       userId: "${commentInput.userId}",
       createdBy: "${commentInput.createdBy}",
-      description: "${commentInput.description}",
+      description: """${commentInput.description}""",
       createdAt: "${commentInput.createdAt}"}){
         _id
         taskId

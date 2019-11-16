@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { registerUser } from "../actions";
 import { user_statuses } from "../../ini";
 
+import { updateMessages } from "../../Messages/actions";
+
 class RegistryForm extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +31,10 @@ class RegistryForm extends Component {
   registerHandler = event => {
     event.preventDefault();
     const { registerUser } = this.props;
-    registerUser(this.state);
+    const response = registerUser(this.state);
+    if (response) {
+      updateMessages([{ name: "Użytkownik" }, { value: "użytkownik dodany" }]);
+    }
   };
   render() {
     return (
@@ -105,7 +110,6 @@ const mapStateToProps = state => {
   return {};
 };
 
-export default connect(
-  mapStateToProps,
-  { registerUser }
-)(RegistryForm);
+export default connect(mapStateToProps, { registerUser, updateMessages })(
+  RegistryForm
+);

@@ -10,10 +10,10 @@ class CommentsItem extends Component {
     };
   }
   render() {
-    const { item, loggedUser, responsiblePerson } = this.props;
+    const { item, responsiblePerson } = this.props;
     const { toggleDescriptionMore } = this.state;
     const charts = 100;
-    console.log("item user", item);
+    // console.log("item user", item);
 
     const isActive =
       item.createdBy === responsiblePerson
@@ -28,7 +28,9 @@ class CommentsItem extends Component {
     return (
       <li className={isActive}>
         <div className="date">
-          {moment(new Date(item.createdAt)).format("LLLL")}
+          {moment(new Date(item.createdAt))
+            .locale("de")
+            .format("LLLL")}
         </div>
         <div className="creator-name">{item.createdBy}</div>
         <div className="content-box">

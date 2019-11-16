@@ -5,11 +5,13 @@ import { commentsReducer } from "./Comments/reducers";
 import { usersReducer } from "./Users/reducers";
 import { projectsReducer } from "./Projects/reducers";
 import { filtersReducer } from "./Filters/reducers";
+import { messagesReducer } from "./Messages/reducers";
 
 export const reducers = combineReducers({
   tasks: tasksReducer,
   comments: commentsReducer,
   users: usersReducer,
   projects: projectsReducer,
-  filters: filtersReducer
+  filters: filtersReducer,
+  messages: messagesReducer
 });

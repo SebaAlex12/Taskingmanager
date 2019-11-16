@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { addTask } from "../actions";
 import { priorities, statuses } from "../../ini";
-import Messages from "../../common/Messages";
+// import { updateMessages } from "../../Messages/actions";
 
 class TasksAddForm extends Component {
   constructor(props) {
@@ -17,8 +17,7 @@ class TasksAddForm extends Component {
       responsiblePersonLastComment: false,
       priority: "Normalny",
       status: "Do wykonania",
-      termAt: "",
-      messages: []
+      termAt: ""
     };
   }
   onChangeInput = event => {
@@ -63,11 +62,9 @@ class TasksAddForm extends Component {
     event.preventDefault();
 
     const response = addTask(data);
-    if (response) {
-      this.setState({
-        messages: ["Zadanie dodane"]
-      });
-    }
+    // if (response) {
+    //   updateMessages([{ name: "Zadania" }, { value: "zadanie dodane" }]);
+    // }
   };
   render() {
     const { projects, users } = this.props;
@@ -75,7 +72,6 @@ class TasksAddForm extends Component {
 
     return (
       <div className="task-add-form-box">
-        {messages.length > 0 ? <Messages messages={messages} /> : null}
         <form action="">
           <div className="form-group">
             <input

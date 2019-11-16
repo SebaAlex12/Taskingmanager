@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { updateProject } from "../actions";
+import { updateMessages } from "../../Messages/actions";
 
 class ProjectsEditFrom extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class ProjectsEditFrom extends Component {
     });
   };
   updateHandler = event => {
-    const { updateProject } = this.props;
+    const { updateProject, updateMessages } = this.props;
     const { _id, name, description } = this.state;
 
     const data = {
@@ -43,7 +44,13 @@ class ProjectsEditFrom extends Component {
       name,
       description
     };
-    updateProject(data);
+    const response = updateProject(data);
+    if (response) {
+      updateMessages([
+        { name: "Projekty" },
+        { value: "opis został zmieniony" }
+      ]);
+    }
     event.preventDefault();
   };
   render() {
@@ -95,7 +102,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { updateProject }
-)(ProjectsEditFrom);
+export default connect(mapStateToProps, { updateProject, updateMessages })(
+  ProjectsEditFrom
+);

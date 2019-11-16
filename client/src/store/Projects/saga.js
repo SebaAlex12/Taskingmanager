@@ -57,7 +57,7 @@ function* addProjectAsync(action) {
       query: `mutation {
       addProject(projectInput: {
       name: "${projectInput.name}",
-      description: "${projectInput.description}"}){
+      description: """${projectInput.description}"""}){
         _id
         name
         description
@@ -99,7 +99,7 @@ function* updateProjectAsync(action) {
       updateProject(projectInput: {
       _id: "${projectInput._id}",  
       name: "${projectInput.name}",
-      description: "${projectInput.description}"}){
+      description: """${projectInput.description}"""}){
         _id
         name
         description

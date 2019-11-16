@@ -6,6 +6,7 @@ import { updateTask } from "../actions";
 import CommentsAddForm from "../../Comments/components/CommentsAddForm";
 import CommentsList from "../../Comments/components/CommentsList";
 import { priorities, statuses } from "../../ini";
+import { updateMessages } from "../../Messages/actions";
 
 class TasksItem extends Component {
   constructor(props) {
@@ -58,13 +59,16 @@ class TasksItem extends Component {
   };
 
   onClickDescriptionHandler = () => {
-    const { updateTask } = this.props;
+    const { updateTask, updateMessages } = this.props;
     const { _id, description } = this.state;
     const data = {
       _id,
       description
     };
-    console.log("update", updateTask(data));
+    const response = updateTask(data);
+    if (response) {
+      updateMessages([{ name: "Zadanie" }, { value: "opis został zmieniony" }]);
+    }
   };
 
   onKeyUpHandler = event => {
@@ -103,13 +107,19 @@ class TasksItem extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
-    const { updateTask } = this.props;
+    const { updateTask, updateMessages } = this.props;
     const { _id } = this.state;
     const data = {
       _id,
       [event.target.name]: event.target.value
     };
-    console.log("update", updateTask(data));
+    const response = updateTask(data);
+    if (response) {
+      updateMessages([
+        { name: "Zadanie" },
+        { value: event.target.name + " został zmieniony" }
+      ]);
+    }
   };
 
   clear = () => {
@@ -261,4 +271,6 @@ const mapStateToProps = state => {
   return {};
 };
 
-export default connect(mapStateToProps, { updateTask })(TasksItem);
+export default connect(mapStateToProps, { updateTask, updateMessages })(
+  TasksItem
+);

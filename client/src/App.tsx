@@ -13,6 +13,7 @@ import { fetchLoggedUser, fetchUsers } from "./store/Users/actions";
 import LoginForm from "./store/Users/components/LoginForm";
 
 import Dashboard from "./themes/layout/Dashboard";
+import MessagesList from "./store/Messages/components/MessagesList";
 
 if (localStorage.jwtTokenAuthorization) {
   const {
@@ -54,6 +55,7 @@ function App() {
       <ThemeProvider theme={{ mode: "light" }}>
         <Router>
           <div className="App">
+            <MessagesList />
             {!localStorage.jwtTokenAuthorization ||
             localStorage.jwtTokenAuthorization === undefined ? (
               <div className="login-box">
