@@ -36,7 +36,7 @@ module.exports = {
     return { ...storedTask._doc, _id: storedTask._id.toString() };
   },
   updateTask: async function({ taskInput }, req) {
-    // console.log("resolver", taskInput);
+    console.log("resolver input", taskInput);
     const _id = taskInput._id;
     const task = await Task.findOne({ _id });
     const data = {
@@ -63,7 +63,7 @@ module.exports = {
           : task.responsiblePersonLastComment,
       termAt: taskInput.termAt !== "" ? taskInput.termAt : task.termAt
     };
-    // console.log("resolver", data);
+    console.log("resolver", data);
     data.createdAt = task.createdAt;
     task.overwrite(data);
     const storedTask = await task.save();

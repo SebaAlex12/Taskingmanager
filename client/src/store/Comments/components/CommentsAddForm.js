@@ -40,7 +40,7 @@ class CommentsAddForm extends Component {
     const responsiblePersonLastComment =
       loggedUser.name === responsiblePerson ? true : false;
 
-    // console.log(responsiblePersonLastComment);
+    console.log("add comment component", responsiblePersonLastComment);
 
     event.preventDefault();
     // console.log(data);

@@ -13,6 +13,8 @@ import {
   TASKS_ERROR
 } from "./types";
 
+import { isEmpty } from "../../common/is-empty";
+
 function* fetchTasksAsync(action) {
   try {
     const graph = {
@@ -127,7 +129,8 @@ export function* addTaskWatcher() {
 function* updateTaskAsync(action) {
   try {
     const data = action.data;
-    // console.log("saga", data);
+    // console.log("isemty", data.responsiblePersonLastComment);
+    // console.log("task saga data", data);
     const taskInput = {
       _id: data._id,
       userId: 1,
@@ -140,7 +143,10 @@ function* updateTaskAsync(action) {
       priority: data.priority ? data.priority : "",
       status: data.status ? data.status : "",
       responsiblePersonLastComment:
-        data.responsiblePersonLastComment === true ? true : false,
+        data.responsiblePersonLastComment === true ||
+        data.responsiblePersonLastComment === false
+          ? data.responsiblePersonLastComment
+          : "",
       termAt: data.termAt
         ? moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
         : "",
@@ -148,7 +154,7 @@ function* updateTaskAsync(action) {
         ? moment(data.finishedAt, "YYYY-MM-DD HH:mm:ss").format()
         : ""
     };
-    // console.log("saga", taskInput);
+    // console.log("task saga input", taskInput);
     const graph = {
       query: `mutation {
       updateTask(taskInput: {
