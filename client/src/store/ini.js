@@ -6,6 +6,10 @@ export const user_statuses = [
   {
     _id: 2,
     name: "Pracownik"
+  },
+  {
+    _id: 3,
+    name: "Klient"
   }
 ];
 
