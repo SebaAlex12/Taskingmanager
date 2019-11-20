@@ -12,7 +12,7 @@ class Tasks extends Component {
     const { loggedUser } = this.props;
     return (
       <div className="tasks-box">
-        <ProjectsList />
+        {loggedUser.status !== "Klient" ? <ProjectsList /> : null}
         {loggedUser.status === "Administrator" ? <UsersList /> : null}
         {/* <TasksList /> */}
         <FiltersContainer />
@@ -28,7 +28,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {}
-)(Tasks);
+export default connect(mapStateToProps, {})(Tasks);
