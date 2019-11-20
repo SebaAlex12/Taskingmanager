@@ -4,7 +4,7 @@ export const StyledCommentList = styled.div`
   .comments-list-box {
     float: left;
     padding: 0px 15px;
-    width: 460px;
+    width: 464px;
     height: 210px;
     overflow-y: scroll;
   }
