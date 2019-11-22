@@ -25,6 +25,35 @@ export const StyledUserList = styled.div`
   }
   .users-list > div {
     display: block;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .users-list .title {
+    float: left;
+    padding-left: 5px;
+    padding-bottom: 5px;
+  }
+  .users-list .status {
+    background-color: grey;
+    color: #fff;
+    padding: 2px;
+    border-radius: 10px;
+    width: 18px;
+    display: inline-block;
+    font-size: 10px;
+    margin-right: 5px;
+  }
+  .users-list .status.admin {
+    background-color: #c30101;
+  }
+  .users-list .status.employee {
+    background-color: #007bff;
+  }
+  .users-list .status.client {
+    background-color: #179417;
+  }
+  .users-list form > .form-group:first-child {
+    display: none;
   }
   .user-list-flow-box {
     position: fixed;

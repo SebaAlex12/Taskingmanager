@@ -23,9 +23,30 @@ class UsersItem extends Component {
   render() {
     const { item } = this.props;
     const { toggleEditForm } = this.state;
+
+    let clazz;
+
+    switch (item.status) {
+      case "Administrator":
+        clazz = "status admin";
+        break;
+      case "Pracownik":
+        clazz = "status employee";
+        break;
+      case "Klient":
+        clazz = "status client";
+        break;
+      default:
+        clazz = "status default";
+        break;
+    }
+
     return (
       <div className="btn btn-default">
-        <div onClick={this.updateFilterHandler}>{item.name}</div>
+        <div className="title" onClick={this.updateFilterHandler}>
+          <i className={clazz}>{item.status.substr(0, 1)}</i>
+          {item.name}
+        </div>
         <div className="edit-form">
           <i
             className="glyphicon glyphicon-edit"
@@ -44,7 +65,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { updateFilter }
-)(UsersItem);
+export default connect(mapStateToProps, { updateFilter })(UsersItem);

@@ -3,7 +3,7 @@ const crypt = require("../../utils/crypt");
 
 module.exports = {
   fetchProjects: async function() {
-    let projects = await Project.find();
+    let projects = await Project.find(null, null, { sort: { name: 1 } });
     // console.log("projects resolver", projects);
     projects = projects.map(project => {
       if (project.cms && project.cms.length == 65) {

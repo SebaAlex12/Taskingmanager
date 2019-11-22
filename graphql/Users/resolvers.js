@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
   fetchUsers: async function() {
-    const users = await User.find();
+    const users = await User.find(null, null, { sort: { name: 1 } });
     return users;
   },
   createUser: async function({ userInput }, req) {

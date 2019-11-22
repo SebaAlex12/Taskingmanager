@@ -29,6 +29,16 @@ export const StyledProjectList = styled.div`
   }
   .projects-list > div {
     display: block;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .projects-list .title {
+    float: left;
+    padding-left: 5px;
+    padding-bottom: 5px;
+  }
+  .projects-list form > .form-group:first-child {
+    display: none;
   }
   .project-list-flow-box {
     position: fixed;

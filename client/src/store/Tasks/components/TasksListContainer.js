@@ -67,9 +67,16 @@ class TasksListContainer extends Component {
     // }
   }
   setActiveTaskHandler = id => {
-    this.setState({
-      activeTaskId: id
-    });
+    const { activeTaskId } = this.state;
+    if (activeTaskId === id) {
+      this.setState({
+        activeTaskId: false
+      });
+    } else {
+      this.setState({
+        activeTaskId: id
+      });
+    }
   };
   switchTasks = () => {
     const {

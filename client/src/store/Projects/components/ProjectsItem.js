@@ -15,7 +15,7 @@ class ProjectsItem extends Component {
     const { toggleEditForm } = this.state;
     return (
       <div className="btn btn-default">
-        {item.name}
+        <div className="title">{item.name}</div>
         <div className="edit-form">
           <i
             className="glyphicon glyphicon-edit"
@@ -32,7 +32,4 @@ const mapStateToProps = state => {
   return {};
 };
 
-export default connect(
-  mapStateToProps,
-  {}
-)(ProjectsItem);
+export default connect(mapStateToProps, {})(ProjectsItem);
