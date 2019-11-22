@@ -38,9 +38,11 @@ module.exports = {
       email: userInput.email,
       password: hash,
       status: userInput.status,
+      projects: userInput.projects,
+      users: userInput.users,
       createdAt: userInput.createdAt
     });
-
+    // console.log("user", userInput);
     const storedUser = await user.save();
 
     return { ...storedUser._doc, _id: storedUser._id.toString() };
@@ -64,13 +66,15 @@ module.exports = {
       const err = new Error("Password incorrect");
       throw err;
     }
-
+    // console.log("resolverlogin", userData);
     const token = await jwt.sign(
       {
         _id: userData._id.toString(),
         name: userData.name,
         email: userData.email,
         status: userData.status,
+        projects: userData.projects ? userData.projects : "",
+        users: userData.users ? userData.users : "",
         createdAt: userData.createdAt,
         tokenCreatedAt: new Date(),
         logged: true
@@ -80,6 +84,8 @@ module.exports = {
         expiresIn: "1h"
       }
     );
+
+    // console.log("user doc", userData._doc);
 
     return { ...userData._doc, _id: userData._id.toString(), token: token };
   },
@@ -95,10 +101,12 @@ module.exports = {
     const data = {
       name: userInput.name,
       email: userInput.email,
-      // password: hash,
-      status: userInput.status
+      password: user.password,
+      status: userInput.status,
+      projects: userInput.projects ? userInput.projects : "",
+      users: userInput.users ? userInput.users : ""
     };
-
+    // console.log("pass", userInput.password.length);
     if (userInput.password.length > 0) {
       const salt = bcrypt.genSaltSync(14);
       const hash = bcrypt.hashSync(userInput.password, salt);

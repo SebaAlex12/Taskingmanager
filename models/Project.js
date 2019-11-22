@@ -8,6 +8,15 @@ const ProjectSchema = new Schema({
   },
   description: {
     type: String
+  },
+  cms: {
+    type: String
+  },
+  ftp: {
+    type: String
+  },
+  panel: {
+    type: String
   }
 });
 

@@ -21,6 +21,8 @@ if (localStorage.jwtTokenAuthorization) {
     name,
     email,
     status,
+    projects,
+    users,
     createdAt,
     tokenCreatedAt,
     logged
@@ -38,6 +40,8 @@ if (localStorage.jwtTokenAuthorization) {
         name,
         email,
         status,
+        projects,
+        users,
         createdAt,
         tokenCreatedAt,
         logged

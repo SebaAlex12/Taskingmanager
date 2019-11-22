@@ -21,6 +21,9 @@ function* fetchProjectsAsync() {
             _id
             name
             description
+            cms
+            ftp
+            panel
           }
         }
     `
@@ -50,17 +53,26 @@ function* addProjectAsync(action) {
     const data = action.data;
     const projectInput = {
       name: data.name,
-      description: data.description
+      description: data.description,
+      cms: data.cms,
+      ftp: data.ftp,
+      panel: data.panel
     };
 
     const graph = {
       query: `mutation {
       addProject(projectInput: {
       name: "${projectInput.name}",
-      description: """${projectInput.description}"""}){
+      description: """${projectInput.description}""",
+      cms: """${projectInput.cms}""",
+      ftp: """${projectInput.ftp}""",
+      panel: """${projectInput.panel}"""}){
         _id
         name
         description
+        cms
+        ftp
+        panel
       }
     }`
     };
@@ -91,7 +103,10 @@ function* updateProjectAsync(action) {
     const projectInput = {
       _id: data._id,
       name: data.name ? data.name : "",
-      description: data.description ? data.description : ""
+      description: data.description ? data.description : "",
+      cms: data.cms ? data.cms : "",
+      ftp: data.ftp ? data.ftp : "",
+      panel: data.panel ? data.panel : ""
     };
 
     const graph = {
@@ -99,10 +114,16 @@ function* updateProjectAsync(action) {
       updateProject(projectInput: {
       _id: "${projectInput._id}",  
       name: "${projectInput.name}",
-      description: """${projectInput.description}"""}){
+      description: """${projectInput.description}""",
+      cms: """${projectInput.cms}""",
+      ftp: """${projectInput.ftp}""",
+      panel: """${projectInput.panel}"""}){
         _id
         name
         description
+        cms
+        ftp
+        panel
       }
     }`
     };

@@ -7,7 +7,13 @@ import UsersList from "../store/Users/components/UsersList";
 import ProjectsList from "../store/Projects/components/ProjectsList";
 import FiltersContainer from "../store/Filters/components/FiltersContainer";
 
+import { fetchProjects } from "../store/Projects/actions";
+
 class Tasks extends Component {
+  componentDidMount() {
+    const { fetchProjects } = this.props;
+    fetchProjects();
+  }
   render() {
     const { loggedUser } = this.props;
     return (
@@ -28,4 +34,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {})(Tasks);
+export default connect(mapStateToProps, { fetchProjects })(Tasks);

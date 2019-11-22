@@ -8,6 +8,8 @@ module.exports = buildSchema(`
         email: String!
         password: String
         status: String!
+        projects: String
+        users: String
         createdAt: String
     }
 
@@ -62,6 +64,9 @@ module.exports = buildSchema(`
         _id: ID!
         name: String!
         description: String
+        cms: String
+        ftp: String
+        panel: String
     }
 
     input UserInputData {
@@ -70,6 +75,8 @@ module.exports = buildSchema(`
         email: String!
         password: String
         status: String!
+        projects: String
+        users: String
         createdAt: String
     }
 
@@ -121,6 +128,9 @@ module.exports = buildSchema(`
         _id: String
         name: String!
         description: String
+        cms: String
+        ftp: String
+        panel: String
     }
 
     type UserLoginData {
@@ -130,6 +140,8 @@ module.exports = buildSchema(`
         createdAt: String!
         password: String!
         status: String!
+        projects: String
+        users: String
         token: String!
     }
 

@@ -1,8 +1,22 @@
 const Project = require("../../models/Project");
+const crypt = require("../../utils/crypt");
 
 module.exports = {
   fetchProjects: async function() {
-    const projects = await Project.find();
+    let projects = await Project.find();
+    // console.log("projects resolver", projects);
+    projects = projects.map(project => {
+      if (project.cms && project.cms.length == 65) {
+        project.cms = crypt.decrypt(project.cms);
+      }
+      if (project.ftp && project.ftp.length == 65) {
+        project.ftp = crypt.decrypt(project.ftp);
+      }
+      if (project.panel && project.panel.length == 65) {
+        project.panel = crypt.decrypt(project.panel);
+      }
+      return project;
+    });
     return projects;
   },
   addProject: async function({ projectInput }, req) {
@@ -15,7 +29,10 @@ module.exports = {
 
     const project = new Project({
       name: projectInput.name,
-      description: projectInput.description
+      description: projectInput.description,
+      cms: crypt.encrypt(projectInput.cms),
+      ftp: crypt.encrypt(projectInput.ftp),
+      panel: crypt.encrypt(projectInput.panel)
     });
     const storedProject = await project.save();
 
@@ -25,15 +42,24 @@ module.exports = {
     const _id = projectInput._id;
     const project = await Project.findOne({ _id });
     // console.log("project input", projectInput);
+
     const data = {
       _id: projectInput._id,
       name: projectInput.name !== "" ? projectInput.name : project.name,
       description:
         projectInput.description !== ""
           ? projectInput.description
-          : project.description
+          : project.description,
+      cms:
+        projectInput.cms !== "" ? crypt.encrypt(projectInput.cms) : project.cms,
+      ftp:
+        projectInput.ftp !== "" ? crypt.encrypt(projectInput.ftp) : project.ftp,
+      panel:
+        projectInput.panel !== ""
+          ? crypt.encrypt(projectInput.panel)
+          : project.panel
     };
-
+    // console.log("project resolver", data);
     project.overwrite(data);
     const storedProject = await project.save();
     // console.log("stored project", storedProject);

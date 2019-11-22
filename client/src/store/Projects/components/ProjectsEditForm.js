@@ -10,17 +10,23 @@ class ProjectsEditFrom extends Component {
     this.state = {
       id: "",
       name: "",
-      description: ""
+      description: "",
+      cms: "",
+      ftp: "",
+      panel: ""
     };
   }
   componentDidMount() {
     const {
-      item: { _id, name, description }
+      item: { _id, name, description, cms, ftp, panel }
     } = this.props;
     this.setState({
       _id,
       name,
-      description
+      description,
+      cms,
+      ftp,
+      panel
     });
   }
   onChangeInput = event => {
@@ -37,12 +43,15 @@ class ProjectsEditFrom extends Component {
   };
   updateHandler = event => {
     const { updateProject, updateMessages } = this.props;
-    const { _id, name, description } = this.state;
+    const { _id, name, description, cms, ftp, panel } = this.state;
 
     const data = {
       _id,
       name,
-      description
+      description,
+      cms,
+      ftp,
+      panel
     };
     const response = updateProject(data);
     if (response) {
@@ -54,7 +63,7 @@ class ProjectsEditFrom extends Component {
     event.preventDefault();
   };
   render() {
-    const { name, description } = this.state;
+    const { name, description, cms, ftp, panel } = this.state;
     return (
       <div className="project-update-form-box">
         <form action="">
@@ -66,6 +75,7 @@ class ProjectsEditFrom extends Component {
               value={name}
               className="form-control"
               placeholder="Nazwa"
+              title="Nazwa domeny"
               disabled
               required
             />
@@ -79,7 +89,40 @@ class ProjectsEditFrom extends Component {
               className="form-control"
               rows="5"
               placeholder="Opis"
-              required
+              title="Opis"
+            />
+          </div>
+          <div className="form-group">
+            <input
+              onChange={this.onChangeInput}
+              type="text"
+              name="cms"
+              value={cms}
+              className="form-control"
+              placeholder="Cms hasło"
+              title="Cms hasło"
+            />
+          </div>
+          <div className="form-group">
+            <input
+              onChange={this.onChangeInput}
+              type="text"
+              name="ftp"
+              value={ftp}
+              className="form-control"
+              placeholder="Ftp hasło"
+              title="Ftp hasło"
+            />
+          </div>
+          <div className="form-group">
+            <input
+              onChange={this.onChangeInput}
+              type="text"
+              name="panel"
+              value={panel}
+              className="form-control"
+              placeholder="Panel hasło"
+              title="Panel hasło"
             />
           </div>
           <div className="form-group">

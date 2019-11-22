@@ -13,7 +13,9 @@ class RegistryForm extends Component {
       name: "",
       email: "",
       password: "",
-      status: ""
+      status: "",
+      projects: [],
+      users: []
     };
   }
   onChangeInput = event => {
@@ -28,15 +30,28 @@ class RegistryForm extends Component {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
+  onChangeMultiSelect = event => {
+    var options = event.target.options;
+    var value = [];
+    for (var i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    this.setState({ [event.target.name]: value });
+  };
   registerHandler = event => {
     event.preventDefault();
-    const { registerUser } = this.props;
+    const { registerUser, updateMessages } = this.props;
     const response = registerUser(this.state);
     if (response) {
       updateMessages([{ name: "Użytkownik" }, { value: "użytkownik dodany" }]);
     }
   };
   render() {
+    const { projects, users } = this.props;
+    const { status } = this.state;
+    console.log("state", this.state);
     return (
       <div
         className="registry-form-box mt-3 mb-3"
@@ -92,6 +107,52 @@ class RegistryForm extends Component {
                 : null}
             </select>
           </div>
+          {status === "Klient" ? (
+            <React.Fragment>
+              <div className="form-group form-row">
+                <select
+                  className="form-control"
+                  onChange={this.onChangeMultiSelect}
+                  name="projects"
+                  multiple={true}
+                  value={this.state.value}
+                  required
+                >
+                  <option value="">[Przypisz projekty]</option>
+                  {projects
+                    ? projects.map(project => {
+                        return (
+                          <option key={project._id} value={project.name}>
+                            {project.name}
+                          </option>
+                        );
+                      })
+                    : null}
+                </select>
+              </div>
+              <div className="form-group form-row">
+                <select
+                  className="form-control"
+                  onChange={this.onChangeMultiSelect}
+                  name="users"
+                  multiple={true}
+                  value={this.state.value}
+                  required
+                >
+                  <option value="">[Przypisz osoby]</option>
+                  {users
+                    ? users.map(user => {
+                        return (
+                          <option key={user._id} value={user.name}>
+                            {user.name}
+                          </option>
+                        );
+                      })
+                    : null}
+                </select>
+              </div>
+            </React.Fragment>
+          ) : null}
           <div className="form-group">
             <input
               onClick={this.registerHandler}
@@ -107,7 +168,10 @@ class RegistryForm extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    projects: state.projects.projects,
+    users: state.users.users
+  };
 };
 
 export default connect(mapStateToProps, { registerUser, updateMessages })(

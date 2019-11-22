@@ -9,7 +9,10 @@ class ProjectsAddForm extends Component {
     super(props);
     this.state = {
       name: "",
-      description: ""
+      description: "",
+      cms: "",
+      ftp: "",
+      panel: ""
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -31,11 +34,14 @@ class ProjectsAddForm extends Component {
   };
   addHandler = event => {
     const { addProject, updateMessages } = this.props;
-    const { name, description } = this.state;
+    const { name, description, cms, ftp, panel } = this.state;
 
     const data = {
       name,
-      description
+      description,
+      cms,
+      ftp,
+      panel
     };
 
     event.preventDefault();
@@ -56,6 +62,7 @@ class ProjectsAddForm extends Component {
               name="name"
               className="form-control"
               placeholder="Nazwa"
+              title="Nazwa domeny"
               required
             />
           </div>
@@ -67,7 +74,38 @@ class ProjectsAddForm extends Component {
               className="form-control"
               rows="5"
               placeholder="Opis"
+              title="Opis"
               required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              onChange={this.onChangeInput}
+              type="text"
+              name="cms"
+              className="form-control"
+              placeholder="Cms hasło"
+              title="Cms hasło"
+            />
+          </div>
+          <div className="form-group">
+            <input
+              onChange={this.onChangeInput}
+              type="text"
+              name="ftp"
+              className="form-control"
+              placeholder="Ftp hasło"
+              title="Ftp hasło"
+            />
+          </div>
+          <div className="form-group">
+            <input
+              onChange={this.onChangeInput}
+              type="text"
+              name="panel"
+              className="form-control"
+              placeholder="Panel hasło"
+              title="Panel hasło"
             />
           </div>
           <div className="form-group">

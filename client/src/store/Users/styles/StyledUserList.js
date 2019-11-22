@@ -32,4 +32,8 @@ export const StyledUserList = styled.div`
     left: 120px;
     z-index: 100;
   }
+  .users-list .user-update-form-box select[name="projects"],
+  .users-list .user-update-form-box select[name="users"] {
+    height: 150px;
+  }
 `;

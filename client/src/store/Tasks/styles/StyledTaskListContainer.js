@@ -60,7 +60,7 @@ export const StyledTaskListContainer = styled.div`
   }
   .task-items-box > table > tbody .desc-box i {
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 10px;
     display: block;
     cursor: pointer;

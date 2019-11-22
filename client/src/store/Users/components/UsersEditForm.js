@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { updateUser } from "../actions";
 import { user_statuses } from "../../ini";
 
+import { updateMessages } from "../../Messages/actions";
+
 class UsersEditFrom extends Component {
   constructor(props) {
     super(props);
@@ -11,19 +13,23 @@ class UsersEditFrom extends Component {
       name: "",
       email: "",
       password: "",
-      status: ""
+      status: "",
+      projects: [],
+      users: []
     };
   }
   componentDidMount() {
     const {
-      item: { _id, name, email, password, status }
+      item: { _id, name, email, status, projects, users }
     } = this.props;
+
     this.setState({
       _id,
       name,
       email,
-      password,
-      status
+      status,
+      projects: projects ? projects.split(",") : [],
+      users: users ? users.split(",") : []
     });
   }
   onChangeInput = event => {
@@ -38,24 +44,43 @@ class UsersEditFrom extends Component {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
+  onChangeMultiSelect = event => {
+    var options = event.target.options;
+    var value = [];
+    for (var i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    this.setState({ [event.target.name]: value });
+  };
   updateHandler = event => {
-    const { updateUser } = this.props;
-    const { _id, name, email, password, status } = this.state;
+    const { updateUser, updateMessages } = this.props;
+    const { _id, name, email, password, status, projects, users } = this.state;
 
     const data = {
       _id,
       name,
       email,
       password,
-      status
+      status,
+      projects,
+      users
     };
 
-    updateUser(data);
+    const response = updateUser(data);
+    if (response) {
+      updateMessages([
+        { name: "Użytkownik" },
+        { value: "dane zostały zmienione" }
+      ]);
+    }
     event.preventDefault();
   };
   render() {
     const { name, email, password, status } = this.state;
-
+    const { projects, users } = this.props;
+    // console.log("usereditstate", this.state);
     return (
       <div
         className="user-update-form-box mt-3 mb-3"
@@ -119,6 +144,62 @@ class UsersEditFrom extends Component {
                 : null}
             </select>
           </div>
+          {status === "Klient" ? (
+            <React.Fragment>
+              <div className="form-group form-row">
+                <select
+                  className="form-control"
+                  onChange={this.onChangeMultiSelect}
+                  name="projects"
+                  multiple={true}
+                  value={this.state.projects}
+                  // defaultValue={this.state.projects}
+                  required
+                >
+                  <option value="">[Przypisz projekty]</option>
+                  {projects
+                    ? projects.map(project => {
+                        return (
+                          <option
+                            key={project._id}
+                            value={project.name}
+                            selected={
+                              this.state.projects.includes(project.name)
+                                ? "selected"
+                                : null
+                            }
+                          >
+                            {project.name}
+                          </option>
+                        );
+                      })
+                    : null}
+                </select>
+              </div>
+              <div className="form-group form-row">
+                <select
+                  className="form-control"
+                  onChange={this.onChangeMultiSelect}
+                  name="users"
+                  multiple={true}
+                  value={this.state.users}
+                  // defaultValue={this.state.users}
+                  required
+                >
+                  <option value="">[Przypisz osoby]</option>
+                  {users
+                    ? users.map(user => {
+                        return (
+                          <option key={user._id} value={user.name}>
+                            {user.name}
+                          </option>
+                        );
+                      })
+                    : null}
+                </select>
+              </div>
+            </React.Fragment>
+          ) : null}
           <div className="form-group">
             <input
               onClick={this.updateHandler}
@@ -135,11 +216,12 @@ class UsersEditFrom extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: state.users.logged_user
+    loggedUser: state.users.logged_user,
+    projects: state.projects.projects,
+    users: state.users.users
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { updateUser }
-)(UsersEditFrom);
+export default connect(mapStateToProps, { updateUser, updateMessages })(
+  UsersEditFrom
+);

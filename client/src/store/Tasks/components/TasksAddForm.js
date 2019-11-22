@@ -67,8 +67,15 @@ class TasksAddForm extends Component {
     // }
   };
   render() {
-    const { projects, users } = this.props;
+    const { projects, users, loggedUser } = this.props;
     const { priority, status, messages } = this.state;
+
+    // console.log(projects);
+
+    const loggedUserProjects = loggedUser.projects
+      ? loggedUser.projects.split(",")
+      : [];
+    const loggedUserUsers = loggedUser.users ? loggedUser.users.split(",") : [];
 
     return (
       <div className="task-add-form-box">
@@ -138,11 +145,19 @@ class TasksAddForm extends Component {
               <option value="">Przypisz do</option>
               {users
                 ? users.map(user => {
-                    return (
-                      <option key={user._id} value={user.name}>
-                        {user.name}
-                      </option>
-                    );
+                    let option = "";
+                    if (
+                      loggedUser.status !== "Klient" ||
+                      loggedUserUsers.includes(user.name)
+                    ) {
+                      option = (
+                        <option key={user._id} value={user.name}>
+                          {user.name}
+                        </option>
+                      );
+                      return option;
+                    }
+                    return;
                   })
                 : null}
             </select>
@@ -157,11 +172,19 @@ class TasksAddForm extends Component {
               <option value="">Projekt</option>
               {projects
                 ? projects.map(project => {
-                    return (
-                      <option key={project._id} value={project.name}>
-                        {project.name}
-                      </option>
-                    );
+                    let option = "";
+                    if (
+                      loggedUser.status !== "Klient" ||
+                      loggedUserProjects.includes(project.name)
+                    ) {
+                      option = (
+                        <option key={project._id} value={project.name}>
+                          {project.name}
+                        </option>
+                      );
+                      return option;
+                    }
+                    return;
                   })
                 : null}
             </select>

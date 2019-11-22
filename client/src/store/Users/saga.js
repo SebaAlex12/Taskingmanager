@@ -25,6 +25,8 @@ function* loginUserAsync(action) {
             name
             email
             status
+            projects
+            users
             createdAt
             token
           }
@@ -60,15 +62,24 @@ export function* loginUserWatcher() {
 function* registerUserAsync(action) {
   try {
     const presentDate = moment(new Date(), "YYYY-MM-DD HH:mm:ss").format();
-
+    // console.log("action", action);
     const graph = {
       query: `mutation {
-      createUser(userInput: {name: "${action.data.name}", email: "${action.data.email}", password: "${action.data.password}", status: "${action.data.status}", createdAt: "${presentDate}"}){
+      createUser(userInput: {
+        name: "${action.data.name}", 
+        email: "${action.data.email}", 
+        password: "${action.data.password}", 
+        status: "${action.data.status}",
+        projects: "${action.data.projects}",
+        users: "${action.data.users}", 
+        createdAt: "${presentDate}"}){
         _id
         name
         email
         password
         status
+        projects
+        users
         createdAt
       }
     }`
@@ -116,6 +127,8 @@ function* fetchUsersAsync(action) {
             name
             email
             status
+            projects
+            users
             createdAt
           }
         }
@@ -146,7 +159,9 @@ function* updateUserAsync(action) {
       name: data.name ? data.name : "",
       email: data.email ? data.email : "",
       password: data.password ? data.password : "",
-      status: data.status ? data.status : ""
+      status: data.status ? data.status : "",
+      projects: data.projects ? data.projects : "",
+      users: data.users ? data.users : ""
     };
 
     const graph = {
@@ -156,11 +171,15 @@ function* updateUserAsync(action) {
       name: "${userInput.name}",
       email: "${userInput.email}",
       password: "${userInput.password}",
-      status: "${userInput.status}"}){
+      status: "${userInput.status}",
+      projects: "${userInput.projects}",
+      users: "${userInput.users}"}){
         _id
         name
         email
         status
+        projects
+        users
       }
     }`
     };
