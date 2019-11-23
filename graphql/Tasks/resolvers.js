@@ -4,12 +4,21 @@ const Comment = require("../../models/Comment");
 module.exports = {
   fetchTasks: async function({ taskInput }) {
     let params = {};
+    // console.log("fetch tasks input", taskInput);
 
-    if (taskInput.responsiblePerson !== "undefined")
+    if (taskInput.projectName && taskInput.projectName !== "undefined")
+      params.projectName = taskInput.projectName;
+
+    if (
+      taskInput.responsiblePerson &&
+      taskInput.responsiblePerson !== "undefined"
+    )
       params.responsiblePerson = taskInput.responsiblePerson;
 
-    if (taskInput.createdBy !== "undefined")
+    if (taskInput.createdBy && taskInput.createdBy !== "undefined")
       params.createdBy = taskInput.createdBy;
+
+    // console.log("task resolver params", params);
 
     let tasks = await Task.find(params);
 

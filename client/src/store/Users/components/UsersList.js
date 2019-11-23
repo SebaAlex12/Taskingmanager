@@ -18,10 +18,6 @@ class UsersList extends Component {
       toggleUsersList: false
     };
   }
-  componentDidMount() {
-    const { fetchUsers } = this.props;
-    fetchUsers();
-  }
   removeUserHandler = id => {
     const { removeUser } = this.props;
     removeUser(id);
@@ -30,26 +26,28 @@ class UsersList extends Component {
     const { updateUser } = this.props;
     updateUser(data);
   };
-  userNameHandler(name) {
-    // const {
-    //   updateFilter,
-    //   filters: { statuses, priorities, projectName }
-    // } = this.props;
-    // console.log(name);
-    // const response = updateFilter({
-    //   priorities,
-    //   statuses,
-    //   projectName,
-    //   responsiblePerson: name
-    // });
-  }
+  removeProjectFilterResponsiblePersonHandler = () => {
+    const {
+      updateFilter,
+      filters: { statuses, priorities, projectName }
+    } = this.props;
+    updateFilter({ statuses, priorities, projectName, responsiblePerson: "" });
+  };
   render() {
-    const { users, loggedUser } = this.props;
+    const {
+      users,
+      loggedUser,
+      filters: { responsiblePerson }
+    } = this.props;
     const { toggleRegistryForm, toggleUsersList } = this.state;
     const usersContent = users.map(user => {
       return <UsersItem item={user} key={user._id} />;
     });
     const windowHeight = window.innerHeight - 50;
+    const clazz =
+      responsiblePerson !== ""
+        ? "glyphicon glyphicon-filter active"
+        : "glyphicon glyphicon-filter";
     return (
       <StyledUserList>
         <div className="users-box">
@@ -79,6 +77,14 @@ class UsersList extends Component {
             >
               Lista użytkowników
             </Button>
+            <i
+              className={clazz}
+              onClick={
+                responsiblePerson !== ""
+                  ? this.removeProjectFilterResponsiblePersonHandler
+                  : null
+              }
+            ></i>
             {toggleUsersList ? (
               <div
                 className="users-list"
@@ -102,7 +108,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { fetchUsers, removeUser, updateUser, updateFilter }
-)(UsersList);
+export default connect(mapStateToProps, {
+  fetchUsers,
+  removeUser,
+  updateUser,
+  updateFilter
+})(UsersList);

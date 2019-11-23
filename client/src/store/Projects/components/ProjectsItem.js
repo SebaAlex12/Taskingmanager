@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import ProjectsEditForm from "./ProjectsEditForm";
+import { updateFilter } from "../../Filters/actions";
 
 class ProjectsItem extends Component {
   constructor(props) {
@@ -10,12 +11,34 @@ class ProjectsItem extends Component {
       toggleEditForm: false
     };
   }
+  updateFilterHandler = () => {
+    const {
+      item,
+      filters: { statuses, priorities, responsiblePerson },
+      updateFilter
+    } = this.props;
+    const projectName = item.name;
+    updateFilter({ statuses, priorities, projectName, responsiblePerson });
+  };
   render() {
-    const { item } = this.props;
+    const {
+      item,
+      filters: { projectName }
+    } = this.props;
     const { toggleEditForm } = this.state;
+
+    let clazz_box;
+
+    clazz_box =
+      item.name === projectName
+        ? "btn btn-default selected"
+        : "btn btn-default";
+
     return (
-      <div className="btn btn-default">
-        <div className="title">{item.name}</div>
+      <div className={clazz_box}>
+        <div className="title" onClick={this.updateFilterHandler}>
+          {item.name}
+        </div>
         <div className="edit-form">
           <i
             className="glyphicon glyphicon-edit"
@@ -29,7 +52,9 @@ class ProjectsItem extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    filters: state.filters.filters
+  };
 };
 
-export default connect(mapStateToProps, {})(ProjectsItem);
+export default connect(mapStateToProps, { updateFilter })(ProjectsItem);

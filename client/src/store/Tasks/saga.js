@@ -20,7 +20,10 @@ function* fetchTasksAsync(action) {
     const graph = {
       query: `
         query {
-          fetchTasks(taskInput:{createdBy: "${action.data.createdBy}", responsiblePerson: "${action.data.responsiblePerson}"}){
+          fetchTasks(taskInput:{
+            projectName: "${action.data.projectName}",
+            createdBy: "${action.data.createdBy}", 
+            responsiblePerson: "${action.data.responsiblePerson}"}){
             _id
             createdBy
             projectId

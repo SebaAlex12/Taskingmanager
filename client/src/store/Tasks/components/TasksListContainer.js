@@ -7,6 +7,7 @@ import { StyledTaskListContainer } from "../styles/StyledTaskListContainer";
 import TasksItem from "./TasksItem";
 import TaskAddForm from "./TasksAddForm";
 import { fetchTasks, removeTask, updateTask } from "../actions";
+import { updateFilter } from "../../Filters/actions";
 
 class TasksListContainer extends Component {
   constructor(props) {
@@ -28,18 +29,14 @@ class TasksListContainer extends Component {
   }
   componentDidMount() {
     const {
-      fetchTasks,
-      loggedUser: { status, name },
+      tasks,
       filters: { statuses, priorities, projectName, responsiblePerson }
     } = this.props;
 
-    if (status === "Administrator") {
-      fetchTasks({ statuses });
-    } else {
-      fetchTasks({ responsiblePerson: name });
-    }
+    // console.log("tasks filters", this.props.filters);
 
     this.setState({
+      tasks,
       filters: {
         statuses,
         priorities,
@@ -48,23 +45,6 @@ class TasksListContainer extends Component {
       },
       activeTaskId: false
     });
-  }
-  componentDidUpdate(prevProps, prevState) {
-    // console.log("this props", this.props);
-    // const { tasks } = this.props;
-    // if (
-    //   this.props.filters.responsiblePerson !==
-    //   prevProps.filters.responsiblePerson
-    // ) {
-    // console.log("tasks", prevState);
-    // this.setState({
-    //   ...this.state,
-    //   tasks,
-    //   filters: {
-    //     responsiblePerson: this.state.filters.responsiblePerson
-    //   }
-    // });
-    // }
   }
   setActiveTaskHandler = id => {
     const { activeTaskId } = this.state;
@@ -81,10 +61,18 @@ class TasksListContainer extends Component {
   switchTasks = () => {
     const {
       fetchTasks,
+      updateFilter,
       loggedUser: { status, name },
-      filters: { statuses }
+      filters: { statuses, priorities }
     } = this.props;
     const { userTasks } = this.state;
+
+    updateFilter({
+      statuses,
+      priorities,
+      projectName: "",
+      responsiblePerson: ""
+    });
 
     if (!userTasks) {
       fetchTasks({ createdBy: name });
@@ -197,7 +185,7 @@ class TasksListContainer extends Component {
 
     // console.log("statttttteeeee", this.state);
     // filter tasks
-    if (tasks.length > 0) {
+    if (tasks && tasks.length > 0) {
       tasks =
         filters.priorities.length > 0 &&
         filters.statuses.length > 0 &&
@@ -383,6 +371,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { fetchTasks, removeTask, updateTask })(
-  TasksListContainer
-);
+export default connect(mapStateToProps, {
+  updateFilter,
+  fetchTasks,
+  removeTask,
+  updateTask
+})(TasksListContainer);

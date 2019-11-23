@@ -21,12 +21,15 @@ export const StyledUserList = styled.div`
     left: 0px;
     z-index: 100;
     overflow-y: auto;
-    width: 260px;
+    width: 190px;
   }
   .users-list > div {
     display: block;
     padding-left: 0px;
     padding-right: 0px;
+  }
+  .users-list > div.selected {
+    background-color: #e2e2e2;
   }
   .users-list .title {
     float: left;
@@ -55,14 +58,35 @@ export const StyledUserList = styled.div`
   .users-list form > .form-group:first-child {
     display: none;
   }
-  .user-list-flow-box {
-    position: fixed;
-    top: 0px;
-    left: 120px;
-    z-index: 100;
-  }
   .users-list .user-update-form-box select[name="projects"],
   .users-list .user-update-form-box select[name="users"] {
     height: 150px;
+  }
+  .user-list-flow-box {
+    position: fixed;
+    top: 0px;
+    left: 132px;
+    z-index: 100;
+  }
+  .user-list-flow-box button {
+    padding-right: 22px;
+  }
+  .user-list-flow-box .glyphicon-filter {
+    margin-left: 4px;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1000;
+    right: 5px;
+    top: 8px;
+  }
+  .user-list-flow-box .glyphicon-filter:before {
+    color: grey;
+    opacity: 0.5;
+    cursor: default;
+  }
+  .user-list-flow-box .glyphicon-filter.active:before {
+    color: red;
+    opacity: 1;
+    cursor: pointer;
   }
 `;

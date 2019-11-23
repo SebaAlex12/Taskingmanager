@@ -21,10 +21,19 @@ class UsersItem extends Component {
     updateFilter({ statuses, priorities, projectName, responsiblePerson });
   };
   render() {
-    const { item } = this.props;
+    const {
+      item,
+      filters: { responsiblePerson }
+    } = this.props;
     const { toggleEditForm } = this.state;
 
+    let clazz_box;
     let clazz;
+
+    clazz_box =
+      item.name === responsiblePerson
+        ? "btn btn-default selected"
+        : "btn btn-default";
 
     switch (item.status) {
       case "Administrator":
@@ -42,7 +51,7 @@ class UsersItem extends Component {
     }
 
     return (
-      <div className="btn btn-default">
+      <div className={clazz_box}>
         <div className="title" onClick={this.updateFilterHandler}>
           <i className={clazz}>{item.status.substr(0, 1)}</i>
           {item.name}
