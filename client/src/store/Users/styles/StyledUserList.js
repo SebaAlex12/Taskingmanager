@@ -21,7 +21,7 @@ export const StyledUserList = styled.div`
     left: 0px;
     z-index: 100;
     overflow-y: auto;
-    width: 190px;
+    width: 260px;
   }
   .users-list > div {
     display: block;
@@ -35,6 +35,8 @@ export const StyledUserList = styled.div`
     float: left;
     padding-left: 5px;
     padding-bottom: 5px;
+    width: 85%;
+    text-align: left;
   }
   .users-list .status {
     background-color: grey;
@@ -45,6 +47,7 @@ export const StyledUserList = styled.div`
     display: inline-block;
     font-size: 10px;
     margin-right: 5px;
+    text-align: center;
   }
   .users-list .status.admin {
     background-color: #c30101;

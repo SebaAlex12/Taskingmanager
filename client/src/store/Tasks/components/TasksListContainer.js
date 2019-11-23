@@ -14,12 +14,6 @@ class TasksListContainer extends Component {
     super(props);
     this.state = {
       tasks: [],
-      filters: {
-        statuses: [],
-        priorities: [],
-        projectName: "",
-        responsiblePerson: ""
-      },
       toggleTasksAddForm: false,
       orderColumn: "status",
       orderDirection: "asc",
@@ -37,12 +31,6 @@ class TasksListContainer extends Component {
 
     this.setState({
       tasks,
-      filters: {
-        statuses,
-        priorities,
-        projectName,
-        responsiblePerson
-      },
       activeTaskId: false
     });
   }
@@ -179,8 +167,9 @@ class TasksListContainer extends Component {
   };
 
   render() {
-    const { toggleTasksAddForm, filters, activeTaskId } = this.state;
+    const { toggleTasksAddForm, activeTaskId } = this.state;
     let tasks = this.state.tasks > 0 ? this.state.tasks : this.props.tasks;
+    const { filters } = this.props;
     let tasksListContent;
 
     // console.log("statttttteeeee", this.state);

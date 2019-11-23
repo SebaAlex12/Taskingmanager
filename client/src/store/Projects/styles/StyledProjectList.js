@@ -39,6 +39,8 @@ export const StyledProjectList = styled.div`
     float: left;
     padding-left: 5px;
     padding-bottom: 5px;
+    width: 85%;
+    text-align: left;
   }
   .projects-list form > .form-group:first-child {
     display: none;
