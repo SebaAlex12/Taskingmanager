@@ -109,7 +109,7 @@ class TasksAddForm extends Component {
               value={priority}
               required
             >
-              <option value="">Priorytet</option>
+              <option value="">Wybierz priorytet</option>
               {priorities
                 ? priorities.map(prt => {
                     return (
@@ -169,7 +169,7 @@ class TasksAddForm extends Component {
               name="projectName"
               required
             >
-              <option value="">Projekt</option>
+              <option value="">Wybierz projekt</option>
               {projects
                 ? projects.map(project => {
                     let option = "";
@@ -197,7 +197,7 @@ class TasksAddForm extends Component {
               value={status}
               required
             >
-              <option value="">Stan</option>
+              <option value="">Wybierz stan</option>
               {statuses
                 ? statuses.map(sts => {
                     return (
