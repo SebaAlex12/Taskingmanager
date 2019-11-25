@@ -27,7 +27,7 @@ class Tasks extends Component {
     if (filters) {
       const { projectName, responsiblePerson } = filters;
       if (status === "Klient") {
-        fetchTasks({ createdBy: name });
+        fetchTasks({ responsiblePerson: name });
       } else if (status === "Pracownik") {
         fetchTasks({ responsiblePerson: name });
       } else {
