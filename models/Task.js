@@ -16,26 +16,26 @@ const TaskSchema = new Schema({
   },
   projectName: {
     type: String,
-    required: true
+    required: [true, "Nazwa projektu jest wymagana"]
   },
   responsiblePerson: {
     type: String,
-    required: true
+    required: [true, "Odpowiedzialna osoba jest wymagana"]
   },
   title: {
     type: String,
-    required: true
+    required: [true, "Tytuł jest wymagany"]
   },
   description: {
     type: String
   },
   priority: {
     type: String,
-    required: true
+    required: [true, "Priorytet jest wymagany"]
   },
   status: {
     type: String,
-    required: true
+    required: [true, "Status jest wymagany"]
   },
   createdAt: {
     type: String

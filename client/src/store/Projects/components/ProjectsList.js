@@ -13,10 +13,17 @@ class ProjectsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      projectFilterName: "",
       toggleProjectsAddForm: false,
       toggleProjectsList: false
     };
   }
+  onChangeInput = event => {
+    this.setState({
+      ...this.state,
+      [event.currentTarget.name]: event.currentTarget.value
+    });
+  };
   removeProjectHandler = id => {
     const { removeProject } = this.props;
     removeProject(id);
@@ -32,13 +39,45 @@ class ProjectsList extends Component {
     } = this.props;
     updateFilter({ statuses, priorities, projectName: "", responsiblePerson });
   };
+  filterItems = items => {
+    const { projectFilterName } = this.state;
+    const filteredItems = items.filter(item => {
+      return item.name.toLowerCase().indexOf(projectFilterName) !== -1;
+    });
+    if (document.querySelector(".remove-filter")) {
+      if (projectFilterName.length > 0) {
+        document.querySelector(".remove-filter").classList.add("active");
+      } else {
+        document.querySelector(".remove-filter").classList.remove("active");
+      }
+    }
+    return filteredItems;
+  };
+  toggleClassHandler = event => {
+    event.preventDefault();
+    event.target.classList.toggle("active");
+    this.setState({
+      projectFilterName: ""
+    });
+  };
   render() {
     const {
-      projects,
       loggedUser,
       filters: { projectName }
     } = this.props;
-    const { toggleProjectsAddForm, toggleProjectsList } = this.state;
+    const {
+      projectFilterName,
+      toggleProjectsAddForm,
+      toggleProjectsList
+    } = this.state;
+
+    let projects =
+      this.state.projects > 0 ? this.state.projects : this.props.projects;
+
+    if (projects && projects.length > 0) {
+      projects = this.filterItems(projects);
+    }
+
     const projectsContent = projects.map(project => {
       return <ProjectsItem item={project} key={project._id} />;
     });
@@ -87,6 +126,21 @@ class ProjectsList extends Component {
                 className="projects-list"
                 style={{ height: `${windowHeight}px` }}
               >
+                <i
+                  className="remove-filter glyphicon glyphicon-remove"
+                  onClick={this.toggleClassHandler}
+                ></i>
+                <div className="form-group">
+                  <input
+                    onChange={this.onChangeInput}
+                    value={projectFilterName}
+                    type="text"
+                    name="projectFilterName"
+                    className="form-control"
+                    placeholder="filtruj po nazwie"
+                    title="filtruj po nazwie"
+                  />
+                </div>
                 {projectsContent}
               </div>
             ) : null}

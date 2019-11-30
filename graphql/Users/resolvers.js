@@ -5,16 +5,18 @@ const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const tools = require("../../utils/tools");
+
 module.exports = {
   fetchUsers: async function() {
     const users = await User.find(null, null, { sort: { name: 1 } });
     return users;
   },
   createUser: async function({ userInput }, req) {
-    if (!userInput.name || !userInput.email || !userInput.password) {
-      const err = new Error("You left input fields epmty");
-      throw err;
-    }
+    // if (!userInput.name || !userInput.email || !userInput.password) {
+    //   const err = new Error("You left input fields epmty");
+    //   throw err;
+    // }
 
     const userExists = await User.findOne({ email: userInput.email });
 
@@ -43,9 +45,13 @@ module.exports = {
       createdAt: userInput.createdAt
     });
     // console.log("user", userInput);
-    const storedUser = await user.save();
 
-    return { ...storedUser._doc, _id: storedUser._id.toString() };
+    try {
+      const storedUser = await user.save();
+      return { ...storedUser._doc, _id: storedUser._id.toString() };
+    } catch (e) {
+      return { errors: tools.formatErrors(e) };
+    }
   },
   loginUser: async function({ email, password }) {
     if (!email || !password) {
@@ -114,9 +120,13 @@ module.exports = {
     }
 
     // console.log("data push", data);
-    user.overwrite(data);
-    const storedUser = await user.save();
 
-    return { ...storedUser._doc, _id: storedUser._id.toString() };
+    try {
+      user.overwrite(data);
+      const storedUser = await user.save();
+      return { ...storedUser._doc, _id: storedUser._id.toString() };
+    } catch (e) {
+      return { errors: tools.formatErrors(e) };
+    }
   }
 };

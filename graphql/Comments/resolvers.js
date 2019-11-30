@@ -1,4 +1,5 @@
 const Comment = require("../../models/Comment");
+const tools = require("../../utils/tools");
 
 module.exports = {
   fetchComments: async function({ commentInput }) {
@@ -14,9 +15,16 @@ module.exports = {
       createdAt: commentInput.createdAt
     });
 
-    const storedComment = await comment.save();
+    // const storedComment = await comment.save();
 
-    return { ...storedComment._doc, _id: storedComment._id.toString() };
+    // return { ...storedComment._doc, _id: storedComment._id.toString() };
+
+    try {
+      const storedComment = await comment.save();
+      return { ...storedComment._doc, _id: storedComment._id.toString() };
+    } catch (e) {
+      return { errors: tools.formatErrors(e) };
+    }
   }
   // updateTaskAddComment: async function({ commentInput }, req) {
   //   let params = {};

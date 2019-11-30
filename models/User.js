@@ -6,27 +6,25 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   name: {
     type: String,
-    require: true
+    required: [true, "Nazwa jest wymagana"]
   },
   email: {
     type: String,
-    require: true
+    required: [true, "Email jest wymagany"]
   },
   password: {
     type: String,
-    require: true
+    required: [true, "Hasło jest wymagane"]
   },
   status: {
     type: String,
-    require: true
+    required: [true, "Status jest wymagany"]
   },
   projects: {
-    type: String,
-    require: true
+    type: String
   },
   users: {
-    type: String,
-    require: true
+    type: String
   },
   createdAt: {
     type: Date,

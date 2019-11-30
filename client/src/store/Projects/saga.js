@@ -12,6 +12,8 @@ import {
   PROJECTS_ERROR
 } from "./types";
 
+import { UPDATE_MESSAGES } from "../Messages/types";
+
 function* fetchProjectsAsync() {
   try {
     const graph = {
@@ -49,18 +51,18 @@ export function* fetchProjectsWatcher() {
 }
 
 function* addProjectAsync(action) {
-  try {
-    const data = action.data;
-    const projectInput = {
-      name: data.name,
-      description: data.description,
-      cms: data.cms,
-      ftp: data.ftp,
-      panel: data.panel
-    };
+  // try {
+  const data = action.data;
+  const projectInput = {
+    name: data.name,
+    description: data.description,
+    cms: data.cms,
+    ftp: data.ftp,
+    panel: data.panel
+  };
 
-    const graph = {
-      query: `mutation {
+  const graph = {
+    query: `mutation {
       addProject(projectInput: {
       name: "${projectInput.name}",
       description: """${projectInput.description}""",
@@ -73,22 +75,45 @@ function* addProjectAsync(action) {
         cms
         ftp
         panel
+        errors{
+          path
+          message
+        }
       }
     }`
-    };
+  };
 
-    const projectData = yield call(
-      [axios, axios.post],
-      "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
-    );
+  const projectData = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
+  //   yield put({
+  //     type: ADD_PROJECT_SUCCESS,
+  //     payload: projectData.data.data.addProject
+  //   });
+  // } catch (error) {
+  //   yield put({ type: PROJECTS_ERROR, payload: error });
+  // }
+
+  const response = projectData.data.data.addProject;
+  console.log("saga resolver ", response);
+  if (response.errors) {
+    yield put({ type: PROJECTS_ERROR, payload: response.errors });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { errors: response.errors }
+    });
+  } else {
     yield put({
       type: ADD_PROJECT_SUCCESS,
-      payload: projectData.data.data.addProject
+      payload: response
     });
-  } catch (error) {
-    yield put({ type: PROJECTS_ERROR, payload: error });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { success: [{ message: "Projekt został dodany" }] }
+    });
   }
 }
 
@@ -97,20 +122,20 @@ export function* addProjectWatcher() {
 }
 
 function* updateProjectAsync(action) {
-  try {
-    const data = action.data;
+  // try {
+  const data = action.data;
 
-    const projectInput = {
-      _id: data._id,
-      name: data.name ? data.name : "",
-      description: data.description ? data.description : "",
-      cms: data.cms ? data.cms : "",
-      ftp: data.ftp ? data.ftp : "",
-      panel: data.panel ? data.panel : ""
-    };
+  const projectInput = {
+    _id: data._id,
+    name: data.name ? data.name : "",
+    description: data.description ? data.description : "",
+    cms: data.cms ? data.cms : "",
+    ftp: data.ftp ? data.ftp : "",
+    panel: data.panel ? data.panel : ""
+  };
 
-    const graph = {
-      query: `mutation {
+  const graph = {
+    query: `mutation {
       updateProject(projectInput: {
       _id: "${projectInput._id}",  
       name: "${projectInput.name}",
@@ -124,22 +149,43 @@ function* updateProjectAsync(action) {
         cms
         ftp
         panel
+        errors{
+          path
+          message
+        }
       }
     }`
-    };
-    // console.log(graph);
-    const projectData = yield call(
-      [axios, axios.post],
-      "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
-    );
+  };
+  // console.log(graph);
+  const projectData = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
+  //   yield put({
+  //     type: UPDATE_PROJECT_SUCCESS,
+  //     payload: projectData.data.data.updateProject
+  //   });
+  // } catch (error) {
+  //   yield put({ type: PROJECTS_ERROR, payload: error });
+  // }
+  const response = projectData.data.data.updateProject;
+  if (response.errors) {
+    yield put({ type: PROJECTS_ERROR, payload: response.errors });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { errors: response.errors }
+    });
+  } else {
     yield put({
       type: UPDATE_PROJECT_SUCCESS,
-      payload: projectData.data.data.updateProject
+      payload: response
     });
-  } catch (error) {
-    yield put({ type: PROJECTS_ERROR, payload: error });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { success: [{ message: "Projekt został zaktualizowany" }] }
+    });
   }
 }
 

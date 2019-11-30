@@ -1,5 +1,6 @@
+const _ = require("lodash");
 const Task = require("../../models/Task");
-const Comment = require("../../models/Comment");
+const tools = require("../../utils/tools");
 
 module.exports = {
   fetchTasks: async function({ taskInput }) {
@@ -39,10 +40,12 @@ module.exports = {
       createdAt: taskInput.createdAt,
       termAt: taskInput.termAt
     });
-
-    const storedTask = await task.save();
-
-    return { ...storedTask._doc, _id: storedTask._id.toString() };
+    try {
+      const storedTask = await task.save();
+      return { ...storedTask._doc, _id: storedTask._id.toString() };
+    } catch (e) {
+      return { errors: tools.formatErrors(e) };
+    }
   },
   updateTask: async function({ taskInput }, req) {
     // console.log("resolver input", taskInput);
@@ -74,20 +77,23 @@ module.exports = {
     };
     // console.log("resolver", data);
     data.createdAt = task.createdAt;
-    task.overwrite(data);
-    const storedTask = await task.save();
-
-    return { ...storedTask._doc, _id: storedTask._id };
-  },
-  removeTask: async function({ taskId }) {
     try {
-      await Task.deleteOne({ _id: taskId });
-    } catch (err) {
-      const error = new Error(err);
-      throw error;
+      task.overwrite(data);
+      const storedTask = await task.save();
+      return { ...storedTask._doc, _id: storedTask._id };
+    } catch (e) {
+      return { errors: tools.formatErrors(e) };
     }
-    return { _id: taskId };
   }
+  // removeTask: async function({ taskId }) {
+  //   try {
+  //     await Task.deleteOne({ _id: taskId });
+  //   } catch (err) {
+  //     const error = new Error(err);
+  //     throw error;
+  //   }
+  //   return { _id: taskId };
+  // }
 };
 
 function stringToBoolean(val) {

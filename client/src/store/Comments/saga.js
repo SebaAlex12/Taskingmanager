@@ -9,6 +9,8 @@ import {
   COMMENTS_ERROR
 } from "./types";
 
+import { UPDATE_MESSAGES } from "../Messages/types";
+
 function* fetchCommentsAsync(action) {
   const data = action.data;
   try {
@@ -47,17 +49,17 @@ export function* fetchCommentsWatcher() {
 }
 
 function* addCommentAsync(action) {
-  try {
-    const data = action.data;
-    const commentInput = {
-      taskId: data.taskId,
-      userId: data.userId,
-      createdBy: data.createdBy,
-      description: data.description,
-      createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
-    };
-    const graph = {
-      query: `mutation {
+  // try {
+  const data = action.data;
+  const commentInput = {
+    taskId: data.taskId,
+    userId: data.userId,
+    createdBy: data.createdBy,
+    description: data.description,
+    createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
+  };
+  const graph = {
+    query: `mutation {
       addComment(commentInput: {
       taskId: "${commentInput.taskId}",
       userId: "${commentInput.userId}",
@@ -70,21 +72,42 @@ function* addCommentAsync(action) {
         createdBy
         description
         createdAt
+        errors{
+          path
+          message
+        }
       }
     }`
-    };
-    const commentData = yield call(
-      [axios, axios.post],
-      "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
-    );
+  };
+  const commentData = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
+  //   yield put({
+  //     type: ADD_COMMENT_SUCCESS,
+  //     payload: commentData.data.data.addComment
+  //   });
+  // } catch (error) {
+  //   yield put({ type: COMMENTS_ERROR, payload: error });
+  // }
+  const response = commentData.data.data.addComment;
+  if (response.errors) {
+    yield put({ type: COMMENTS_ERROR, payload: response.errors });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { errors: response.errors }
+    });
+  } else {
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      payload: commentData.data.data.addComment
+      payload: response
     });
-  } catch (error) {
-    yield put({ type: COMMENTS_ERROR, payload: error });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { success: [{ message: "Komentarz został dodany" }] }
+    });
   }
 }
 

@@ -2,32 +2,39 @@ const { buildSchema } = require("graphql");
 
 module.exports = buildSchema(`
 
+    type Error {
+        path: String
+        message: String
+    }
+
     type User {
-        _id: ID!
-        name: String!
-        email: String!
+        _id: ID
+        name: String
+        email: String
         password: String
-        status: String!
+        status: String
         projects: String
         users: String
         createdAt: String
+        errors: [Error]
     }
 
     type Task {
-        _id: ID!
-        userId: String!
-        createdBy: String!
-        projectId: String!
-        projectName: String!
-        responsiblePerson: String!
-        title: String!
+        _id: ID
+        userId: String
+        createdBy: String
+        projectId: String
+        projectName: String
+        responsiblePerson: String
+        title: String
         description: String
-        priority: String!
-        status: String!
+        priority: String
+        status: String
         responsiblePersonLastComment: String
         createdAt: String
         finishedAt: String
         termAt: String
+        errors: [Error]
     }
 
     type Comment {
@@ -37,36 +44,17 @@ module.exports = buildSchema(`
         createdBy: String
         description: String
         createdAt: String
-    }
-
-    type Photo {
-        _id: ID!
-        title: String!
-        description: String!
-        imageUrl: String!
-        status: String!
-        createdAt: String!
-    }
-
-    type Album {
-        _id: ID!
-        userId: String!
-        name: String!
-        title: String!
-        access: String
-        description: String
-        status: String!
-        photos: [String]
-        createdAt: String!
+        errors: [Error]
     }
 
     type Project {
-        _id: ID!
-        name: String!
+        _id: ID
+        name: String
         description: String
         cms: String
         ftp: String
         panel: String
+        errors: [Error]
     }
 
     input UserInputData {
@@ -106,27 +94,9 @@ module.exports = buildSchema(`
         createdAt: String
     }
 
-    input PhotoInputData {
-        title: String!
-        description: String!
-        imageUrl: String!
-        status: String!
-        createdAt: String
-    }
-
-    input AlbumInputData {
-        userId: String!
-        name: String!
-        title: String!
-        access: String
-        description: String
-        status: String!
-        createdAt: String!
-    }
-
     input ProjectInputData {
         _id: String
-        name: String!
+        name: String
         description: String
         cms: String
         ftp: String
@@ -155,9 +125,6 @@ module.exports = buildSchema(`
         updateProject(projectInput: ProjectInputData): Project!
         removeProject(projectId: String!): Project!
         updateUser(userInput: UserInputData): User!
-        addPhoto(photoInput: PhotoInputData): Photo!
-        addAlbum(albumInput: AlbumInputData): Album!
-        removeAlbum(albumId: String!): Album!
     }
 
     type RootQuery {
@@ -166,8 +133,6 @@ module.exports = buildSchema(`
         fetchTasks(taskInput: TaskInputData): [Task]!
         fetchComments(commentInput: CommentInputData): [Comment]!
         fetchProjects: [Project]!
-        fetchPhotos(album: String, category: String, status: String!): [Photo]!
-        fetchAlbums(userId: String!, status: String!, access: String!): [Album]!
     }
 
     schema {

@@ -1,18 +1,22 @@
 const Project = require("../../models/Project");
 const crypt = require("../../utils/crypt");
+const tools = require("../../utils/tools");
 
 module.exports = {
   fetchProjects: async function() {
     let projects = await Project.find(null, null, { sort: { name: 1 } });
     // console.log("projects resolver", projects);
     projects = projects.map(project => {
-      if (project.cms && project.cms.length == 65) {
+      if (project.description && project.description.length > 1) {
+        project.description = crypt.decrypt(project.description);
+      }
+      if (project.cms && project.cms.length > 1) {
         project.cms = crypt.decrypt(project.cms);
       }
-      if (project.ftp && project.ftp.length == 65) {
+      if (project.ftp && project.ftp.length > 1) {
         project.ftp = crypt.decrypt(project.ftp);
       }
-      if (project.panel && project.panel.length == 65) {
+      if (project.panel && project.panel.length > 1) {
         project.panel = crypt.decrypt(project.panel);
       }
       return project;
@@ -22,21 +26,57 @@ module.exports = {
   addProject: async function({ projectInput }, req) {
     const result = await Project.findOne({ name: projectInput.name });
     if (result) {
-      // const error = new Error("Project already exists");
-      const error = "Project already exists";
-      throw error;
+      throw {
+        errors: [{ path: "name", message: "Nazwa projektu jest wymagana" }]
+      };
     }
-
-    const project = new Project({
+    // console.log("add project");
+    const data = {
       name: projectInput.name,
-      description: projectInput.description,
-      cms: crypt.encrypt(projectInput.cms),
-      ftp: crypt.encrypt(projectInput.ftp),
-      panel: crypt.encrypt(projectInput.panel)
-    });
-    const storedProject = await project.save();
+      description:
+        projectInput.description && projectInput.description.length > 1
+          ? crypt.encrypt(projectInput.description)
+          : projectInput.description,
+      cms:
+        projectInput.cms && projectInput.cms.length > 1
+          ? crypt.encrypt(projectInput.cms)
+          : projectInput.cms,
+      ftp:
+        projectInput.ftp && projectInput.ftp.length > 1
+          ? crypt.encrypt(projectInput.ftp)
+          : projectInput.ftp,
+      panel:
+        projectInput.panel && projectInput.panel.length > 1
+          ? crypt.encrypt(projectInput.panel)
+          : projectInput.panel
+    };
 
-    return { ...storedProject._doc, _id: storedProject._id.toString() };
+    const project = new Project(data);
+    try {
+      const storedProject = await project.save();
+      return {
+        ...storedProject._doc,
+        _id: storedProject._id.toString(),
+        description:
+          storedProject.description && storedProject.description.length > 1
+            ? crypt.decrypt(storedProject.description)
+            : storedProject.description,
+        cms:
+          storedProject.cms && storedProject.cms.length > 1
+            ? crypt.decrypt(storedProject.cms)
+            : storedProject.cms,
+        ftp:
+          storedProject.ftp && storedProject.ftp.length > 1
+            ? crypt.decrypt(storedProject.ftp)
+            : storedProject.ftp,
+        panel:
+          storedProject.panel && storedProject.panel.length > 1
+            ? crypt.decrypt(storedProject.panel)
+            : storedProject.panel
+      };
+    } catch (e) {
+      return { errors: tools.formatErrors(e) };
+    }
   },
   updateProject: async function({ projectInput }, req) {
     const _id = projectInput._id;
@@ -47,31 +87,56 @@ module.exports = {
       _id: projectInput._id,
       name: projectInput.name !== "" ? projectInput.name : project.name,
       description:
-        projectInput.description !== ""
-          ? projectInput.description
-          : project.description,
+        projectInput.description.length > 1
+          ? crypt.encrypt(projectInput.description)
+          : projectInput.description,
       cms:
-        projectInput.cms !== "" ? crypt.encrypt(projectInput.cms) : project.cms,
+        projectInput.cms.length > 1
+          ? crypt.encrypt(projectInput.cms)
+          : projectInput.cms,
       ftp:
-        projectInput.ftp !== "" ? crypt.encrypt(projectInput.ftp) : project.ftp,
+        projectInput.ftp.length > 1
+          ? crypt.encrypt(projectInput.ftp)
+          : projectInput.ftp,
       panel:
-        projectInput.panel !== ""
+        projectInput.panel.length > 1
           ? crypt.encrypt(projectInput.panel)
-          : project.panel
+          : projectInput.panel
     };
-    // console.log("project resolver", data);
-    project.overwrite(data);
-    const storedProject = await project.save();
-    // console.log("stored project", storedProject);
-    return { ...storedProject._doc, _id: storedProject._id.toString() };
-  },
-  removeProject: async function({ projectId }) {
     try {
-      await Project.deleteOne({ _id: projectId });
-    } catch (err) {
-      const error = new Error(err);
-      throw error;
+      project.overwrite(data);
+      const storedProject = await project.save();
+      return {
+        ...storedProject._doc,
+        _id: storedProject._id.toString(),
+        description:
+          storedProject.description && storedProject.description.length > 1
+            ? crypt.decrypt(storedProject.description)
+            : storedProject.description,
+        cms:
+          storedProject.cms && storedProject.cms.length > 1
+            ? crypt.decrypt(storedProject.cms)
+            : storedProject.cms,
+        ftp:
+          storedProject.ftp && storedProject.ftp.length > 1
+            ? crypt.decrypt(storedProject.ftp)
+            : storedProject.ftp,
+        panel:
+          storedProject.panel && storedProject.panel.length > 1
+            ? crypt.decrypt(storedProject.panel)
+            : storedProject.panel
+      };
+    } catch (e) {
+      return { errors: tools.formatErrors(e) };
     }
-    return { _id: projectId };
   }
+  // removeProject: async function({ projectId }) {
+  //   try {
+  //     await Project.deleteOne({ _id: projectId });
+  //   } catch (err) {
+  //     const error = new Error(err);
+  //     throw error;
+  //   }
+  //   return { _id: projectId };
+  // }
 };

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ProjectSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: [true, "Nazwa projektu jest wymagana"]
   },
   description: {
     type: String

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { addProject } from "../actions";
-import { updateMessages } from "../../Messages/actions";
 
 class ProjectsAddForm extends Component {
   constructor(props) {
@@ -14,11 +13,6 @@ class ProjectsAddForm extends Component {
       ftp: "",
       panel: ""
     };
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
   }
   onChangeInput = event => {
     this.setState({
@@ -47,9 +41,6 @@ class ProjectsAddForm extends Component {
     event.preventDefault();
 
     const response = addProject(data);
-    if (response) {
-      updateMessages([{ name: "Projekty" }, { value: "projekt dodany" }]);
-    }
   };
   render() {
     return (
@@ -124,11 +115,8 @@ class ProjectsAddForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: state.users.logged_user,
-    errors: state.projects.errors
+    loggedUser: state.users.logged_user
   };
 };
 
-export default connect(mapStateToProps, { addProject, updateMessages })(
-  ProjectsAddForm
-);
+export default connect(mapStateToProps, { addProject })(ProjectsAddForm);

@@ -15,8 +15,8 @@ class TasksListContainer extends Component {
     this.state = {
       tasks: [],
       toggleTasksAddForm: false,
-      orderColumn: "status",
-      orderDirection: "asc",
+      orderColumn: "priority",
+      orderDirection: "desc",
       userTasks: false,
       activeTaskId: false
     };

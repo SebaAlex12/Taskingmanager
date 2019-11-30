@@ -16,6 +16,8 @@ import {
   USER_ERROR
 } from "./types";
 
+import { UPDATE_MESSAGES } from "../Messages/types";
+
 function* loginUserAsync(action) {
   try {
     const graph = {
@@ -60,11 +62,11 @@ export function* loginUserWatcher() {
 }
 
 function* registerUserAsync(action) {
-  try {
-    const presentDate = moment(new Date(), "YYYY-MM-DD HH:mm:ss").format();
-    // console.log("action", action);
-    const graph = {
-      query: `mutation {
+  // try {
+  const presentDate = moment(new Date(), "YYYY-MM-DD HH:mm:ss").format();
+  // console.log("action", action);
+  const graph = {
+    query: `mutation {
       createUser(userInput: {
         name: "${action.data.name}", 
         email: "${action.data.email}", 
@@ -81,23 +83,44 @@ function* registerUserAsync(action) {
         projects
         users
         createdAt
+        errors{
+          path
+          message
+        }
       }
     }`
-    };
+  };
 
-    const res = yield call(
-      [axios, axios.post],
-      "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
-    );
+  const res = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
 
+  //   yield put({
+  //     type: REGISTER_USER_SUCCESS,
+  //     payload: res.data.data.createUser
+  //   });
+  // } catch (error) {
+  //   yield put({ type: USER_ERROR, payload: error });
+  // }
+  const response = res.data.data.createUser;
+  if (response.errors) {
+    yield put({ type: USER_ERROR, payload: response.errors });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { errors: response.errors }
+    });
+  } else {
     yield put({
       type: REGISTER_USER_SUCCESS,
-      payload: res.data.data.createUser
+      payload: response
     });
-  } catch (error) {
-    yield put({ type: USER_ERROR, payload: error });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { success: [{ message: "Użytkownik został dodany" }] }
+    });
   }
 }
 
@@ -151,21 +174,21 @@ export function* fetchUsersWatcher() {
 }
 
 function* updateUserAsync(action) {
-  try {
-    const data = action.data;
+  // try {
+  const data = action.data;
 
-    const userInput = {
-      _id: data._id,
-      name: data.name ? data.name : "",
-      email: data.email ? data.email : "",
-      password: data.password ? data.password : "",
-      status: data.status ? data.status : "",
-      projects: data.projects ? data.projects : "",
-      users: data.users ? data.users : ""
-    };
+  const userInput = {
+    _id: data._id,
+    name: data.name ? data.name : "",
+    email: data.email ? data.email : "",
+    password: data.password ? data.password : "",
+    status: data.status ? data.status : "",
+    projects: data.projects ? data.projects : "",
+    users: data.users ? data.users : ""
+  };
 
-    const graph = {
-      query: `mutation {
+  const graph = {
+    query: `mutation {
       updateUser(userInput: {
       _id: "${userInput._id}",  
       name: "${userInput.name}",
@@ -180,22 +203,40 @@ function* updateUserAsync(action) {
         status
         projects
         users
+        errors{
+          path
+          message
+        }
       }
     }`
-    };
-    // console.log(graph);
-    const userData = yield call(
-      [axios, axios.post],
-      "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
-    );
+  };
+  // console.log(graph);
+  const userData = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
+  //   yield put({
+  //     type: UPDATE_USER_SUCCESS,
+  //     payload: userData.data.data.updateUser
+  //   });
+  // } catch (error) {
+  //   yield put({ type: USER_ERROR, payload: error });
+  // }
+  const response = userData.data.data.updateUser;
+  if (response.errors) {
+    yield put({ type: USER_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_USER_SUCCESS,
-      payload: userData.data.data.updateUser
+      type: UPDATE_MESSAGES,
+      payload: { errors: response.errors }
     });
-  } catch (error) {
-    yield put({ type: USER_ERROR, payload: error });
+  } else {
+    yield put({ type: UPDATE_USER_SUCCESS, payload: response });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { success: [{ message: "Użytkownik został zaktualizowany" }] }
+    });
   }
 }
 

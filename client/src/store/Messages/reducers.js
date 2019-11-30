@@ -1,21 +1,15 @@
-import { UPDATE_MESSAGES_SUCCESS, MESSAGES_ERROR } from "./types";
+import { UPDATE_MESSAGES } from "./types";
 
 const initialState = {
-  messages: [],
-  errors: []
+  messages: []
 };
 
 export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_MESSAGES_SUCCESS:
+    case UPDATE_MESSAGES:
       return {
         ...state,
         messages: action.payload
-      };
-    case MESSAGES_ERROR:
-      return {
-        ...state,
-        errors: action.payload
       };
     default:
       return state;

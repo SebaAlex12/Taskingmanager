@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import { addTask } from "../actions";
 import { priorities, statuses } from "../../ini";
-// import { updateMessages } from "../../Messages/actions";
 
 class TasksAddForm extends Component {
   constructor(props) {
@@ -32,8 +31,8 @@ class TasksAddForm extends Component {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
-  addHandler = event => {
-    const { addTask, loggedUser } = this.props;
+  addHandler = async event => {
+    const { addTask, loggedUser, updateMessages, messages } = this.props;
     const {
       projectName,
       responsiblePerson,
@@ -58,17 +57,13 @@ class TasksAddForm extends Component {
       status,
       termAt
     };
-    // console.log(data);
-    event.preventDefault();
 
-    const response = addTask(data);
-    // if (response) {
-    //   updateMessages([{ name: "Zadania" }, { value: "zadanie dodane" }]);
-    // }
+    event.preventDefault();
+    const response = await addTask(data);
   };
   render() {
     const { projects, users, loggedUser } = this.props;
-    const { priority, status, messages } = this.state;
+    const { priority, status } = this.state;
 
     // console.log(projects);
 
@@ -76,6 +71,8 @@ class TasksAddForm extends Component {
       ? loggedUser.projects.split(",")
       : [];
     const loggedUserUsers = loggedUser.users ? loggedUser.users.split(",") : [];
+
+    // console.log("compon state", this.state);
 
     return (
       <div className="task-add-form-box">
@@ -116,7 +113,7 @@ class TasksAddForm extends Component {
                       <option
                         key={prt._id}
                         value={prt.name}
-                        selected={prt.name === status ? "selected" : null}
+                        defaultValue={prt.name === status ? "selected" : null}
                       >
                         {prt.name}
                       </option>
@@ -203,7 +200,7 @@ class TasksAddForm extends Component {
                     return (
                       <option
                         key={sts._id}
-                        selected={sts.name === status ? "selected" : null}
+                        defaultValue={sts.name === status ? "selected" : null}
                       >
                         {sts.name}
                       </option>

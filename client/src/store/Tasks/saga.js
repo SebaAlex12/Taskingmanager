@@ -13,7 +13,7 @@ import {
   TASKS_ERROR
 } from "./types";
 
-import { isEmpty } from "../../common/is-empty";
+import { UPDATE_MESSAGES } from "../Messages/types";
 
 function* fetchTasksAsync(action) {
   try {
@@ -60,27 +60,26 @@ export function* fetchTasksWatcher() {
 }
 
 function* addTaskAsync(action) {
-  try {
-    const data = action.data;
+  const data = action.data;
 
-    const taskInput = {
-      userId: data.userId,
-      createdBy: data.createdBy,
-      projectId: data.projectId,
-      projectName: data.projectName,
-      responsiblePerson: data.responsiblePerson,
-      title: data.title,
-      description: data.description,
-      priority: data.priority,
-      status: data.status,
-      responsiblePersonLastComment: data.responsiblePersonLastComment,
-      createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
-      termAt: moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
-      // finishedAt: data.finishedAt
-    };
+  const taskInput = {
+    userId: data.userId,
+    createdBy: data.createdBy,
+    projectId: data.projectId,
+    projectName: data.projectName,
+    responsiblePerson: data.responsiblePerson,
+    title: data.title,
+    description: data.description,
+    priority: data.priority,
+    status: data.status,
+    responsiblePersonLastComment: data.responsiblePersonLastComment,
+    createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
+    termAt: moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
+    // finishedAt: data.finishedAt
+  };
 
-    const graph = {
-      query: `mutation {
+  const graph = {
+    query: `mutation {
       addTask(taskInput: {userId: "${taskInput.userId}",
       createdBy: "${taskInput.createdBy}",
       projectId: "${taskInput.projectId}",
@@ -107,21 +106,33 @@ function* addTaskAsync(action) {
         createdAt
         finishedAt
         termAt
+        errors{
+          path
+          message
+        }
       }
     }`
-    };
+  };
 
-    const taskData = yield call(
-      [axios, axios.post],
-      "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
-    );
-    // console.log(taskData.data.data.addTask);
-    yield put({ type: ADD_TASK_SUCCESS, payload: taskData.data.data.addTask });
-  } catch (error) {
-    console.log("error:", error);
-    yield put({ type: TASKS_ERROR, payload: error });
+  const taskData = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
+  const response = taskData.data.data.addTask;
+  if (response.errors) {
+    yield put({ type: TASKS_ERROR, payload: response.errors });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { errors: response.errors }
+    });
+  } else {
+    yield put({ type: ADD_TASK_SUCCESS, payload: response });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { success: [{ message: "Zadanie zostało dodane" }] }
+    });
   }
 }
 
@@ -130,36 +141,35 @@ export function* addTaskWatcher() {
 }
 
 function* updateTaskAsync(action) {
-  try {
-    const data = action.data;
-    // console.log("isemty", data.responsiblePersonLastComment);
-    // console.log("task saga data", data);
-    const taskInput = {
-      _id: data._id,
-      userId: 1,
-      createdBy: data.createdBy ? data.createdBy : "",
-      projectId: data.projectId ? data.projectId : "",
-      projectName: data.projectName ? data.projectName : "",
-      responsiblePerson: data.responsiblePerson ? data.responsiblePerson : "",
-      title: data.title ? data.title : "",
-      description: data.description ? data.description : "",
-      priority: data.priority ? data.priority : "",
-      status: data.status ? data.status : "",
-      responsiblePersonLastComment:
-        data.responsiblePersonLastComment === true ||
-        data.responsiblePersonLastComment === false
-          ? data.responsiblePersonLastComment
-          : "",
-      termAt: data.termAt
-        ? moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
+  const data = action.data;
+  // console.log("isemty", data.responsiblePersonLastComment);
+  // console.log("task saga data", data);
+  const taskInput = {
+    _id: data._id,
+    userId: 1,
+    createdBy: data.createdBy ? data.createdBy : "",
+    projectId: data.projectId ? data.projectId : "",
+    projectName: data.projectName ? data.projectName : "",
+    responsiblePerson: data.responsiblePerson ? data.responsiblePerson : "",
+    title: data.title ? data.title : "",
+    description: data.description ? data.description : "",
+    priority: data.priority ? data.priority : "",
+    status: data.status ? data.status : "",
+    responsiblePersonLastComment:
+      data.responsiblePersonLastComment === true ||
+      data.responsiblePersonLastComment === false
+        ? data.responsiblePersonLastComment
         : "",
-      finishedAt: data.finishedAt
-        ? moment(data.finishedAt, "YYYY-MM-DD HH:mm:ss").format()
-        : ""
-    };
-    // console.log("task saga input", taskInput);
-    const graph = {
-      query: `mutation {
+    termAt: data.termAt
+      ? moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
+      : "",
+    finishedAt: data.finishedAt
+      ? moment(data.finishedAt, "YYYY-MM-DD HH:mm:ss").format()
+      : ""
+  };
+  // console.log("task saga input", taskInput);
+  const graph = {
+    query: `mutation {
       updateTask(taskInput: {
       _id: "${taskInput._id}",  
       userId: "${taskInput.userId}",
@@ -187,23 +197,37 @@ function* updateTaskAsync(action) {
         createdAt
         finishedAt
         termAt
+        errors{
+          path
+          message
+        }
       }
     }`
-    };
-    // console.log(graph);
-    const taskData = yield call(
-      [axios, axios.post],
-      "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
-    );
-    // console.log("saga", taskData.data.data.updateTask);
+  };
+  // console.log(graph);
+  const taskData = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
+  // console.log("saga", taskData.data.data.updateTask);
+  const response = taskData.data.data.updateTask;
+  if (response.errors) {
+    yield put({ type: TASKS_ERROR, payload: response.errors });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { errors: response.errors }
+    });
+  } else {
     yield put({
       type: UPDATE_TASK_SUCCESS,
-      payload: taskData.data.data.updateTask
+      payload: response
     });
-  } catch (error) {
-    yield put({ type: TASKS_ERROR, payload: error });
+    yield put({
+      type: UPDATE_MESSAGES,
+      payload: { success: [{ message: "Zadanie zostało zaktualizowane" }] }
+    });
   }
 }
 

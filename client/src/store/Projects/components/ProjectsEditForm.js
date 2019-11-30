@@ -62,6 +62,10 @@ class ProjectsEditFrom extends Component {
     }
     event.preventDefault();
   };
+  toggleClassHandler = event => {
+    event.preventDefault();
+    event.target.classList.toggle("active");
+  };
   render() {
     const { name, description, cms, ftp, panel } = this.state;
     return (
@@ -81,6 +85,11 @@ class ProjectsEditFrom extends Component {
             />
           </div>
           <div className="form-group">
+            <i
+              className="show-hide-button glyphicon glyphicon-eye-open"
+              onClick={this.toggleClassHandler}
+            ></i>
+            <div className="glass">dane ukryte</div>
             <textarea
               onChange={this.onChangeInput}
               type="text"
@@ -93,6 +102,11 @@ class ProjectsEditFrom extends Component {
             />
           </div>
           <div className="form-group">
+            <i
+              className="show-hide-button glyphicon glyphicon-eye-open"
+              onClick={this.toggleClassHandler}
+            ></i>
+            <div className="glass">dane ukryte</div>
             <input
               onChange={this.onChangeInput}
               type="text"
@@ -104,6 +118,11 @@ class ProjectsEditFrom extends Component {
             />
           </div>
           <div className="form-group">
+            <i
+              className="show-hide-button glyphicon glyphicon-eye-open"
+              onClick={this.toggleClassHandler}
+            ></i>
+            <div className="glass">dane ukryte</div>
             <input
               onChange={this.onChangeInput}
               type="text"
@@ -115,6 +134,11 @@ class ProjectsEditFrom extends Component {
             />
           </div>
           <div className="form-group">
+            <i
+              className="show-hide-button glyphicon glyphicon-eye-open"
+              onClick={this.toggleClassHandler}
+            ></i>
+            <div className="glass">dane ukryte</div>
             <input
               onChange={this.onChangeInput}
               type="text"
