@@ -62,6 +62,9 @@ export const StyledProjectList = styled.div`
   .projects-list form > .form-group {
     position: relative;
   }
+  .projects-list form textarea{
+    min-height:420px;
+  }
   .projects-list form .show-hide-button {
     position: absolute;
     right: 10px;
