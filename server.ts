@@ -7,6 +7,8 @@ import graphqlHttp = require("express-graphql");
 import graphqlSchema = require("./graphql/schema_old");
 import graphqlResolver = require("./graphql/resolvers");
 
+import { upload, resize } from "./utils/filesManager";
+
 const app: express.Application = express();
 
 import fs = require("fs");
@@ -28,6 +30,59 @@ mongoose
   .connect(db)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
+
+// Handle the upload file
+app.post("/upload-files/:dest", async (req: any, res) => {
+  await upload(req, res, err => {
+    if (err) {
+      console.log("error message:", err);
+      res.json(err);
+    } else {
+      if (req.files == undefined) {
+        console.log("No file selected!");
+        res.json("No file selected!");
+      } else {
+        // console.log("req files", req.files);
+        req.files.forEach(file => {
+          const readStream = resize(file.path, "jpg", 50, 50);
+          readStream.toFile(
+            file.destination + "/mini/" + file.filename,
+            function(err) {
+              console.log(err);
+            }
+          );
+        });
+        console.log("Files uploaded successfully!");
+        res.json("Files uploaded successfully!!");
+      }
+    }
+  });
+});
+
+app.post("/delete-files/", bodyParserJson, (req: any, res) => {
+  console.log(req.body.links);
+  const links = req.body.links;
+  links.forEach(async link => {
+    // build link for mini folder
+    const arr = link.split("/");
+    const miniLink = [arr[1], arr[2], arr[3], "mini", arr[4]].join("/");
+    console.log("miniLink", miniLink);
+    try {
+      await fs.unlink("./client/public/" + link, function(err) {
+        if (err) throw err;
+        console.log("File deleted!");
+      });
+      await fs.unlink("./client/public/" + miniLink, function(err) {
+        if (err) throw err;
+        console.log("File deleted!");
+      });
+      res.json("Selected files has been deleted");
+    } catch (err) {
+      console.log(err);
+      res.json(err);
+    }
+  });
+});
 
 app.use(
   "/graphql",

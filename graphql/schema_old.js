@@ -35,6 +35,7 @@ module.exports = buildSchema(`
         finishedAt: String
         termAt: String
         errors: [Error]
+        files: [String]
     }
 
     type Comment {

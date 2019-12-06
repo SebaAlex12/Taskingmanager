@@ -37,6 +37,7 @@ function* fetchTasksAsync(action) {
             createdAt
             finishedAt
             termAt
+            files
           }
         }
     `
@@ -48,7 +49,7 @@ function* fetchTasksAsync(action) {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
-    // console.log(res.data.data.fetchTasks);
+    // console.log("fetch tasks", res.data.data.fetchTasks);
     yield put({ type: FETCH_TASKS_SUCCESS, payload: res.data.data.fetchTasks });
   } catch (error) {
     yield put({ type: TASKS_ERROR, payload: error });
@@ -106,6 +107,7 @@ function* addTaskAsync(action) {
         createdAt
         finishedAt
         termAt
+        files
         errors{
           path
           message
@@ -121,6 +123,7 @@ function* addTaskAsync(action) {
     { headers: { "Content-Type": "application/json" } }
   );
   const response = taskData.data.data.addTask;
+
   if (response.errors) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
@@ -197,6 +200,7 @@ function* updateTaskAsync(action) {
         createdAt
         finishedAt
         termAt
+        files
         errors{
           path
           message

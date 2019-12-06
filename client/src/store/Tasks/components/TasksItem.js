@@ -8,6 +8,9 @@ import CommentsList from "../../Comments/components/CommentsList";
 import { priorities, statuses } from "../../ini";
 import { updateMessages } from "../../Messages/actions";
 
+import FilesAddForm from "../../Files/components/FilesAddForm";
+import FilesItem from "../../Files/components/FilesItem";
+
 class TasksItem extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +31,8 @@ class TasksItem extends Component {
       priority,
       createdBy,
       termAt,
-      createdAt
+      createdAt,
+      files
     } = this.props.item;
     this.setState({
       _id,
@@ -41,9 +45,30 @@ class TasksItem extends Component {
       priority,
       createdBy,
       termAt,
-      createdAt
+      createdAt,
+      files
     });
     // console.log(this.props.item);
+  }
+
+  // componentDidUpdate() {
+  //   console.log("update props", this.props);
+  // }
+
+  componentWillReceiveProps(nextProps) {
+    // const {
+    //   item: { files }
+    // } = nextProps;
+    // const { files } = this.state;
+    console.log("comp wil resive");
+    if (nextProps.item.files !== this.props.item.files) {
+      // console.log("next props files", nextProps.item.files);
+      this.setState({
+        files: nextProps.item.files
+      });
+    }
+    // console.log("next state", nextState);
+    // console.log("next props", files);
   }
 
   switch = () => {
@@ -141,10 +166,35 @@ class TasksItem extends Component {
       priority,
       createdBy,
       termAt,
-      createdAt
+      createdAt,
+      files
     } = this.state;
     const { setActiveTaskHandler, active } = this.props;
     // console.log("state item", this.state);
+
+    // let filesUrls;
+    // filesUrls = [];
+    let filesContent;
+    // console.log("files", files);
+
+    if (files && files.length > 0) {
+      // console.log("files", files);
+      let item = 0;
+      filesContent = files.map(file => {
+        // console.log("file", file);
+        let imageUrl = `/files/tasks/${_id}/${file}`;
+        // filesUrls.push(imageUrl);
+        let fileNumber = item++;
+        return (
+          <FilesItem
+            key={file}
+            imageUrl={imageUrl}
+            // lightboxPhotosHandler={() => this.lightboxPhotosHandler(fileNumber)}
+          />
+        );
+      });
+    }
+
     return (
       <React.Fragment>
         <tr>
@@ -235,32 +285,40 @@ class TasksItem extends Component {
           </td>
         </tr>
         {active ? (
-          <tr>
-            <td colSpan="9">
-              <div className="desc-box">
-                <i
-                  className="glyphicon glyphicon-pencil"
-                  onClick={this.onClickDescriptionHandler}
-                ></i>
-                <textarea
-                  className="form-control"
-                  onChange={this.onChangeHandler}
-                  name="description"
-                  value={description}
-                  cols="40"
-                  rows="10"
-                ></textarea>
-              </div>
-              <CommentsList
-                taskId={_id}
-                responsiblePerson={responsiblePerson}
-              />
-              <CommentsAddForm
-                taskId={_id}
-                responsiblePerson={responsiblePerson}
-              />
-            </td>
-          </tr>
+          <React.Fragment>
+            <tr>
+              <td colSpan="9">
+                <div className="desc-box">
+                  <i
+                    className="glyphicon glyphicon-pencil"
+                    onClick={this.onClickDescriptionHandler}
+                  ></i>
+                  <textarea
+                    className="form-control"
+                    onChange={this.onChangeHandler}
+                    name="description"
+                    value={description}
+                    cols="40"
+                    rows="10"
+                  ></textarea>
+                </div>
+                <CommentsList
+                  taskId={_id}
+                  responsiblePerson={responsiblePerson}
+                />
+                <CommentsAddForm
+                  taskId={_id}
+                  responsiblePerson={responsiblePerson}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="10">
+                {filesContent}
+                <FilesAddForm taskId={_id} />
+              </td>
+            </tr>
+          </React.Fragment>
         ) : null}
       </React.Fragment>
     );

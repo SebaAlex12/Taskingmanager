@@ -1,4 +1,5 @@
 import { fork, all } from "redux-saga/effects";
+import { fetchFiltersWatcher, updateFilterWatcher } from "./Filters/saga";
 import { updateMessagesWatcher, fetchMessagesWatcher } from "./Messages/saga";
 import {
   fetchTasksWatcher,
@@ -21,7 +22,11 @@ import {
   updateProjectWatcher,
   removeProjectWatcher
 } from "./Projects/saga";
-import { fetchFiltersWatcher, updateFilterWatcher } from "./Filters/saga";
+import {
+  fetchFilesWatcher,
+  addFileWatcher,
+  removeFileWatcher
+} from "./Files/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -44,6 +49,9 @@ export default function* rootSaga() {
     fork(updateProjectWatcher),
     fork(removeProjectWatcher),
     fork(fetchFiltersWatcher),
-    fork(updateFilterWatcher)
+    fork(updateFilterWatcher),
+    fork(fetchFilesWatcher),
+    fork(addFileWatcher),
+    fork(removeFileWatcher)
   ]);
 }

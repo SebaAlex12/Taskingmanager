@@ -1,4 +1,7 @@
 const _ = require("lodash");
+const fs = require("fs");
+const fsPromises = fs.promises;
+
 const Task = require("../../models/Task");
 const tools = require("../../utils/tools");
 
@@ -23,7 +26,21 @@ module.exports = {
 
     let tasks = await Task.find(params);
 
-    return tasks;
+    const newTasks = tasks.map(async task => {
+      let path = "./client/public/files/tasks/" + task._id;
+      if (fs.existsSync(path)) {
+        const files = await fsPromises.readdir(path);
+        task = {
+          ...task._doc,
+          files: files.filter(file => file != "mini")
+        };
+      } else {
+        task.files = [];
+      }
+      return task;
+    });
+
+    return newTasks;
   },
   addTask: async function({ taskInput }, req) {
     const task = new Task({
@@ -52,7 +69,7 @@ module.exports = {
     const _id = taskInput._id;
     const task = await Task.findOne({ _id });
     const data = {
-      _id: taskInput.id,
+      _id: taskInput._id,
       userId: taskInput.userId !== "" ? taskInput.userId : task.userId,
       createdBy:
         taskInput.createdBy !== "" ? taskInput.createdBy : task.createdBy,
@@ -79,8 +96,25 @@ module.exports = {
     data.createdAt = task.createdAt;
     try {
       task.overwrite(data);
-      const storedTask = await task.save();
-      return { ...storedTask._doc, _id: storedTask._id };
+      let storedTask = await task.save();
+      // console.log("task resolver", storedTask);
+      let path = "./client/public/files/tasks/" + storedTask._id;
+      if (fs.existsSync(path)) {
+        const files = await fsPromises.readdir(path);
+
+        storedTask = {
+          ...storedTask._doc,
+          files: files.filter(file => file != "mini")
+        };
+        console.log("update stored task", storedTask);
+      } else {
+        storedTask = {
+          ...storedTask._doc,
+          files: []
+        };
+      }
+      // console.log("update stored task", storedTask);
+      return { ...storedTask, _id: storedTask._id.toString() };
     } catch (e) {
       return { errors: tools.formatErrors(e) };
     }
