@@ -13,7 +13,7 @@ class MessangersForm extends Component {
     this.state = {
       message: ""
     };
-    const port = "" || 5000;
+    const port = process.env.PORT || 5000;
     // console.log("port", port);
     if (!this.socket) {
       this.socket = io(":" + port);
