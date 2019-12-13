@@ -14,7 +14,7 @@ class MessangersForm extends Component {
       message: ""
     };
     const port = process.env.PORT || 5000;
-    // console.log("port", port);
+    console.log("port", port);
     if (!this.socket) {
       this.socket = io(":" + port);
       this.socket.on("chat:message", function(msg) {
