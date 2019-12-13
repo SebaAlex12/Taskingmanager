@@ -3,15 +3,18 @@ import express = require("express");
 import bodyParser = require("body-parser");
 import path = require("path");
 
+import http = require("http");
+import socketIo = require("socket.io");
+
 import graphqlHttp = require("express-graphql");
 import graphqlSchema = require("./graphql/schema_old");
 import graphqlResolver = require("./graphql/resolvers");
 
 import { upload, resize } from "./utils/filesManager";
 
-const app: express.Application = express();
-
 import fs = require("fs");
+
+const app: express.Application = express();
 
 const bodyParserJson = bodyParser.json({ limit: "50mb" });
 const bodyParserUrlencoded = bodyParser.urlencoded({
@@ -95,7 +98,19 @@ app.use(
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`server running on port ${port}`));
+const server = http
+  .createServer(app)
+  .listen(port, () => console.log(`server running on port ${port}`));
+
+const io = socketIo(server);
+
+io.on("connection", function(socket) {
+  // console.log("user connected");
+  socket.on("chat:message", function(msg) {
+    // console.log("message: " + msg);
+    io.emit("chat:message", msg);
+  });
+});
 
 // serv assets if in production
 if (process.env.NODE_ENV === "production") {

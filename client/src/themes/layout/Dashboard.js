@@ -4,6 +4,7 @@ import { Route, Link } from "react-router-dom";
 
 import { logoutUser } from "../../store/Users/actions";
 import Tasks from "../../root/Tasks";
+import MessangersContainer from "../../store/Messangers/components/MessangersContainer";
 
 class Dashboard extends Component {
   logoutUserHandler = async () => {
@@ -22,6 +23,9 @@ class Dashboard extends Component {
           Witaj:{" "}
           {loggedUser ? `${loggedUser.name} / ${loggedUser.status}` : null}
         </div>
+        <Link className="btn btn-default" to="/messanger">
+          Messanger
+        </Link>
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>
@@ -29,6 +33,7 @@ class Dashboard extends Component {
           Logout
         </button>
         <div className="container">
+          <Route exact path="/messanger" component={MessangersContainer} />
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/" component={Tasks} />
         </div>
@@ -43,7 +48,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(Dashboard);
+export default connect(mapStateToProps, { logoutUser })(Dashboard);
