@@ -158,7 +158,12 @@ export const StyledMessangersContainer = styled.div`
   .outgoing_msg {
     overflow: hidden;
     margin: 26px 0 26px;
-    display: none;
+  }
+  .outgoing_msg_img {
+    display: inline-block;
+    width: 6%;
+    float: right;
+    margin-right: 5px;
   }
   .sent_msg {
     float: right;
@@ -196,5 +201,6 @@ export const StyledMessangersContainer = styled.div`
   .msg_history {
     max-height: 516px;
     overflow-y: auto;
+    clear: both;
   }
 `;

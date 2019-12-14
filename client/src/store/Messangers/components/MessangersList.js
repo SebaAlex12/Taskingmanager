@@ -9,21 +9,33 @@ import { StyledMessangerList } from "../styles/StyledMessangerList";
 class MessangersList extends Component {
   render() {
     const { messangers } = this.props;
-    let n;
-    const messangersContent = messangers.map(messanger => {
+    let n = 0;
+
+    function mapReverse(array, fn) {
+      return array.reduceRight(function(result, el) {
+        result.push(fn(el));
+        return result;
+      }, []);
+    }
+
+    const messangersReverse = mapReverse(messangers, function(i) {
+      return i;
+    });
+
+    const messangersContent = messangersReverse.map(messanger => {
       // return <div>{messanger.msg}</div>;
       return <MessangersItem item={messanger} key={n++} />;
     });
     return (
       <StyledMessangerList>
         <div className="mesgs">
-          <div className="msg_history">
-            <div className="messangers-list-box">{messangersContent}</div>
-          </div>
           <div className="type_msg">
             <div className="input_msg_write">
               <MessangersAddForm />
             </div>
+          </div>
+          <div className="msg_history">
+            <div className="messangers-list-box">{messangersContent}</div>
           </div>
         </div>
       </StyledMessangerList>

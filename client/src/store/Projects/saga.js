@@ -12,7 +12,7 @@ import {
   PROJECTS_ERROR
 } from "./types";
 
-import { UPDATE_MESSAGES } from "../Messages/types";
+import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 
 function* fetchProjectsAsync() {
   try {
@@ -102,7 +102,7 @@ function* addProjectAsync(action) {
   if (response.errors) {
     yield put({ type: PROJECTS_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { errors: response.errors }
     });
   } else {
@@ -111,7 +111,7 @@ function* addProjectAsync(action) {
       payload: response
     });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { success: [{ message: "Projekt został dodany" }] }
     });
   }
@@ -174,7 +174,7 @@ function* updateProjectAsync(action) {
   if (response.errors) {
     yield put({ type: PROJECTS_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { errors: response.errors }
     });
   } else {
@@ -183,7 +183,7 @@ function* updateProjectAsync(action) {
       payload: response
     });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { success: [{ message: "Projekt został zaktualizowany" }] }
     });
   }

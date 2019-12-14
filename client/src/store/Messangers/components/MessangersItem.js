@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import moment from "moment";
+import { connect } from "react-redux";
 
 class MessangersItem extends Component {
   render() {
     const {
-      item: { from, msg, topic, createAt }
+      item: { from, msg, topic, createAt },
+      loggedUser
     } = this.props;
 
-    return (
-      <div className="messangers-item-box">
+    const itemContent =
+      loggedUser.name === from ? (
         <div className="incoming_msg">
           <div className="incoming_msg_img">
             <img src="avatar.png" alt="" />
@@ -22,6 +24,7 @@ class MessangersItem extends Component {
             </div>
           </div>
         </div>
+      ) : (
         <div className="outgoing_msg">
           <div className="sent_msg">
             <p>{msg}</p>
@@ -29,10 +32,20 @@ class MessangersItem extends Component {
               {from} | {moment(new Date(createAt)).format("D/M/Y HH:mm:ss")}
             </span>{" "}
           </div>
+          <div className="outgoing_msg_img">
+            <img src="avatar.png" alt="" />
+          </div>
         </div>
-      </div>
-    );
+      );
+
+    return <div className="messangers-item-box">{itemContent}</div>;
   }
 }
 
-export default MessangersItem;
+const mapStateToProps = state => {
+  return {
+    loggedUser: state.users.logged_user
+  };
+};
+
+export default connect(mapStateToProps, {})(MessangersItem);

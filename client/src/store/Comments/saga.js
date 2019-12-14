@@ -9,7 +9,7 @@ import {
   COMMENTS_ERROR
 } from "./types";
 
-import { UPDATE_MESSAGES } from "../Messages/types";
+import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 
 function* fetchCommentsAsync(action) {
   const data = action.data;
@@ -96,7 +96,7 @@ function* addCommentAsync(action) {
   if (response.errors) {
     yield put({ type: COMMENTS_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { errors: response.errors }
     });
   } else {
@@ -105,7 +105,7 @@ function* addCommentAsync(action) {
       payload: response
     });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { success: [{ message: "Komentarz został dodany" }] }
     });
   }

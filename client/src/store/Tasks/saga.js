@@ -13,7 +13,7 @@ import {
   TASKS_ERROR
 } from "./types";
 
-import { UPDATE_MESSAGES } from "../Messages/types";
+import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 
 function* fetchTasksAsync(action) {
   try {
@@ -127,13 +127,13 @@ function* addTaskAsync(action) {
   if (response.errors) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { errors: response.errors }
     });
   } else {
     yield put({ type: ADD_TASK_SUCCESS, payload: response });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { success: [{ message: "Zadanie zostało dodane" }] }
     });
   }
@@ -220,7 +220,7 @@ function* updateTaskAsync(action) {
   if (response.errors) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { errors: response.errors }
     });
   } else {
@@ -229,7 +229,7 @@ function* updateTaskAsync(action) {
       payload: response
     });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { success: [{ message: "Zadanie zostało zaktualizowane" }] }
     });
   }

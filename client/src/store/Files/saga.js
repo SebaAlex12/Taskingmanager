@@ -10,7 +10,7 @@ import {
   FILES_ERROR
 } from "./types";
 
-import { UPDATE_MESSAGES } from "../Messages/types";
+import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 
 function* fetchFilesAsync() {}
 
@@ -40,7 +40,7 @@ function* addFileAsync(action) {
   if (response.errors) {
     yield put({ type: FILES_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { errors: response.errors }
     });
   } else {
@@ -49,7 +49,7 @@ function* addFileAsync(action) {
       payload: response
     });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { success: [{ message: "Pliki zostały dodane" }] }
     });
   }

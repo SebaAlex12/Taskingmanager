@@ -16,7 +16,7 @@ import {
   USER_ERROR
 } from "./types";
 
-import { UPDATE_MESSAGES } from "../Messages/types";
+import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 
 function* loginUserAsync(action) {
   try {
@@ -109,7 +109,7 @@ function* registerUserAsync(action) {
   if (response.errors) {
     yield put({ type: USER_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { errors: response.errors }
     });
   } else {
@@ -118,7 +118,7 @@ function* registerUserAsync(action) {
       payload: response
     });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { success: [{ message: "Użytkownik został dodany" }] }
     });
   }
@@ -228,13 +228,13 @@ function* updateUserAsync(action) {
   if (response.errors) {
     yield put({ type: USER_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { errors: response.errors }
     });
   } else {
     yield put({ type: UPDATE_USER_SUCCESS, payload: response });
     yield put({
-      type: UPDATE_MESSAGES,
+      type: UPDATE_MESSAGES_SUCCESS,
       payload: { success: [{ message: "Użytkownik został zaktualizowany" }] }
     });
   }

@@ -4,7 +4,12 @@ import {
   fetchMessangersWatcher,
   updateMessangerWatcher
 } from "./Messangers/saga";
-import { updateMessagesWatcher, fetchMessagesWatcher } from "./Messages/saga";
+import {
+  updateMessagesWatcher,
+  updateAlertMessagesWatcher,
+  removeAlertMessagesWatcher,
+  fetchMessagesWatcher
+} from "./Messages/saga";
 import {
   fetchTasksWatcher,
   addTaskWatcher,
@@ -35,6 +40,8 @@ import {
 export default function* rootSaga() {
   yield all([
     fork(updateMessagesWatcher),
+    fork(updateAlertMessagesWatcher),
+    fork(removeAlertMessagesWatcher),
     fork(fetchMessagesWatcher),
     fork(loginUserWatcher),
     fork(registerUserWatcher),
