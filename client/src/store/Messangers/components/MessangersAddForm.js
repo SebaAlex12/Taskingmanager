@@ -3,29 +3,17 @@ import { connect } from "react-redux";
 import moment from "moment";
 import io from "socket.io-client";
 
-// import { updateMessanger } from "../actions";
 import { StyledMessangersForm } from "../styles/StyledMessangersForm";
-// import { updateAlertMessages } from "../../Messages/actions";
 
 class MessangersAddForm extends Component {
   constructor(props) {
     super(props);
-    // const { updateMessanger, updateAlertMessages } = this.props;
     this.state = {
       message: ""
     };
     if (!this.socket) {
       this.socket = io();
     }
-    // const port = process.env.PORT || 5000;
-    // console.log("port", port);
-    // if (!this.socket) {
-    //   this.socket = io();
-    //   this.socket.on("chat:message", function(msg) {
-    //     updateMessanger(msg);
-    //     updateAlertMessages({ type: "messanger", data: msg });
-    //   });
-    // }
   }
 
   onChangeInput = event => {
@@ -88,7 +76,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  // updateMessanger,
-  // updateAlertMessages
-})(MessangersAddForm);
+export default connect(mapStateToProps, {})(MessangersAddForm);

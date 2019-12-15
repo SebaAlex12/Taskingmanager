@@ -22,6 +22,27 @@ class MessagesAlertList extends Component {
   render() {
     const { alert_messages } = this.props;
     // console.log("alert msg", alert_messages);
+
+    let chatMessages = [];
+
+    alert_messages.forEach(item => {
+      switch (item.type) {
+        case "messanger":
+          chatMessages.push(item.data);
+          break;
+      }
+    });
+    console.log("msgwfwfwfe", chatMessages);
+    const arr = chatMessages.reduce((total, item) => {
+      let n = total[item.from] ? total[item.from] : 1;
+      return (total = {
+        person: item.from,
+        counter: n++
+      });
+    }, []);
+
+    console.log("arr", arr);
+
     const alertMessagesContent =
       alert_messages && alert_messages.length > 0
         ? alert_messages.map((message, index) => (
