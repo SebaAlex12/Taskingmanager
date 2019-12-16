@@ -37,14 +37,17 @@ class Dashboard extends Component {
     const { loggedUser } = this.props;
     return (
       <div>
-        <MessagesAlertList />
+        {loggedUser.status !== "Klient" ? <MessagesAlertList /> : null}
         <div className="logged-user">
           Witaj:{" "}
           {loggedUser ? `${loggedUser.name} / ${loggedUser.status}` : null}
         </div>
+        {loggedUser.status !== "Klient" ? (
         <Link className="btn btn-default" to="/messanger">
           Messanger
         </Link>
+        ) : null}
+
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>

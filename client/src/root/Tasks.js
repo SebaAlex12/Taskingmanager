@@ -69,7 +69,7 @@ class Tasks extends Component {
     const { loggedUser } = this.props;
     return (
       <div className="tasks-box">
-        {loggedUser.status !== "Klient" ? <ProjectsList /> : null}
+        {loggedUser.status === "Administrator" ? <ProjectsList /> : null}
         {loggedUser.status === "Administrator" ? <UsersList /> : null}
         {/* <TasksList /> */}
         <FiltersContainer />
