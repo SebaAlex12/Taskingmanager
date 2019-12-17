@@ -23,10 +23,6 @@ class CommentsAddForm extends Component {
     });
   };
   onChangeTextImagesArea = () => {
-    // console.log(
-    //   "mix textarea",
-    //   document.getElementById("mixTextImagesArea").innerHTML
-    // );
     this.setState({
       description: document.getElementById("mixTextImagesArea").innerHTML
     });
@@ -39,7 +35,6 @@ class CommentsAddForm extends Component {
       loggedUser,
       updateTask
     } = this.props;
-    // const { description } = this.state;
 
     const description = document.getElementById("mixTextImagesArea").innerHTML;
 
@@ -53,11 +48,10 @@ class CommentsAddForm extends Component {
     const responsiblePersonLastComment =
       loggedUser.name === responsiblePerson ? true : false;
 
-    // console.log("add comment", description);
-
     event.preventDefault();
-    // console.log(data);
+
     const response = addComment(data);
+    // document.getElementById("mixTextImagesArea").innerHTML = "";
     updateTask({
       _id: taskId,
       responsiblePersonLastComment: responsiblePersonLastComment
@@ -104,7 +98,6 @@ class CommentsAddForm extends Component {
         // Update dimensions of the canvas with the dimensions of the image
         mycanvas.width = this.width;
         mycanvas.height = this.height;
-
         // Draw the image
         ctx.drawImage(img, 0, 0);
 
@@ -146,20 +139,18 @@ class CommentsAddForm extends Component {
               // document.getElementById('main').appendChild(img);
               // var log = "w=" + img.width + " h=" + img.height;
               // document.getElementById('log').value = log;
-              var el = document.getElementById("mixTextImagesArea");
-              console.log("element img", img);
+              // var el = document.getElementById("mixTextImagesArea");
+              // console.log("element img", img);
               document.getElementById("mixTextImagesArea").appendChild(img);
             });
           }
         });
-        // console.log(document.getElementById("mixTextImagesArea"));
       },
       false
     );
   };
 
   render() {
-    // console.log(this.state);
     return (
       <StyledCommentAddForm>
         <div className="comment-add-form-box">

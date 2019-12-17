@@ -40,4 +40,13 @@ export const StyledCommentList = styled.div`
     cursor: auto;
     opacity: 0.5;
   }
+  .comments-list-box li .description img,
+  .comments-list-box li .short-description img {
+    width: 100%;
+    height: auto;
+  }
+  .comments-list-box li .short-description {
+    height: 50px;
+    overflow: hidden;
+  }
 `;

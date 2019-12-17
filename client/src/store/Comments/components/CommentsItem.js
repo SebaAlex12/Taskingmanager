@@ -11,7 +11,7 @@ class CommentsItem extends Component {
     // let description = this.retriveImageFromBase64(item.description);
     // console.log("constructor desc", description);
     this.state = {
-      toggleDescriptionMore: true
+      toggleDescriptionMore: false
     };
   }
   // componentDidMount() {
@@ -26,30 +26,30 @@ class CommentsItem extends Component {
   //   console.log("retrive image", image.outerHTML);
   //   return image.outerHTML;
   // };
-  stringToHTMLElement = str => {
-    var dom = document.createElement("div");
-    dom.innerHTML = str;
-    return dom;
-  };
-  stringToHTML = str => {
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(str, "text/html");
-    return doc.body;
-  };
+  // stringToHTMLElement = str => {
+  //   var dom = document.createElement("div");
+  //   dom.innerHTML = str;
+  //   return dom;
+  // };
+  // stringToHTML = str => {
+  //   var parser = new DOMParser();
+  //   var doc = parser.parseFromString(str, "text/html");
+  //   return doc.body;
+  // };
 
   render() {
     const { item, responsiblePerson } = this.props;
     const { toggleDescriptionMore } = this.state;
-    const charts = 100;
+    const charts = 50;
     // let description = "";
     // console.log("item user", item);
     // document.querySelector(".description").innerHTML = item.description;
-    console.log(document.querySelector(".description"));
+    // console.log(document.querySelector(".description"));
 
-    console.log("render desc", item.description);
-    console.log("object[]", this.stringToHTML(item.description));
-    console.log("created element", this.stringToHTMLElement(item.description));
-    let element = React.createElement("div", {}, item.description);
+    // console.log("render desc", item.description);
+    // console.log("object[]", this.stringToHTML(item.description));
+    // console.log("created element", this.stringToHTMLElement(item.description));
+    // let element = React.createElement("div", {}, item.description);
     // element.innerHTML = item.description;
     const isActive =
       item.createdBy === responsiblePerson
@@ -80,7 +80,15 @@ class CommentsItem extends Component {
               }
             ></i>
           </div>
-          <div className="description">{ReactHtmlParser(item.description)}</div>
+          {toggleDescriptionMore ? (
+            <div className="description">
+              {ReactHtmlParser(item.description)}
+            </div>
+          ) : (
+            <div className="short-description">
+              {ReactHtmlParser(item.description)}
+            </div>
+          )}
         </div>
       </li>
     );
