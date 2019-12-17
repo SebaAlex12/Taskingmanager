@@ -13,4 +13,15 @@ export const StyledCommentAddForm = styled.div`
     margin-right: 3px;
     position: relative;
   }
+  #mixTextImagesArea {
+    width: 445px;
+    height: 205px;
+    border: 1px solid #ddd;
+    overflow-y: auto;
+    text-align: left;
+  }
+  #mixTextImagesArea img {
+    width: 100%;
+    height: auto;
+  }
 `;

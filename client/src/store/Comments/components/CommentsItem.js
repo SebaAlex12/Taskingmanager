@@ -1,20 +1,56 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
+import ReactHtmlParser from "react-html-parser";
 
 class CommentsItem extends Component {
   constructor(props) {
     super(props);
+    // const { item } = this.props;
+    // this.retriveImageFromBase64(description);
+    // let description = this.retriveImageFromBase64(item.description);
+    // console.log("constructor desc", description);
     this.state = {
-      toggleDescriptionMore: false
+      toggleDescriptionMore: true
     };
   }
+  // componentDidMount() {
+  //   document.getElementById("mixTextImagesAreaEditor").appendChild(image);
+  // }
+  // retriveImageFromBase64 = imageBase64 => {
+  //   var image = new Image();
+  //   image.onload = function() {
+  //     console.log(image.width); // image is loaded and we have image width
+  //   };
+  //   image.src = imageBase64;
+  //   console.log("retrive image", image.outerHTML);
+  //   return image.outerHTML;
+  // };
+  stringToHTMLElement = str => {
+    var dom = document.createElement("div");
+    dom.innerHTML = str;
+    return dom;
+  };
+  stringToHTML = str => {
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(str, "text/html");
+    return doc.body;
+  };
+
   render() {
     const { item, responsiblePerson } = this.props;
     const { toggleDescriptionMore } = this.state;
     const charts = 100;
+    // let description = "";
     // console.log("item user", item);
+    // document.querySelector(".description").innerHTML = item.description;
+    console.log(document.querySelector(".description"));
 
+    console.log("render desc", item.description);
+    console.log("object[]", this.stringToHTML(item.description));
+    console.log("created element", this.stringToHTMLElement(item.description));
+    let element = React.createElement("div", {}, item.description);
+    // element.innerHTML = item.description;
     const isActive =
       item.createdBy === responsiblePerson
         ? "list-group-item creator"
@@ -44,13 +80,7 @@ class CommentsItem extends Component {
               }
             ></i>
           </div>
-          {toggleDescriptionMore ? (
-            <div className="description">{item.description}</div>
-          ) : (
-            <div className="short-description">
-              {item.description.substring(0, charts)}
-            </div>
-          )}
+          <div className="description">{ReactHtmlParser(item.description)}</div>
         </div>
       </li>
     );
