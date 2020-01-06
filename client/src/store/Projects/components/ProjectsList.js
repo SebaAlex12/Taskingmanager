@@ -86,11 +86,17 @@ class ProjectsList extends Component {
       projectName !== ""
         ? "glyphicon glyphicon-filter active"
         : "glyphicon glyphicon-filter";
+
+    const btn_clazz = toggleProjectsAddForm ? "flow-box active" : "flow-box";
+    const btn_list_clazz = toggleProjectsList
+      ? "project-list-flow-box active"
+      : "project-list-flow-box";
+
     return (
       <StyledProjectList>
         <div className="projects-box">
           {loggedUser.status === "Administrator" ? (
-            <div className="flow-box">
+            <div className={btn_clazz}>
               <Button
                 variant="primary"
                 onClick={() =>
@@ -104,7 +110,7 @@ class ProjectsList extends Component {
               {toggleProjectsAddForm ? <ProjectsAddForm /> : null}
             </div>
           ) : null}
-          <div className="project-list-flow-box">
+          <div className={btn_list_clazz}>
             <Button
               variant="primary"
               onClick={() =>

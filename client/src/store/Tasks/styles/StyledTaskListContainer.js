@@ -7,7 +7,10 @@ export const StyledTaskListContainer = styled.div`
     text-align: right;
     top: 0px;
     right: 0px;
-    z-index: 1000;
+    z-index: 100;
+  }
+  .flow-box.active > button {
+    background-color: green;
   }
   .flow-box .task-add-form-box {
     background-color: #fff;

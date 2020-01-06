@@ -27,11 +27,14 @@ class LoginForm extends Component {
 
     const response = await loginUser({ email: email, password: password });
 
+    // const reload = await reload();
+
     this.setState({
       message: "Logowanie do systemu..."
     });
 
     if (response) {
+      // console.log("response", response);
       setTimeout(function() {
         reload();
       }, 4000);

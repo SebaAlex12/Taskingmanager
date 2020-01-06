@@ -1,9 +1,9 @@
 import { fork, all } from "redux-saga/effects";
 import { fetchFiltersWatcher, updateFilterWatcher } from "./Filters/saga";
 import {
-  fetchMessangersWatcher,
-  updateMessangerWatcher
-} from "./Messangers/saga";
+  fetchMessengersWatcher,
+  updateMessengerWatcher
+} from "./Messengers/saga";
 import {
   updateMessagesWatcher,
   updateAlertMessagesWatcher,
@@ -61,8 +61,8 @@ export default function* rootSaga() {
     fork(removeProjectWatcher),
     fork(fetchFiltersWatcher),
     fork(updateFilterWatcher),
-    fork(fetchMessangersWatcher),
-    fork(updateMessangerWatcher),
+    fork(fetchMessengersWatcher),
+    fork(updateMessengerWatcher),
     fork(fetchFilesWatcher),
     fork(addFileWatcher),
     fork(removeFileWatcher)

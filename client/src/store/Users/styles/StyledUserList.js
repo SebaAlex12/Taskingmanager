@@ -6,9 +6,12 @@ export const StyledUserList = styled.div`
     float: left;
     text-align: right;
     top: 0px;
-    right: 225px;
+    right: 248px;
     background-color: #fff;
-    z-index: 1000;
+    z-index: 102;
+  }
+  .users-box > .flow-box.active > button {
+    background-color: green;
   }
   .users-box > .flow-box > button:last-child {
     left: 50px;
@@ -17,7 +20,7 @@ export const StyledUserList = styled.div`
   }
   .users-list {
     position: fixed;
-    top: 35px;
+    top: 42px;
     left: 0px;
     z-index: 100;
     overflow-y: auto;
@@ -68,8 +71,11 @@ export const StyledUserList = styled.div`
   .user-list-flow-box {
     position: fixed;
     top: 0px;
-    left: 132px;
+    left: 136px;
     z-index: 100;
+  }
+  .user-list-flow-box.active > button {
+    background-color: green;
   }
   .user-list-flow-box button {
     padding-right: 22px;

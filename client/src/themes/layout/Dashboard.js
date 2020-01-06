@@ -5,23 +5,31 @@ import io from "socket.io-client";
 
 import { logoutUser } from "../../store/Users/actions";
 import Tasks from "../../root/Tasks";
-import MessangersContainer from "../../store/Messangers/components/MessangersContainer";
+import MessengersContainer from "../../store/Messengers/components/MessengersContainer";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 
-import { updateMessanger } from "../../store/Messangers/actions";
+import { updateMessenger } from "../../store/Messengers/actions";
 import { updateAlertMessages } from "../../store/Messages/actions";
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-    const { updateMessanger, updateAlertMessages } = this.props;
+    const { updateMessenger, updateAlertMessages, loggedUser } = this.props;
+
     // const port = process.env.PORT || 5000;
     // console.log("port", port);
     if (!this.socket) {
       this.socket = io();
       this.socket.on("chat:message", function(msg) {
-        updateMessanger(msg);
-        updateAlertMessages({ type: "messanger", data: msg });
+        console.log("msg", msg);
+        let users = msg.to.split(",");
+        if (users.includes(loggedUser.name)) {
+          updateMessenger(msg);
+          // dont send alert to message creator
+          if (msg.from !== loggedUser.name) {
+            updateAlertMessages({ type: "messenger", data: msg });
+          }
+        }
       });
     }
   }
@@ -37,16 +45,18 @@ class Dashboard extends Component {
     const { loggedUser } = this.props;
     return (
       <div>
-        {loggedUser.status !== "Klient" ? <MessagesAlertList /> : null}
+        {/* {loggedUser.status !== "Klient" ? (  */}
+        <MessagesAlertList />
+        {/* ) : null} */}
         <div className="logged-user">
           Witaj:{" "}
           {loggedUser ? `${loggedUser.name} / ${loggedUser.status}` : null}
         </div>
-        {loggedUser.status !== "Klient" ? (
-        <Link className="btn btn-default" to="/messanger">
-          Messanger
+        {/* {loggedUser.status !== "Klient" ? ( */}
+        <Link className="btn btn-default" to="/messenger">
+          Messenger
         </Link>
-        ) : null}
+        {/* ) : null} */}
 
         <Link className="btn btn-default" to="/tasks">
           Zadania
@@ -55,7 +65,7 @@ class Dashboard extends Component {
           Logout
         </button>
         <div className="container">
-          <Route exact path="/messanger" component={MessangersContainer} />
+          <Route exact path="/messenger" component={MessengersContainer} />
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/" component={Tasks} />
         </div>
@@ -72,6 +82,6 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   logoutUser,
-  updateMessanger,
+  updateMessenger,
   updateAlertMessages
 })(Dashboard);

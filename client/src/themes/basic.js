@@ -37,8 +37,11 @@ export const Button = styled.button`
     background-color: ${backgroundColorHover};
     color: ${fontColorHover};
   }
+  &:focus {
+    outline: none;
+  }
   border: 1px solid buttonface;
-  padding: 5px 10px;
+  padding: 10px 18px;
   border-radius: 5px;
 `;
 

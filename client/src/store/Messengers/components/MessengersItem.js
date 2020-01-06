@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import { connect } from "react-redux";
 
-class MessangersItem extends Component {
+class MessengersItem extends Component {
   render() {
     const {
       item: { from, msg, topic, createAt },
@@ -38,7 +38,7 @@ class MessangersItem extends Component {
         </div>
       );
 
-    return <div className="messangers-item-box">{itemContent}</div>;
+    return <div className="messengers-item-box">{itemContent}</div>;
   }
 }
 
@@ -48,4 +48,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {})(MessangersItem);
+export default connect(mapStateToProps, {})(MessengersItem);

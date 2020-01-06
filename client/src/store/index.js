@@ -6,7 +6,7 @@ import { usersReducer } from "./Users/reducers";
 import { projectsReducer } from "./Projects/reducers";
 import { filesReducer } from "./Files/reducers";
 import { filtersReducer } from "./Filters/reducers";
-import { messangersReducer } from "./Messangers/reducers";
+import { messengersReducer } from "./Messengers/reducers";
 import { messagesReducer } from "./Messages/reducers";
 
 export const reducers = combineReducers({
@@ -16,6 +16,6 @@ export const reducers = combineReducers({
   projects: projectsReducer,
   files: filesReducer,
   filters: filtersReducer,
-  messangers: messangersReducer,
+  messengers: messengersReducer,
   messages: messagesReducer
 });

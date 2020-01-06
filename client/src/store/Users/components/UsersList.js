@@ -48,11 +48,17 @@ class UsersList extends Component {
       responsiblePerson !== ""
         ? "glyphicon glyphicon-filter active"
         : "glyphicon glyphicon-filter";
+
+    const btn_clazz = toggleRegistryForm ? "flow-box active" : "flow-box";
+    const btn_list_clazz = toggleUsersList
+      ? "user-list-flow-box active"
+      : "user-list-flow-box";
+
     return (
       <StyledUserList>
         <div className="users-box">
           {loggedUser.status === "Administrator" ? (
-            <div className="flow-box">
+            <div className={btn_clazz}>
               <Button
                 variant="primary"
                 onClick={() =>
@@ -66,7 +72,7 @@ class UsersList extends Component {
               {toggleRegistryForm ? <RegistryForm /> : null}
             </div>
           ) : null}
-          <div className="user-list-flow-box">
+          <div className={btn_list_clazz}>
             <Button
               variant="primary"
               onClick={() =>

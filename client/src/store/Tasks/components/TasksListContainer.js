@@ -205,10 +205,12 @@ class TasksListContainer extends Component {
         : "loading...";
     }
 
+    const clazz = toggleTasksAddForm ? "flow-box active" : "flow-box";
+
     return (
       <StyledTaskListContainer>
         <div className="col-lg-12">
-          <div className="flow-box">
+          <div className={clazz}>
             <Button
               variant="primary"
               onClick={() =>

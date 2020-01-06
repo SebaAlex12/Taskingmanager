@@ -6,13 +6,16 @@ export const StyledProjectList = styled.div`
     float: left;
     text-align: right;
     top: 0px;
-    right: 115px;
+    right: 126px;
     background-color: #fff;
-    z-index: 1000;
+    z-index: 101;
   }
   .flow-box .project-add-form-box {
     background-color: #fff;
     padding: 5px;
+  }
+  .flow-box.active > button {
+    background-color: green;
   }
   .projects-box > .flow-box > button:last-child {
     left: 0px;
@@ -21,7 +24,7 @@ export const StyledProjectList = styled.div`
   }
   .projects-list {
     position: fixed;
-    top: 32px;
+    top: 42px;
     left: 0px;
     z-index: 100;
     overflow-y: auto;
@@ -33,13 +36,22 @@ export const StyledProjectList = styled.div`
     padding-right: 0px;
     margin-bottom: 0px;
   }
+  .projects-list > .form-group {
+    position: fixed;
+    width: 243px;
+    z-index: 100;
+  }
   .projects-list .remove-filter {
-    position: absolute;
-    right: 10px;
-    top: 10px;
+    position: fixed;
+    left: 220px;
+    top: 52px;
     color: grey;
     opacity: 0.5;
     cursor: default;
+    z-index: 1000;
+  }
+  .projects-list > div:nth-child(3) {
+    padding-top: 40px;
   }
   .projects-list .remove-filter.active {
     opacity: 1;
@@ -62,8 +74,8 @@ export const StyledProjectList = styled.div`
   .projects-list form > .form-group {
     position: relative;
   }
-  .projects-list form textarea{
-    min-height:420px;
+  .projects-list form textarea {
+    min-height: 420px;
   }
   .projects-list form .show-hide-button {
     position: absolute;
@@ -95,6 +107,9 @@ export const StyledProjectList = styled.div`
     top: 0px;
     left: 0px;
     z-index: 100;
+  }
+  .project-list-flow-box.active > button {
+    background-color: green;
   }
   .project-list-flow-box button {
     padding-right: 22px;

@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import moment from "moment";
 import io from "socket.io-client";
 
-import { StyledMessangersForm } from "../styles/StyledMessangersForm";
+import { StyledMessengersForm } from "../styles/StyledMessengersForm";
 
-class MessangersAddForm extends Component {
+class MessengersAddForm extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       message: ""
     };
@@ -25,11 +26,20 @@ class MessangersAddForm extends Component {
   addHandler = event => {
     event.preventDefault();
     const { message } = this.state;
-    const { loggedUser } = this.props;
+    const { loggedUser, filteredUsers } = this.props;
+    // console.log("add form filtered users", filteredUsers);
+
+    let usersNames = [];
+    usersNames.push(loggedUser.name);
+    filteredUsers.forEach(user => {
+      usersNames.push(user.name);
+    });
+
     const data = {
       from: loggedUser.name,
+      to: usersNames.join(","),
       msg: message,
-      topic: "default",
+      topic: "nowa wiadomość:",
       createAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
     };
     this.socket.emit("chat:message", data);
@@ -40,9 +50,19 @@ class MessangersAddForm extends Component {
 
   render() {
     const { message } = this.state;
+    const { filteredUsers } = this.props;
+
+    const filteredUsersContent = filteredUsers.map(user => {
+      return <span key={user.name}>{user.name}</span>;
+    });
     return (
-      <StyledMessangersForm>
-        <div className="messanger-form-box">
+      <StyledMessengersForm>
+        <div className="messenger-form-box">
+          <div className="users-list">
+            <span>Piszesz do: </span>
+            {filteredUsersContent}
+          </div>
+
           <form action="">
             <div className="form-group">
               <input
@@ -64,7 +84,7 @@ class MessangersAddForm extends Component {
             </div>
           </form>
         </div>
-      </StyledMessangersForm>
+      </StyledMessengersForm>
     );
   }
 }
@@ -72,8 +92,8 @@ class MessangersAddForm extends Component {
 const mapStateToProps = state => {
   return {
     loggedUser: state.users.logged_user,
-    messangers: state.messangers.messangers
+    messengers: state.messengers.messengers
   };
 };
 
-export default connect(mapStateToProps, {})(MessangersAddForm);
+export default connect(mapStateToProps, {})(MessengersAddForm);

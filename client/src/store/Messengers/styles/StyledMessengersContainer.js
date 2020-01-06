@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-export const StyledMessangersContainer = styled.div`
-  .messanger-container-box {
+export const StyledMessengersContainer = styled.div`
+  .messenger-container-box {
   }
-  .messangers-item-box {
+  .messengers-item-box {
     margin-bottom: 10px;
   }
   .container {
@@ -106,6 +106,12 @@ export const StyledMessangersContainer = styled.div`
   .inbox_chat {
     height: 550px;
     overflow-y: scroll;
+  }
+
+  .chat_list > button {
+    border-color: #d3d3d3;
+    border-width: 1px;
+    padding: 10px;
   }
 
   .active_chat {

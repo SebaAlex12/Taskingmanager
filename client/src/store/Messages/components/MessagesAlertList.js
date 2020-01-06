@@ -32,7 +32,7 @@ class MessagesAlertList extends Component {
           break;
       }
     });
-    console.log("msgwfwfwfe", chatMessages);
+    // console.log("msgwfwfwfe", chatMessages);
     const arr = chatMessages.reduce((total, item) => {
       let n = total[item.from] ? total[item.from] : 1;
       return (total = {
@@ -47,7 +47,8 @@ class MessagesAlertList extends Component {
       alert_messages && alert_messages.length > 0
         ? alert_messages.map((message, index) => (
             <div className="msg alert" key={index}>
-              <div className="title">{message.type}</div>
+              {/* <div className="title">{message.type}</div> */}
+              <div className="topic">{message.data.topic}</div>
               <div className="description">{message.data.from}</div>
             </div>
           ))
