@@ -39,7 +39,8 @@ class MessengersAddForm extends Component {
       from: loggedUser.name,
       to: usersNames.join(","),
       msg: message,
-      topic: "nowa wiadomość:",
+      topic: "masz nową wiadomość",
+      type: "msg_add",
       createAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
     };
     this.socket.emit("chat:message", data);

@@ -86,15 +86,16 @@ export const StyledUserList = styled.div`
     position: absolute;
     z-index: 1000;
     right: 5px;
-    top: 8px;
+    top: 12px;
   }
   .user-list-flow-box .glyphicon-filter:before {
     color: grey;
     opacity: 0.5;
     cursor: default;
+    font-size: 16px;
   }
   .user-list-flow-box .glyphicon-filter.active:before {
-    color: red;
+    color: #ff4e4e;
     opacity: 1;
     cursor: pointer;
   }

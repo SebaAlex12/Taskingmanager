@@ -25,29 +25,52 @@ export const StyledMessagesList = styled.div`
   .messages-alert-box {
     display: inline-block;
     position: relative;
+    margin: 5px;
+    width: 100%;
+  }
+  .messages-alert-box > i {
+    width: 100%;
   }
   .messages-alert-box .glyphicon {
     color: green;
-    cursor: pointer;
   }
-  .messages-alert-box .glyphicon:before {
-    font-size: 25px;
+  .messages-alert-box > .glyphicon:before {
+    font-size: 28px;
   }
   .messages-alert-box.active .glyphicon {
     color: red;
   }
   .messages-alert-box .content {
     position: absolute;
-    background-color: grey;
     color: #fff;
-    display: none;
+    display: flex;
+    left: 50%;
+    transform: translate(-50%, -84px);
+    opacity: 0;
+    transition: all 0.8s ease-in-out 0s;
+    max-width: 100%;
+  }
+  .messages-alert-box .content .btn {
+    cursor: pointer;
   }
   .messages-alert-box .msg.alert {
     display: block;
-    padding: 0px 18px;
-    margin-bottom: 5px;
+    padding: 5px 18px;
+    margin-bottom: 0px;
+    background-color: grey;
+  }
+  .messages-alert-box .msg.alert .glyphicon:before {
+    font-size: 17px;
+  }
+  .messages-alert-box .msg.alert .priority {
+    color: #cc1717 !important;
+  }
+  .messages-alert-box .msg.alert > div:first-child {
+    color: #1c861c;
+    font-size: 20px;
   }
   .messages-alert-box:hover .content {
-    display: flex;
+    opacity: 1;
+    transform: translate(-50%, 5px);
   }
 `;

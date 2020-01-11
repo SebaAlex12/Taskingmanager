@@ -106,7 +106,7 @@ module.exports = {
           ...storedTask._doc,
           files: files.filter(file => file != "mini")
         };
-        console.log("update stored task", storedTask);
+        // console.log("update stored task", storedTask);
       } else {
         storedTask = {
           ...storedTask._doc,
@@ -118,16 +118,15 @@ module.exports = {
     } catch (e) {
       return { errors: tools.formatErrors(e) };
     }
+  },
+  removeTask: async function({ taskId }) {
+    try {
+      await Task.deleteOne({ _id: taskId });
+    } catch (e) {
+      return { errors: tools.formatErrors(e) };
+    }
+    return { _id: taskId };
   }
-  // removeTask: async function({ taskId }) {
-  //   try {
-  //     await Task.deleteOne({ _id: taskId });
-  //   } catch (err) {
-  //     const error = new Error(err);
-  //     throw error;
-  //   }
-  //   return { _id: taskId };
-  // }
 };
 
 function stringToBoolean(val) {

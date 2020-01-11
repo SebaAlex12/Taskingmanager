@@ -17,9 +17,9 @@ export const updateTask = data => ({
   type: UPDATING_TASK,
   data
 });
-export const removeTask = taskId => ({
+export const removeTask = data => ({
   type: REMOVING_TASK,
-  taskId
+  data
 });
 
 // export const fetchTasks = () => {

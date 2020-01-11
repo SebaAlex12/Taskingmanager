@@ -14,37 +14,19 @@ module.exports = {
       description: commentInput.description,
       createdAt: commentInput.createdAt
     });
-
-    // const storedComment = await comment.save();
-
-    // return { ...storedComment._doc, _id: storedComment._id.toString() };
-
     try {
       const storedComment = await comment.save();
       return { ...storedComment._doc, _id: storedComment._id.toString() };
     } catch (e) {
       return { errors: tools.formatErrors(e) };
     }
+  },
+  removeComments: async function({ taskId }) {
+    try {
+      await comment.deleteMany({ taskId: taskId });
+    } catch (e) {
+      return { errors: tools.formatErrors(e) };
+    }
+    return { _id: taskId };
   }
-  // updateTaskAddComment: async function({ commentInput }, req) {
-  //   let params = {};
-  //   let comments = {};
-  //   console.log("resolver", commentInput);
-  //   params._id = commentInput.taskId;
-  //   let storedTask = await Task.findOne(params);
-
-  //   const comment = new Comment(commentInput);
-  //   const storedComment = await comment.save();
-
-  //   comments = await Comment.find({ taskId: commentInput.taskId });
-
-  //   storedTask = {
-  //     ...storedTask._doc,
-  //     comments
-  //   };
-
-  //   console.log("stored task", storedTask);
-
-  //   return { ...storedTask, _id: storedTask._id };
-  // },
 };

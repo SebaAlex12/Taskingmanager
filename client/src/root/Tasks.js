@@ -31,7 +31,8 @@ class Tasks extends Component {
       } else if (status === "Pracownik") {
         fetchTasks({ responsiblePerson: name });
       } else {
-        fetchTasks({ projectName, responsiblePerson });
+        // fetchTasks({ projectName, responsiblePerson });
+        fetchTasks({ responsiblePerson: name });
       }
       this.setState({
         filters: {

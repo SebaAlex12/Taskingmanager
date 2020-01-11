@@ -20,17 +20,43 @@ export const StyledTaskListContainer = styled.div`
     float: left;
   }
   .task-items-box .title {
+    font-weight: bold;
+  }
+  .task-items-box .title,
+  .task-items-box .task-all-switcher {
     float: left;
     padding-top: 10px;
+    padding-right: 10px;
   }
-  .task-items-box > div {
-    clear: both;
+  .task-items-box .task-all-switcher {
+    cursor: pointer;
+  }
+  .task-items-box .task-all-switcher i {
+    font-size: 20px;
+    margin-right: 5px;
+    color: grey;
+    margin-right: 5px;
+  }
+  .task-items-box .task-all-switcher.active i {
+    color: green;
+  }
+  .task-items-box table tr.status_2,
+  .task-items-box table tr.priority_0 {
+    background-color: rgba(255, 78, 78, 0.1);
+  }
+  .task-items-box table tr:hover {
+    background-color: rgba(128, 128, 128, 0.1);
   }
   .task-items-box table .details {
     text-align: left;
+    width: 54px;
   }
   .task-items-box .details i {
     cursor: pointer;
+    margin-left: 4px;
+  }
+  .task-items-box .details i.glyphicon-remove {
+    color: red;
   }
   .task-items-box>table>thead>tr>th: first-child {
     width: 180px;

@@ -18,13 +18,14 @@ class TasksListContainer extends Component {
       orderColumn: "priority",
       orderDirection: "desc",
       userTasks: false,
-      activeTaskId: false
+      activeTaskId: false,
+      activeAllTasks: false
     };
   }
   componentDidMount() {
     const {
-      tasks,
-      filters: { statuses, priorities, projectName, responsiblePerson }
+      tasks
+      // filters: { statuses, priorities, projectName, responsiblePerson }
     } = this.props;
 
     // console.log("tasks filters", this.props.filters);
@@ -46,44 +47,50 @@ class TasksListContainer extends Component {
       });
     }
   };
+  switchAllTasks = () => {
+    const { activeAllTasks } = this.state;
+    const { loggedUser, fetchTasks, updateFilter, filters } = this.props;
+
+    if (!activeAllTasks) {
+      fetchTasks({ projectId: 1 });
+      updateFilter({
+        ...filters,
+        ownerToAcceptTasksOnly: false
+      });
+    } else {
+      fetchTasks({ responsiblePerson: loggedUser.name });
+      updateFilter({
+        ...filters,
+        ownerToAcceptTasksOnly: true
+      });
+    }
+    this.setState({
+      ...this.state,
+      activeAllTasks: !activeAllTasks
+    });
+  };
   switchTasks = () => {
-    const {
-      fetchTasks,
-      updateFilter,
-      loggedUser: { status, name },
-      filters: { statuses, priorities }
-    } = this.props;
+    const { fetchTasks, updateFilter, filters, loggedUser } = this.props;
     const { userTasks } = this.state;
 
-    updateFilter({
-      statuses,
-      priorities,
-      projectName: "",
-      responsiblePerson: ""
-    });
-
     if (!userTasks) {
-      fetchTasks({ createdBy: name });
+      fetchTasks({ createdBy: loggedUser.name });
+      updateFilter({
+        ...filters,
+        ownerToAcceptTasksOnly: false
+      });
     } else {
-      if (status === "Administrator") {
-        fetchTasks({ statuses });
-      } else {
-        fetchTasks({ responsiblePerson: name });
-      }
+      fetchTasks({ responsiblePerson: loggedUser.name });
+      updateFilter({
+        ...filters,
+        ownerToAcceptTasksOnly: true
+      });
     }
 
     this.setState({
       userTasks: !userTasks,
       activeTaskId: false
     });
-  };
-  // removeTaskHandler = id => {
-  //   const { removeTask } = this.props;
-  //   removeTask(id);
-  // };
-  updateTaskHandler = data => {
-    const { updateTask } = this.props;
-    updateTask(data);
   };
   sortArray(array, property, direction) {
     direction = direction || 1;
@@ -120,6 +127,7 @@ class TasksListContainer extends Component {
       orderDirection
       // filters: { projectName, responsiblePerson }
     } = this.state;
+    const { loggedUser } = this.props;
     // console.log("items", items);
     // console.log("filters", filters);
 
@@ -149,11 +157,21 @@ class TasksListContainer extends Component {
         priorities.includes(item.priority) &&
         statuses.includes(item.status)
       ) {
+        if (filters.ownerToAcceptTasksOnly && item.status === "Do akceptacji") {
+          if (item.createdBy === loggedUser.name) {
+            return item;
+          }
+        } else {
+          return item;
+        }
         // console.log(priorities.includes(item.priority));
         // console.log(statuses.includes(item.status));
-        return item;
       }
     });
+
+    // if(filters.ownerToAcceptTasksOnly){
+    //   items =
+    // }
 
     if (orderDirection === "asc") {
       items = this.sortArray(items, orderColumn);
@@ -167,9 +185,9 @@ class TasksListContainer extends Component {
   };
 
   render() {
-    const { toggleTasksAddForm, activeTaskId } = this.state;
+    const { toggleTasksAddForm, activeTaskId, activeAllTasks } = this.state;
+    const { filters, loggedUser } = this.props;
     let tasks = this.state.tasks > 0 ? this.state.tasks : this.props.tasks;
-    const { filters } = this.props;
     let tasksListContent;
 
     // console.log("statttttteeeee", this.state);
@@ -192,20 +210,16 @@ class TasksListContainer extends Component {
               item={task}
               key={task._id}
               active={task._id == activeTaskId ? true : false}
-              // removeTaskHandler={() => this.removeTaskHandler(task.id)}
               setActiveTaskHandler={() => this.setActiveTaskHandler(task._id)}
-              updateStatusTaskHandler={() =>
-                this.updateTaskHandler({
-                  ...task,
-                  status: task.status === "active" ? "done" : "active"
-                })
-              }
             />
           ))
         : "loading...";
     }
 
     const clazz = toggleTasksAddForm ? "flow-box active" : "flow-box";
+    const clazz_all_tasks = activeAllTasks
+      ? "task-all-switcher active"
+      : "task-all-switcher";
 
     return (
       <StyledTaskListContainer>
@@ -225,8 +239,14 @@ class TasksListContainer extends Component {
           </div>
           <div className="task-items-box">
             <div className="title">
-              {tasks.length > 0 ? `Liczba tasków: ${tasks.length}` : null}
+              {tasks.length > 0 ? `Liczba zadań: ${tasks.length}` : null}
             </div>
+            {loggedUser.status === "Administrator" ? (
+              <div className={clazz_all_tasks} onClick={this.switchAllTasks}>
+                <i className="glyphicon-tasks glyphicon"></i>
+                Pokaż wszystkie zadania
+              </div>
+            ) : null}
             <form className="task-switcher">
               <label htmlFor="">Zadania utworzone przeze mnie:</label>
               <label className="switch">

@@ -5,23 +5,12 @@ import { StyledMessagesList } from "../styles/StyledMessagesList";
 import { removeAlertMessages } from "../actions";
 
 class MessagesAlertList extends Component {
-  //   componentDidUpdate() {
-  //     console.log("alert messages update");
-  //   }
-  //   reloadInfo() {
-  //     var messagesAlertBox = document.getElementById("messages_alert");
-  //     messagesAlertBox.classList.add("active");
-  //     setTimeout(function() {
-  //       messagesAlertBox.classList.remove("active");
-  //     }, 10500);
-  //   }
   removeHandler = () => {
     const { removeAlertMessages } = this.props;
     removeAlertMessages();
   };
   render() {
     const { alert_messages } = this.props;
-    // console.log("alert msg", alert_messages);
 
     let chatMessages = [];
 
@@ -32,7 +21,6 @@ class MessagesAlertList extends Component {
           break;
       }
     });
-    // console.log("msgwfwfwfe", chatMessages);
     const arr = chatMessages.reduce((total, item) => {
       let n = total[item.from] ? total[item.from] : 1;
       return (total = {
@@ -41,17 +29,44 @@ class MessagesAlertList extends Component {
       });
     }, []);
 
-    console.log("arr", arr);
-
     const alertMessagesContent =
       alert_messages && alert_messages.length > 0
-        ? alert_messages.map((message, index) => (
-            <div className="msg alert" key={index}>
-              {/* <div className="title">{message.type}</div> */}
-              <div className="topic">{message.data.topic}</div>
-              <div className="description">{message.data.from}</div>
-            </div>
-          ))
+        ? alert_messages.map((message, index) => {
+            let clazz;
+            let priority_clazz;
+            // console.log("message", message);
+            switch (message.data.type) {
+              case "task_add":
+                clazz = "glyphicon glyphicon-education";
+                break;
+              case "task_change":
+                clazz = "glyphicon glyphicon-retweet";
+                break;
+              case "msg_add":
+                clazz = "glyphicon glyphicon-comment";
+                break;
+              default:
+                clazz = "";
+            }
+            switch (message.data.priority) {
+              case "Pali się":
+                priority_clazz = " priority";
+                break;
+              default:
+                priority_clazz = "";
+            }
+            return (
+              <div className="msg alert" key={index}>
+                <div
+                  className={clazz + priority_clazz}
+                  title={message.data.topic}
+                >
+                  {/* <div className="topic"></div> */}
+                </div>
+                <div className="description">{message.data.from}</div>
+              </div>
+            );
+          })
         : "";
     const clazz =
       alertMessagesContent.length > 0
@@ -61,10 +76,10 @@ class MessagesAlertList extends Component {
     return (
       <StyledMessagesList>
         <div className={clazz}>
-          <i className="glyphicon glyphicon-leaf">
+          <i className="glyphicon glyphicon-info-sign">
             <div className="content">
-              <button className="btn btn-warning" onClick={this.removeHandler}>
-                X
+              <button className="btn" onClick={this.removeHandler}>
+                <i className="glyphicon glyphicon-trash"></i>
               </button>
               {alertMessagesContent}
             </div>

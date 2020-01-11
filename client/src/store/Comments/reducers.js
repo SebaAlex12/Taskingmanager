@@ -1,7 +1,8 @@
 import {
   FETCH_COMMENTS_SUCCESS,
   ADD_COMMENT_SUCCESS,
-  COMMENTS_ERROR
+  COMMENTS_ERROR,
+  REMOVE_COMMENTS_RELATIVE_TASK_SUCCESS
 } from "./types";
 
 const initialState = {
@@ -20,6 +21,13 @@ export const commentsReducer = (state = initialState, action) => {
       return {
         ...state,
         comments: [...state.comments, action.payload]
+      };
+    case REMOVE_COMMENTS_RELATIVE_TASK_SUCCESS:
+      return {
+        ...state,
+        comments: state.comments.filter(
+          comment => comment._id !== action.payload._id
+        )
       };
     case COMMENTS_ERROR:
       return {

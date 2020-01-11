@@ -8,6 +8,7 @@ import Tasks from "../../root/Tasks";
 import MessengersContainer from "../../store/Messengers/components/MessengersContainer";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 
+import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
 import { updateAlertMessages } from "../../store/Messages/actions";
 
@@ -45,6 +46,7 @@ class Dashboard extends Component {
     const { loggedUser } = this.props;
     return (
       <div>
+        {/* <Preloader /> */}
         {/* {loggedUser.status !== "Klient" ? (  */}
         <MessagesAlertList />
         {/* ) : null} */}

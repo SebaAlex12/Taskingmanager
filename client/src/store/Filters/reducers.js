@@ -11,7 +11,8 @@ const initialState = {
     priorities,
     statuses,
     projectName: "",
-    responsiblePerson: ""
+    responsiblePerson: "",
+    ownerToAcceptTasksOnly: true
   },
   errors: []
 };

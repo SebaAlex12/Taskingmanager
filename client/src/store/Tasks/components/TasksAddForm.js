@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import moment from "moment";
 
 import { addTask } from "../actions";
+import { updateMessages } from "../../Messages/actions";
 import { priorities, statuses } from "../../ini";
 
 class TasksAddForm extends Component {
@@ -32,7 +34,7 @@ class TasksAddForm extends Component {
     });
   };
   addHandler = async event => {
-    const { addTask, loggedUser, updateMessages, messages } = this.props;
+    const { addTask, loggedUser, updateMessages } = this.props;
     const {
       projectName,
       responsiblePerson,
@@ -60,6 +62,20 @@ class TasksAddForm extends Component {
 
     event.preventDefault();
     const response = await addTask(data);
+
+    const alertData = {
+      from: loggedUser.name,
+      to: responsiblePerson,
+      msg: title,
+      priority: priority,
+      topic: "masz nowe zadanie: " + title,
+      type: "task_add",
+      createAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
+    };
+
+    if (response) {
+      updateMessages({ alert: alertData });
+    }
   };
   render() {
     const { projects, users, loggedUser } = this.props;
@@ -231,4 +247,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { addTask })(TasksAddForm);
+export default connect(mapStateToProps, { addTask, updateMessages })(
+  TasksAddForm
+);

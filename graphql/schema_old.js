@@ -122,6 +122,7 @@ module.exports = buildSchema(`
         updateTask(taskInput: TaskInputData): Task!
         addComment(commentInput: CommentInputData): Comment!
         removeTask(taskId: String!): Task!
+        removeCommentsByTaskId(taskId: String!): Task!
         addProject(projectInput: ProjectInputData): Project!
         updateProject(projectInput: ProjectInputData): Project!
         removeProject(projectId: String!): Project!

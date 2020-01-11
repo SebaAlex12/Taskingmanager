@@ -26,7 +26,7 @@ export const tasksReducer = (state = initialState, action) => {
     case REMOVE_TASK_SUCCESS:
       return {
         ...state,
-        tasks: state.tasks.filter(task => task.id !== action.payload)
+        tasks: state.tasks.filter(task => task._id !== action.payload._id)
       };
     case UPDATE_TASK_SUCCESS:
       return {

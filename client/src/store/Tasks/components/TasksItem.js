@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 
-import { updateTask } from "../actions";
+import { updateTask, removeTask } from "../actions";
 import CommentsAddForm from "../../Comments/components/CommentsAddForm";
 import CommentsList from "../../Comments/components/CommentsList";
 import { priorities, statuses } from "../../ini";
@@ -132,18 +132,47 @@ class TasksItem extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
-    const { updateTask, updateMessages } = this.props;
-    const { _id } = this.state;
+    const { updateTask, updateMessages, loggedUser } = this.props;
+    const { _id, responsiblePerson, title, priority } = this.state;
     const data = {
       _id,
       [event.target.name]: event.target.value
     };
     const response = updateTask(data);
+
+    const alertData =
+      event.target.value == "Do wykonania"
+        ? {
+            from: loggedUser.name,
+            to: responsiblePerson,
+            msg: title,
+            topic: "zadanie do wykonania: " + title,
+            priority: priority,
+            type: "task_change",
+            createAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
+          }
+        : false;
+
     if (response) {
-      updateMessages([
-        { name: "Zadanie" },
-        { value: event.target.name + " został zmieniony" }
-      ]);
+      updateMessages({ alert: alertData });
+    }
+  };
+
+  removeTaskHandler = event => {
+    const { removeTask } = this.props;
+    const { _id, title } = this.state;
+
+    const result = window.confirm(
+      "Czy napewno chcesz usunąć zadanie: " + title
+    );
+    if (result == true) {
+      const response = removeTask(_id);
+      if (response) {
+        updateMessages([
+          { name: "Zadanie" },
+          { value: event.target.name + " został usunięty" }
+        ]);
+      }
     }
   };
 
@@ -169,7 +198,7 @@ class TasksItem extends Component {
       createdAt,
       files
     } = this.state;
-    const { setActiveTaskHandler, active } = this.props;
+    const { setActiveTaskHandler, active, loggedUser, users } = this.props;
     // console.log("state item", this.state);
 
     // let filesUrls;
@@ -195,9 +224,20 @@ class TasksItem extends Component {
       });
     }
 
+    const selectedPriority = priorities.filter(item => item.name === priority);
+    const selectedStatus = statuses.filter(item => item.name === status);
+    let clazz;
+    if (selectedPriority.length > 0 && selectedStatus.length > 0) {
+      clazz =
+        "priority_" +
+        selectedPriority[0]["_id"] +
+        " status_" +
+        selectedStatus[0]["_id"];
+    }
+
     return (
       <React.Fragment>
-        <tr>
+        <tr className={clazz}>
           <td className="name">
             {toggle ? (
               <i
@@ -232,7 +272,7 @@ class TasksItem extends Component {
               name="status"
               required
             >
-              <option value="">Stan</option>
+              {/* <option value="">Stan</option> */}
               {statuses
                 ? statuses.map(item => {
                     return (
@@ -253,9 +293,10 @@ class TasksItem extends Component {
               className="form-control"
               onChange={this.onChangeSelectHandler}
               name="priority"
+              disabled={loggedUser.name !== createdBy ? "disabled" : null}
               required
             >
-              <option value="">Priorytet</option>
+              {/* <option value="">Priorytet</option> */}
               {priorities
                 ? priorities.map(item => {
                     return (
@@ -272,7 +313,32 @@ class TasksItem extends Component {
             </select>
           </td>
           <td className="createdBy">{createdBy}</td>
-          <td className="responsiblePerson">{responsiblePerson}</td>
+          {/* <td className="responsiblePerson">{responsiblePerson}</td> */}
+          <td className="responsiblePerson">
+            <select
+              className="form-control"
+              onChange={this.onChangeSelectHandler}
+              name="responsiblePerson"
+              disabled={loggedUser.name !== createdBy ? "disabled" : null}
+              required
+            >
+              {users
+                ? users.map(item => {
+                    return (
+                      <option
+                        key={item._id}
+                        value={item.name}
+                        selected={
+                          item.name === responsiblePerson ? "selected" : null
+                        }
+                      >
+                        {item.name}
+                      </option>
+                    );
+                  })
+                : null}
+            </select>
+          </td>
           <td className="term">{moment(new Date(termAt)).format("D/M/Y")}</td>
           <td className="createdAt">
             {moment(new Date(createdAt)).format("D/M/Y")}
@@ -282,6 +348,12 @@ class TasksItem extends Component {
               className="glyphicon glyphicon-edit"
               onClick={setActiveTaskHandler}
             ></i>
+            {loggedUser.name === createdBy ? (
+              <i
+                className="glyphicon glyphicon-remove"
+                onClick={this.removeTaskHandler}
+              ></i>
+            ) : null}
           </td>
         </tr>
         {active ? (
@@ -326,9 +398,14 @@ class TasksItem extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    loggedUser: state.users.logged_user,
+    users: state.users.users
+  };
 };
 
-export default connect(mapStateToProps, { updateTask, updateMessages })(
-  TasksItem
-);
+export default connect(mapStateToProps, {
+  updateTask,
+  removeTask,
+  updateMessages
+})(TasksItem);

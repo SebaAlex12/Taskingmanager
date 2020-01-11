@@ -14,6 +14,7 @@ import {
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+import { REMOVING_COMMENTS_RELATIVE_TASK } from "../Comments/types";
 
 function* fetchTasksAsync(action) {
   try {
@@ -240,13 +241,45 @@ export function* updateTaskWatcher() {
 }
 
 function* removeTaskAsync(action) {
-  try {
-    yield put({ type: REMOVE_TASK_SUCCESS, payload: action.taskId });
-  } catch (error) {
-    yield put({ type: TASKS_ERROR, payload: error });
+  const taskId = action.data;
+  // console.log("saga data", data);
+  const graph = {
+    query: `mutation {
+      removeTask(taskId: "${taskId}"){
+        _id
+        errors{
+          path
+          message
+        }
+      }
+    }`
+  };
+
+  const taskData = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
+  console.log("return data graph", taskData);
+  const response = taskData.data.data.removeTask;
+
+  if (response.errors) {
+    yield put({ type: TASKS_ERROR, payload: response.errors });
+    yield put({
+      type: UPDATE_MESSAGES_SUCCESS,
+      payload: { errors: response.errors }
+    });
+  } else {
+    yield put({ type: REMOVE_TASK_SUCCESS, payload: response });
+    yield put({
+      type: UPDATE_MESSAGES_SUCCESS,
+      payload: { success: [{ message: "Zadanie zostało usunięte" }] }
+    });
   }
 }
 
 export function* removeTaskWatcher() {
   yield takeEvery(REMOVING_TASK, removeTaskAsync);
+  // yield takeEvery(REMOVING_COMMENTS_RELATIVE_TASK)
 }
