@@ -26,7 +26,8 @@ export const StyledResponsive = styled.div`
       display: none;
     }
     .mesgs,
-    .received_withd_msg {
+    .received_withd_msg,
+    .sent_msg {
       width: 100%;
     }
     .messenger-form-box .users-list span {
