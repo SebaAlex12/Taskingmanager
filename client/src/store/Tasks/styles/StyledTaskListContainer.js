@@ -7,14 +7,10 @@ export const StyledTaskListContainer = styled.div`
     text-align: right;
     top: 0px;
     right: 0px;
-    z-index: 100;
+    z-index: 1000;
   }
   .flow-box.active > button {
     background-color: green;
-  }
-  .flow-box .task-add-form-box {
-    background-color: #fff;
-    padding: 5px;
   }
   .task-items-box > div > * {
     float: left;
@@ -31,13 +27,12 @@ export const StyledTaskListContainer = styled.div`
   .task-items-box .task-all-switcher {
     cursor: pointer;
   }
-  .task-items-box .task-all-switcher i {
-    font-size: 20px;
-    margin-right: 5px;
+  .task-items-box .task-all-switcher i:before {
+    font-size: 22px;
     color: grey;
     margin-right: 5px;
   }
-  .task-items-box .task-all-switcher.active i {
+  .task-items-box .task-all-switcher.active i:before {
     color: green;
   }
   .task-items-box table tr.status_2,
@@ -58,36 +53,36 @@ export const StyledTaskListContainer = styled.div`
   .task-items-box .details i.glyphicon-remove {
     color: red;
   }
-  .task-items-box>table>thead>tr>th: first-child {
+  .task-items-boxtable>thead>tr>th: first-child {
     width: 180px;
   }
-  .task-items-box > table > thead > tr > th i {
+  .task-items-box table > thead > tr > th i {
     cursor: pointer;
     margin-left: 2px;
     margin-right: 2px;
     display: block;
     float: left;
   }
-  .task-items-box > table > tbody .name i {
+  .task-items-box table > tbody .name i {
     width: 10px;
     height: 10px;
     left: -7px;
     cursor: pointer;
   }
-  .task-items-box > table > tbody .name .lights {
+  .task-items-box table > tbody .name .lights {
     color: red;
   }
-  .task-items-box > table > tbody .name .lights.active {
+  .task-items-box table > tbody .name .lights.active {
     color: green;
   }
-  .task-items-box > table > tbody > tr > td {
+  .task-items-box table > tbody > tr > td {
     position: relative;
   }
-  .task-items-box > table > tbody .desc-box {
+  .task-items-box table > tbody .desc-box {
     float: left;
     position: relative;
   }
-  .task-items-box > table > tbody .desc-box i {
+  .task-items-box table > tbody .desc-box i {
     position: absolute;
     right: 20px;
     top: 10px;

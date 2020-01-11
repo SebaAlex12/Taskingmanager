@@ -224,149 +224,167 @@ class TasksListContainer extends Component {
     return (
       <StyledTaskListContainer>
         <div className="col-lg-12">
-          <div className={clazz}>
-            <Button
-              variant="primary"
-              onClick={() =>
-                this.setState({
-                  toggleTasksAddForm: !toggleTasksAddForm
-                })
-              }
-            >
-              Dodaj zadanie
-            </Button>
-            {toggleTasksAddForm ? <TaskAddForm /> : null}
-          </div>
-          <div className="task-items-box">
-            <div className="title">
-              {tasks.length > 0 ? `Liczba zadań: ${tasks.length}` : null}
+          <div className="tasks-box">
+            <div className={clazz}>
+              <Button
+                variant="primary"
+                onClick={() =>
+                  this.setState({
+                    toggleTasksAddForm: !toggleTasksAddForm
+                  })
+                }
+              >
+                Dodaj zadanie
+              </Button>
+              {toggleTasksAddForm ? <TaskAddForm /> : null}
             </div>
-            {loggedUser.status === "Administrator" ? (
-              <div className={clazz_all_tasks} onClick={this.switchAllTasks}>
-                <i className="glyphicon-tasks glyphicon"></i>
-                Pokaż wszystkie zadania
+            <div className="task-items-box">
+              <div className="title">
+                {tasks.length > 0 ? `Liczba zadań: ${tasks.length}` : null}
               </div>
-            ) : null}
-            <form className="task-switcher">
-              <label htmlFor="">Zadania utworzone przeze mnie:</label>
-              <label className="switch">
-                <input
-                  className="switch-input"
-                  type="checkbox"
-                  onClick={this.switchTasks}
-                />
-                <span
-                  className="switch-label"
-                  data-on="Ukryj"
-                  data-off="Pokaż"
-                ></span>
-                <span className="switch-handle"></span>
-              </label>
-            </form>
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">
-                    Nazwa
-                    <i
-                      onClick={() => this.sortItems(tasks, "title", "asc")}
-                      className="glyphicon glyphicon-sort-by-alphabet"
-                    ></i>
-                    <i
-                      onClick={() => this.sortItems(tasks, "title", "desc")}
-                      className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
-                    ></i>
-                  </th>
-                  <th scope="col">
-                    Projekt
-                    <i
-                      onClick={() =>
-                        this.sortItems(tasks, "projectName", "asc")
-                      }
-                      className="glyphicon glyphicon-sort-by-alphabet"
-                    ></i>
-                    <i
-                      onClick={() =>
-                        this.sortItems(tasks, "projectName", "desc")
-                      }
-                      className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
-                    ></i>
-                  </th>
-                  <th scope="col">
-                    Stan
-                    <i
-                      onClick={() => this.sortItems(tasks, "status", "asc")}
-                      className="glyphicon glyphicon-sort-by-alphabet"
-                    ></i>
-                    <i
-                      onClick={() => this.sortItems(tasks, "status", "desc")}
-                      className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
-                    ></i>
-                  </th>
-                  <th scope="col">
-                    Priorytet
-                    <i
-                      onClick={() => this.sortItems(tasks, "priority", "asc")}
-                      className="glyphicon glyphicon-sort-by-alphabet"
-                    ></i>
-                    <i
-                      onClick={() => this.sortItems(tasks, "priority", "desc")}
-                      className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
-                    ></i>
-                  </th>
-                  <th scope="col">
-                    Zlecający
-                    <i
-                      onClick={() => this.sortItems(tasks, "createdBy", "asc")}
-                      className="glyphicon glyphicon-sort-by-alphabet"
-                    ></i>
-                    <i
-                      onClick={() => this.sortItems(tasks, "createdBy", "desc")}
-                      className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
-                    ></i>
-                  </th>
-                  <th scope="col">
-                    Wykonawca
-                    <i
-                      onClick={() =>
-                        this.sortItems(tasks, "responsiblePerson", "asc")
-                      }
-                      className="glyphicon glyphicon-sort-by-alphabet"
-                    ></i>
-                    <i
-                      onClick={() =>
-                        this.sortItems(tasks, "responsiblePerson", "desc")
-                      }
-                      className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
-                    ></i>
-                  </th>
-                  <th scope="col">
-                    Termin
-                    <i
-                      onClick={() => this.sortItems(tasks, "term", "asc")}
-                      className="glyphicon glyphicon-sort-by-alphabet"
-                    ></i>
-                    <i
-                      onClick={() => this.sortItems(tasks, "term", "desc")}
-                      className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
-                    ></i>
-                  </th>
-                  <th scope="col">
-                    Utworzono
-                    <i
-                      onClick={() => this.sortItems(tasks, "createdAt", "asc")}
-                      className="glyphicon glyphicon-sort-by-alphabet"
-                    ></i>
-                    <i
-                      onClick={() => this.sortItems(tasks, "createdAt", "desc")}
-                      className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
-                    ></i>
-                  </th>
-                  <th scope="col">Opis</th>
-                </tr>
-              </thead>
-              <tbody>{tasksListContent}</tbody>
-            </table>
+              {loggedUser.status === "Administrator" ? (
+                <div className={clazz_all_tasks} onClick={this.switchAllTasks}>
+                  <i className="glyphicon-tasks glyphicon"></i>
+                  Pokaż wszystkie zadania
+                </div>
+              ) : null}
+              <form className="task-switcher">
+                <label htmlFor="">Zadania utworzone przeze mnie:</label>
+                <label className="switch">
+                  <input
+                    className="switch-input"
+                    type="checkbox"
+                    onClick={this.switchTasks}
+                  />
+                  <span
+                    className="switch-label"
+                    data-on="Ukryj"
+                    data-off="Pokaż"
+                  ></span>
+                  <span className="switch-handle"></span>
+                </label>
+              </form>
+              <div className="overflow-div">
+                <table className="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">
+                        Nazwa
+                        <i
+                          onClick={() => this.sortItems(tasks, "title", "asc")}
+                          className="glyphicon glyphicon-sort-by-alphabet"
+                        ></i>
+                        <i
+                          onClick={() => this.sortItems(tasks, "title", "desc")}
+                          className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
+                        ></i>
+                      </th>
+                      <th scope="col">
+                        Projekt
+                        <i
+                          onClick={() =>
+                            this.sortItems(tasks, "projectName", "asc")
+                          }
+                          className="glyphicon glyphicon-sort-by-alphabet"
+                        ></i>
+                        <i
+                          onClick={() =>
+                            this.sortItems(tasks, "projectName", "desc")
+                          }
+                          className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
+                        ></i>
+                      </th>
+                      <th scope="col">
+                        Stan
+                        <i
+                          onClick={() => this.sortItems(tasks, "status", "asc")}
+                          className="glyphicon glyphicon-sort-by-alphabet"
+                        ></i>
+                        <i
+                          onClick={() =>
+                            this.sortItems(tasks, "status", "desc")
+                          }
+                          className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
+                        ></i>
+                      </th>
+                      <th scope="col">
+                        Priorytet
+                        <i
+                          onClick={() =>
+                            this.sortItems(tasks, "priority", "asc")
+                          }
+                          className="glyphicon glyphicon-sort-by-alphabet"
+                        ></i>
+                        <i
+                          onClick={() =>
+                            this.sortItems(tasks, "priority", "desc")
+                          }
+                          className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
+                        ></i>
+                      </th>
+                      <th scope="col">
+                        Zlecający
+                        <i
+                          onClick={() =>
+                            this.sortItems(tasks, "createdBy", "asc")
+                          }
+                          className="glyphicon glyphicon-sort-by-alphabet"
+                        ></i>
+                        <i
+                          onClick={() =>
+                            this.sortItems(tasks, "createdBy", "desc")
+                          }
+                          className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
+                        ></i>
+                      </th>
+                      <th scope="col">
+                        Wykonawca
+                        <i
+                          onClick={() =>
+                            this.sortItems(tasks, "responsiblePerson", "asc")
+                          }
+                          className="glyphicon glyphicon-sort-by-alphabet"
+                        ></i>
+                        <i
+                          onClick={() =>
+                            this.sortItems(tasks, "responsiblePerson", "desc")
+                          }
+                          className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
+                        ></i>
+                      </th>
+                      <th scope="col">
+                        Termin
+                        <i
+                          onClick={() => this.sortItems(tasks, "term", "asc")}
+                          className="glyphicon glyphicon-sort-by-alphabet"
+                        ></i>
+                        <i
+                          onClick={() => this.sortItems(tasks, "term", "desc")}
+                          className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
+                        ></i>
+                      </th>
+                      <th scope="col">
+                        Utworzono
+                        <i
+                          onClick={() =>
+                            this.sortItems(tasks, "createdAt", "asc")
+                          }
+                          className="glyphicon glyphicon-sort-by-alphabet"
+                        ></i>
+                        <i
+                          onClick={() =>
+                            this.sortItems(tasks, "createdAt", "desc")
+                          }
+                          className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
+                        ></i>
+                      </th>
+                      <th scope="col">Opis</th>
+                    </tr>
+                  </thead>
+                  <tbody>{tasksListContent}</tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </StyledTaskListContainer>

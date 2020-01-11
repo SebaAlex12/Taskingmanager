@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { addProject } from "../actions";
+import { StyledProjectForm } from "../styles/StyledProjectForm";
 
 class ProjectsAddForm extends Component {
   constructor(props) {
@@ -44,71 +45,73 @@ class ProjectsAddForm extends Component {
   };
   render() {
     return (
-      <div className="project-add-form-box">
-        <form action="">
-          <div className="form-group">
-            <input
-              onChange={this.onChangeInput}
-              type="text"
-              name="name"
-              className="form-control"
-              placeholder="Nazwa"
-              title="Nazwa domeny"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <textarea
-              onChange={this.onChangeInput}
-              type="text"
-              name="description"
-              className="form-control"
-              rows="5"
-              placeholder="Opis"
-              title="Opis"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              onChange={this.onChangeInput}
-              type="text"
-              name="cms"
-              className="form-control"
-              placeholder="Cms hasło"
-              title="Cms hasło"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              onChange={this.onChangeInput}
-              type="text"
-              name="ftp"
-              className="form-control"
-              placeholder="Ftp hasło"
-              title="Ftp hasło"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              onChange={this.onChangeInput}
-              type="text"
-              name="panel"
-              className="form-control"
-              placeholder="Panel hasło"
-              title="Panel hasło"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              onClick={this.addHandler}
-              className="btn btn-primary float-right"
-              type="submit"
-              value="dodaj"
-            />
-          </div>
-        </form>
-      </div>
+      <StyledProjectForm>
+        <div className="project-add-form-box">
+          <form action="">
+            <div className="form-group">
+              <input
+                onChange={this.onChangeInput}
+                type="text"
+                name="name"
+                className="form-control"
+                placeholder="Nazwa"
+                title="Nazwa domeny"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <textarea
+                onChange={this.onChangeInput}
+                type="text"
+                name="description"
+                className="form-control"
+                rows="5"
+                placeholder="Opis"
+                title="Opis"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                onChange={this.onChangeInput}
+                type="text"
+                name="cms"
+                className="form-control"
+                placeholder="Cms hasło"
+                title="Cms hasło"
+              />
+            </div>
+            <div className="form-group">
+              <input
+                onChange={this.onChangeInput}
+                type="text"
+                name="ftp"
+                className="form-control"
+                placeholder="Ftp hasło"
+                title="Ftp hasło"
+              />
+            </div>
+            <div className="form-group">
+              <input
+                onChange={this.onChangeInput}
+                type="text"
+                name="panel"
+                className="form-control"
+                placeholder="Panel hasło"
+                title="Panel hasło"
+              />
+            </div>
+            <div className="form-group">
+              <input
+                onClick={this.addHandler}
+                className="btn btn-primary float-right"
+                type="submit"
+                value="dodaj"
+              />
+            </div>
+          </form>
+        </div>
+      </StyledProjectForm>
     );
   }
 }

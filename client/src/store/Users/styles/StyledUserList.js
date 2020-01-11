@@ -7,7 +7,6 @@ export const StyledUserList = styled.div`
     text-align: right;
     top: 0px;
     right: 248px;
-    background-color: #fff;
     z-index: 102;
   }
   .users-box > .flow-box.active > button {

@@ -6,6 +6,8 @@ import { addTask } from "../actions";
 import { updateMessages } from "../../Messages/actions";
 import { priorities, statuses } from "../../ini";
 
+import { StyledTaskForm } from "../styles/StyledTaskForm";
+
 class TasksAddForm extends Component {
   constructor(props) {
     super(props);
@@ -91,150 +93,152 @@ class TasksAddForm extends Component {
     // console.log("compon state", this.state);
 
     return (
-      <div className="task-add-form-box">
-        <form action="">
-          <div className="form-group">
-            <input
-              onChange={this.onChangeInput}
-              type="text"
-              name="title"
-              className="form-control"
-              placeholder="Tytuł"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <textarea
-              onChange={this.onChangeInput}
-              type="text"
-              name="description"
-              className="form-control"
-              rows="5"
-              placeholder="Opis"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <select
-              className="form-control"
-              onChange={this.onChangeSelect}
-              name="priority"
-              value={priority}
-              required
-            >
-              <option value="">Wybierz priorytet</option>
-              {priorities
-                ? priorities.map(prt => {
-                    return (
-                      <option
-                        key={prt._id}
-                        value={prt.name}
-                        defaultValue={prt.name === status ? "selected" : null}
-                      >
-                        {prt.name}
-                      </option>
-                    );
-                  })
-                : null}
-            </select>
-          </div>
-          <div className="form-group">
-            <input
-              onChange={this.onChangeInput}
-              type="date"
-              name="termAt"
-              className="form-control"
-              placeholder="Termin"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <select
-              className="form-control"
-              onChange={this.onChangeSelect}
-              name="responsiblePerson"
-              required
-            >
-              <option value="">Przypisz do</option>
-              {users
-                ? users.map(user => {
-                    let option = "";
-                    if (
-                      loggedUser.status !== "Klient" ||
-                      loggedUserUsers.includes(user.name)
-                    ) {
-                      option = (
-                        <option key={user._id} value={user.name}>
-                          {user.name}
+      <StyledTaskForm>
+        <div className="task-add-form-box">
+          <form action="">
+            <div className="form-group">
+              <input
+                onChange={this.onChangeInput}
+                type="text"
+                name="title"
+                className="form-control"
+                placeholder="Tytuł"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <textarea
+                onChange={this.onChangeInput}
+                type="text"
+                name="description"
+                className="form-control"
+                rows="5"
+                placeholder="Opis"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <select
+                className="form-control"
+                onChange={this.onChangeSelect}
+                name="priority"
+                value={priority}
+                required
+              >
+                <option value="">Wybierz priorytet</option>
+                {priorities
+                  ? priorities.map(prt => {
+                      return (
+                        <option
+                          key={prt._id}
+                          value={prt.name}
+                          defaultValue={prt.name === status ? "selected" : null}
+                        >
+                          {prt.name}
                         </option>
                       );
-                      return option;
-                    }
-                    return;
-                  })
-                : null}
-            </select>
-          </div>
-          <div className="form-group">
-            <select
-              className="form-control"
-              onChange={this.onChangeSelect}
-              name="projectName"
-              required
-            >
-              <option value="">Wybierz projekt</option>
-              {projects
-                ? projects.map(project => {
-                    let option = "";
-                    if (
-                      loggedUser.status !== "Klient" ||
-                      loggedUserProjects.includes(project.name)
-                    ) {
-                      option = (
-                        <option key={project._id} value={project.name}>
-                          {project.name}
+                    })
+                  : null}
+              </select>
+            </div>
+            <div className="form-group">
+              <input
+                onChange={this.onChangeInput}
+                type="date"
+                name="termAt"
+                className="form-control"
+                placeholder="Termin"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <select
+                className="form-control"
+                onChange={this.onChangeSelect}
+                name="responsiblePerson"
+                required
+              >
+                <option value="">Przypisz do</option>
+                {users
+                  ? users.map(user => {
+                      let option = "";
+                      if (
+                        loggedUser.status !== "Klient" ||
+                        loggedUserUsers.includes(user.name)
+                      ) {
+                        option = (
+                          <option key={user._id} value={user.name}>
+                            {user.name}
+                          </option>
+                        );
+                        return option;
+                      }
+                      return;
+                    })
+                  : null}
+              </select>
+            </div>
+            <div className="form-group">
+              <select
+                className="form-control"
+                onChange={this.onChangeSelect}
+                name="projectName"
+                required
+              >
+                <option value="">Wybierz projekt</option>
+                {projects
+                  ? projects.map(project => {
+                      let option = "";
+                      if (
+                        loggedUser.status !== "Klient" ||
+                        loggedUserProjects.includes(project.name)
+                      ) {
+                        option = (
+                          <option key={project._id} value={project.name}>
+                            {project.name}
+                          </option>
+                        );
+                        return option;
+                      }
+                      return;
+                    })
+                  : null}
+              </select>
+            </div>
+            <div className="form-group">
+              <select
+                className="form-control"
+                onChange={this.onChangeSelect}
+                name="status"
+                value={status}
+                required
+              >
+                <option value="">Wybierz stan</option>
+                {statuses
+                  ? statuses.map(sts => {
+                      return (
+                        <option
+                          key={sts._id}
+                          defaultValue={sts.name === status ? "selected" : null}
+                        >
+                          {sts.name}
                         </option>
                       );
-                      return option;
-                    }
-                    return;
-                  })
-                : null}
-            </select>
-          </div>
-          <div className="form-group">
-            <select
-              className="form-control"
-              onChange={this.onChangeSelect}
-              name="status"
-              value={status}
-              required
-            >
-              <option value="">Wybierz stan</option>
-              {statuses
-                ? statuses.map(sts => {
-                    return (
-                      <option
-                        key={sts._id}
-                        defaultValue={sts.name === status ? "selected" : null}
-                      >
-                        {sts.name}
-                      </option>
-                    );
-                  })
-                : null}
-            </select>
-          </div>
-          <div className="form-group">
-            <input
-              onClick={this.addHandler}
-              className="btn btn-primary float-right"
-              type="submit"
-              value="dodaj"
-            />
-          </div>
-        </form>
-      </div>
+                    })
+                  : null}
+              </select>
+            </div>
+            <div className="form-group">
+              <input
+                onClick={this.addHandler}
+                className="btn btn-primary float-right"
+                type="submit"
+                value="dodaj"
+              />
+            </div>
+          </form>
+        </div>
+      </StyledTaskForm>
     );
   }
 }

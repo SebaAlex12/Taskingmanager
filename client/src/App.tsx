@@ -15,6 +15,8 @@ import LoginForm from "./store/Users/components/LoginForm";
 import Dashboard from "./themes/layout/Dashboard";
 import MessagesList from "./store/Messages/components/MessagesList";
 
+import { StyledResponsive } from "./StyledResponsive";
+
 if (localStorage.jwtTokenAuthorization) {
   const {
     _id,
@@ -58,6 +60,7 @@ function App() {
     <Provider store={store}>
       <ThemeProvider theme={{ mode: "light" }}>
         <Router>
+          <StyledResponsive>
           <div className="App">
             <MessagesList />
             {!localStorage.jwtTokenAuthorization ||
@@ -69,6 +72,7 @@ function App() {
               <Dashboard />
             )}
           </div>
+          </StyledResponsive>
         </Router>
       </ThemeProvider>
     </Provider>

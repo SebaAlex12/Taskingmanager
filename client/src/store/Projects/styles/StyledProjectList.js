@@ -7,12 +7,7 @@ export const StyledProjectList = styled.div`
     text-align: right;
     top: 0px;
     right: 126px;
-    background-color: #fff;
     z-index: 101;
-  }
-  .flow-box .project-add-form-box {
-    background-color: #fff;
-    padding: 5px;
   }
   .flow-box.active > button {
     background-color: green;
@@ -106,7 +101,7 @@ export const StyledProjectList = styled.div`
     position: fixed;
     top: 0px;
     left: 0px;
-    z-index: 100;
+    z-index: 1000;
   }
   .project-list-flow-box.active > button {
     background-color: green;

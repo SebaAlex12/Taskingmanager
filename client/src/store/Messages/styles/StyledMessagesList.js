@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const StyledMessagesList = styled.div`
+  width: 99%;
   .messages-box {
     position: fixed;
     bottom: 0px;
     right: -150px;
     z-index: 1000;
-    fonsize: 20px;
     font-weight: bold;
     background-color: #379037;
     color: #fff;
@@ -49,6 +49,7 @@ export const StyledMessagesList = styled.div`
     opacity: 0;
     transition: all 0.8s ease-in-out 0s;
     max-width: 100%;
+    z-index: 1000;
   }
   .messages-alert-box .content .btn {
     cursor: pointer;
