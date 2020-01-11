@@ -22,6 +22,16 @@ export const StyledResponsive = styled.div`
     .App .container {
       width: auto;
     }
+    .inbox_people {
+      display: none;
+    }
+    .mesgs,
+    .received_withd_msg {
+      width: 100%;
+    }
+    .messenger-form-box .users-list span {
+      float: left;
+    }
   }
   @media only screen and (max-width: 860px) {
     .users-box > .flow-box {
