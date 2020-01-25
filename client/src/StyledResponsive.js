@@ -26,9 +26,11 @@ export const StyledResponsive = styled.div`
       display: none;
     }
     .mesgs,
-    .received_withd_msg,
-    .sent_msg {
+    .received_withd_msg {
       width: 100%;
+    }
+    .sent_msg {
+      width: 92%;
     }
     .messenger-form-box .users-list span {
       float: left;

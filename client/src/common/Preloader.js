@@ -2,13 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledPreloader = styled.div`
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.8);
   position: fixed;
   left: 0px;
   right: 0px;
   top: 0px;
   bottom: 0px;
-  z-index: 1000;
+  z-index: 1001;
   .content {
     margin-top: 40vh;
   }

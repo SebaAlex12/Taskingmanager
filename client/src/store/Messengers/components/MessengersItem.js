@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 class MessengersItem extends Component {
   render() {
     const {
-      item: { from, msg, topic, createAt },
+      item: { from, msg, createdAt },
       loggedUser
     } = this.props;
 
@@ -19,7 +19,7 @@ class MessengersItem extends Component {
             <div className="received_withd_msg">
               <p>{msg}</p>
               <span className="time_date">
-                {from} | {moment(new Date(createAt)).format("D/M/Y HH:mm:ss")}{" "}
+                {from} | {moment(new Date(createdAt)).format("D/M/Y HH:mm:ss")}{" "}
               </span>
             </div>
           </div>
@@ -29,7 +29,7 @@ class MessengersItem extends Component {
           <div className="sent_msg">
             <p>{msg}</p>
             <span className="time_date">
-              {from} | {moment(new Date(createAt)).format("D/M/Y HH:mm:ss")}
+              {from} | {moment(new Date(createdAt)).format("D/M/Y HH:mm:ss")}
             </span>{" "}
           </div>
           <div className="outgoing_msg_img">

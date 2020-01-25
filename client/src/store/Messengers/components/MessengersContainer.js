@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import MessengersList from "./MessengersList";
 import { StyledMessengersContainer } from "../styles/StyledMessengersContainer";
 import MessengersUsersList from "./MessengersUsersList";
+import { fetchMessengersByName } from "../actions";
 
 class MessengersContainer extends Component {
   constructor(props) {
@@ -37,11 +38,13 @@ class MessengersContainer extends Component {
     };
   }
   componentDidMount() {
-    const { users, loggedUser } = this.props;
+    const { users, loggedUser, fetchMessengersByName } = this.props;
     const { selectedUsers } = this.state;
 
     let selectedModifyUsers = [];
     let filteredUsers = [];
+
+    fetchMessengersByName({ name: loggedUser.name });
 
     if (loggedUser.status === "Klient") {
       const persons = loggedUser.users.split(",");
@@ -164,4 +167,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {})(MessengersContainer);
+export default connect(mapStateToProps, { fetchMessengersByName })(
+  MessengersContainer
+);

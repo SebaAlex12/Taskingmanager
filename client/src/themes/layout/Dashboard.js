@@ -22,7 +22,6 @@ class Dashboard extends Component {
     if (!this.socket) {
       this.socket = io();
       this.socket.on("chat:message", function(msg) {
-        console.log("msg", msg);
         let users = msg.to.split(",");
         if (users.includes(loggedUser.name)) {
           updateMessenger(msg);

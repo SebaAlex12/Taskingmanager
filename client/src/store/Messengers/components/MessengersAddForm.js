@@ -4,6 +4,7 @@ import moment from "moment";
 import io from "socket.io-client";
 
 import { StyledMessengersForm } from "../styles/StyledMessengersForm";
+import { addMessenger } from "../actions";
 
 class MessengersAddForm extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class MessengersAddForm extends Component {
   addHandler = event => {
     event.preventDefault();
     const { message } = this.state;
-    const { loggedUser, filteredUsers } = this.props;
+    const { loggedUser, filteredUsers, addMessenger } = this.props;
     // console.log("add form filtered users", filteredUsers);
 
     let usersNames = [];
@@ -41,9 +42,10 @@ class MessengersAddForm extends Component {
       msg: message,
       topic: "masz nową wiadomość",
       type: "msg_add",
-      createAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
+      createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
     };
     this.socket.emit("chat:message", data);
+    addMessenger(data);
     this.setState({
       message: ""
     });
@@ -97,4 +99,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {})(MessengersAddForm);
+export default connect(mapStateToProps, { addMessenger })(MessengersAddForm);

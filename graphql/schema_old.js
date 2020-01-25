@@ -48,6 +48,14 @@ module.exports = buildSchema(`
         errors: [Error]
     }
 
+    type Messenger {
+        _id: String
+        from: String
+        to: String
+        msg: String
+        createdAt: String
+    }
+
     type Project {
         _id: ID
         name: String
@@ -95,6 +103,14 @@ module.exports = buildSchema(`
         createdAt: String
     }
 
+    input MessengerInputData {
+        _id: String
+        from: String
+        to: String
+        msg: String
+        createdAt: String
+    }
+
     input ProjectInputData {
         _id: String
         name: String
@@ -121,6 +137,7 @@ module.exports = buildSchema(`
         addTask(taskInput: TaskInputData): Task!
         updateTask(taskInput: TaskInputData): Task!
         addComment(commentInput: CommentInputData): Comment!
+        addMessenger(messengerInput: MessengerInputData): Messenger!
         removeTask(taskId: String!): Task!
         removeCommentsByTaskId(taskId: String!): Task!
         addProject(projectInput: ProjectInputData): Project!
@@ -134,6 +151,7 @@ module.exports = buildSchema(`
         fetchUsers: [User]!
         fetchTasks(taskInput: TaskInputData): [Task]!
         fetchComments(commentInput: CommentInputData): [Comment]!
+        fetchMessengersByName(name: String): [Messenger]!
         fetchProjects: [Project]!
     }
 

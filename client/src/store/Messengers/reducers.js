@@ -1,7 +1,8 @@
 import io from "socket.io-client";
 
 import {
-  // FETCH_MESSENGERS_SUCCESS,
+  FETCH_MESSENGERS_BY_NAME_SUCCESS,
+  ADD_MESSEGNER_SUCCESS,
   UPDATE_MESSENGER_SUCCESS,
   MESSENGERS_ERROR
 } from "./types";
@@ -11,28 +12,18 @@ const initialState = {
   errors: []
 };
 
-// let socket;
-
-// function sendChatAction(value) {
-//   socket.emit("chat:message", value);
-// }
-
 export const messengersReducer = (state = initialState, action) => {
-  // if (!socket) {
-  //   socket = io(":5000");
-  //   socket.on("chat:message", function(msg) {
-  //     console.log("socker reducer msg", msg);
-  //     action.dispatch({ type: UPDATE_MESSENGER_SUCCESS, payload: msg });
-  //   });
-  // }
   switch (action.type) {
-    // case FETCH_MESSENGERS_SUCCESS:
-    //   return {
-    //     ...state,
-    //     messangers: action.payload
-    //   };
+    case FETCH_MESSENGERS_BY_NAME_SUCCESS:
+      return {
+        ...state,
+        messengers: action.payload
+      };
+    case ADD_MESSEGNER_SUCCESS:
+      return {
+        ...state
+      };
     case UPDATE_MESSENGER_SUCCESS:
-      // sendChatAction(JSON.stringify(action.payload));
       return {
         ...state,
         messengers: [...state.messengers, action.payload]
