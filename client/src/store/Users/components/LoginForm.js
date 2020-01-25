@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { loginUser } from "../actions";
-import { isFlowBaseAnnotation } from "@babel/types";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -19,18 +18,15 @@ class LoginForm extends Component {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
-  // reload = () => {
-  //   window.location.href = "/";
-  // };
+
   async checkUser(data) {
     const { loginUser } = this.props;
     const response = await loginUser(data);
     this.setState({
       ...this.state,
-      logged: true,
-      message: ""
+      logged: true
     });
-    console.log("fffff");
+    // console.log("fffff");
     return response;
   }
   loginHandler = event => {
@@ -41,22 +37,22 @@ class LoginForm extends Component {
     // const response = await loginUser({ email: email, password: password });
     let response = false;
     response = this.checkUser({ email: email, password: password });
-    console.log(response);
-    if (response == true) {
-      this.reload();
-    }
+    // console.log(response);
+    // if (response == true) {
+    //   this.reload();
+    // }
     // const reload = await reload();
 
     this.setState({
       message: "Logowanie do systemu..."
     });
 
-    // if (response) {
-    // console.log("response", response);
-    // setTimeout(function() {
-    // reload();
-    // }, 4000);
-    // }
+    if (response) {
+      console.log("response", response);
+      setTimeout(function() {
+        window.location.href = "/";
+      }, 4000);
+    }
   };
   render() {
     const { message } = this.state;
