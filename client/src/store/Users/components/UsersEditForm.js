@@ -79,8 +79,30 @@ class UsersEditFrom extends Component {
   };
   render() {
     const { name, email, password, status } = this.state;
-    const { projects, users } = this.props;
-    // console.log("usereditstate", this.state);
+    const { projects, loggedUser } = this.props;
+
+    // console.log("users", this.props.users);
+    // filter users compare to selected projects
+    let users;
+
+    if (this.state.projects) {
+      users = this.props.users.filter(user => {
+        if (user.projects !== null) {
+          let userProjects = user.projects.split(",");
+          let isProject = false;
+          userProjects.forEach(project => {
+            if (this.state.projects.includes(project)) {
+              isProject = true;
+            }
+          });
+
+          if (isProject) {
+            return user;
+          }
+        }
+      });
+    }
+
     return (
       <div
         className="user-update-form-box mt-3 mb-3"
@@ -131,75 +153,91 @@ class UsersEditFrom extends Component {
               <option value="">Status</option>
               {user_statuses
                 ? user_statuses.map(stats => {
+                    if (loggedUser.status === "Administrator") {
+                      return (
+                        <option
+                          key={stats._id}
+                          value={stats.name}
+                          selected={stats.name === status ? "selected" : null}
+                        >
+                          {stats.name}
+                        </option>
+                      );
+                    } else {
+                      if (stats.name !== "Administrator") {
+                        return (
+                          <option
+                            key={stats._id}
+                            value={stats.name}
+                            selected={stats.name === status ? "selected" : null}
+                          >
+                            {stats.name}
+                          </option>
+                        );
+                      }
+                    }
+                  })
+                : null}
+            </select>
+          </div>
+          {/* {status === "Menedżer" ||
+          status === "Pracownik" ||
+          status === "Klient" ? (
+            <React.Fragment> */}
+          <div className="form-group form-row">
+            <select
+              className="form-control"
+              onChange={this.onChangeMultiSelect}
+              name="projects"
+              multiple={true}
+              value={this.state.projects}
+              // defaultValue={this.state.projects}
+              required
+            >
+              <option value="">[Przypisz projekty]</option>
+              {projects
+                ? projects.map(project => {
                     return (
                       <option
-                        key={stats._id}
-                        value={stats.name}
-                        selected={stats.name === status ? "selected" : null}
+                        key={project._id}
+                        value={project.name}
+                        selected={
+                          this.state.projects.includes(project.name)
+                            ? "selected"
+                            : null
+                        }
                       >
-                        {stats.name}
+                        {project.name}
                       </option>
                     );
                   })
                 : null}
             </select>
           </div>
-          {status === "Klient" ? (
-            <React.Fragment>
-              <div className="form-group form-row">
-                <select
-                  className="form-control"
-                  onChange={this.onChangeMultiSelect}
-                  name="projects"
-                  multiple={true}
-                  value={this.state.projects}
-                  // defaultValue={this.state.projects}
-                  required
-                >
-                  <option value="">[Przypisz projekty]</option>
-                  {projects
-                    ? projects.map(project => {
-                        return (
-                          <option
-                            key={project._id}
-                            value={project.name}
-                            selected={
-                              this.state.projects.includes(project.name)
-                                ? "selected"
-                                : null
-                            }
-                          >
-                            {project.name}
-                          </option>
-                        );
-                      })
-                    : null}
-                </select>
-              </div>
-              <div className="form-group form-row">
-                <select
-                  className="form-control"
-                  onChange={this.onChangeMultiSelect}
-                  name="users"
-                  multiple={true}
-                  value={this.state.users}
-                  // defaultValue={this.state.users}
-                  required
-                >
-                  <option value="">[Przypisz osoby]</option>
-                  {users
-                    ? users.map(user => {
-                        return (
-                          <option key={user._id} value={user.name}>
-                            {user.name}
-                          </option>
-                        );
-                      })
-                    : null}
-                </select>
-              </div>
-            </React.Fragment>
-          ) : null}
+          <div className="form-group form-row">
+            <select
+              className="form-control"
+              onChange={this.onChangeMultiSelect}
+              name="users"
+              multiple={true}
+              value={this.state.users}
+              // defaultValue={this.state.users}
+              required
+            >
+              <option value="">[Przypisz osoby]</option>
+              {users
+                ? users.map(user => {
+                    return (
+                      <option key={user._id} value={user.name}>
+                        {user.name}
+                      </option>
+                    );
+                  })
+                : null}
+            </select>
+          </div>
+          {/* </React.Fragment>
+          ) : null} */}
           <div className="form-group">
             <input
               onClick={this.updateHandler}

@@ -66,15 +66,15 @@ class CommentsAddForm extends Component {
     );
   }
   retrieveImageFromClipboardAsBase64(pasteEvent, callback, imageFormat) {
-    if (pasteEvent.clipboardData == false) {
-      if (typeof callback == "function") {
+    if (pasteEvent.clipboardData === false) {
+      if (typeof callback === "function") {
         callback(undefined);
       }
     }
 
     var items = pasteEvent.clipboardData.items;
 
-    if (items == undefined) {
+    if (items === undefined) {
       if (typeof callback == "function") {
         callback(undefined);
       }
@@ -82,7 +82,7 @@ class CommentsAddForm extends Component {
 
     for (var i = 0; i < items.length; i++) {
       // Skip content if not image
-      if (items[i].type.indexOf("image") == -1) continue;
+      if (items[i].type.indexOf("image") === -1) continue;
       // Retrieve image on clipboard as blob
       var blob = items[i].getAsFile();
 

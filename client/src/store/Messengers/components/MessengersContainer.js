@@ -11,84 +11,107 @@ class MessengersContainer extends Component {
     super(props);
 
     const usersEmployeeArray = {
-      _id: "-3",
+      _id: -4,
       name: "[Employee]",
       status: "Kanał pracowników"
     };
 
+    const usersManagerArray = {
+      _id: -3,
+      name: "[Manager]",
+      status: "Kanał menedżerów"
+    };
+
     const usersAdminArray = {
-      _id: "-2",
+      _id: -2,
       name: "[Administrator]",
       status: "Kanał administratorów"
     };
 
-    const usersAdminEmployeeArray = {
-      _id: "-1",
-      name: "[Administrator+Employee]",
-      status: "Kanał administratorów i pracowników"
+    const usersAdminMenegerEmployeeArray = {
+      _id: -1,
+      name: "[Administrator+Manager+Employee]",
+      status: "Kanał administratorów, menedżerów i pracowników"
     };
 
     this.state = {
       selectedUsers: [
         usersEmployeeArray,
+        usersManagerArray,
         usersAdminArray,
-        usersAdminEmployeeArray
+        usersAdminMenegerEmployeeArray
       ],
-      filteredUsers: []
+      filteredUsers: [],
+      selectedChannelId: null
     };
   }
   componentDidMount() {
-    const { users, loggedUser, fetchMessengersByName } = this.props;
-    const { selectedUsers } = this.state;
-
-    let selectedModifyUsers = [];
-    let filteredUsers = [];
-
+    const { loggedUser, fetchMessengersByName } = this.props;
     fetchMessengersByName({ name: loggedUser.name });
+  }
+  componentDidUpdate = () => {
+    if (this.state.filteredUsers.length === 0 && this.props.users.length > 0) {
+      const { users, loggedUser } = this.props;
+      const { selectedUsers } = this.state;
 
-    if (loggedUser.status === "Klient") {
-      const persons = loggedUser.users.split(",");
-      selectedModifyUsers = users.filter(user => {
-        if (persons.includes(user.name)) {
-          return user;
-        }
-      });
-      filteredUsers = selectedModifyUsers;
-    } else {
-      selectedModifyUsers = users;
-      filteredUsers = selectedModifyUsers.filter(user => {
-        if (user.status !== "Klient") {
-          return user;
-        }
+      let selectedModifyUsers = [];
+      let filteredUsers = [];
+
+      if (loggedUser.status === "Klient") {
+        const persons = loggedUser.users.split(",");
+        selectedModifyUsers = users.filter(user => {
+          if (persons.includes(user.name)) {
+            return user;
+          }
+        });
+        filteredUsers = selectedModifyUsers;
+      } else {
+        selectedModifyUsers = users;
+        filteredUsers = selectedModifyUsers.filter(user => {
+          if (user.status !== "Klient") {
+            return user;
+          }
+        });
+      }
+      // set all selected users available by the default
+      this.setState({
+        selectedUsers: selectedModifyUsers.concat(selectedUsers),
+        filteredUsers
       });
     }
-
-    // console.log("selectedModifyUsers", selectedModifyUsers);
-    // selectedModifyUsers.push(selectedUsers);
-
-    // set all selected users available by the default
-    this.setState({
-      selectedUsers: selectedModifyUsers.concat(selectedUsers),
-      filteredUsers
-    });
-  }
+  };
   filterSelectedUsersHandler = name => {
     const { selectedUsers } = this.state;
     let filteredUsers = [];
+    let selectedChannelId = null;
 
-    if (name === "[Administrator+Employee]") {
+    if (name === "[Administrator+Manager+Employee]") {
+      selectedChannelId = -1;
       filteredUsers = selectedUsers.filter(user => {
-        if (user.status === "Administrator" || user.status === "Pracownik") {
+        if (
+          user.status === "Administrator" ||
+          user.status === "Menedżer" ||
+          user.status === "Pracownik"
+        ) {
           return user;
         }
       });
     } else if (name === "[Administrator]") {
+      selectedChannelId = -2;
       filteredUsers = selectedUsers.filter(user => {
         if (user.status === "Administrator") {
           return user;
         }
       });
+    } else if (name === "[Manager]") {
+      selectedChannelId = -3;
+      filteredUsers = selectedUsers.filter(user => {
+        if (user.status === "Menedżer") {
+          return user;
+        }
+      });
     } else if (name === "[Employee]") {
+      selectedChannelId = -4;
       filteredUsers = selectedUsers.filter(user => {
         if (user.status === "Pracownik") {
           return user;
@@ -97,23 +120,19 @@ class MessengersContainer extends Component {
     } else {
       filteredUsers = selectedUsers.filter(user => {
         if (user.name === name) {
+          selectedChannelId = user._id;
           return user;
         }
       });
     }
 
     this.setState({
-      filteredUsers
+      filteredUsers,
+      selectedChannelId
     });
   };
   render() {
-    const { selectedUsers, filteredUsers, users } = this.state;
-
-    // if (users) {
-    //   console.log("state users", users);
-    // } else {
-    //   console.log("there are no users in state");
-    // }
+    const { selectedUsers, selectedChannelId, filteredUsers } = this.state;
 
     return (
       <StyledMessengersContainer className="messenger-container-box">
@@ -147,6 +166,7 @@ class MessengersContainer extends Component {
                 </div>
                 <MessengersUsersList
                   selectedUsers={selectedUsers}
+                  selectedChannelId={selectedChannelId}
                   filterSelectedUsersHandler={this.filterSelectedUsersHandler}
                 />
               </div>

@@ -1,5 +1,3 @@
-import io from "socket.io-client";
-
 import {
   FETCH_MESSENGERS_BY_NAME_SUCCESS,
   ADD_MESSEGNER_SUCCESS,

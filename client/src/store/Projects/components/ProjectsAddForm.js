@@ -28,7 +28,7 @@ class ProjectsAddForm extends Component {
     });
   };
   addHandler = event => {
-    const { addProject, updateMessages } = this.props;
+    const { addProject } = this.props;
     const { name, description, cms, ftp, panel } = this.state;
 
     const data = {

@@ -1,4 +1,4 @@
-import { FETCHING_FILES, ADDING_FILE, REMOVING_FILE } from "./types";
+import { FETCHING_FILES, ADDING_FILE } from "./types";
 
 export const fetchFiles = () => ({
   type: FETCHING_FILES

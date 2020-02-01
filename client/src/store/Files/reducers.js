@@ -1,8 +1,8 @@
 import {
-  FETCH_FILES_SUCCESS,
-  ADD_FILE_SUCCESS,
-  REMOVE_FILE_SUCCESS,
-  FILES_ERROR
+  FETCH_FILES_SUCCESS
+  // ADD_FILE_SUCCESS,
+  // REMOVE_FILE_SUCCESS,
+  // FILES_ERROR
 } from "./types";
 
 const initialState = {

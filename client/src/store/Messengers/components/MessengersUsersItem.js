@@ -1,17 +1,19 @@
 import React, { Component } from "react";
-import moment from "moment";
 import { connect } from "react-redux";
 
 class MessengersUsersItem extends Component {
   render() {
     const {
-      item: { name, status, email, createdAt },
-      loggedUser,
-      filterSelectedUsersHandler
+      item: { _id, name, status },
+      filterSelectedUsersHandler,
+      selectedChannelId
     } = this.props;
 
+    let clazz =
+      _id === selectedChannelId ? "chat_list active_chat" : "chat_list";
+
     return (
-      <div className="chat_list active_chat">
+      <div className={clazz}>
         <button onClick={() => filterSelectedUsersHandler(name)}>
           <div className="chat_people">
             <div className="chat_img">

@@ -3,6 +3,7 @@ import moment from "moment";
 import { call, put, takeEvery } from "redux-saga/effects";
 import {
   FETCHING_TASKS,
+  FETCHING_TASKS_BY_LOGGED_USER_PROJECTS,
   FETCH_TASKS_SUCCESS,
   ADDING_TASK,
   ADD_TASK_SUCCESS,
@@ -14,7 +15,7 @@ import {
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
-import { REMOVING_COMMENTS_RELATIVE_TASK } from "../Comments/types";
+// import { REMOVING_COMMENTS_RELATIVE_TASK } from "../Comments/types";
 
 function* fetchTasksAsync(action) {
   try {
@@ -59,6 +60,59 @@ function* fetchTasksAsync(action) {
 
 export function* fetchTasksWatcher() {
   yield takeEvery(FETCHING_TASKS, fetchTasksAsync);
+}
+
+function* fetchTasksByLoggedUserProjectsAsync(action) {
+  const data = action.data;
+  // console.log("resolver data", action);
+  try {
+    const graph = {
+      query: `
+        query {
+          fetchTasksByLoggedUserProjects(taskInput:{
+            projectName: "${data.projectName}",
+            createdBy: "${data.createdBy}", 
+            responsiblePerson: "${data.responsiblePerson}"},projects: "${data.projects}"){
+            _id
+            createdBy
+            projectId
+            projectName
+            responsiblePerson
+            title
+            description
+            priority
+            status
+            responsiblePersonLastComment
+            createdAt
+            finishedAt
+            termAt
+            files
+          }
+        }
+    `
+    };
+
+    const res = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
+    // console.log("fetch tasks", res.data.data.fetchTasks);
+    yield put({
+      type: FETCH_TASKS_SUCCESS,
+      payload: res.data.data.fetchTasksByLoggedUserProjects
+    });
+  } catch (error) {
+    yield put({ type: TASKS_ERROR, payload: error });
+  }
+}
+
+export function* fetchTasksByLoggedUserProjectsWatcher() {
+  yield takeEvery(
+    FETCHING_TASKS_BY_LOGGED_USER_PROJECTS,
+    fetchTasksByLoggedUserProjectsAsync
+  );
 }
 
 function* addTaskAsync(action) {

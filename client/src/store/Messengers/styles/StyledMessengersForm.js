@@ -6,6 +6,8 @@ export const StyledMessengersForm = styled.div`
   }
   .messenger-form-box .users-list span {
     padding: 0px 3px;
+    color: green;
+    font-weight: bold;
   }
   .messenger-form-box .form-group:first-child {
     width: 90%;

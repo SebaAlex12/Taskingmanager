@@ -8,19 +8,31 @@ import ProjectsList from "../store/Projects/components/ProjectsList";
 import FiltersContainer from "../store/Filters/components/FiltersContainer";
 
 import { fetchFilters } from "../store/Filters/actions";
-import { fetchProjects } from "../store/Projects/actions";
-import { fetchTasks } from "../store/Tasks/actions";
+import {
+  fetchProjects,
+  fetchProjectsByLoggedUserProjects
+} from "../store/Projects/actions";
+import {
+  fetchTasks,
+  fetchTasksByLoggedUserProjects
+} from "../store/Tasks/actions";
 
 class Tasks extends Component {
   componentDidMount() {
     const {
       fetchFilters,
       fetchProjects,
+      fetchProjectsByLoggedUserProjects,
       fetchTasks,
-      loggedUser: { status, name }
+      loggedUser: { status, name, projects }
     } = this.props;
     fetchFilters();
-    fetchProjects();
+
+    if (status === "Administrator") {
+      fetchProjects();
+    } else {
+      fetchProjectsByLoggedUserProjects(projects);
+    }
 
     let filters = this.props.filters ? this.props.filters : null;
 
@@ -46,7 +58,9 @@ class Tasks extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     const {
+      loggedUser: { status, projects },
       fetchTasks,
+      fetchTasksByLoggedUserProjects,
       filters: { projectName, responsiblePerson }
     } = this.props;
 
@@ -56,7 +70,18 @@ class Tasks extends Component {
     ) {
       // console.log("prev res person", prevProps.filters.responsiblePerson);
       // console.log("res pers", responsiblePerson);
-      fetchTasks({ projectName, responsiblePerson });
+
+      if (status === "Administrator") {
+        fetchTasks({ projectName, responsiblePerson });
+      } else {
+        // fetchTasks({ projectName, responsiblePerson });
+        // console.log("logged user", loggedUser);
+        fetchTasksByLoggedUserProjects({
+          projectName,
+          responsiblePerson,
+          projects
+        });
+      }
       this.setState({
         filters: {
           projectName,
@@ -70,8 +95,14 @@ class Tasks extends Component {
     const { loggedUser } = this.props;
     return (
       <div className="tasks-box">
-        {loggedUser.status === "Administrator" ? <ProjectsList /> : null}
-        {loggedUser.status === "Administrator" ? <UsersList /> : null}
+        {loggedUser.status === "Administrator" ||
+        loggedUser.status === "Menedżer" ? (
+          <ProjectsList />
+        ) : null}
+        {loggedUser.status === "Administrator" ||
+        loggedUser.status === "Menedżer" ? (
+          <UsersList />
+        ) : null}
         {/* <TasksList /> */}
         <FiltersContainer />
         <TasksListContainer />
@@ -90,5 +121,7 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   fetchFilters,
   fetchProjects,
-  fetchTasks
+  fetchProjectsByLoggedUserProjects,
+  fetchTasks,
+  fetchTasksByLoggedUserProjects
 })(Tasks);

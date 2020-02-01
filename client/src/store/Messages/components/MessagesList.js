@@ -15,10 +15,8 @@ class MessagesList extends Component {
   }
   componentDidUpdate() {
     const { messages } = this.props;
-    console.log("messages update");
     this.reloadInfo();
 
-    console.log("messages ", messages);
     if (messages.alert) {
       this.socket.emit("chat:message", messages.alert);
     }

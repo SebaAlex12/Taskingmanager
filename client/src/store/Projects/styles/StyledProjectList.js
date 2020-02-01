@@ -26,10 +26,17 @@ export const StyledProjectList = styled.div`
     width: 260px;
   }
   .projects-list > div {
-    display: block;
     padding-left: 0px;
     padding-right: 0px;
     margin-bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .projects-list > div .edit-form > i {
+    position: absolute;
+    right: 10px;
+    top: 8px;
   }
   .projects-list > .form-group {
     position: fixed;
@@ -46,7 +53,7 @@ export const StyledProjectList = styled.div`
     z-index: 1000;
   }
   .projects-list > div:nth-child(3) {
-    padding-top: 40px;
+    margin-top: 34px;
   }
   .projects-list .remove-filter.active {
     opacity: 1;
@@ -62,6 +69,7 @@ export const StyledProjectList = styled.div`
     padding-bottom: 5px;
     width: 85%;
     text-align: left;
+    height: 18px;
   }
   .projects-list form > .form-group:first-child {
     display: none;

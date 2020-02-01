@@ -2,7 +2,6 @@ import axios from "axios";
 import { call, put, takeEvery } from "redux-saga/effects";
 import {
   FETCHING_FILES,
-  FETCH_FILES_SUCCESS,
   ADDING_FILE,
   ADD_FILE_SUCCESS,
   REMOVING_FILE,

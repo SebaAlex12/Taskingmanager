@@ -6,7 +6,12 @@ import { StyledTaskListContainer } from "../styles/StyledTaskListContainer";
 
 import TasksItem from "./TasksItem";
 import TaskAddForm from "./TasksAddForm";
-import { fetchTasks, removeTask, updateTask } from "../actions";
+import {
+  fetchTasks,
+  fetchTasksByLoggedUserProjects,
+  removeTask,
+  updateTask
+} from "../actions";
 import { updateFilter } from "../../Filters/actions";
 
 class TasksListContainer extends Component {
@@ -49,10 +54,23 @@ class TasksListContainer extends Component {
   };
   switchAllTasks = () => {
     const { activeAllTasks } = this.state;
-    const { loggedUser, fetchTasks, updateFilter, filters } = this.props;
+    const {
+      loggedUser,
+      fetchTasks,
+      fetchTasksByLoggedUserProjects,
+      updateFilter,
+      filters
+    } = this.props;
 
     if (!activeAllTasks) {
-      fetchTasks({ projectId: 1 });
+      if (loggedUser.status !== "Administrator") {
+        fetchTasksByLoggedUserProjects({
+          projectId: 1,
+          projects: loggedUser.projects
+        });
+      } else {
+        fetchTasks({ projectId: 1 });
+      }
       updateFilter({
         ...filters,
         ownerToAcceptTasksOnly: false
@@ -209,7 +227,7 @@ class TasksListContainer extends Component {
             <TasksItem
               item={task}
               key={task._id}
-              active={task._id == activeTaskId ? true : false}
+              active={task._id === activeTaskId ? true : false}
               setActiveTaskHandler={() => this.setActiveTaskHandler(task._id)}
             />
           ))
@@ -242,7 +260,8 @@ class TasksListContainer extends Component {
               <div className="title">
                 {tasks.length > 0 ? `Liczba zadań: ${tasks.length}` : null}
               </div>
-              {loggedUser.status === "Administrator" ? (
+              {loggedUser.status === "Administrator" ||
+              loggedUser.status === "Menedżer" ? (
                 <div className={clazz_all_tasks} onClick={this.switchAllTasks}>
                   <i className="glyphicon-tasks glyphicon"></i>
                   Pokaż wszystkie zadania
@@ -403,6 +422,7 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   updateFilter,
   fetchTasks,
+  fetchTasksByLoggedUserProjects,
   removeTask,
   updateTask
 })(TasksListContainer);

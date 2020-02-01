@@ -23,6 +23,37 @@ module.exports = {
     });
     return projects;
   },
+  fetchProjectsByLoggedUserProjects: async function({ projects }) {
+    const list = projects.split(",");
+    const pregmatch = list.map(item => new RegExp(item));
+
+    let prj = await Project.find().or([
+      {
+        name: {
+          $in: pregmatch
+        }
+      }
+    ]);
+
+    // find(null, null, { sort: { name: 1 } });
+    // console.log("projects resolver", projects);
+    prj = prj.map(project => {
+      if (project.description && project.description.length > 1) {
+        project.description = crypt.decrypt(project.description);
+      }
+      if (project.cms && project.cms.length > 1) {
+        project.cms = crypt.decrypt(project.cms);
+      }
+      if (project.ftp && project.ftp.length > 1) {
+        project.ftp = crypt.decrypt(project.ftp);
+      }
+      if (project.panel && project.panel.length > 1) {
+        project.panel = crypt.decrypt(project.panel);
+      }
+      return project;
+    });
+    return prj;
+  },
   addProject: async function({ projectInput }, req) {
     const result = await Project.findOne({ name: projectInput.name });
     if (result) {

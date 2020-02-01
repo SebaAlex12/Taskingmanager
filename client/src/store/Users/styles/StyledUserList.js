@@ -26,9 +26,39 @@ export const StyledUserList = styled.div`
     width: 260px;
   }
   .users-list > div {
-    display: block;
     padding-left: 0px;
     padding-right: 0px;
+    margin-bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .users-list > div .edit-form > i {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+  }
+  .users-list > .form-group {
+    position: fixed;
+    width: 243px;
+    z-index: 100;
+  }
+  .users-list .remove-filter {
+    position: fixed;
+    left: 220px;
+    top: 52px;
+    color: grey;
+    opacity: 0.5;
+    cursor: default;
+    z-index: 1000;
+  }
+  .users-list > div:nth-child(3) {
+    margin-top: 34px;
+  }
+  .users-list .remove-filter.active {
+    opacity: 1;
+    color: red;
+    cursor: pointer;
   }
   .users-list > div.selected {
     background-color: #e2e2e2;

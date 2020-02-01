@@ -13,6 +13,7 @@ import {
 } from "./Messages/saga";
 import {
   fetchTasksWatcher,
+  fetchTasksByLoggedUserProjectsWatcher,
   addTaskWatcher,
   updateTaskWatcher,
   removeTaskWatcher
@@ -28,10 +29,12 @@ import {
   updateUserWatcher,
   fetchLoggedUserWatcher,
   fetchUsersWatcher,
+  fetchUsersByLoggedUserProjectsWatcher,
   logoutUserWatcher
 } from "./Users/saga";
 import {
   fetchProjectsWatcher,
+  fetchProjectsByLoggedUserProjectsWatcher,
   addProjectWatcher,
   updateProjectWatcher,
   removeProjectWatcher
@@ -54,8 +57,10 @@ export default function* rootSaga() {
     fork(updateUserWatcher),
     fork(fetchLoggedUserWatcher),
     fork(fetchUsersWatcher),
+    fork(fetchUsersByLoggedUserProjectsWatcher),
     fork(logoutUserWatcher),
     fork(fetchTasksWatcher),
+    fork(fetchTasksByLoggedUserProjectsWatcher),
     fork(addTaskWatcher),
     fork(fetchCommentsWatcher),
     fork(addCommentWatcher),
@@ -63,6 +68,7 @@ export default function* rootSaga() {
     fork(updateTaskWatcher),
     fork(removeTaskWatcher),
     fork(fetchProjectsWatcher),
+    fork(fetchProjectsByLoggedUserProjectsWatcher),
     fork(addProjectWatcher),
     fork(updateProjectWatcher),
     fork(removeProjectWatcher),

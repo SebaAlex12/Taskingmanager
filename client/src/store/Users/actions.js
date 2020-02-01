@@ -1,6 +1,7 @@
 import {
   FETCHING_LOGGED_USER,
   FETCHING_USERS,
+  FETCHING_USERS_BY_LOGGED_USER_PROJECTS,
   REGISTERING_USER,
   UPDATING_USER,
   LOGGING_USER,
@@ -24,6 +25,11 @@ export const fetchLoggedUser = data => ({
 
 export const fetchUsers = () => ({
   type: FETCHING_USERS
+});
+
+export const fetchUsersByLoggedUserProjects = data => ({
+  type: FETCHING_USERS_BY_LOGGED_USER_PROJECTS,
+  data
 });
 
 export const updateUser = data => ({

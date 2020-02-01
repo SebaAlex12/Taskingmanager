@@ -31,7 +31,6 @@ class LoginForm extends Component {
   }
   loginHandler = event => {
     event.preventDefault();
-    const { loginUser } = this.props;
     const { email, password } = this.state;
 
     // const response = await loginUser({ email: email, password: password });

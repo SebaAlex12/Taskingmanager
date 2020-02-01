@@ -12,6 +12,18 @@ module.exports = {
     const users = await User.find(null, null, { sort: { name: 1 } });
     return users;
   },
+  fetchUsersByLoggedUserProjects: async function({ projects }) {
+    const list = projects.split(",");
+    const pregmatch = list.map(item => new RegExp(item));
+    const users = await User.find().or([
+      {
+        projects: {
+          $in: pregmatch
+        }
+      }
+    ]);
+    return users;
+  },
   createUser: async function({ userInput }, req) {
     // if (!userInput.name || !userInput.email || !userInput.password) {
     //   const err = new Error("You left input fields epmty");
@@ -23,6 +35,7 @@ module.exports = {
     if (userExists) {
       const err = new Error("User email already exists");
       throw err;
+      // return { errors: "User email already exists" };
     }
 
     const userNameExists = await User.findOne({ name: userInput.name });
@@ -30,6 +43,7 @@ module.exports = {
     if (userNameExists) {
       const err = new Error("User name already exists");
       throw err;
+      // return { errors: "User name already exists" };
     }
 
     const salt = bcrypt.genSaltSync(14);

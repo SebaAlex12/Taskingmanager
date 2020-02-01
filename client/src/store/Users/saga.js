@@ -8,6 +8,7 @@ import {
   FETCHING_LOGGED_USER,
   FETCH_LOGGED_USER_SUCCESS,
   FETCHING_USERS,
+  FETCHING_USERS_BY_LOGGED_USER_PROJECTS,
   FETCH_USERS_SUCCESS,
   LOGGING_OUT_USER,
   LOGGED_OUT_SUCCESS,
@@ -171,6 +172,46 @@ function* fetchUsersAsync(action) {
 
 export function* fetchUsersWatcher() {
   yield takeEvery(FETCHING_USERS, fetchUsersAsync);
+}
+
+function* fetchUsersByLoggedUserProjectsAsync(action) {
+  const data = action.data;
+  try {
+    const graph = {
+      query: `
+        query {
+          fetchUsersByLoggedUserProjects(projects:"${data}"){
+            _id
+            name
+            email
+            status
+            projects
+            users
+            createdAt
+          }
+        }
+    `
+    };
+    const res = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
+    yield put({
+      type: FETCH_USERS_SUCCESS,
+      payload: res.data.data.fetchUsersByLoggedUserProjects
+    });
+  } catch (error) {
+    yield put({ type: USER_ERROR, payload: error });
+  }
+}
+
+export function* fetchUsersByLoggedUserProjectsWatcher() {
+  yield takeEvery(
+    FETCHING_USERS_BY_LOGGED_USER_PROJECTS,
+    fetchUsersByLoggedUserProjectsAsync
+  );
 }
 
 function* updateUserAsync(action) {

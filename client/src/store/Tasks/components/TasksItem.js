@@ -60,7 +60,6 @@ class TasksItem extends Component {
     //   item: { files }
     // } = nextProps;
     // const { files } = this.state;
-    console.log("comp wil resive");
     if (nextProps.item.files !== this.props.item.files) {
       // console.log("next props files", nextProps.item.files);
       this.setState({
@@ -141,7 +140,7 @@ class TasksItem extends Component {
     const response = updateTask(data);
 
     const alertData =
-      event.target.value == "Do wykonania"
+      event.target.value === "Do wykonania"
         ? {
             from: loggedUser.name,
             to: responsiblePerson,
@@ -165,7 +164,7 @@ class TasksItem extends Component {
     const result = window.confirm(
       "Czy napewno chcesz usunąć zadanie: " + title
     );
-    if (result == true) {
+    if (result === true) {
       const response = removeTask(_id);
       if (response) {
         updateMessages([
@@ -208,12 +207,12 @@ class TasksItem extends Component {
 
     if (files && files.length > 0) {
       // console.log("files", files);
-      let item = 0;
+      // let item = 0;
       filesContent = files.map(file => {
         // console.log("file", file);
         let imageUrl = `/files/tasks/${_id}/${file}`;
         // filesUrls.push(imageUrl);
-        let fileNumber = item++;
+        // let fileNumber = item++;
         return (
           <FilesItem
             key={file}
@@ -324,17 +323,23 @@ class TasksItem extends Component {
             >
               {users
                 ? users.map(item => {
-                    return (
-                      <option
-                        key={item._id}
-                        value={item.name}
-                        selected={
-                          item.name === responsiblePerson ? "selected" : null
-                        }
-                      >
-                        {item.name}
-                      </option>
-                    );
+                    if (item.projects) {
+                      if (item.projects.split(",").includes(projectName)) {
+                        return (
+                          <option
+                            key={item._id}
+                            value={item.name}
+                            selected={
+                              item.name === responsiblePerson
+                                ? "selected"
+                                : null
+                            }
+                          >
+                            {item.name}
+                          </option>
+                        );
+                      }
+                    }
                   })
                 : null}
             </select>

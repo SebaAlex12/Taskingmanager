@@ -4,7 +4,7 @@ const fsPromises = fs.promises;
 
 const Task = require("../../models/Task");
 const tools = require("../../utils/tools");
-
+// fetchTasks and fetchTasksByLoggedUserProjects has to be almost the same
 module.exports = {
   fetchTasks: async function({ taskInput }) {
     let params = {};
@@ -22,9 +22,52 @@ module.exports = {
     if (taskInput.createdBy && taskInput.createdBy !== "undefined")
       params.createdBy = taskInput.createdBy;
 
-    // console.log("task resolver params", params);
-
     let tasks = await Task.find(params);
+
+    const newTasks = tasks.map(async task => {
+      let path = "./client/public/files/tasks/" + task._id;
+      if (fs.existsSync(path)) {
+        const files = await fsPromises.readdir(path);
+        task = {
+          ...task._doc,
+          files: files.filter(file => file != "mini")
+        };
+      } else {
+        task.files = [];
+      }
+      return task;
+    });
+
+    return newTasks;
+  },
+  fetchTasksByLoggedUserProjects: async function({ taskInput, projects }) {
+    let params = {};
+    const list = projects.split(",");
+    const pregmatch = list.map(item => new RegExp(item));
+
+    if (taskInput.projectName && taskInput.projectName !== "undefined")
+      params.projectName = taskInput.projectName;
+
+    if (
+      taskInput.responsiblePerson &&
+      taskInput.responsiblePerson !== "undefined"
+    )
+      params.responsiblePerson = taskInput.responsiblePerson;
+
+    if (taskInput.createdBy && taskInput.createdBy !== "undefined")
+      params.createdBy = taskInput.createdBy;
+
+    // let tasks = await Task.find(params);
+
+    let tasks = await Task.find(params).or([
+      {
+        projectName: {
+          $in: pregmatch
+        }
+      }
+    ]);
+
+    // console.log("tasks", tasks);
 
     const newTasks = tasks.map(async task => {
       let path = "./client/public/files/tasks/" + task._id;
@@ -57,6 +100,19 @@ module.exports = {
       createdAt: taskInput.createdAt,
       termAt: taskInput.termAt
     });
+
+    const taskExists = await Task.findOne({
+      title: taskInput.title,
+      projectName: taskInput.projectName
+    });
+
+    if (taskExists) {
+      // const e = new Error(
+      //   "Task with this title and project name already exists"
+      // );
+      return { errors: "Task with this title and project name already exists" };
+    }
+
     try {
       const storedTask = await task.save();
       return { ...storedTask._doc, _id: storedTask._id.toString() };

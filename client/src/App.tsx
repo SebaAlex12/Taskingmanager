@@ -9,7 +9,11 @@ import { ThemeProvider } from "styled-components";
 
 import jwt_decode from "jwt-decode";
 
-import { fetchLoggedUser, fetchUsers } from "./store/Users/actions";
+import {
+  fetchLoggedUser,
+  fetchUsers,
+  fetchUsersByLoggedUserProjects
+} from "./store/Users/actions";
 import LoginForm from "./store/Users/components/LoginForm";
 
 import Dashboard from "./themes/layout/Dashboard";
@@ -49,7 +53,11 @@ if (localStorage.jwtTokenAuthorization) {
         logged
       })
     );
-    store.dispatch(fetchUsers());
+    if (status === "Administrator") {
+      store.dispatch(fetchUsers());
+    } else {
+      store.dispatch(fetchUsersByLoggedUserProjects(projects));
+    }
   } else {
     localStorage.removeItem("jwtTokenAuthorization");
   }
@@ -61,17 +69,17 @@ function App() {
       <ThemeProvider theme={{ mode: "light" }}>
         <Router>
           <StyledResponsive>
-          <div className="App">
-            <MessagesList />
-            {!localStorage.jwtTokenAuthorization ||
-            localStorage.jwtTokenAuthorization === undefined ? (
-              <div className="login-box">
-                <LoginForm />
-              </div>
-            ) : (
-              <Dashboard />
-            )}
-          </div>
+            <div className="App">
+              <MessagesList />
+              {!localStorage.jwtTokenAuthorization ||
+              localStorage.jwtTokenAuthorization === undefined ? (
+                <div className="login-box">
+                  <LoginForm />
+                </div>
+              ) : (
+                <Dashboard />
+              )}
+            </div>
           </StyledResponsive>
         </Router>
       </ThemeProvider>

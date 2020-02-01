@@ -2,6 +2,7 @@ import axios from "axios";
 import { call, put, takeEvery } from "redux-saga/effects";
 import {
   FETCHING_PROJECTS,
+  FETCHING_PROJECTS_BY_LOGGED_USER_PROJECTS,
   FETCH_PROJECTS_SUCCESS,
   ADDING_PROJECT,
   ADD_PROJECT_SUCCESS,
@@ -48,6 +49,46 @@ function* fetchProjectsAsync() {
 
 export function* fetchProjectsWatcher() {
   yield takeEvery(FETCHING_PROJECTS, fetchProjectsAsync);
+}
+
+function* fetchProjectsByLoggedUserProjectsAsync(action) {
+  const data = action.data;
+  try {
+    const graph = {
+      query: `
+        query {
+          fetchProjectsByLoggedUserProjects(projects:"${data}"){
+            _id
+            name
+            description
+            cms
+            ftp
+            panel
+          }
+        }
+    `
+    };
+
+    const res = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
+    yield put({
+      type: FETCH_PROJECTS_SUCCESS,
+      payload: res.data.data.fetchProjectsByLoggedUserProjects
+    });
+  } catch (error) {
+    yield put({ type: PROJECTS_ERROR, payload: error });
+  }
+}
+
+export function* fetchProjectsByLoggedUserProjectsWatcher() {
+  yield takeEvery(
+    FETCHING_PROJECTS_BY_LOGGED_USER_PROJECTS,
+    fetchProjectsByLoggedUserProjectsAsync
+  );
 }
 
 function* addProjectAsync(action) {
@@ -98,7 +139,7 @@ function* addProjectAsync(action) {
   // }
 
   const response = projectData.data.data.addProject;
-  console.log("saga resolver ", response);
+  // console.log("saga resolver ", response);
   if (response.errors) {
     yield put({ type: PROJECTS_ERROR, payload: response.errors });
     yield put({

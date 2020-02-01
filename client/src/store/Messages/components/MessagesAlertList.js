@@ -21,13 +21,13 @@ class MessagesAlertList extends Component {
           break;
       }
     });
-    const arr = chatMessages.reduce((total, item) => {
-      let n = total[item.from] ? total[item.from] : 1;
-      return (total = {
-        person: item.from,
-        counter: n++
-      });
-    }, []);
+    // const arr = chatMessages.reduce((total, item) => {
+    //   let n = total[item.from] ? total[item.from] : 1;
+    //   return (total = {
+    //     person: item.from,
+    //     counter: n++
+    //   });
+    // }, []);
 
     const alertMessagesContent =
       alert_messages && alert_messages.length > 0

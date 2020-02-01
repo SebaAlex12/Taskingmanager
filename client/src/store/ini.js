@@ -5,10 +5,14 @@ export const user_statuses = [
   },
   {
     _id: 2,
-    name: "Pracownik"
+    name: "Menedżer"
   },
   {
     _id: 3,
+    name: "Pracownik"
+  },
+  {
+    _id: 4,
     name: "Klient"
   }
 ];

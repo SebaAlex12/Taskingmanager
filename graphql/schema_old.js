@@ -149,10 +149,13 @@ module.exports = buildSchema(`
     type RootQuery {
         loginUser(email: String!, password: String!): UserLoginData!
         fetchUsers: [User]!
+        fetchUsersByLoggedUserProjects(projects: String): [User]!
         fetchTasks(taskInput: TaskInputData): [Task]!
+        fetchTasksByLoggedUserProjects(taskInput: TaskInputData, projects: String): [Task]!
         fetchComments(commentInput: CommentInputData): [Comment]!
         fetchMessengersByName(name: String): [Messenger]!
         fetchProjects: [Project]!
+        fetchProjectsByLoggedUserProjects(projects: String): [Project]!
     }
 
     schema {

@@ -23,7 +23,8 @@ class ProjectsItem extends Component {
   render() {
     const {
       item,
-      filters: { projectName }
+      filters: { projectName },
+      loggedUser
     } = this.props;
     const { toggleEditForm } = this.state;
 
@@ -39,13 +40,15 @@ class ProjectsItem extends Component {
         <div className="title" onClick={this.updateFilterHandler}>
           {item.name}
         </div>
-        <div className="edit-form">
-          <i
-            className="glyphicon glyphicon-edit"
-            onClick={() => this.setState({ toggleEditForm: !toggleEditForm })}
-          ></i>
-          {toggleEditForm ? <ProjectsEditForm item={item} /> : null}
-        </div>
+        {loggedUser.status === "Administrator" ? (
+          <div className="edit-form">
+            <i
+              className="glyphicon glyphicon-edit"
+              onClick={() => this.setState({ toggleEditForm: !toggleEditForm })}
+            ></i>
+            {toggleEditForm ? <ProjectsEditForm item={item} /> : null}
+          </div>
+        ) : null}
       </div>
     );
   }
@@ -53,6 +56,7 @@ class ProjectsItem extends Component {
 
 const mapStateToProps = state => {
   return {
+    loggedUser: state.users.logged_user,
     filters: state.filters.filters
   };
 };

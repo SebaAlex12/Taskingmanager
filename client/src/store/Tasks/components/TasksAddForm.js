@@ -80,17 +80,35 @@ class TasksAddForm extends Component {
     }
   };
   render() {
-    const { projects, users, loggedUser } = this.props;
-    const { priority, status } = this.state;
+    const { projects } = this.props;
+    const { priority, status, projectName } = this.state;
 
     // console.log(projects);
 
-    const loggedUserProjects = loggedUser.projects
-      ? loggedUser.projects.split(",")
-      : [];
-    const loggedUserUsers = loggedUser.users ? loggedUser.users.split(",") : [];
+    // const loggedUserProjects = loggedUser.projects
+    //   ? loggedUser.projects.split(",")
+    //   : [];
+    // const loggedUserUsers = loggedUser.users ? loggedUser.users.split(",") : [];
 
+    // console.log("projects", loggedUserProjects);
     // console.log("compon state", this.state);
+
+    // filter users compare to selected projects
+    let users;
+
+    // if (this.state.projects) {
+    users = this.props.users.filter(user => {
+      if (user.projects !== null) {
+        let userProjects = user.projects.split(",");
+        if (userProjects.includes(projectName)) {
+          return user;
+        }
+      }
+      if (user.status === "Administrator") {
+        return user;
+      }
+    });
+    // }
 
     return (
       <StyledTaskForm>
@@ -155,25 +173,25 @@ class TasksAddForm extends Component {
               <select
                 className="form-control"
                 onChange={this.onChangeSelect}
-                name="responsiblePerson"
+                name="projectName"
                 required
               >
-                <option value="">Przypisz do</option>
-                {users
-                  ? users.map(user => {
+                <option value="">Wybierz projekt</option>
+                {projects
+                  ? projects.map(project => {
                       let option = "";
-                      if (
-                        loggedUser.status !== "Klient" ||
-                        loggedUserUsers.includes(user.name)
-                      ) {
-                        option = (
-                          <option key={user._id} value={user.name}>
-                            {user.name}
-                          </option>
-                        );
-                        return option;
-                      }
-                      return;
+                      // if (
+                      //   loggedUser.status === "Administrator" ||
+                      //   loggedUserProjects.includes(project.name)
+                      // ) {
+                      option = (
+                        <option key={project._id} value={project.name}>
+                          {project.name}
+                        </option>
+                      );
+                      return option;
+                      // }
+                      // return;
                     })
                   : null}
               </select>
@@ -182,25 +200,25 @@ class TasksAddForm extends Component {
               <select
                 className="form-control"
                 onChange={this.onChangeSelect}
-                name="projectName"
+                name="responsiblePerson"
                 required
               >
-                <option value="">Wybierz projekt</option>
-                {projects
-                  ? projects.map(project => {
+                <option value="">Przypisz do</option>
+                {users
+                  ? users.map(user => {
                       let option = "";
-                      if (
-                        loggedUser.status !== "Klient" ||
-                        loggedUserProjects.includes(project.name)
-                      ) {
-                        option = (
-                          <option key={project._id} value={project.name}>
-                            {project.name}
-                          </option>
-                        );
-                        return option;
-                      }
-                      return;
+                      // if (
+                      //   loggedUser.status === "Administrator" ||
+                      //   loggedUserUsers.includes(user.name)
+                      // ) {
+                      option = (
+                        <option key={user._id} value={user.name}>
+                          {user.name}
+                        </option>
+                      );
+                      return option;
+                      // }
+                      // return;
                     })
                   : null}
               </select>

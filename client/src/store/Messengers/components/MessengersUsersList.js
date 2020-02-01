@@ -7,9 +7,8 @@ import { StyledMessengerList } from "../styles/StyledMessengerList";
 class MessengersUsersList extends Component {
   render() {
     const { filterSelectedUsersHandler } = this.props;
-    let { selectedUsers } = this.props;
+    let { selectedUsers, selectedChannelId } = this.props;
     let n = 0;
-
     const usersContent = selectedUsers
       ? selectedUsers
           .map(user => {
@@ -17,6 +16,7 @@ class MessengersUsersList extends Component {
               <MessengersUsersItem
                 item={user}
                 key={n++}
+                selectedChannelId={selectedChannelId}
                 filterSelectedUsersHandler={filterSelectedUsersHandler}
               />
             );

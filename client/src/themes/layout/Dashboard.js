@@ -8,7 +8,7 @@ import Tasks from "../../root/Tasks";
 import MessengersContainer from "../../store/Messengers/components/MessengersContainer";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 
-import Preloader from "../../common/Preloader";
+// import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
 import { updateAlertMessages } from "../../store/Messages/actions";
 
@@ -46,19 +46,14 @@ class Dashboard extends Component {
     return (
       <div>
         {/* <Preloader /> */}
-        {/* {loggedUser.status !== "Klient" ? (  */}
         <MessagesAlertList />
-        {/* ) : null} */}
         <div className="logged-user">
           Witaj:{" "}
           {loggedUser ? `${loggedUser.name} / ${loggedUser.status}` : null}
         </div>
-        {/* {loggedUser.status !== "Klient" ? ( */}
         <Link className="btn btn-default" to="/messenger">
           Messenger
         </Link>
-        {/* ) : null} */}
-
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>
@@ -66,9 +61,9 @@ class Dashboard extends Component {
           Logout
         </button>
         <div className="container">
-          <Route exact path="/messenger" component={MessengersContainer} />
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/" component={Tasks} />
+          <Route exact path="/messenger" component={MessengersContainer} />
         </div>
       </div>
     );

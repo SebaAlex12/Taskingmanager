@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Button } from "../../../themes/basic";
 import { StyledProjectList } from "../styles/StyledProjectList";
 
-import { fetchProjects, removeProject, updateProject } from "../actions";
+import { removeProject, updateProject } from "../actions";
 import { updateFilter } from "../../Filters/actions";
 import ProjectsAddForm from "./ProjectsAddForm";
 import ProjectsItem from "./ProjectsItem";
@@ -166,7 +166,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  fetchProjects,
   removeProject,
   updateProject,
   updateFilter

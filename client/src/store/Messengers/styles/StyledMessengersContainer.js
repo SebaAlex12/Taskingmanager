@@ -103,8 +103,12 @@ export const StyledMessengersContainer = styled.div`
     margin: 0;
     padding: 18px 16px 10px;
   }
+  .chat_list:focus,
+  .chat_list > button:focus {
+    outline: none;
+  }
   .inbox_chat {
-    height: 550px;
+    height: 620px;
     overflow-y: scroll;
   }
 
@@ -115,7 +119,7 @@ export const StyledMessengersContainer = styled.div`
   }
 
   .active_chat {
-    background: #ebebeb;
+    background: #337ab7;
   }
 
   .incoming_msg_img {
@@ -142,9 +146,6 @@ export const StyledMessengersContainer = styled.div`
     display: block;
     font-size: 12px;
     margin: 8px 0 0;
-  }
-  .received_withd_msg {
-    width: 57%;
   }
   .mesgs {
     float: left;
@@ -173,7 +174,7 @@ export const StyledMessengersContainer = styled.div`
   }
   .sent_msg {
     float: right;
-    width: 46%;
+    width: 92%;
   }
   .input_msg_write input {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;

@@ -26,7 +26,7 @@ export const StyledMessagesList = styled.div`
     display: inline-block;
     position: relative;
     margin: 5px;
-    width: 100%;
+    width: 100px;
   }
   .messages-alert-box > i {
     width: 100%;
