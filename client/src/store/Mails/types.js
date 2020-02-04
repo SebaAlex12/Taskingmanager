@@ -1,0 +1,3 @@
+export const SENDING_MAIL = "SENDING_MAIL";
+export const SEND_MAIL_SUCCESS = "SEND_MAL_SUCCESS";
+export const MAIL_ERRORS = "MAIL_ERRORS";

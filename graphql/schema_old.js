@@ -48,6 +48,19 @@ module.exports = buildSchema(`
         errors: [Error]
     }
 
+    type Mail {
+        _id: String
+        from: String
+        to: String
+        projectName: String
+        title: String
+        description: String
+        attachments: String
+        createdBy: String
+        createdAt: String
+        errors: [Error]
+    }
+
     type Messenger {
         _id: String
         from: String
@@ -103,6 +116,18 @@ module.exports = buildSchema(`
         createdAt: String
     }
 
+    input MailInputData {
+        _id: String
+        from: String
+        to: String
+        projectName: String
+        title: String
+        description: String
+        attachments: String
+        createdBy: String
+        createdAt: String
+    }
+
     input MessengerInputData {
         _id: String
         from: String
@@ -137,6 +162,7 @@ module.exports = buildSchema(`
         addTask(taskInput: TaskInputData): Task!
         updateTask(taskInput: TaskInputData): Task!
         addComment(commentInput: CommentInputData): Comment!
+        sendMail(mailInput: MailInputData): Mail!
         addMessenger(messengerInput: MessengerInputData): Messenger!
         removeTask(taskId: String!): Task!
         removeCommentsByTaskId(taskId: String!): Task!

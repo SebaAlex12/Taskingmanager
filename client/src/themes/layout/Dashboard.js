@@ -11,6 +11,7 @@ import MessagesAlertList from "../../store/Messages/components/MessagesAlertList
 // import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
 import { updateAlertMessages } from "../../store/Messages/actions";
+import ModalDialog from "../../common/ModalDialog/components/ModalDialog";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class Dashboard extends Component {
     const { loggedUser } = this.props;
     return (
       <div>
+        {/* <ModalDialog title="modal dialog" description="opis modal dialog" /> */}
         {/* <Preloader /> */}
         <MessagesAlertList />
         <div className="logged-user">
