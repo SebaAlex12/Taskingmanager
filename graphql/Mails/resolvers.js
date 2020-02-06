@@ -2,6 +2,10 @@ const Mail = require("../../models/Mail");
 const tools = require("../../utils/tools");
 
 module.exports = {
+  fetchMails: async function(){
+    let mails = await Mail.find(null, null, { sort: { name: 1 } });
+    return mails;
+  },
   sendMail: async function({ mailInput }, req) {
     const mail = new Mail({
       from: mailInput.from,

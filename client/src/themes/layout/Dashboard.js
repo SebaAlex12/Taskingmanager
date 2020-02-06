@@ -7,11 +7,11 @@ import { logoutUser } from "../../store/Users/actions";
 import Tasks from "../../root/Tasks";
 import MessengersContainer from "../../store/Messengers/components/MessengersContainer";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
+import MailsListContainer from "../../store/Mails/components/MailsListContainer";
 
 // import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
 import { updateAlertMessages } from "../../store/Messages/actions";
-import ModalDialog from "../../common/ModalDialog/components/ModalDialog";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -68,6 +68,7 @@ class Dashboard extends Component {
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/" component={Tasks} />
           <Route exact path="/messenger" component={MessengersContainer} />
+          <Route exact path="/mails" component={MailsListContainer}/>
         </div>
       </div>
     );

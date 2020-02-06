@@ -181,6 +181,7 @@ module.exports = buildSchema(`
         fetchComments(commentInput: CommentInputData): [Comment]!
         fetchMessengersByName(name: String): [Messenger]!
         fetchProjects: [Project]!
+        fetchMails: [Mail]!
         fetchProjectsByLoggedUserProjects(projects: String): [Project]!
     }
 

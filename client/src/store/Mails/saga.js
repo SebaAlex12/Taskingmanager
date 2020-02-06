@@ -1,9 +1,48 @@
 import axios from "axios";
 import moment from "moment";
 import { call, put, takeEvery } from "redux-saga/effects";
-import { SENDING_MAIL, SEND_MAIL_SUCCESS, MAIL_ERRORS } from "./types";
+import { SENDING_MAIL, SEND_MAIL_SUCCESS, FETCHING_MAILS, FETCH_MAILS_SUCCESS, MAILS_ERRORS } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+
+function* fetchMailsAsync() {
+  try {
+    const graph = {
+      query: `
+        query {
+          fetchMails{
+            _id
+            from
+            to
+            projectName
+            title
+            description
+            attachments
+            createdBy
+            createdAt
+          }
+        }
+    `
+    };
+
+    const res = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
+    yield put({
+      type: FETCH_MAILS_SUCCESS,
+      payload: res.data.data.fetchMails
+    });
+  } catch (error) {
+    yield put({ type: MAILS_ERRORS, payload: error });
+  }
+}
+
+export function* fetchMailsWatcher() {
+  yield takeEvery(FETCHING_MAILS, fetchMailsAsync);
+}
 
 function* sendMailAsync(action) {
   try {
@@ -54,7 +93,7 @@ function* sendMailAsync(action) {
     console.log("mail data", mailData.data.data);
     const response = mailData.data.data.addMail;
     if (response.errors) {
-      yield put({ type: MAIL_ERRORS, payload: response.errors });
+      yield put({ type: MAILS_ERRORS, payload: response.errors });
       yield put({
         type: UPDATE_MESSAGES_SUCCESS,
         payload: { errors: response.errors }
@@ -70,7 +109,7 @@ function* sendMailAsync(action) {
       });
     }
   } catch (error) {
-    yield put({ type: MAIL_ERRORS, payload: error });
+    yield put({ type: MAILS_ERRORS, payload: error });
   }
 }
 
