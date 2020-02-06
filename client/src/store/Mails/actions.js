@@ -1,6 +1,10 @@
-import { SENDING_MAIL } from "./types";
+import { SENDING_MAIL, FETCHING_MAILS } from "./types";
 
-export const fetchComments = data => ({
+export const sendMail = data => ({
   type: SENDING_MAIL,
   data
 });
+
+export const fetchMails = () => ({
+  type: FETCHING_MAILS
+})

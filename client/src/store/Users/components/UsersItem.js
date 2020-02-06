@@ -2,13 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import UsersEditForm from "./UsersEditForm";
+import MailsAddForm from "../../Mails/components/MailsAddForm";
+import ModalDialog from "../../../common/ModalDialog/components/ModalDialog"
 import { updateFilter } from "../../Filters/actions";
 
 class UsersItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      toggleEditForm: false
+      toggleEditForm: false,
+      showModalTrigger: false
     };
   }
   updateFilterHandler = () => {
@@ -20,13 +23,19 @@ class UsersItem extends Component {
     const responsiblePerson = item.name;
     updateFilter({ statuses, priorities, projectName, responsiblePerson });
   };
+  showModal = (result) => {
+    this.setState({
+      ...this.state,
+      showModalTrigger: result
+    })
+  }
   render() {
     const {
       item,
       loggedUser,
       filters: { responsiblePerson }
     } = this.props;
-    const { toggleEditForm } = this.state;
+    const { toggleEditForm, showModalTrigger } = this.state;
 
     let clazz_box;
     let clazz;
@@ -64,6 +73,11 @@ class UsersItem extends Component {
               onClick={() => this.setState({ toggleEditForm: !toggleEditForm })}
             ></i>
             {toggleEditForm ? <UsersEditForm item={item} /> : null}
+            <i
+              className="glyphicon glyphicon-envelope"
+              onClick={() => this.showModal(true)}
+            ></i>
+            {showModalTrigger ? (<ModalDialog title="Mailing..." showModal={() => this.showModal(false)}><MailsAddForm to={item.email} /></ModalDialog>) : null}
           </div>
         ) : item.status !== "Administrator" && item.name !== loggedUser.name ? (
           <div className="edit-form">

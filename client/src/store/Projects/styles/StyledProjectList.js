@@ -7,7 +7,7 @@ export const StyledProjectList = styled.div`
     text-align: right;
     top: 0px;
     right: 126px;
-    z-index: 101;
+    z-index: 11;
   }
   .flow-box.active > button {
     background-color: green;
@@ -109,7 +109,7 @@ export const StyledProjectList = styled.div`
     position: fixed;
     top: 0px;
     left: 0px;
-    z-index: 1000;
+    z-index: 10;
   }
   .project-list-flow-box.active > button {
     background-color: green;

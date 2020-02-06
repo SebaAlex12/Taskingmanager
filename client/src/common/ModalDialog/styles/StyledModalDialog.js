@@ -7,15 +7,15 @@ export const StyledModalDialog = styled.div`
   right: 0px;
   top: 0px;
   bottom: 0px;
-  z-index: 1001;
+  z-index: 10001;
   .modal-dialog-box .content {
     display: block;
-    width: 300px;
+    width: 460px;
     margin-left: auto;
     margin-right: auto;
     color: #000;
     font-size: 16px;
-    margin-top: 40vh;
+    margin-top: 10vh;
     background-color: #fff;
     padding: 30px;
   }

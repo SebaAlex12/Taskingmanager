@@ -7,7 +7,7 @@ export const StyledUserList = styled.div`
     text-align: right;
     top: 0px;
     right: 248px;
-    z-index: 102;
+    z-index: 12;
   }
   .users-box > .flow-box.active > button {
     background-color: green;
@@ -33,10 +33,13 @@ export const StyledUserList = styled.div`
     flex-direction: column;
     position: relative;
   }
-  .users-list > div .edit-form > i {
+  .users-list > div .edit-form > i{
     position: absolute;
     right: 10px;
     top: 8px;
+  }
+  .users-list > div .edit-form > i.glyphicon-envelope{
+    right:25px;
   }
   .users-list > .form-group {
     position: fixed;
@@ -90,7 +93,7 @@ export const StyledUserList = styled.div`
   .users-list .status.client {
     background-color: #179417;
   }
-  .users-list form > .form-group:first-child {
+  .users-list .user-update-form-box form > .form-group:first-child {
     display: none;
   }
   .users-list .user-update-form-box select[name="projects"],

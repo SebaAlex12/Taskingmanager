@@ -46,7 +46,6 @@ class Dashboard extends Component {
     const { loggedUser } = this.props;
     return (
       <div>
-        {/* <ModalDialog title="modal dialog" description="opis modal dialog" /> */}
         {/* <Preloader /> */}
         <MessagesAlertList />
         <div className="logged-user">
@@ -58,6 +57,9 @@ class Dashboard extends Component {
         </Link>
         <Link className="btn btn-default" to="/tasks">
           Zadania
+        </Link>
+        <Link className="btn btn-default" to="/mails">
+          Poczta
         </Link>
         <button className="btn btn-default" onClick={this.logoutUserHandler}>
           Logout

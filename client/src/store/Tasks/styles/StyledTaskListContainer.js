@@ -7,7 +7,7 @@ export const StyledTaskListContainer = styled.div`
     text-align: right;
     top: 0px;
     right: 0px;
-    z-index: 1000;
+    z-index: 9;
   }
   .flow-box.active > button {
     background-color: green;
