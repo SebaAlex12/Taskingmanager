@@ -23,14 +23,14 @@ module.exports = {
       replyTo: sender,
       to: to,
       subject: subject,
-      html: html,
-      attachments: [
-        {
-          // file on disk as an attachment
-          filename: "baklazan-ciekawostki.jpeg",
-          path: "C:/Users/Ja/Desktop/pics/baklazan-ciekawostki.jpeg"
-        }
-      ]
+      html: html
+      // attachments: [
+      //   {
+      //     // file on disk as an attachment
+      //     filename: "baklazan-ciekawostki.jpeg",
+      //     path: "C:/Users/Ja/Desktop/pics/baklazan-ciekawostki.jpeg"
+      //   }
+      // ]
     };
 
     let transporter = nodemailer.createTransport(transport);
