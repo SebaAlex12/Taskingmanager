@@ -9,7 +9,7 @@ module.exports = {
   },
   addMail: async function({ mailInput }, req) {
     // console.log("mail input", mailInput);
-    console.log("attachments", mailInput.attachments);
+    // console.log("attachments", mailInput);
 
     const mail = new Mail({
       from: mailInput.from,
@@ -17,6 +17,7 @@ module.exports = {
       projectName: mailInput.projectName,
       title: mailInput.title,
       description: mailInput.description,
+      absolutePathFile: mailInput.absolutePathFile,
       attachments: mailInput.attachments,
       createdBy: mailInput.createdBy,
       createdAt: mailInput.createdAt
@@ -28,6 +29,7 @@ module.exports = {
         sender: mailInput.from,
         subject: mailInput.title,
         html: mailInput.description,
+        absolutePathFile: mailInput.absolutePathFile,
         attachments: mailInput.attachments
       });
       const storedMail = await mail.save();

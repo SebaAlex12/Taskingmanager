@@ -20,6 +20,9 @@ const MailSchema = new Schema({
   description: {
     type: String
   },
+  absolutePathFile: {
+    type: String
+  },
   attachments: {
     type: String
   },

@@ -55,6 +55,7 @@ module.exports = buildSchema(`
         projectName: String
         title: String
         description: String
+        absolutePathFile: String
         attachments: String
         createdBy: String
         createdAt: String
@@ -123,6 +124,7 @@ module.exports = buildSchema(`
         projectName: String
         title: String
         description: String
+        absolutePathFile: String
         attachments: String
         createdBy: String
         createdAt: String

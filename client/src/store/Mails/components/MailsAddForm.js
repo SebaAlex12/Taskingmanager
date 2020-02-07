@@ -17,6 +17,7 @@ class MailsAddForm extends Component {
       projectName,
       title: "Wiadomość z crm`a pisze: " + loggedUser.name,
       description: "",
+      absolutePathFile: "",
       attachments: "",
       createdBy: loggedUser.name
     };
@@ -35,6 +36,7 @@ class MailsAddForm extends Component {
       projectName,
       title,
       description,
+      absolutePathFile,
       attachments,
       createdBy
     } = this.state;
@@ -45,6 +47,7 @@ class MailsAddForm extends Component {
       projectName,
       title,
       description,
+      absolutePathFile,
       attachments,
       createdBy
     };
@@ -60,6 +63,7 @@ class MailsAddForm extends Component {
       projectName,
       title,
       description,
+      absolutePathFile,
       attachments
     } = this.state;
 
@@ -120,6 +124,30 @@ class MailsAddForm extends Component {
               />
             </div>
             <div className="form-group">
+              <label>Ścieżka do pliku:</label>
+              <input
+                onChange={this.onChangeInput}
+                value={absolutePathFile}
+                type="text"
+                name="absolutePathFile"
+                className="form-control"
+                placeholder="Ścieżka do pliku"
+                title="Ścieżka do pliku"
+              />
+            </div>
+            <div className="form-group">
+              <label>Załączniki - nie działa na heroku:</label>
+              <input
+                onChange={this.onChangeInput}
+                id="mail-file-select"
+                type="file"
+                // value={attachments}
+                name="files[]"
+                className="form-control"
+                multiple
+              />
+            </div>
+            <div className="form-group">
               <label>Opis:</label>
               <textarea
                 onChange={this.onChangeInput}
@@ -129,18 +157,6 @@ class MailsAddForm extends Component {
                 className="form-control"
                 placeholder="Opis"
                 title="Opis"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="" />
-              <input
-                onChange={this.onChangeInput}
-                id="mail-file-select"
-                type="file"
-                // value={attachments}
-                name="files[]"
-                className="form-control"
-                multiple
               />
             </div>
             <div className="form-group">

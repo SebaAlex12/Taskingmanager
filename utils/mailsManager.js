@@ -4,8 +4,20 @@ const password = require("../config/keys").emailPassword;
 
 module.exports = {
   sendMail: function(data) {
-    console.log("mail settings", data);
-    const { from, to, sender, subject, html, attachments } = data;
+    // console.log("mail settings", data);
+    const {
+      from,
+      to,
+      sender,
+      subject,
+      html,
+      absolutePathFile,
+      attachments
+    } = data;
+
+    const parts = absolutePathFile.split("/");
+    // console.log("obrazek", parts[parts.length - 1]);
+
     const transport = {
       host: "smtp.gmail.com", // e.g. smtp.gmail.com
       // port: 587,
@@ -16,10 +28,10 @@ module.exports = {
         pass: password
       }
     };
-    console.log(data.createdBy);
+    // console.log(data.createdBy);
     const mail = {
       from: from + ":",
-      sender: "sender2@server.com",
+      sender: sender,
       replyTo: sender,
       to: to,
       subject: subject,
@@ -30,10 +42,14 @@ module.exports = {
         //   path: "C:/Users/Ja/Desktop/pics/baklazan-ciekawostki.jpeg"
         // }
         {
-          // use URL as an attachment
-          filename: "license.txt",
-          path: "https://raw.github.com/nodemailer/nodemailer/master/LICENSE"
+          filename: parts[parts.length - 1],
+          path: absolutePathFile
         }
+        // {
+        //   // use URL as an attachment
+        //   filename: "license.txt",
+        //   path: "https://raw.github.com/nodemailer/nodemailer/master/LICENSE"
+        // }
       ]
     };
 

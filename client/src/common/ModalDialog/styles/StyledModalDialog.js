@@ -10,13 +10,30 @@ export const StyledModalDialog = styled.div`
   z-index: 10001;
   .modal-dialog-box .content {
     display: block;
-    width: 460px;
+    width: 780px;
     margin-left: auto;
     margin-right: auto;
     color: #000;
     font-size: 16px;
-    margin-top: 10vh;
+    margin-top: 10px;
     background-color: #fff;
     padding: 30px;
+  }
+  .mail-add-form-box > form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .mail-add-form-box > form > .form-group {
+    width: 50%;
+    box-sizing: border-box;
+    padding: 0px 10px;
+  }
+  .mail-add-form-box > form > .form-group:nth-child(7),
+  .mail-add-form-box > form > .form-group:nth-child(8) {
+    width: 100%;
+  }
+  .mail-add-form-box > form > .form-group:nth-child(7) textarea {
+    height: 150px;
   }
 `;

@@ -51,28 +51,28 @@ export function* fetchMailsWatcher() {
 }
 
 function* addMailAsync(action) {
-  const multifiles = document.getElementById("mail-file-select");
-  const files = multifiles.files;
-  console.log("files", files);
-  const formData = new FormData();
-  //   console.log("action", action);
-  // const dest = "tasks-" + action.data.taskId;
+  // const multifiles = document.getElementById("mail-file-select");
+  // const files = multifiles.files;
+  // const formData = new FormData();
 
-  for (let i = 0; i < files.length; i++) {
-    formData.append("files", files[i], files[i].name);
-  }
+  // for (let i = 0; i < files.length; i++) {
+  //   formData.append("files", files[i], files[i].name);
+  // }
   try {
     const data = action.data;
+
     const mailInput = {
       from: data.from,
       to: data.to,
       projectName: data.projectName,
       title: data.title,
       description: data.description,
-      attachments: formData,
+      absolutePathFile: data.absolutePathFile,
+      attachments: "",
       createdBy: data.createdBy,
       createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
     };
+    // console.log('mailinput',mailInput)
     const graph = {
       query: `mutation {
         addMail(mailInput: {
@@ -81,6 +81,7 @@ function* addMailAsync(action) {
             projectName: "${mailInput.projectName}",
             title: "${mailInput.title}",
             description: "${mailInput.description}",
+            absolutePathFile: "${mailInput.absolutePathFile}",
             attachments: "${mailInput.attachments}",
             createdBy: "${mailInput.createdBy}",
             createdAt: "${mailInput.createdAt}"}){
@@ -90,6 +91,7 @@ function* addMailAsync(action) {
           projectName
           title
           description
+          absolutePathFile
           attachments
           createdBy
           createdAt
@@ -100,6 +102,7 @@ function* addMailAsync(action) {
         }
       }`
     };
+
     const mailData = yield call(
       [axios, axios.post],
       "/graphql",
