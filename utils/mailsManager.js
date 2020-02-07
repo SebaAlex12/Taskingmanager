@@ -25,10 +25,14 @@ module.exports = {
       subject: subject,
       html: html,
       attachments: [
+        // {
+        //   filename: "baklazan-ciekawostki.jpeg",
+        //   path: "C:/Users/Ja/Desktop/pics/baklazan-ciekawostki.jpeg"
+        // }
         {
-          // file on disk as an attachment
-          filename: "baklazan-ciekawostki.jpeg",
-          path: "C:/Users/Ja/Desktop/pics/baklazan-ciekawostki.jpeg"
+          // use URL as an attachment
+          filename: "license.txt",
+          path: "https://raw.github.com/nodemailer/nodemailer/master/LICENSE"
         }
       ]
     };
