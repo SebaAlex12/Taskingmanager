@@ -23,7 +23,7 @@ import {
   addCommentWatcher,
   removeCommentsByTaskIdWatcher
 } from "./Comments/saga";
-import { sendMailWatcher, fetchMailsWatcher } from "./Mails/saga";
+import { addMailWatcher, fetchMailsWatcher } from "./Mails/saga";
 import {
   loginUserWatcher,
   registerUserWatcher,
@@ -65,7 +65,7 @@ export default function* rootSaga() {
     fork(addTaskWatcher),
     fork(fetchCommentsWatcher),
     fork(addCommentWatcher),
-    fork(sendMailWatcher),
+    fork(addMailWatcher),
     fork(fetchMailsWatcher),
     fork(removeCommentsByTaskIdWatcher),
     fork(updateTaskWatcher),

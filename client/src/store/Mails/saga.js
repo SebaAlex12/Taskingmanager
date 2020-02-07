@@ -1,7 +1,13 @@
 import axios from "axios";
 import moment from "moment";
 import { call, put, takeEvery } from "redux-saga/effects";
-import { SENDING_MAIL, SEND_MAIL_SUCCESS, FETCHING_MAILS, FETCH_MAILS_SUCCESS, MAILS_ERRORS } from "./types";
+import {
+  ADDING_MAIL,
+  ADD_MAIL_SUCCESS,
+  FETCHING_MAILS,
+  FETCH_MAILS_SUCCESS,
+  MAILS_ERRORS
+} from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 
@@ -44,7 +50,17 @@ export function* fetchMailsWatcher() {
   yield takeEvery(FETCHING_MAILS, fetchMailsAsync);
 }
 
-function* sendMailAsync(action) {
+function* addMailAsync(action) {
+  const multifiles = document.getElementById("mail-file-select");
+  const files = multifiles.files;
+  console.log("files", files);
+  const formData = new FormData();
+  //   console.log("action", action);
+  // const dest = "tasks-" + action.data.taskId;
+
+  for (let i = 0; i < files.length; i++) {
+    formData.append("files", files[i], files[i].name);
+  }
   try {
     const data = action.data;
     const mailInput = {
@@ -53,13 +69,13 @@ function* sendMailAsync(action) {
       projectName: data.projectName,
       title: data.title,
       description: data.description,
-      attachments: data.attachments,
+      attachments: formData,
       createdBy: data.createdBy,
       createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
     };
     const graph = {
       query: `mutation {
-        sendMail(mailInput: {
+        addMail(mailInput: {
             from: "${mailInput.from}",
             to: "${mailInput.to}",
             projectName: "${mailInput.projectName}",
@@ -100,12 +116,12 @@ function* sendMailAsync(action) {
       });
     } else {
       yield put({
-        type: SEND_MAIL_SUCCESS,
+        type: ADD_MAIL_SUCCESS,
         payload: response
       });
       yield put({
         type: UPDATE_MESSAGES_SUCCESS,
-        payload: { success: [{ message: "Komentarz został dodany" }] }
+        payload: { success: [{ message: "Email został dodany/wysłany" }] }
       });
     }
   } catch (error) {
@@ -113,6 +129,6 @@ function* sendMailAsync(action) {
   }
 }
 
-export function* sendMailWatcher() {
-  yield takeEvery(SENDING_MAIL, sendMailAsync);
+export function* addMailWatcher() {
+  yield takeEvery(ADDING_MAIL, addMailAsync);
 }

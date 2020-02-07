@@ -162,7 +162,7 @@ module.exports = buildSchema(`
         addTask(taskInput: TaskInputData): Task!
         updateTask(taskInput: TaskInputData): Task!
         addComment(commentInput: CommentInputData): Comment!
-        sendMail(mailInput: MailInputData): Mail!
+        addMail(mailInput: MailInputData): Mail!
         addMessenger(messengerInput: MessengerInputData): Messenger!
         removeTask(taskId: String!): Task!
         removeCommentsByTaskId(taskId: String!): Task!

@@ -1,4 +1,4 @@
-import { SEND_MAIL_SUCCESS, FETCH_MAILS_SUCCESS, MAILS_ERRORS } from "./types";
+import { ADD_MAIL_SUCCESS, FETCH_MAILS_SUCCESS, MAILS_ERRORS } from "./types";
 
 const initialState = {
   mails: [],
@@ -12,7 +12,7 @@ export const mailsReducer = (state = initialState, action) => {
         ...state,
         mails: action.payload
       };
-    case SEND_MAIL_SUCCESS:
+    case ADD_MAIL_SUCCESS:
       return {
         ...state,
         mails: [...state.mails, action.payload]
