@@ -50,7 +50,7 @@ class CommentsAddForm extends Component {
 
     event.preventDefault();
 
-    const response = addComment(data);
+    addComment(data);
     // document.getElementById("mixTextImagesArea").innerHTML = "";
     updateTask({
       _id: taskId,

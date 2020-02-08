@@ -58,9 +58,9 @@ class Dashboard extends Component {
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>
-        <Link className="btn btn-default" to="/mails">
+        {/* <Link className="btn btn-default" to="/mails">
           Poczta
-        </Link>
+        </Link> */}
         <button className="btn btn-default" onClick={this.logoutUserHandler}>
           Logout
         </button>
@@ -68,7 +68,7 @@ class Dashboard extends Component {
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/" component={Tasks} />
           <Route exact path="/messenger" component={MessengersContainer} />
-          <Route exact path="/mails" component={MailsListContainer}/>
+          <Route exact path="/mails" component={MailsListContainer} />
         </div>
       </div>
     );

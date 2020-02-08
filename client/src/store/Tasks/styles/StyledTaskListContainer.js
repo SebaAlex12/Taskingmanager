@@ -15,10 +15,10 @@ export const StyledTaskListContainer = styled.div`
   .task-items-box > div > * {
     float: left;
   }
-  .task-items-box .title {
+  .task-items-box > .title {
     font-weight: bold;
   }
-  .task-items-box .title,
+  .task-items-box > .title,
   .task-items-box .task-all-switcher {
     float: left;
     padding-top: 10px;
@@ -35,6 +35,11 @@ export const StyledTaskListContainer = styled.div`
   .task-items-box .task-all-switcher.active i:before {
     color: green;
   }
+  .task-items-box table .glyphicon-envelope {
+    display: block;
+    cursor: pointer;
+    font-size: 19px;
+  }
   .task-items-box table tr.status_2,
   .task-items-box table tr.priority_0 {
     background-color: rgba(255, 78, 78, 0.1);
@@ -44,11 +49,12 @@ export const StyledTaskListContainer = styled.div`
   }
   .task-items-box table .details {
     text-align: left;
-    width: 54px;
+    width: 65px;
   }
   .task-items-box .details i {
     cursor: pointer;
     margin-left: 4px;
+    font-size: 19px;
   }
   .task-items-box .details i.glyphicon-remove {
     color: red;

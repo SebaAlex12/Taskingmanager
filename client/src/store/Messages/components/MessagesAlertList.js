@@ -19,6 +19,8 @@ class MessagesAlertList extends Component {
         case "messanger":
           chatMessages.push(item.data);
           break;
+        default:
+          break;
       }
     });
     // const arr = chatMessages.reduce((total, item) => {

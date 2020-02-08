@@ -102,10 +102,18 @@ export const StyledMessengersContainer = styled.div`
     border-bottom: 1px solid #c4c4c4;
     margin: 0;
     padding: 18px 16px 10px;
+    position: relative;
   }
   .chat_list:focus,
   .chat_list > button:focus {
     outline: none;
+  }
+  .chat_list .glyphicon-envelope {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    cursor: pointer;
+    font-size: 19px;
   }
   .inbox_chat {
     height: 620px;

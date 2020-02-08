@@ -5,6 +5,7 @@ import MessengersList from "./MessengersList";
 import { StyledMessengersContainer } from "../styles/StyledMessengersContainer";
 import MessengersUsersList from "./MessengersUsersList";
 import { fetchMessengersByName } from "../actions";
+import { fetchProjectsByLoggedUserProjects } from "../../Projects/actions";
 
 class MessengersContainer extends Component {
   constructor(props) {
@@ -46,8 +47,13 @@ class MessengersContainer extends Component {
     };
   }
   componentDidMount() {
-    const { loggedUser, fetchMessengersByName } = this.props;
+    const {
+      loggedUser,
+      fetchMessengersByName,
+      fetchProjectsByLoggedUserProjects
+    } = this.props;
     fetchMessengersByName({ name: loggedUser.name });
+    fetchProjectsByLoggedUserProjects(loggedUser.projects);
   }
   componentDidUpdate = () => {
     if (this.state.filteredUsers.length === 0 && this.props.users.length > 0) {
@@ -59,19 +65,15 @@ class MessengersContainer extends Component {
 
       if (loggedUser.status === "Klient") {
         const persons = loggedUser.users.split(",");
-        selectedModifyUsers = users.filter(user => {
-          if (persons.includes(user.name)) {
-            return user;
-          }
-        });
+        selectedModifyUsers = users.filter(user =>
+          persons.includes(user.name) ? user : null
+        );
         filteredUsers = selectedModifyUsers;
       } else {
         selectedModifyUsers = users;
-        filteredUsers = selectedModifyUsers.filter(user => {
-          if (user.status !== "Klient") {
-            return user;
-          }
-        });
+        filteredUsers = selectedModifyUsers.filter(user =>
+          user.status !== "Klient" ? user : null
+        );
       }
       // set all selected users available by the default
       this.setState({
@@ -87,41 +89,35 @@ class MessengersContainer extends Component {
 
     if (name === "[Administrator+Manager+Employee]") {
       selectedChannelId = -1;
-      filteredUsers = selectedUsers.filter(user => {
-        if (
-          user.status === "Administrator" ||
-          user.status === "Menedżer" ||
-          user.status === "Pracownik"
-        ) {
-          return user;
-        }
-      });
+      filteredUsers = selectedUsers.filter(user =>
+        user.status === "Administrator" ||
+        user.status === "Menedżer" ||
+        user.status === "Pracownik"
+          ? user
+          : null
+      );
     } else if (name === "[Administrator]") {
       selectedChannelId = -2;
-      filteredUsers = selectedUsers.filter(user => {
-        if (user.status === "Administrator") {
-          return user;
-        }
-      });
+      filteredUsers = selectedUsers.filter(user =>
+        user.status === "Administrator" ? user : null
+      );
     } else if (name === "[Manager]") {
       selectedChannelId = -3;
-      filteredUsers = selectedUsers.filter(user => {
-        if (user.status === "Menedżer") {
-          return user;
-        }
-      });
+      filteredUsers = selectedUsers.filter(user =>
+        user.status === "Menedżer" ? user : null
+      );
     } else if (name === "[Employee]") {
       selectedChannelId = -4;
-      filteredUsers = selectedUsers.filter(user => {
-        if (user.status === "Pracownik") {
-          return user;
-        }
-      });
+      filteredUsers = selectedUsers.filter(user =>
+        user.status === "Pracownik" ? user : null
+      );
     } else {
       filteredUsers = selectedUsers.filter(user => {
         if (user.name === name) {
           selectedChannelId = user._id;
           return user;
+        } else {
+          return null;
         }
       });
     }
@@ -187,6 +183,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { fetchMessengersByName })(
-  MessengersContainer
-);
+export default connect(mapStateToProps, {
+  fetchMessengersByName,
+  fetchProjectsByLoggedUserProjects
+})(MessengersContainer);

@@ -38,6 +38,9 @@ export const StyledProjectList = styled.div`
     right: 10px;
     top: 8px;
   }
+  .projects-list > div .edit-form > i.glyphicon-envelope {
+    right: 25px;
+  }
   .projects-list > .form-group {
     position: fixed;
     width: 243px;
@@ -77,7 +80,7 @@ export const StyledProjectList = styled.div`
   .projects-list form > .form-group {
     position: relative;
   }
-  .projects-list form textarea {
+  .projects-list .project-update-form-box form textarea {
     min-height: 420px;
   }
   .projects-list form .show-hide-button {
@@ -109,7 +112,7 @@ export const StyledProjectList = styled.div`
     position: fixed;
     top: 0px;
     left: 0px;
-    z-index: 10;
+    z-index: 101;
   }
   .project-list-flow-box.active > button {
     background-color: green;

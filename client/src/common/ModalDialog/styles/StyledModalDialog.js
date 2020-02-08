@@ -19,6 +19,20 @@ export const StyledModalDialog = styled.div`
     background-color: #fff;
     padding: 30px;
   }
+  .modal-dialog-box .content .title {
+    font-size: 18px;
+    font-weight: bold;
+    float: left;
+  }
+  .modal-dialog-box .content .close-button {
+    float: right;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .modal-dialog-box > .content > .description {
+    clear: both;
+    margin-top: 30px;
+  }
   .mail-add-form-box > form {
     display: flex;
     flex-direction: row;

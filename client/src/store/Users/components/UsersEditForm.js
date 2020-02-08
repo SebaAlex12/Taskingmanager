@@ -98,7 +98,11 @@ class UsersEditFrom extends Component {
 
           if (isProject) {
             return user;
+          } else {
+            return null;
           }
+        } else {
+          return null;
         }
       });
     }

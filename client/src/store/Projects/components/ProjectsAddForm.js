@@ -41,7 +41,7 @@ class ProjectsAddForm extends Component {
 
     event.preventDefault();
 
-    const response = addProject(data);
+    addProject(data);
   };
   render() {
     return (

@@ -51,7 +51,6 @@ class RegistryForm extends Component {
   };
   render() {
     const { projects, loggedUser } = this.props;
-    const { status } = this.state;
     // console.log("state", this.state);
 
     // filter users compare to selected projects
@@ -69,9 +68,12 @@ class RegistryForm extends Component {
           });
 
           if (isProject) {
-            console.log("is project");
             return user;
+          } else {
+            return null;
           }
+        } else {
+          return null;
         }
       });
     }

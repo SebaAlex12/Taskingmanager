@@ -9,13 +9,13 @@ import { StyledMailAddForm } from "../styles/StyledMailAddForm";
 class MailsAddForm extends Component {
   constructor(props) {
     super(props);
-    const { loggedUser, to, projectName } = this.props;
+    const { loggedUser, to, title, projectName } = this.props;
 
     this.state = {
       from: loggedUser.email,
       to,
       projectName,
-      title: "Wiadomość z crm`a pisze: " + loggedUser.name,
+      title,
       description: "",
       absolutePathFile: "",
       attachments: "",
@@ -54,7 +54,7 @@ class MailsAddForm extends Component {
 
     event.preventDefault();
 
-    const response = addMail(data);
+    addMail(data);
   };
   render() {
     const {
@@ -63,9 +63,11 @@ class MailsAddForm extends Component {
       projectName,
       title,
       description,
-      absolutePathFile,
-      attachments
+      absolutePathFile
+      // attachments
     } = this.state;
+
+    const { projects } = this.props;
 
     return (
       <StyledMailAddForm>
@@ -86,19 +88,47 @@ class MailsAddForm extends Component {
               />
             </div>
             <div className="form-group">
-              <label>Adres odbiorcy:</label>
+              <label>Nazwa projektu:</label>
+              <select
+                className="form-control"
+                onChange={this.onChangeSelect}
+                name="projectName"
+                required
+              >
+                <option value=""></option>
+                {projects
+                  ? projects.map(project => {
+                      let option = "";
+                      option = (
+                        <option
+                          key={project._id}
+                          value={project.name}
+                          selected={
+                            project.name === projectName ? "selected" : null
+                          }
+                        >
+                          {project.name}
+                        </option>
+                      );
+                      return option;
+                    })
+                  : null}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Adresy odbiorców:</label>
               <textarea
                 onChange={this.onChangeInput}
                 value={to}
                 type="text"
                 name="to"
                 className="form-control"
-                placeholder="Adres odbiorcy"
-                title="Adres odbiorcy"
+                placeholder="Adresy odbiorców"
+                title="Adresy odbiorców"
                 required
               />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label>Nazwa projektu:</label>
               <input
                 onChange={this.onChangeInput}
@@ -110,10 +140,10 @@ class MailsAddForm extends Component {
                 title="Dotyczy projektu"
                 required
               />
-            </div>
+            </div> */}
             <div className="form-group">
               <label>Tytuł:</label>
-              <input
+              <textarea
                 onChange={this.onChangeInput}
                 value={title}
                 type="text"
@@ -176,7 +206,8 @@ class MailsAddForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: state.users.logged_user
+    loggedUser: state.users.logged_user,
+    projects: state.projects.projects
   };
 };
 

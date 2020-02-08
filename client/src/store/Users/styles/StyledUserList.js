@@ -33,13 +33,13 @@ export const StyledUserList = styled.div`
     flex-direction: column;
     position: relative;
   }
-  .users-list > div .edit-form > i{
+  .users-list > div .edit-form > i {
     position: absolute;
     right: 10px;
     top: 8px;
   }
-  .users-list > div .edit-form > i.glyphicon-envelope{
-    right:25px;
+  .users-list > div .edit-form > i.glyphicon-envelope {
+    right: 25px;
   }
   .users-list > .form-group {
     position: fixed;
@@ -67,10 +67,8 @@ export const StyledUserList = styled.div`
     background-color: #e2e2e2;
   }
   .users-list .title {
-    float: left;
     padding-left: 5px;
     padding-bottom: 5px;
-    width: 85%;
     text-align: left;
   }
   .users-list .status {
@@ -104,7 +102,7 @@ export const StyledUserList = styled.div`
     position: fixed;
     top: 0px;
     left: 136px;
-    z-index: 100;
+    z-index: 102;
   }
   .user-list-flow-box.active > button {
     background-color: green;
@@ -116,7 +114,7 @@ export const StyledUserList = styled.div`
     margin-left: 4px;
     cursor: pointer;
     position: absolute;
-    z-index: 1000;
+    z-index: 100;
     right: 5px;
     top: 12px;
   }

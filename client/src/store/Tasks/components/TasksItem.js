@@ -11,11 +11,15 @@ import { updateMessages } from "../../Messages/actions";
 import FilesAddForm from "../../Files/components/FilesAddForm";
 import FilesItem from "../../Files/components/FilesItem";
 
+import MailsAddForm from "../../Mails/components/MailsAddForm";
+import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
+
 class TasksItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      toggle: false
+      toggle: false,
+      showModalTrigger: false
     };
   }
 
@@ -120,7 +124,7 @@ class TasksItem extends Component {
         termAt,
         createdAt
       };
-      console.log("update", updateTask(data));
+      updateTask(data);
       this.setState({
         toggle: false
       });
@@ -181,6 +185,13 @@ class TasksItem extends Component {
     });
   };
 
+  showModal = result => {
+    this.setState({
+      ...this.state,
+      showModalTrigger: result
+    });
+  };
+
   render() {
     const {
       _id,
@@ -195,10 +206,15 @@ class TasksItem extends Component {
       createdBy,
       termAt,
       createdAt,
-      files
+      files,
+      showModalTrigger
     } = this.state;
     const { setActiveTaskHandler, active, loggedUser, users } = this.props;
     // console.log("state item", this.state);
+
+    const taskCreatorUser = users.filter(user => user.name === createdBy);
+
+    // console.log("task creator user", taskCreatorUser);
 
     // let filesUrls;
     // filesUrls = [];
@@ -225,6 +241,7 @@ class TasksItem extends Component {
 
     const selectedPriority = priorities.filter(item => item.name === priority);
     const selectedStatus = statuses.filter(item => item.name === status);
+
     let clazz;
     if (selectedPriority.length > 0 && selectedStatus.length > 0) {
       clazz =
@@ -311,7 +328,31 @@ class TasksItem extends Component {
                 : null}
             </select>
           </td>
-          <td className="createdBy">{createdBy}</td>
+          <td className="createdBy">
+            {createdBy}
+            <i
+              className="glyphicon glyphicon-envelope"
+              onClick={() => this.showModal(true)}
+            ></i>
+            {showModalTrigger ? (
+              <ModalDialog
+                title="Wyślij email."
+                showModal={() => this.showModal(false)}
+              >
+                <MailsAddForm
+                  title={
+                    "Wiadomość Crm - " +
+                    (projectName ? "projekt: " + projectName + ", " : "") +
+                    (title ? "zadanie: " + title + ", " : "") +
+                    "autor: " +
+                    loggedUser.name
+                  }
+                  projectName={projectName}
+                  to={taskCreatorUser[0].email}
+                />
+              </ModalDialog>
+            ) : null}
+          </td>
           {/* <td className="responsiblePerson">{responsiblePerson}</td> */}
           <td className="responsiblePerson">
             <select
@@ -319,6 +360,7 @@ class TasksItem extends Component {
               onChange={this.onChangeSelectHandler}
               name="responsiblePerson"
               disabled={loggedUser.name !== createdBy ? "disabled" : null}
+              value={responsiblePerson}
               required
             >
               {users
@@ -329,17 +371,18 @@ class TasksItem extends Component {
                           <option
                             key={item._id}
                             value={item.name}
-                            selected={
-                              item.name === responsiblePerson
-                                ? "selected"
-                                : null
-                            }
+                            // selected={
+                            //   item.name === responsiblePerson
+                            //     ? "selected"
+                            //     : null
+                            // }
                           >
                             {item.name}
                           </option>
                         );
                       }
                     }
+                    return null;
                   })
                 : null}
             </select>

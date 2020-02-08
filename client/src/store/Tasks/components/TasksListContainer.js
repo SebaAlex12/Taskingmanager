@@ -153,6 +153,8 @@ class TasksListContainer extends Component {
       .map(priority => {
         if (priority.active) {
           return priority.name;
+        } else {
+          return null;
         }
       })
       .filter(elements => elements !== undefined);
@@ -161,6 +163,8 @@ class TasksListContainer extends Component {
       .map(status => {
         if (status.active) {
           return status.name;
+        } else {
+          return null;
         }
       })
       .filter(elements => elements !== undefined);
@@ -184,6 +188,8 @@ class TasksListContainer extends Component {
         }
         // console.log(priorities.includes(item.priority));
         // console.log(statuses.includes(item.status));
+      } else {
+        return null;
       }
     });
 
