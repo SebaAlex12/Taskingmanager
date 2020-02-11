@@ -48,6 +48,9 @@ const TaskSchema = new Schema({
   },
   termAt: {
     type: String
+  },
+  mailRemainderData: {
+    type: String
   }
 });
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Button } from "../../../themes/basic";
+import { BiggerButton } from "../../../themes/basic";
 import { StyledTaskListContainer } from "../styles/StyledTaskListContainer";
 
 import TasksItem from "./TasksItem";
@@ -250,7 +250,7 @@ class TasksListContainer extends Component {
         <div className="col-lg-12">
           <div className="tasks-box">
             <div className={clazz}>
-              <Button
+              <BiggerButton
                 variant="primary"
                 onClick={() =>
                   this.setState({
@@ -259,7 +259,7 @@ class TasksListContainer extends Component {
                 }
               >
                 Dodaj zadanie
-              </Button>
+              </BiggerButton>
               {toggleTasksAddForm ? <TaskAddForm /> : null}
             </div>
             <div className="task-items-box">

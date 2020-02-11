@@ -98,7 +98,8 @@ module.exports = {
       responsiblePersonLastComment: taskInput.responsiblePersonLastComment,
       status: taskInput.status,
       createdAt: taskInput.createdAt,
-      termAt: taskInput.termAt
+      termAt: taskInput.termAt,
+      mailRemainderData: null
     });
 
     const taskExists = await Task.findOne({
@@ -144,9 +145,12 @@ module.exports = {
       status: taskInput.status !== "" ? taskInput.status : task.status,
       responsiblePersonLastComment:
         taskInput.responsiblePersonLastComment !== ""
-          ? stringToBoolean(taskInput.responsiblePersonLastComment)
+          ? tools.stringToBoolean(taskInput.responsiblePersonLastComment)
           : task.responsiblePersonLastComment,
-      termAt: taskInput.termAt !== "" ? taskInput.termAt : task.termAt
+      termAt: taskInput.termAt !== "" ? taskInput.termAt : task.termAt,
+      mailRemainderData: taskInput.mailRemainderData
+        ? taskInput.mailRemainderData
+        : null
     };
     // console.log("resolver", data);
     data.createdAt = task.createdAt;
@@ -184,11 +188,3 @@ module.exports = {
     return { _id: taskId };
   }
 };
-
-function stringToBoolean(val) {
-  var a = {
-    true: true,
-    false: false
-  };
-  return a[val];
-}

@@ -34,6 +34,7 @@ module.exports = buildSchema(`
         createdAt: String
         finishedAt: String
         termAt: String
+        mailRemainderData: String
         errors: [Error]
         files: [String]
     }
@@ -106,6 +107,7 @@ module.exports = buildSchema(`
         createdAt: String
         finishedAt: String
         termAt: String
+        mailRemainderData: String
     }
 
     input CommentInputData {

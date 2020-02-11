@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 
+import TasksMailReminder from "./TasksMailReminder";
 import { updateTask, removeTask } from "../actions";
 import CommentsAddForm from "../../Comments/components/CommentsAddForm";
 import CommentsList from "../../Comments/components/CommentsList";
@@ -213,6 +214,9 @@ class TasksItem extends Component {
     // console.log("state item", this.state);
 
     const taskCreatorUser = users.filter(user => user.name === createdBy);
+    const taskResponsibleUser = users.filter(
+      user => user.name === responsiblePerson
+    );
 
     // console.log("task creator user", taskCreatorUser);
 
@@ -272,6 +276,20 @@ class TasksItem extends Component {
             ) : (
               <div onClick={this.switch}>{title}</div>
             )}
+            <TasksMailReminder
+              taskId={_id}
+              from={
+                taskCreatorUser.length > 0 ? taskCreatorUser[0].email : null
+              }
+              to={
+                taskResponsibleUser.length > 0
+                  ? taskResponsibleUser[0].email
+                  : null
+              }
+              projectName={projectName}
+              taskTitle={title}
+              createdBy={createdBy}
+            />
             <i
               className={
                 responsiblePersonLastComment === "true"

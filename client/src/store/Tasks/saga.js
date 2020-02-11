@@ -25,7 +25,8 @@ function* fetchTasksAsync(action) {
           fetchTasks(taskInput:{
             projectName: "${action.data.projectName}",
             createdBy: "${action.data.createdBy}", 
-            responsiblePerson: "${action.data.responsiblePerson}"}){
+            responsiblePerson: "${action.data.responsiblePerson}",
+            mailRemainderData: "${action.data.mailRemainderData}"}){
             _id
             createdBy
             projectId
@@ -39,6 +40,7 @@ function* fetchTasksAsync(action) {
             createdAt
             finishedAt
             termAt
+            mailRemainderData
             files
           }
         }
@@ -72,7 +74,8 @@ function* fetchTasksByLoggedUserProjectsAsync(action) {
           fetchTasksByLoggedUserProjects(taskInput:{
             projectName: "${data.projectName}",
             createdBy: "${data.createdBy}", 
-            responsiblePerson: "${data.responsiblePerson}"},projects: "${data.projects}"){
+            responsiblePerson: "${data.responsiblePerson}",
+            mailRemainderData: "${data.mailRemainderData}"},projects: "${data.projects}"){
             _id
             createdBy
             projectId
@@ -85,6 +88,7 @@ function* fetchTasksByLoggedUserProjectsAsync(action) {
             responsiblePersonLastComment
             createdAt
             finishedAt
+            mailRemainderData
             termAt
             files
           }
@@ -128,6 +132,7 @@ function* addTaskAsync(action) {
     description: data.description,
     priority: data.priority,
     status: data.status,
+    mailRemainderData: null,
     responsiblePersonLastComment: data.responsiblePersonLastComment,
     createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
     termAt: moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
@@ -148,7 +153,8 @@ function* addTaskAsync(action) {
       responsiblePersonLastComment: "${taskInput.responsiblePersonLastComment}",
       createdAt: "${taskInput.createdAt}",
       finishedAt: "",
-      termAt: "${taskInput.termAt}"}){
+      termAt: "${taskInput.termAt}",
+      mailRemainderData: "${taskInput.mailRemainderData}")}{
         _id
         createdBy
         projectId
@@ -162,6 +168,7 @@ function* addTaskAsync(action) {
         createdAt
         finishedAt
         termAt
+        mailRemainderData
         files
         errors{
           path
@@ -213,6 +220,7 @@ function* updateTaskAsync(action) {
     description: data.description ? data.description : "",
     priority: data.priority ? data.priority : "",
     status: data.status ? data.status : "",
+    mailRemainderData: data.mailRemainderData ? data.mailRemainderData : null,
     responsiblePersonLastComment:
       data.responsiblePersonLastComment === true ||
       data.responsiblePersonLastComment === false
@@ -241,7 +249,8 @@ function* updateTaskAsync(action) {
       status: "${taskInput.status}",
       responsiblePersonLastComment: "${taskInput.responsiblePersonLastComment}",
       finishedAt: "${taskInput.finishedAt}",
-      termAt: "${taskInput.termAt}"}){
+      termAt: "${taskInput.termAt}",
+      mailRemainderData: "${taskInput.mailRemainderData}"}){
         _id
         createdBy
         projectId
@@ -255,6 +264,7 @@ function* updateTaskAsync(action) {
         createdAt
         finishedAt
         termAt
+        mailRemainderData
         files
         errors{
           path

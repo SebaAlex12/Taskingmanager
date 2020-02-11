@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Button } from "../../../themes/basic";
+import { BiggerButton } from "../../../themes/basic";
 import { StyledUserList } from "../styles/StyledUserList";
 
 import { fetchUsers, removeUser, updateUser } from "../actions";
@@ -94,7 +94,7 @@ class UsersList extends Component {
           {loggedUser.status === "Administrator" ||
           loggedUser.status === "Menedżer" ? (
             <div className={btn_clazz}>
-              <Button
+              <BiggerButton
                 variant="primary"
                 onClick={() =>
                   this.setState({
@@ -103,12 +103,12 @@ class UsersList extends Component {
                 }
               >
                 Dodaj użytkownika
-              </Button>
+              </BiggerButton>
               {toggleRegistryForm ? <RegistryForm /> : null}
             </div>
           ) : null}
           <div className={btn_list_clazz}>
-            <Button
+            <BiggerButton
               variant="primary"
               onClick={() =>
                 this.setState({
@@ -117,7 +117,7 @@ class UsersList extends Component {
               }
             >
               Lista użytkowników
-            </Button>
+            </BiggerButton>
             <i
               className={clazz}
               onClick={

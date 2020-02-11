@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Button } from "../../../themes/basic";
+import { BiggerButton } from "../../../themes/basic";
 import { StyledProjectList } from "../styles/StyledProjectList";
 
 import { removeProject, updateProject } from "../actions";
@@ -97,7 +97,7 @@ class ProjectsList extends Component {
         <div className="projects-box">
           {loggedUser.status === "Administrator" ? (
             <div className={btn_clazz}>
-              <Button
+              <BiggerButton
                 variant="primary"
                 onClick={() =>
                   this.setState({
@@ -106,12 +106,12 @@ class ProjectsList extends Component {
                 }
               >
                 Dodaj projekt
-              </Button>
+              </BiggerButton>
               {toggleProjectsAddForm ? <ProjectsAddForm /> : null}
             </div>
           ) : null}
           <div className={btn_list_clazz}>
-            <Button
+            <BiggerButton
               variant="primary"
               onClick={() =>
                 this.setState({
@@ -120,7 +120,7 @@ class ProjectsList extends Component {
               }
             >
               Lista projektów
-            </Button>
+            </BiggerButton>
             <i
               className={clazz}
               onClick={

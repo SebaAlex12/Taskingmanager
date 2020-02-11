@@ -10,7 +10,7 @@ const backgroundColor = theme.variants("mode", "variant", {
 });
 
 const backgroundColorHover = theme.variants("mode", "variant", {
-  default: { light: "gray", dark: "darkgray" },
+  default: { light: "green", dark: "darkgreen" },
   primary: { light: "#0069d9", dark: "#004da0" },
   success: { light: "#28a745", dark: "#186a2b" },
   warning: { light: "#dc3545", dark: "#9b2631" }
@@ -30,8 +30,16 @@ const fontColorHover = theme.variants("mode", "variant", {
   warning: { light: "#fff", dark: "#fff" }
 });
 
+const borderColor = theme.variants("mode", "variant", {
+  default: { light: "gray", dark: "darkgray" },
+  primary: { light: "#0069d9", dark: "#004da0" },
+  success: { light: "#28a745", dark: "#186a2b" },
+  warning: { light: "#dc3545", dark: "#9b2631" }
+});
+
 export const Button = styled.button`
-  background-color: ${backgroundColor};
+  background-color: ${props =>
+    props.active ? backgroundColorHover : backgroundColor};
   color: ${fontColor};
   &:hover {
     background-color: ${backgroundColorHover};
@@ -40,9 +48,15 @@ export const Button = styled.button`
   &:focus {
     outline: none;
   }
-  border: 1px solid buttonface;
-  padding: 10px 18px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${borderColor};
+  padding: 5px 10px;
   border-radius: 5px;
+`;
+
+export const BiggerButton = styled(Button)`
+  padding: 10px 18px;
 `;
 
 export const Title = styled.h1`

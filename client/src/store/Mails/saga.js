@@ -67,7 +67,7 @@ function* addMailAsync(action) {
       projectName: data.projectName,
       title: data.title,
       description: data.description,
-      absolutePathFile: data.absolutePathFile,
+      absolutePathFile: data.absolutePathFile ? data.absolutePathFile : "",
       attachments: "",
       createdBy: data.createdBy,
       createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()

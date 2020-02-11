@@ -15,9 +15,6 @@ module.exports = {
       attachments
     } = data;
 
-    const parts = absolutePathFile.split("/");
-    // console.log("obrazek", parts[parts.length - 1]);
-
     const transport = {
       host: "smtp.gmail.com", // e.g. smtp.gmail.com
       // port: 587,
@@ -29,29 +26,26 @@ module.exports = {
       }
     };
     // console.log(data.createdBy);
-    const mail = {
+    let mail = {
       from: from + ":",
       sender: sender,
       replyTo: sender,
       to: to,
       subject: subject,
-      html: html,
-      attachments: [
-        // {
-        //   filename: "baklazan-ciekawostki.jpeg",
-        //   path: "C:/Users/Ja/Desktop/pics/baklazan-ciekawostki.jpeg"
-        // }
+      html: html
+    };
+
+    if (absolutePathFile.length > 0) {
+      // console.log("absolute path", absolutePathFile);
+      console.log("push attachment");
+      mail.attachments = [
         {
-          filename: parts[parts.length - 1],
           path: absolutePathFile
         }
-        // {
-        //   // use URL as an attachment
-        //   filename: "license.txt",
-        //   path: "https://raw.github.com/nodemailer/nodemailer/master/LICENSE"
-        // }
-      ]
-    };
+      ];
+    }
+
+    // console.log("mail", mail);
 
     let transporter = nodemailer.createTransport(transport);
 

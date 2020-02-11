@@ -77,6 +77,7 @@ export const StyledTaskListContainer = styled.div`
   }
   .task-items-box table > tbody .name .lights {
     color: red;
+    display: none;
   }
   .task-items-box table > tbody .name .lights.active {
     color: green;

@@ -16,5 +16,12 @@ module.exports = {
     //   });
     // }
     // return [{ path: "name", message: "something went wrong" }];
+  },
+  stringToBoolean: function(val) {
+    var a = {
+      true: true,
+      false: false
+    };
+    return a[val];
   }
 };
