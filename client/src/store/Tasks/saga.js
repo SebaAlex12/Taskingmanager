@@ -138,7 +138,7 @@ function* addTaskAsync(action) {
     termAt: moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
     // finishedAt: data.finishedAt
   };
-
+console.log(taskInput);
   const graph = {
     query: `mutation {
       addTask(taskInput: {userId: "${taskInput.userId}",
@@ -154,7 +154,7 @@ function* addTaskAsync(action) {
       createdAt: "${taskInput.createdAt}",
       finishedAt: "",
       termAt: "${taskInput.termAt}",
-      mailRemainderData: "${taskInput.mailRemainderData}")}{
+      mailRemainderData: "${taskInput.mailRemainderData}"}){
         _id
         createdBy
         projectId
