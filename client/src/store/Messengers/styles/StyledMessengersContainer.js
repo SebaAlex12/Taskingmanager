@@ -194,7 +194,6 @@ export const StyledMessengersContainer = styled.div`
   }
 
   .type_msg {
-    border-top: 1px solid #c4c4c4;
     position: relative;
   }
   .msg_send_btn {

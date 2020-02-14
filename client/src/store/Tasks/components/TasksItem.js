@@ -211,7 +211,7 @@ class TasksItem extends Component {
       showModalTrigger
     } = this.state;
     const { setActiveTaskHandler, active, loggedUser, users } = this.props;
-    // console.log("state item", this.state);
+    console.log("state item", this.state);
 
     const taskCreatorUser = users.filter(user => user.name === createdBy);
     const taskResponsibleUser = users.filter(
@@ -289,6 +289,9 @@ class TasksItem extends Component {
               projectName={projectName}
               taskTitle={title}
               createdBy={createdBy}
+              description={description}
+              priority={priority}
+              termAt={termAt}
             />
             <i
               className={

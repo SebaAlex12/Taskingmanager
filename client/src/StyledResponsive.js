@@ -25,6 +25,9 @@ export const StyledResponsive = styled.div`
     .inbox_people {
       display: none;
     }
+    .messenger-users-form-box .form-group {
+      display: block;
+    }
     .mesgs,
     .received_withd_msg {
       width: 100%;

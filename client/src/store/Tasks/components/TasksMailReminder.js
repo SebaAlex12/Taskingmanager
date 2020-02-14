@@ -31,24 +31,42 @@ class TasksMailReminder extends Component {
       to,
       projectName,
       taskTitle,
-      mailRemainderData,
       createdBy,
+      description,
+      priority,
+      termAt,
       updateTask,
       addMail
     } = this.props;
+
+    const html =
+      "<label style='display:block; font-weight:bold; font-size:14px;padding:10px 0px;'>Przypomnienie o zadaniu:</label><table style='font-size:12px;border:1px solid grey'><tr><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Nazwa</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Projekt</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Priorytet</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Zlecający</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>termin</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Opis</th></tr><tr><td style='padding:10px 20px;border:1px solid grey;'>" +
+      taskTitle +
+      "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
+      projectName +
+      "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
+      priority +
+      "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
+      createdBy +
+      "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
+      termAt +
+      "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
+      description +
+      "</td></tr></table>";
 
     const mailData = {
       from,
       to,
       projectName,
       title: "Zadanie do wykonania: " + taskTitle,
-      description:
-        "Powiadmonienie z crma. Zadanie o nazwie: " +
-        taskTitle +
-        " czeka do wykonania. Dotyczy projektu: " +
-        projectName +
-        "Utworzone przez: " +
-        createdBy,
+      description: html,
+      // description:
+      //   "Powiadmonienie z crma. Zadanie o nazwie: " +
+      //   taskTitle +
+      //   " czeka do wykonania. Dotyczy projektu: " +
+      //   projectName +
+      //   "Utworzone przez: " +
+      //   createdBy,
       createdBy
     };
 

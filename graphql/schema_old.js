@@ -19,6 +19,11 @@ module.exports = buildSchema(`
         errors: [Error]
     }
 
+    type Settings {
+        _id: ID
+        mailingDate: String
+    }
+
     type Task {
         _id: ID
         userId: String
@@ -90,6 +95,11 @@ module.exports = buildSchema(`
         projects: String
         users: String
         createdAt: String
+    }
+
+    input SettingsData {
+        _id: String
+        mailingDate: String
     }
 
     input TaskInputData {
@@ -180,6 +190,7 @@ module.exports = buildSchema(`
         loginUser(email: String!, password: String!): UserLoginData!
         fetchUsers: [User]!
         fetchUsersByLoggedUserProjects(projects: String): [User]!
+        fetchSettings: [Settings]!
         fetchTasks(taskInput: TaskInputData): [Task]!
         fetchTasksByLoggedUserProjects(taskInput: TaskInputData, projects: String): [Task]!
         fetchComments(commentInput: CommentInputData): [Comment]!

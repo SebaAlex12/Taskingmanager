@@ -55,7 +55,7 @@ class MessengersUsersItem extends Component {
           </React.Fragment>
         ) : null}
 
-        <button onClick={() => filterSelectedUsersHandler(name)}>
+        <button onClick={() => filterSelectedUsersHandler(_id)}>
           <div className="chat_people">
             <div className="chat_img">
               {" "}

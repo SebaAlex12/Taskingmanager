@@ -5,7 +5,7 @@ import io from "socket.io-client";
 
 import { logoutUser } from "../../store/Users/actions";
 import Tasks from "../../root/Tasks";
-import MessengersContainer from "../../store/Messengers/components/MessengersContainer";
+import Messengers from "../../root/Messengers";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
 
@@ -53,7 +53,7 @@ class Dashboard extends Component {
           {loggedUser ? `${loggedUser.name} / ${loggedUser.status}` : null}
         </div>
         <Link className="btn btn-default" to="/messenger">
-          Messenger
+          Komunikator
         </Link>
         <Link className="btn btn-default" to="/tasks">
           Zadania
@@ -67,7 +67,7 @@ class Dashboard extends Component {
         <div className="container">
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/" component={Tasks} />
-          <Route exact path="/messenger" component={MessengersContainer} />
+          <Route exact path="/messenger" component={Messengers} />
           <Route exact path="/mails" component={MailsListContainer} />
         </div>
       </div>

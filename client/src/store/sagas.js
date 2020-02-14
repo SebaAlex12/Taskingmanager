@@ -24,6 +24,7 @@ import {
   removeCommentsByTaskIdWatcher
 } from "./Comments/saga";
 import { addMailWatcher, fetchMailsWatcher } from "./Mails/saga";
+import { fetchSettingsWatcher, updateSettingWatcher } from "./Settings/saga";
 import {
   loginUserWatcher,
   registerUserWatcher,
@@ -48,6 +49,8 @@ import {
 
 export default function* rootSaga() {
   yield all([
+    fork(fetchSettingsWatcher),
+    fork(updateSettingWatcher),
     fork(addMessengerWatcher),
     fork(updateMessagesWatcher),
     fork(updateAlertMessagesWatcher),
