@@ -140,7 +140,7 @@ function* addTaskAsync(action) {
     termAt: moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
     // finishedAt: data.finishedAt
   };
-
+console.log(taskInput);
   const graph = {
     query: `mutation {
       addTask(taskInput: {userId: "${taskInput.userId}",
