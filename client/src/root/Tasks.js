@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import moment from "moment";
 
 import TasksListContainer from "../store/Tasks/components/TasksListContainer";
 // import TasksList from "../store/Tasks/components/TasksList";
@@ -8,13 +9,15 @@ import ProjectsList from "../store/Projects/components/ProjectsList";
 import FiltersContainer from "../store/Filters/components/FiltersContainer";
 
 import { fetchFilters } from "../store/Filters/actions";
+import { updateSettings } from "../store/Settings/actions";
 import {
   fetchProjects,
   fetchProjectsByLoggedUserProjects
 } from "../store/Projects/actions";
 import {
   fetchTasks,
-  fetchTasksByLoggedUserProjects
+  fetchTasksByLoggedUserProjects,
+  sendMailingTask
 } from "../store/Tasks/actions";
 
 class Tasks extends Component {
@@ -26,6 +29,7 @@ class Tasks extends Component {
       fetchTasks,
       loggedUser: { status, name, projects }
     } = this.props;
+
     fetchFilters();
 
     if (status === "Administrator") {
@@ -56,13 +60,28 @@ class Tasks extends Component {
 
     // if (filters) console.log("filters", filters);
   }
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const {
       loggedUser: { status, projects },
       fetchTasks,
       fetchTasksByLoggedUserProjects,
-      filters: { projectName, responsiblePerson }
+      filters: { projectName, responsiblePerson },
+      settings: { _id, mailingDate },
+      sendMailingTask,
+      updateSettings
     } = this.props;
+
+    if (mailingDate !== prevProps.mailingDate) {
+      const difference = moment(new Date()).diff(mailingDate, "minutes");
+      const presentDay = moment(new Date(), "YYYY-MM-DD HH:mm:ss").format();
+      // check mailing list after 10 hours
+      if (difference > 600) {
+        sendMailingTask();
+        updateSettings({ _id, mailingDate: presentDay });
+        // console.log("sending mailing");
+        // console.log("difference", difference);
+      }
+    }
 
     if (
       projectName !== prevProps.filters.projectName ||
@@ -114,7 +133,8 @@ class Tasks extends Component {
 const mapStateToProps = state => {
   return {
     loggedUser: state.users.logged_user,
-    filters: state.filters.filters
+    filters: state.filters.filters,
+    settings: state.settings.settings
   };
 };
 
@@ -123,5 +143,7 @@ export default connect(mapStateToProps, {
   fetchProjects,
   fetchProjectsByLoggedUserProjects,
   fetchTasks,
-  fetchTasksByLoggedUserProjects
+  fetchTasksByLoggedUserProjects,
+  sendMailingTask,
+  updateSettings
 })(Tasks);

@@ -38,7 +38,7 @@ export const StyledTaskListContainer = styled.div`
   .task-items-box table .glyphicon-envelope {
     display: block;
     cursor: pointer;
-    font-size: 19px;
+    font-size: 25px;
   }
   .task-items-box table tr.status_2,
   .task-items-box table tr.priority_0 {

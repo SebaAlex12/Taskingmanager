@@ -1,17 +1,19 @@
 const Settings = require("../../models/Settings");
+const tools = require("../../utils/tools");
 
 module.exports = {
   fetchSettings: async function() {
-    let settings = await Settings.find();
-    return settings;
+    const settings = await Settings.find();
+    return settings[0];
   },
   updateSettings: async function({ settingsInput }, req) {
-    const settings = await Settings.find();
     const data = {
       _id: settingsInput._id,
       mailingDate: settingsInput.mailingDate
     };
+
     try {
+      const settings = await Settings.findOne({ _id: data._id });
       settings.overwrite(data);
       const storedSettings = await settings.save();
       return {

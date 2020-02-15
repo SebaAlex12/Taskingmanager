@@ -15,16 +15,11 @@ class TasksMailReminder extends Component {
     super(props);
 
     this.state = {
-      mailRemainderDataToggle: false
+      mailRemainderDataToggle: null
     };
   }
-  componentDidMount() {
-    const { mailRemainderData } = this.props;
-    this.setState({
-      mailRemainderDataToggle: mailRemainderData ? true : false
-    });
-  }
-  mailReminderHandler = active => {
+
+  mailReminderHandler = mailRemainderDataToggle => {
     const {
       taskId,
       from,
@@ -39,40 +34,33 @@ class TasksMailReminder extends Component {
       addMail
     } = this.props;
 
-    const html =
-      "<label style='display:block; font-weight:bold; font-size:14px;padding:10px 0px;'>Przypomnienie o zadaniu:</label><table style='font-size:12px;border:1px solid grey'><tr><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Nazwa</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Projekt</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Priorytet</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Zlecający</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>termin</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Opis</th></tr><tr><td style='padding:10px 20px;border:1px solid grey;'>" +
-      taskTitle +
-      "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
-      projectName +
-      "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
-      priority +
-      "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
-      createdBy +
-      "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
-      termAt +
-      "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
-      description +
-      "</td></tr></table>";
+    // console.log("handler", this.props);
 
-    const mailData = {
-      from,
-      to,
-      projectName,
-      title: "Zadanie do wykonania: " + taskTitle,
-      description: html,
-      // description:
-      //   "Powiadmonienie z crma. Zadanie o nazwie: " +
-      //   taskTitle +
-      //   " czeka do wykonania. Dotyczy projektu: " +
-      //   projectName +
-      //   "Utworzone przez: " +
-      //   createdBy,
-      createdBy
-    };
+    if (mailRemainderDataToggle === true) {
+      const html =
+        "<label style='display:block; font-weight:bold; font-size:14px;padding:10px 0px;'>Przypomnienie o zadaniu:</label><table style='font-size:12px;border:1px solid grey'><tr><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Nazwa</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Projekt</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Priorytet</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Zlecający</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>termin</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Opis</th></tr><tr><td style='padding:10px 20px;border:1px solid grey;'>" +
+        taskTitle +
+        "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
+        projectName +
+        "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
+        priority +
+        "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
+        createdBy +
+        "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
+        termAt +
+        "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
+        description +
+        "</td></tr></table>";
 
-    console.log("state: ", this.state);
-
-    if (active === true) {
+      const mailData = {
+        from,
+        to,
+        projectName,
+        title: "Zadanie do wykonania: " + taskTitle,
+        description: html,
+        createdBy
+      };
+      // console.log("update task");
       updateTask({
         _id: taskId,
         mailRemainderData: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
@@ -83,18 +71,23 @@ class TasksMailReminder extends Component {
     }
     this.setState({
       ...this.state,
-      mailRemainderDataToggle: active
+      mailRemainderDataToggle
     });
   };
   render() {
-    const { mailRemainderDataToggle } = this.state;
-    // const clazz = mailRemainderData ? active : null;
+    let { mailRemainderDataToggle } = this.state;
+    const { mailRemainderData } = this.props;
+
+    if (mailRemainderDataToggle === null) {
+      mailRemainderDataToggle = mailRemainderData ? true : false;
+    }
+
     return (
       <Button
-        // active
-        // clazz
+        className="reminder-button"
+        active={mailRemainderDataToggle ? "active" : ""}
         onClick={() => this.mailReminderHandler(!mailRemainderDataToggle)}
-        title="Wyślij maila Dodaj zadanie do listy mailowych przypomnień"
+        title="Dodaj zadanie do listy przypomnień. Wysyłana jest co dziennie - Automatycznie wysyła maila przy dodaniu."
       >
         <FontAwesomeIcon icon={faBell} />
       </Button>

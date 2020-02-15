@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 
 import { tasksReducer } from "./Tasks/reducers";
+import { settingsReducer } from "./Settings/reducers";
 import { commentsReducer } from "./Comments/reducers";
 import { mailsReducer } from "./Mails/reducers";
 import { usersReducer } from "./Users/reducers";
@@ -12,6 +13,7 @@ import { messagesReducer } from "./Messages/reducers";
 
 export const reducers = combineReducers({
   tasks: tasksReducer,
+  settings: settingsReducer,
   comments: commentsReducer,
   mails: mailsReducer,
   users: usersReducer,

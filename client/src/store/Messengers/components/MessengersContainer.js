@@ -100,6 +100,7 @@ class MessengersContainer extends Component {
         filteredUsers
       };
     }
+    return false;
   }
   componentDidUpdate = () => {
     // if (this.state.filteredUsers.length === 0 && this.props.users.length > 0) {

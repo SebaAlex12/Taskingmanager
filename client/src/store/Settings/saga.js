@@ -1,5 +1,4 @@
 import axios from "axios";
-import moment from "moment";
 import { call, put, takeEvery } from "redux-saga/effects";
 import {
   UPDATING_SETTINGS,
@@ -30,6 +29,7 @@ function* fetchSettingsAsync() {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
+    // console.log("saga", res.data);
     yield put({
       type: FETCH_SETTINGS_SUCCESS,
       payload: res.data.data.fetchSettings
@@ -54,15 +54,11 @@ function* updateSettingAsync(action) {
 
   const graph = {
     query: `mutation {
-        updateProject(settingsInput: {
+        updateSettings(settingsInput: {
         _id: "${settingsInput._id}",  
-        mailingDate: "${settingsInput.mailingDate}"){
+        mailingDate: "${settingsInput.mailingDate}"}){
           _id
           mailingDate
-          errors{
-            path
-            message
-          }
         }
       }`
   };
@@ -87,7 +83,7 @@ function* updateSettingAsync(action) {
     });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Data została zaktualizowana" }] }
+      payload: { success: [{ message: "Ustawienia zostały zaktualizowane" }] }
     });
   }
 }

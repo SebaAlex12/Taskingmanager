@@ -26,7 +26,6 @@ class Dashboard extends Component {
         let users = msg.to.split(",");
         if (users.includes(loggedUser.name)) {
           updateMessenger(msg);
-          // dont send alert to message creator
           if (msg.from !== loggedUser.name) {
             updateAlertMessages({ type: "messenger", data: msg });
           }

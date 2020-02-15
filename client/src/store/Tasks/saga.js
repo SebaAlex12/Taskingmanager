@@ -11,6 +11,8 @@ import {
   REMOVE_TASK_SUCCESS,
   UPDATING_TASK,
   UPDATE_TASK_SUCCESS,
+  SENDING_MAILING_TASK,
+  SEND_MAILING_TASK_SUCCESS,
   TASKS_ERROR
 } from "./types";
 
@@ -154,7 +156,7 @@ function* addTaskAsync(action) {
       createdAt: "${taskInput.createdAt}",
       finishedAt: "",
       termAt: "${taskInput.termAt}",
-      mailRemainderData: "${taskInput.mailRemainderData}")}{
+      mailRemainderData: "${taskInput.mailRemainderData}"}){
         _id
         createdBy
         projectId
@@ -346,4 +348,45 @@ function* removeTaskAsync(action) {
 export function* removeTaskWatcher() {
   yield takeEvery(REMOVING_TASK, removeTaskAsync);
   // yield takeEvery(REMOVING_COMMENTS_RELATIVE_TASK)
+}
+
+function* sendMailingTaskAsync() {
+  // console.log("saga data", data);
+  const graph = {
+    query: `mutation {
+      sendMailingTask{
+        errors{
+          path
+          message
+        }
+      }
+    }`
+  };
+
+  const taskData = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
+  // console.log("return data graph", taskData);
+  const response = taskData.data.data.sendMailingTask;
+
+  if (response.errors) {
+    yield put({ type: TASKS_ERROR, payload: response.errors });
+    yield put({
+      type: SEND_MAILING_TASK_SUCCESS,
+      payload: { errors: response.errors }
+    });
+  } else {
+    yield put({ type: REMOVE_TASK_SUCCESS, payload: response });
+    yield put({
+      type: SEND_MAILING_TASK_SUCCESS,
+      payload: { success: [{ message: "Mailing rozesłany" }] }
+    });
+  }
+}
+
+export function* sendMailingTaskWatcher() {
+  yield takeEvery(SENDING_MAILING_TASK, sendMailingTaskAsync);
 }

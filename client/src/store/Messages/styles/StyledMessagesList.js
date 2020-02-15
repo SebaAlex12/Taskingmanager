@@ -35,7 +35,7 @@ export const StyledMessagesList = styled.div`
     color: green;
   }
   .messages-alert-box > .glyphicon:before {
-    font-size: 28px;
+    font-size: 35px;
   }
   .messages-alert-box.active .glyphicon {
     color: red;

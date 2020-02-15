@@ -11,4 +11,7 @@ export const StyledTasksItem = styled.div`
   .author {
     color: grey;
   }
+  .reminder-button:hover{
+    background-color:inherit;
+  }
 `;

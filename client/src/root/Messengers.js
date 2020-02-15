@@ -5,9 +5,6 @@ import { fetchUsers } from "../store/Users/actions";
 import MessengersContainer from "../store/Messengers/components/MessengersContainer";
 
 class Messengers extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <React.Fragment>

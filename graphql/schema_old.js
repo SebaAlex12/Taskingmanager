@@ -97,7 +97,7 @@ module.exports = buildSchema(`
         createdAt: String
     }
 
-    input SettingsData {
+    input SettingsInputData {
         _id: String
         mailingDate: String
     }
@@ -175,6 +175,8 @@ module.exports = buildSchema(`
         createUser(userInput: UserInputData): User!
         addTask(taskInput: TaskInputData): Task!
         updateTask(taskInput: TaskInputData): Task!
+        updateSettings(settingsInput: SettingsInputData): Settings!
+        sendMailingTask: Task
         addComment(commentInput: CommentInputData): Comment!
         addMail(mailInput: MailInputData): Mail!
         addMessenger(messengerInput: MessengerInputData): Messenger!
@@ -190,7 +192,7 @@ module.exports = buildSchema(`
         loginUser(email: String!, password: String!): UserLoginData!
         fetchUsers: [User]!
         fetchUsersByLoggedUserProjects(projects: String): [User]!
-        fetchSettings: [Settings]!
+        fetchSettings: Settings!
         fetchTasks(taskInput: TaskInputData): [Task]!
         fetchTasksByLoggedUserProjects(taskInput: TaskInputData, projects: String): [Task]!
         fetchComments(commentInput: CommentInputData): [Comment]!

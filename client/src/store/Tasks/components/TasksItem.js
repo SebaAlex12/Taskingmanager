@@ -37,7 +37,8 @@ class TasksItem extends Component {
       createdBy,
       termAt,
       createdAt,
-      files
+      files,
+      mailRemainderData
     } = this.props.item;
     this.setState({
       _id,
@@ -51,7 +52,8 @@ class TasksItem extends Component {
       createdBy,
       termAt,
       createdAt,
-      files
+      files,
+      mailRemainderData
     });
     // console.log(this.props.item);
   }
@@ -208,10 +210,11 @@ class TasksItem extends Component {
       termAt,
       createdAt,
       files,
+      mailRemainderData,
       showModalTrigger
     } = this.state;
     const { setActiveTaskHandler, active, loggedUser, users } = this.props;
-    console.log("state item", this.state);
+    // console.log("state item", this.state);
 
     const taskCreatorUser = users.filter(user => user.name === createdBy);
     const taskResponsibleUser = users.filter(
@@ -292,6 +295,7 @@ class TasksItem extends Component {
               description={description}
               priority={priority}
               termAt={termAt}
+              mailRemainderData={mailRemainderData}
             />
             <i
               className={

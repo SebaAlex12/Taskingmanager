@@ -3,7 +3,8 @@ import {
   FETCHING_TASKS_BY_LOGGED_USER_PROJECTS,
   ADDING_TASK,
   REMOVING_TASK,
-  UPDATING_TASK
+  UPDATING_TASK,
+  SENDING_MAILING_TASK
 } from "./types";
 
 export const fetchTasks = data => ({
@@ -25,6 +26,9 @@ export const updateTask = data => ({
 export const removeTask = data => ({
   type: REMOVING_TASK,
   data
+});
+export const sendMailingTask = () => ({
+  type: SENDING_MAILING_TASK
 });
 
 // export const fetchTasks = () => {

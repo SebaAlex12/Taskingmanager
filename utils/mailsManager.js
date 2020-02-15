@@ -5,15 +5,8 @@ const password = require("../config/keys").emailPassword;
 module.exports = {
   sendMail: function(data) {
     // console.log("mail settings", data);
-    const {
-      from,
-      to,
-      sender,
-      subject,
-      html,
-      absolutePathFile,
-      attachments
-    } = data;
+    const { from, to, sender, subject, html, attachments } = data;
+    let absolutePathFile = data.absolutePathFile ? data.absolutePathFile : "";
 
     const transport = {
       host: "smtp.gmail.com", // e.g. smtp.gmail.com
