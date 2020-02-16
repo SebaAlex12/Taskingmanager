@@ -14,13 +14,25 @@ import FilesItem from "../../Files/components/FilesItem";
 
 import MailsAddForm from "../../Mails/components/MailsAddForm";
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
+import SimpleCalendar from "../../../common/SimpleCalendar";
+
+import { Button, WarningButton } from "../../../themes/basic";
+import {
+  faCalendarAlt,
+  faEnvelope,
+  faTimes,
+  faEdit,
+  faPencilAlt
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class TasksItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
       toggle: false,
-      showModalTrigger: false
+      showModalMailTrigger: false,
+      showModalCalendarTrigger: false
     };
   }
 
@@ -188,10 +200,17 @@ class TasksItem extends Component {
     });
   };
 
-  showModal = result => {
+  showModalMail = result => {
     this.setState({
       ...this.state,
-      showModalTrigger: result
+      showModalMailTrigger: result
+    });
+  };
+
+  showModalCalendar = result => {
+    this.setState({
+      ...this.state,
+      showModalCalendarTrigger: result
     });
   };
 
@@ -211,7 +230,8 @@ class TasksItem extends Component {
       createdAt,
       files,
       mailRemainderData,
-      showModalTrigger
+      showModalMailTrigger,
+      showModalCalendarTrigger
     } = this.state;
     const { setActiveTaskHandler, active, loggedUser, users } = this.props;
     // console.log("state item", this.state);
@@ -297,6 +317,20 @@ class TasksItem extends Component {
               termAt={termAt}
               mailRemainderData={mailRemainderData}
             />
+            <Button
+              onClick={() => this.showModalCalendar(true)}
+              title="kalendarz"
+            >
+              <FontAwesomeIcon icon={faCalendarAlt} />
+            </Button>
+            {showModalCalendarTrigger ? (
+              <ModalDialog
+                title="Kalendarz."
+                showModal={() => this.showModalCalendar(false)}
+              >
+                <SimpleCalendar />
+              </ModalDialog>
+            ) : null}
             <i
               className={
                 responsiblePersonLastComment === "true"
@@ -354,15 +388,17 @@ class TasksItem extends Component {
             </select>
           </td>
           <td className="createdBy">
-            {createdBy}
-            <i
-              className="glyphicon glyphicon-envelope"
-              onClick={() => this.showModal(true)}
-            ></i>
-            {showModalTrigger ? (
+            <div>{createdBy}</div>
+            <Button
+              onClick={() => this.showModalMail(true)}
+              title="wyślij maila"
+            >
+              <FontAwesomeIcon icon={faEnvelope} />
+            </Button>
+            {showModalMailTrigger ? (
               <ModalDialog
                 title="Wyślij email."
-                showModal={() => this.showModal(false)}
+                showModal={() => this.showModalMail(false)}
               >
                 <MailsAddForm
                   title={
@@ -417,15 +453,13 @@ class TasksItem extends Component {
             {moment(new Date(createdAt)).format("D/M/Y")}
           </td>
           <td className="details">
-            <i
-              className="glyphicon glyphicon-edit"
-              onClick={setActiveTaskHandler}
-            ></i>
+            <Button onClick={setActiveTaskHandler}>
+              <FontAwesomeIcon icon={faEdit} />
+            </Button>
             {loggedUser.name === createdBy ? (
-              <i
-                className="glyphicon glyphicon-remove"
-                onClick={this.removeTaskHandler}
-              ></i>
+              <WarningButton warning onClick={this.removeTaskHandler}>
+                <FontAwesomeIcon icon={faTimes} />
+              </WarningButton>
             ) : null}
           </td>
         </tr>
@@ -434,10 +468,13 @@ class TasksItem extends Component {
             <tr>
               <td colSpan="9">
                 <div className="desc-box">
-                  <i
-                    className="glyphicon glyphicon-pencil"
+                  <Button
+                    className="edit"
                     onClick={this.onClickDescriptionHandler}
-                  ></i>
+                    title="zapisz zmiany"
+                  >
+                    <FontAwesomeIcon icon={faPencilAlt} />
+                  </Button>
                   <textarea
                     className="form-control"
                     onChange={this.onChangeHandler}

@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { StyledModalDialog } from "../styles/StyledModalDialog";
 
+import { WarningButton } from "../../../themes/basic";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 class ModalDialog extends Component {
   constructor(props) {
     super(props);
@@ -17,9 +21,9 @@ class ModalDialog extends Component {
         <div className="modal-dialog-box">
           <div className="content">
             <div className="title">{title}</div>
-            <div className="close-button" onClick={showModal}>
-              X
-            </div>
+            <WarningButton className="close-button" onClick={showModal}>
+              <FontAwesomeIcon icon={faTimes} />
+            </WarningButton>
             <div className="description">{this.props.children}</div>
           </div>
         </div>

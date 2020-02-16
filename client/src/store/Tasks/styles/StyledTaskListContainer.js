@@ -49,7 +49,7 @@ export const StyledTaskListContainer = styled.div`
   }
   .task-items-box table .details {
     text-align: left;
-    width: 65px;
+    width: 95px;
   }
   .task-items-box .details i {
     cursor: pointer;
@@ -89,10 +89,10 @@ export const StyledTaskListContainer = styled.div`
     float: left;
     position: relative;
   }
-  .task-items-box table > tbody .desc-box i {
+  .task-items-box table > tbody .desc-box .edit {
     position: absolute;
-    right: 20px;
-    top: 10px;
+    right: 4px;
+    bottom: 4px;
     display: block;
     cursor: pointer;
   }

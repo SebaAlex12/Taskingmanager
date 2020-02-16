@@ -41,22 +41,37 @@ export const Button = styled.button`
   background-color: ${props =>
     props.active ? backgroundColorHover : backgroundColor};
   color: ${fontColor};
+  &:focus {
+    outline: none;
+  }
   &:hover {
     background-color: ${backgroundColorHover};
     color: ${fontColorHover};
   }
-  &:focus {
-    outline: none;
-  }
   border-width: 1px;
   border-style: solid;
   border-color: ${borderColor};
-  padding: 5px 10px;
+  padding: 4px 8px;
   border-radius: 5px;
+  margin: 2px;
 `;
 
 export const BiggerButton = styled(Button)`
   padding: 10px 18px;
+`;
+
+export const DisabledButton = styled(Button)`
+  background-color: ${props => (props.active ? "red" : "orange")};
+  color: ${fontColor};
+`;
+
+export const WarningButton = styled(Button)`
+  background-color: red;
+  color: #fff;
+  &:hover {
+    background-color: #000;
+    color: #fff;
+  }
 `;
 
 export const Title = styled.h1`
