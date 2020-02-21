@@ -12,6 +12,19 @@ import {
   fetchMessagesWatcher
 } from "./Messages/saga";
 import {
+  fetchContractorsWatcher,
+  addContractorWatcher,
+  updateContractorWatcher,
+  removeContractorWatcher
+} from "./Contractors/saga";
+import {
+  fetchCompaniesWatcher,
+  fetchCompaniesByLoggedUserCompaniesWatcher,
+  addCompanyWatcher,
+  updateCompanyWatcher,
+  removeCompanyWatcher
+} from "./Companies/saga";
+import {
   fetchTasksWatcher,
   fetchTasksByLoggedUserProjectsWatcher,
   addTaskWatcher,
@@ -47,6 +60,12 @@ import {
   addFileWatcher,
   removeFileWatcher
 } from "./Files/saga";
+import {
+  fetchPaymentsWatcher,
+  addPaymentWatcher,
+  updatePaymentWatcher,
+  removePaymentWatcher
+} from "./Payments/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -57,6 +76,15 @@ export default function* rootSaga() {
     fork(updateAlertMessagesWatcher),
     fork(removeAlertMessagesWatcher),
     fork(fetchMessagesWatcher),
+    fork(fetchContractorsWatcher),
+    fork(addContractorWatcher),
+    fork(updateContractorWatcher),
+    fork(removeContractorWatcher),
+    fork(fetchCompaniesWatcher),
+    fork(fetchCompaniesByLoggedUserCompaniesWatcher),
+    fork(addCompanyWatcher),
+    fork(updateCompanyWatcher),
+    fork(removeCompanyWatcher),
     fork(loginUserWatcher),
     fork(registerUserWatcher),
     fork(updateUserWatcher),
@@ -86,6 +114,10 @@ export default function* rootSaga() {
     fork(updateMessengerWatcher),
     fork(fetchFilesWatcher),
     fork(addFileWatcher),
-    fork(removeFileWatcher)
+    fork(removeFileWatcher),
+    fork(fetchPaymentsWatcher),
+    fork(addPaymentWatcher),
+    fork(updatePaymentWatcher),
+    fork(removePaymentWatcher)
   ]);
 }

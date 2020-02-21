@@ -13,8 +13,5 @@ class Messengers extends Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return {};
-};
 
-export default connect(mapStateToProps, { fetchUsers })(Messengers);
+export default connect(null, { fetchUsers })(Messengers);

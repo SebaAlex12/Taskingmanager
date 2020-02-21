@@ -54,6 +54,7 @@ module.exports = {
       email: userInput.email,
       password: hash,
       status: userInput.status,
+      company: userInput.company,
       projects: userInput.projects,
       users: userInput.users,
       createdAt: userInput.createdAt
@@ -93,6 +94,7 @@ module.exports = {
         name: userData.name,
         email: userData.email,
         status: userData.status,
+        company: userData.company ? userData.company : "",
         projects: userData.projects ? userData.projects : "",
         users: userData.users ? userData.users : "",
         createdAt: userData.createdAt,
@@ -123,6 +125,7 @@ module.exports = {
       email: userInput.email,
       password: user.password,
       status: userInput.status,
+      company: userInput.company ? userInput.company : "",
       projects: userInput.projects ? userInput.projects : "",
       users: userInput.users ? userInput.users : ""
     };

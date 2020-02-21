@@ -20,6 +20,9 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "Status jest wymagany"]
   },
+  company: {
+    type: String
+  },
   projects: {
     type: String
   },

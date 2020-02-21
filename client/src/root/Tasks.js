@@ -6,10 +6,14 @@ import TasksListContainer from "../store/Tasks/components/TasksListContainer";
 // import TasksList from "../store/Tasks/components/TasksList";
 import UsersList from "../store/Users/components/UsersList";
 import ProjectsList from "../store/Projects/components/ProjectsList";
+import ContractorsList from "../store/Contractors/components/ContractorsList";
+import CompaniesList from "../store/Companies/components/CompaniesList";
 import FiltersContainer from "../store/Filters/components/FiltersContainer";
 
 import { fetchFilters } from "../store/Filters/actions";
 import { updateSettings } from "../store/Settings/actions";
+import { fetchContractors } from "../store/Contractors/actions";
+import { fetchCompanies } from "../store/Companies/actions";
 import {
   fetchProjects,
   fetchProjectsByLoggedUserProjects
@@ -24,6 +28,8 @@ class Tasks extends Component {
   componentDidMount() {
     const {
       fetchFilters,
+      fetchCompanies,
+      fetchContractors,
       fetchProjects,
       fetchProjectsByLoggedUserProjects,
       fetchTasks,
@@ -34,6 +40,8 @@ class Tasks extends Component {
 
     if (status === "Administrator") {
       fetchProjects();
+      fetchContractors();
+      fetchCompanies();
     } else {
       fetchProjectsByLoggedUserProjects(projects);
     }
@@ -114,6 +122,12 @@ class Tasks extends Component {
     const { loggedUser } = this.props;
     return (
       <div className="tasks-box">
+        {loggedUser.status === "Administrator" ? (
+          <React.Fragment>
+            {/* <ContractorsList />
+            <CompaniesList /> */}
+          </React.Fragment>
+        ) : null}
         {loggedUser.status === "Administrator" ||
         loggedUser.status === "Menedżer" ? (
           <ProjectsList />
@@ -140,6 +154,8 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   fetchFilters,
+  fetchContractors,
+  fetchCompanies,
   fetchProjects,
   fetchProjectsByLoggedUserProjects,
   fetchTasks,

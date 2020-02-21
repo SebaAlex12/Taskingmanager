@@ -1,5 +1,7 @@
 import { combineReducers } from "redux";
 
+import { contractorsReducer } from "./Contractors/reducers";
+import { companiesReducer } from "./Companies/reducers";
 import { tasksReducer } from "./Tasks/reducers";
 import { settingsReducer } from "./Settings/reducers";
 import { commentsReducer } from "./Comments/reducers";
@@ -10,10 +12,13 @@ import { filesReducer } from "./Files/reducers";
 import { filtersReducer } from "./Filters/reducers";
 import { messengersReducer } from "./Messengers/reducers";
 import { messagesReducer } from "./Messages/reducers";
+import { paymentsReducer } from "./Payments/reducers";
 
 export const reducers = combineReducers({
   tasks: tasksReducer,
   settings: settingsReducer,
+  contractors: contractorsReducer,
+  companies: companiesReducer,
   comments: commentsReducer,
   mails: mailsReducer,
   users: usersReducer,
@@ -21,5 +26,6 @@ export const reducers = combineReducers({
   files: filesReducer,
   filters: filtersReducer,
   messengers: messengersReducer,
-  messages: messagesReducer
+  messages: messagesReducer,
+  payments: paymentsReducer
 });

@@ -58,7 +58,9 @@ module.exports = {
     const result = await Project.findOne({ name: projectInput.name });
     if (result) {
       throw {
-        errors: [{ path: "name", message: "Nazwa projektu jest wymagana" }]
+        errors: [
+          { path: "name", message: "Istnieje już projekt o podanej nazwie" }
+        ]
       };
     }
     // console.log("add project");

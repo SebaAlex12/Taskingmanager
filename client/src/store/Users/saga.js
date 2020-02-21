@@ -28,6 +28,7 @@ function* loginUserAsync(action) {
             name
             email
             status
+            company
             projects
             users
             createdAt
@@ -73,6 +74,7 @@ function* registerUserAsync(action) {
         email: "${action.data.email}", 
         password: "${action.data.password}", 
         status: "${action.data.status}",
+        company: "${action.data.company}",
         projects: "${action.data.projects}",
         users: "${action.data.users}", 
         createdAt: "${presentDate}"}){
@@ -81,6 +83,7 @@ function* registerUserAsync(action) {
         email
         password
         status
+        company
         projects
         users
         createdAt
@@ -151,6 +154,7 @@ function* fetchUsersAsync(action) {
             name
             email
             status
+            company
             projects
             users
             createdAt
@@ -185,6 +189,7 @@ function* fetchUsersByLoggedUserProjectsAsync(action) {
             name
             email
             status
+            company
             projects
             users
             createdAt
@@ -224,6 +229,7 @@ function* updateUserAsync(action) {
     email: data.email ? data.email : "",
     password: data.password ? data.password : "",
     status: data.status ? data.status : "",
+    company: data.company ? data.company : "",
     projects: data.projects ? data.projects : "",
     users: data.users ? data.users : ""
   };
@@ -236,12 +242,14 @@ function* updateUserAsync(action) {
       email: "${userInput.email}",
       password: "${userInput.password}",
       status: "${userInput.status}",
+      company: "${userInput.company}",
       projects: "${userInput.projects}",
       users: "${userInput.users}"}){
         _id
         name
         email
         status
+        company
         projects
         users
         errors{

@@ -1,5 +1,8 @@
 module.exports = {
   ...require("./Users/resolvers"),
+  ...require("./Payments/resolvers"),
+  ...require("./Companies/resolvers"),
+  ...require("./Contractors/resolvers"),
   ...require("./Settings/resolvers"),
   ...require("./Tasks/resolvers"),
   ...require("./Comments/resolvers"),

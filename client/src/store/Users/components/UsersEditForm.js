@@ -14,13 +14,14 @@ class UsersEditFrom extends Component {
       email: "",
       password: "",
       status: "",
+      company: "",
       projects: [],
       users: []
     };
   }
   componentDidMount() {
     const {
-      item: { _id, name, email, status, projects, users }
+      item: { _id, name, email, status, projects, company, users }
     } = this.props;
 
     this.setState({
@@ -28,6 +29,7 @@ class UsersEditFrom extends Component {
       name,
       email,
       status,
+      company,
       projects: projects ? projects.split(",") : [],
       users: users ? users.split(",") : []
     });
@@ -56,7 +58,16 @@ class UsersEditFrom extends Component {
   };
   updateHandler = event => {
     const { updateUser, updateMessages } = this.props;
-    const { _id, name, email, password, status, projects, users } = this.state;
+    const {
+      _id,
+      name,
+      email,
+      password,
+      status,
+      projects,
+      users,
+      company
+    } = this.state;
 
     const data = {
       _id,
@@ -64,6 +75,7 @@ class UsersEditFrom extends Component {
       email,
       password,
       status,
+      company,
       projects,
       users
     };
@@ -78,9 +90,10 @@ class UsersEditFrom extends Component {
     event.preventDefault();
   };
   render() {
-    const { name, email, password, status } = this.state;
-    const { projects, loggedUser } = this.props;
+    const { name, email, password, status, company } = this.state;
+    const { projects, companies, loggedUser } = this.props;
 
+    console.log("user state", this.state);
     // console.log("users", this.props.users);
     // filter users compare to selected projects
     let users;
@@ -146,6 +159,26 @@ class UsersEditFrom extends Component {
               placeholder="Hasło"
               required
             />
+          </div>
+          <div className="form-group form-row">
+            <select
+              className="form-control"
+              onChange={this.onChangeSelect}
+              name="company"
+              title="Przypisz do firmy"
+              required
+            >
+              <option value="">Przypisz do firmy</option>
+              {companies.map(cmpy => (
+                <option
+                  key={cmpy._id}
+                  value={cmpy.name}
+                  selected={cmpy.name === company ? "selected" : null}
+                >
+                  {cmpy.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="form-group form-row">
             <select
@@ -260,7 +293,8 @@ const mapStateToProps = state => {
   return {
     loggedUser: state.users.logged_user,
     projects: state.projects.projects,
-    users: state.users.users
+    users: state.users.users,
+    companies: state.companies.companies
   };
 };
 

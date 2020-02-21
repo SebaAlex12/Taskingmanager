@@ -15,6 +15,7 @@ class RegistryForm extends Component {
       email: "",
       password: "",
       status: "",
+      company: "",
       projects: [],
       users: []
     };
@@ -50,7 +51,7 @@ class RegistryForm extends Component {
     }
   };
   render() {
-    const { projects, loggedUser } = this.props;
+    const { projects, loggedUser, companies } = this.props;
     // console.log("state", this.state);
 
     // filter users compare to selected projects
@@ -141,6 +142,21 @@ class RegistryForm extends Component {
                   : null}
               </select>
             </div>
+
+            <div className="form-group form-row">
+              <select
+                className="form-control"
+                onChange={this.onChangeSelect}
+                name="company"
+                required
+              >
+                <option value="">Przypisz do firmy</option>
+                {companies.map(company => (
+                  <option value={company.name}>{company.name}</option>
+                ))}
+              </select>
+            </div>
+
             {/* {status === "Menedżer" ||
             status === "Pracownik" ||
             status === "Klient" ? (
@@ -208,7 +224,8 @@ const mapStateToProps = state => {
   return {
     loggedUser: state.users.logged_user,
     projects: state.projects.projects,
-    users: state.users.users
+    users: state.users.users,
+    companies: state.companies.companies
   };
 };
 

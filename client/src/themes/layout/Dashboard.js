@@ -5,6 +5,7 @@ import io from "socket.io-client";
 
 import { logoutUser } from "../../store/Users/actions";
 import Tasks from "../../root/Tasks";
+import Payments from "../../root/Payments";
 import Messengers from "../../root/Messengers";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
@@ -57,6 +58,11 @@ class Dashboard extends Component {
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>
+        {loggedUser.status === "Administrator" ? (
+          <Link className="btn btn-default" to="/payments">
+            Płatności
+          </Link>
+        ) : null}
         {/* <Link className="btn btn-default" to="/mails">
           Poczta
         </Link> */}
@@ -68,6 +74,9 @@ class Dashboard extends Component {
           <Route exact path="/" component={Tasks} />
           <Route exact path="/messenger" component={Messengers} />
           <Route exact path="/mails" component={MailsListContainer} />
+          {loggedUser.status === "Administrator" ? (
+            <Route exact path="/payments" component={Payments} />
+          ) : null}
         </div>
       </div>
     );

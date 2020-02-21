@@ -7,12 +7,65 @@ module.exports = buildSchema(`
         message: String
     }
 
+    type Company {
+        _id: ID
+        name: String
+        address: String
+        NIP: String
+        website: String
+        phone: String
+        fax: String
+        mail: String
+        bankName: String
+        bankAcount: String
+        description: String
+    }
+
+    type Contractor {
+        _id: ID
+        name: String
+        address: String
+        NIP: String
+        KRS: String
+        website: String
+        phone: String
+        fax: String
+        mail: String
+        description: String
+    }
+
+    type Payment {
+        _id: ID
+        paymentNumber: String
+        companyName: String
+        contractorName: String
+        companyAddress: String
+        contractorAddress: String
+        companyNIP: String
+        contractorNIP: String
+        companyWebsite: String
+        companyPhone: String
+        contractorPhone: String
+        companyMail: String
+        contractorMail: String
+        companyBankName: String
+        companyBankAcount: String
+        description: String
+        netValue: String
+        grossValue: String
+        status: String
+        paymentMethod: String
+        termAt: String
+        createdAt: String
+    }  
+
     type User {
         _id: ID
         name: String
         email: String
         password: String
         status: String
+        company: String
         projects: String
         users: String
         createdAt: String
@@ -86,12 +139,65 @@ module.exports = buildSchema(`
         errors: [Error]
     }
 
+    input CompanyInputData {
+        _id: ID
+        name: String!
+        address: String!
+        NIP: String!
+        website: String
+        phone: String
+        fax: String
+        mail: String
+        bankName: String!
+        bankAcount: String!
+        description: String
+    }
+
+    input ContractorInputData {
+        _id: ID
+        name: String!
+        address: String!
+        NIP: String
+        KRS: String
+        website: String
+        phone: String
+        fax: String
+        mail: String
+        description: String
+    }
+
+    input PaymentInputData {
+        _id: ID
+        paymentNumber: String
+        companyName: String
+        contractorName: String
+        companyAddress: String
+        contractorAddress: String
+        companyNIP: String
+        contractorNIP: String
+        companyWebsite: String
+        companyPhone: String
+        contractorPhone: String
+        companyMail: String
+        contractorMail: String
+        companyBankName: String
+        companyBankAcount: String
+        description: String
+        netValue: String
+        grossValue: String
+        status: String
+        paymentMethod: String
+        termAt: String
+        createdAt: String
+    }
+
     input UserInputData {
         _id: String
         name: String!
         email: String!
         password: String
         status: String!
+        company: String
         projects: String
         users: String
         createdAt: String
@@ -166,12 +272,21 @@ module.exports = buildSchema(`
         createdAt: String!
         password: String!
         status: String!
+        company: String
         projects: String
         users: String
         token: String!
     }
 
     type RootMutation {
+        addCompany(companyInput: CompanyInputData): Company!
+        updateCompany(companyInput: CompanyInputData): Company! 
+        removeCompany(companyId: String!): Company!
+        addContractor(contractorInput: ContractorInputData): Contractor!
+        updateContractor(contractorInput: ContractorInputData): Contractor! 
+        addPayment(paymentInput: PaymentInputData): Payment!
+        updatePayment(paymentInput: PaymentInputData): Payment! 
+        removePayment(paymentId: String!): Payment!
         createUser(userInput: UserInputData): User!
         addTask(taskInput: TaskInputData): Task!
         updateTask(taskInput: TaskInputData): Task!
@@ -190,6 +305,9 @@ module.exports = buildSchema(`
 
     type RootQuery {
         loginUser(email: String!, password: String!): UserLoginData!
+        fetchCompanies: [Company]!
+        fetchContractors: [Contractor]!
+        fetchPayments: [Payment]!
         fetchUsers: [User]!
         fetchUsersByLoggedUserProjects(projects: String): [User]!
         fetchSettings: Settings!

@@ -11,6 +11,7 @@ export const StyledModalDialog = styled.div`
   .modal-dialog-box .content {
     display: block;
     width: 780px;
+    min-height: 560px;
     margin-left: auto;
     margin-right: auto;
     color: #000;
@@ -32,6 +33,10 @@ export const StyledModalDialog = styled.div`
   .modal-dialog-box > .content > .description {
     clear: both;
     margin-top: 30px;
+  }
+  .modal-dialog-box > .content > .description > iframe {
+    width: 100%;
+    height: 460px;
   }
   .mail-add-form-box > form {
     display: flex;
