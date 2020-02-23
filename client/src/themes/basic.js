@@ -48,6 +48,10 @@ export const Button = styled.button`
     background-color: ${backgroundColorHover};
     color: ${fontColorHover};
   }
+  span {
+    display: inline-block;
+    padding: 0px 5px;
+  }
   border-width: 1px;
   border-style: solid;
   border-color: ${borderColor};

@@ -6,8 +6,6 @@ import TasksListContainer from "../store/Tasks/components/TasksListContainer";
 // import TasksList from "../store/Tasks/components/TasksList";
 import UsersList from "../store/Users/components/UsersList";
 import ProjectsList from "../store/Projects/components/ProjectsList";
-import ContractorsList from "../store/Contractors/components/ContractorsList";
-import CompaniesList from "../store/Companies/components/CompaniesList";
 import FiltersContainer from "../store/Filters/components/FiltersContainer";
 
 import { fetchFilters } from "../store/Filters/actions";

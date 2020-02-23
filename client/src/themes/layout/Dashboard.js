@@ -45,7 +45,7 @@ class Dashboard extends Component {
   render() {
     const { loggedUser } = this.props;
     return (
-      <div>
+      <div className="dashboard-box">
         {/* <Preloader /> */}
         <MessagesAlertList />
         <div className="logged-user">

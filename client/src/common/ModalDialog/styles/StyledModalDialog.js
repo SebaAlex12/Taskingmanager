@@ -10,7 +10,6 @@ export const StyledModalDialog = styled.div`
   z-index: 10001;
   .modal-dialog-box .content {
     display: block;
-    width: 780px;
     min-height: 560px;
     margin-left: auto;
     margin-right: auto;

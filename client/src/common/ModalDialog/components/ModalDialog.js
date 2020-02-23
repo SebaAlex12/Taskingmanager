@@ -11,15 +11,17 @@ class ModalDialog extends Component {
     this.state = {
       open: true
     };
+    // console.log("bst", window);
+    // document.body.style.overflow = "hidden";
   }
   render() {
-    const { title, showModal } = this.props;
+    const { title, showModal, width } = this.props;
     const { open } = this.state;
 
     const $modalContent = open ? (
       <StyledModalDialog>
         <div className="modal-dialog-box">
-          <div className="content">
+          <div className="content" style={{ width: width ? width : "780px" }}>
             <div className="title">{title}</div>
             <WarningButton className="close-button" onClick={showModal}>
               <FontAwesomeIcon icon={faTimes} />

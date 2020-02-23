@@ -18,22 +18,14 @@ export const StyledTaskListContainer = styled.div`
   .task-items-box > .title {
     font-weight: bold;
   }
-  .task-items-box > .title,
+  .task-items-box > .refresh-box,
   .task-items-box .task-all-switcher {
     float: left;
-    padding-top: 10px;
-    padding-right: 10px;
+    padding: 10px;
   }
-  .task-items-box .task-all-switcher {
-    cursor: pointer;
-  }
-  .task-items-box .task-all-switcher i:before {
-    font-size: 22px;
-    color: grey;
-    margin-right: 5px;
-  }
-  .task-items-box .task-all-switcher.active i:before {
-    color: green;
+  .task-items-box > .title {
+    float: left;
+    padding: 15px 0px;
   }
   .task-items-box table .glyphicon-envelope {
     display: block;

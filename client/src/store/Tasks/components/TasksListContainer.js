@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { BiggerButton } from "../../../themes/basic";
+import { BiggerButton, Button } from "../../../themes/basic";
 import { StyledTaskListContainer } from "../styles/StyledTaskListContainer";
 
 import TasksItem from "./TasksItem";
@@ -13,6 +13,9 @@ import {
   updateTask
 } from "../actions";
 import { updateFilter } from "../../Filters/actions";
+
+import { faSyncAlt, faLayerGroup } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class TasksListContainer extends Component {
   constructor(props) {
@@ -207,9 +210,25 @@ class TasksListContainer extends Component {
 
     return items;
   };
+  refreshPage = () => {
+    const {
+      fetchTasks,
+      loggedUser: { name }
+    } = this.props;
+    const response = fetchTasks({ responsiblePerson: name });
+    this.setState({
+      ...this.state,
+      tasks: response
+    });
+  };
 
   render() {
-    const { toggleTasksAddForm, activeTaskId, activeAllTasks } = this.state;
+    const {
+      toggleTasksAddForm,
+      activeTaskId,
+      activeAllTasks,
+      ownerToAcceptTasksOnly
+    } = this.state;
     const { filters, loggedUser } = this.props;
     let tasks = this.state.tasks > 0 ? this.state.tasks : this.props.tasks;
     let tasksListContent;
@@ -266,11 +285,19 @@ class TasksListContainer extends Component {
               <div className="title">
                 {tasks.length > 0 ? `Liczba zadań: ${tasks.length}` : null}
               </div>
+              <div className="refresh-box" onClick={() => this.refreshPage()}>
+                <Button>
+                  <FontAwesomeIcon icon={faSyncAlt} />
+                  <span>Odśwież</span>
+                </Button>
+              </div>
               {loggedUser.status === "Administrator" ||
               loggedUser.status === "Menedżer" ? (
                 <div className={clazz_all_tasks} onClick={this.switchAllTasks}>
-                  <i className="glyphicon-tasks glyphicon"></i>
-                  Pokaż wszystkie zadania
+                  <Button>
+                    <FontAwesomeIcon icon={faLayerGroup} />
+                    <span>Pokaż wszystkie zadania</span>
+                  </Button>
                 </div>
               ) : null}
               <form className="task-switcher">

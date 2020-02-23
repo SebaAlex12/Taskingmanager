@@ -105,6 +105,7 @@ class PaymentsItem extends Component {
                   <ModalDialog
                     title="Wygenerowany pdf"
                     showModal={() => this.showPaymentToPdfModal(false)}
+                    width="960px"
                   >
                     <PaymentsToPdfInvoice item={item} />
                   </ModalDialog>

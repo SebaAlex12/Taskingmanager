@@ -1,5 +1,12 @@
 import React from "react";
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Image
+} from "@react-pdf/renderer";
 import { PDFViewer } from "@react-pdf/renderer";
 
 export default function PaymentsToPdfInvoice(props) {
@@ -32,12 +39,28 @@ export default function PaymentsToPdfInvoice(props) {
   return (
     <PDFViewer>
       <Document>
-        <Page size="A4" style={styles.page}>
-          <View style={styles.section}>
+        <Page size="A4" className="page">
+          <View style={styles.header}>
+            <Text>Nagłówek</Text>
+          </View>
+          <View style={styles.container}>
+            <View style={styles.top}>
+              <View style={styles.logoBox}>
+                <Image style={styles.logoImage} src="logo.png" />
+              </View>
+              <View style={styles.dateOfIssueBox}>
+                <View style={styles.dateOfIssueElement}>
+                  <Text style={styles.dateOfIssueTitle}>
+                    Miejsce wystawienia
+                  </Text>
+                  <Text style={styles.dateOfIssueValue}>Lodz</Text>
+                </View>
+              </View>
+            </View>
             <Text>Payment number: {paymentNumber}</Text>
           </View>
-          <View style={styles.section}>
-            <Text>Section #2</Text>
+          <View style={styles.footer}>
+            <Text>Stopka</Text>
           </View>
         </Page>
       </Document>
@@ -46,13 +69,58 @@ export default function PaymentsToPdfInvoice(props) {
 }
 
 const styles = StyleSheet.create({
-  page: {
+  page: {},
+  header: {
+    display: "flex",
     flexDirection: "row",
-    backgroundColor: "#E4E4E4"
+    backgroundColor: "red",
+    fontSize: 14,
+    padding: 15,
+    color: "white"
   },
-  section: {
-    margin: 10,
+  footer: {
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "#000",
+    fontSize: 14,
+    padding: 15,
+    color: "#fff"
+  },
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    padding: 15
+  },
+  top: {
+    display: "flex",
+    flexDirection: "row"
+  },
+  logoBox: {
+    display: "flex",
+    width: "50%"
+  },
+  logoImage: {
+    display: "flex",
+    width: 250,
+    height: "auto"
+  },
+  dateOfIssueBox: {
+    display: "flex",
+    width: "100%"
+  },
+  dateOfIssueElement: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%"
+  },
+  dateOfIssueTitle: {
+    display: "flex",
     padding: 10,
-    flexGrow: 1
+    fontSize: 10
+  },
+  dateOfIssueValue: {
+    display: "flex",
+    padding: 10,
+    fontSize: 10
   }
 });

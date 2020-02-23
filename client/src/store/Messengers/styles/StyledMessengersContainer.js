@@ -134,6 +134,12 @@ export const StyledMessengersContainer = styled.div`
     display: inline-block;
     width: 6%;
   }
+  .header_msg {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
   .received_msg {
     display: inline-block;
     padding: 0 0 0 10px;

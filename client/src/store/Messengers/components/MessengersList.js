@@ -25,7 +25,14 @@ class MessengersList extends Component {
 
     const messengersContent = messengersReverse.map(messenger => {
       // return <div>{messanger.msg}</div>;
-      return <MessengersItem item={messenger} key={n++} />;
+      return (
+        <MessengersItem
+          item={messenger}
+          key={n++}
+          selectedUsers={selectedUsers}
+          filterSelectedUsersHandler={filterSelectedUsersHandler}
+        />
+      );
     });
     return (
       <StyledMessengerList>

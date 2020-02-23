@@ -136,7 +136,7 @@ class MessengersContainer extends Component {
   filterSelectedUsersHandler = selectedChannelId => {
     const { selectedUsers } = this.state;
     let filteredUsers = [];
-
+    // console.log("filterSelectedUsersHandler", selectedChannelId);
     if (selectedChannelId === "-1") {
       filteredUsers = selectedUsers.filter(user =>
         user.status === "Administrator" ||
@@ -166,7 +166,7 @@ class MessengersContainer extends Component {
         }
       });
     }
-
+    // console.log("filteredUsers", filteredUsers);
     localStorage.setItem("filteredUsers", JSON.stringify(filteredUsers));
     localStorage.setItem(
       "selectedChannelId",
