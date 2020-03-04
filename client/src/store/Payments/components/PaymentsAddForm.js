@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import moment from "moment";
 
 import isEmpty from "../../../common/is-empty";
 import { addPayment } from "../actions";
@@ -101,8 +102,7 @@ class PaymentsAddForm extends Component {
       grossValue,
       status,
       paymentMethod,
-      termAt,
-      createdAt
+      termAt
     } = this.state;
 
     const data = {
@@ -126,7 +126,7 @@ class PaymentsAddForm extends Component {
       status,
       paymentMethod,
       termAt,
-      createdAt
+      createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
     };
 
     event.preventDefault();

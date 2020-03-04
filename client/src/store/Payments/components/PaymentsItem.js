@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import moment from "moment";
 
 import { removePayment } from "../actions";
 import { updateMessages } from "../../Messages/actions";
@@ -94,7 +95,7 @@ class PaymentsItem extends Component {
               <td>{status}</td>
               <td>{paymentMethod}</td>
               <td>{termAt}</td>
-              <td>{createdAt}</td>
+              <td>{moment(createdAt).format("YYYY-MM-DD HH:mm:ss")}</td>
               <td>{netValue}</td>
               <td>{grossValue}</td>
               <td className="details">
