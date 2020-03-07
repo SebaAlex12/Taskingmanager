@@ -1,5 +1,7 @@
 import {
   FETCH_PAYMENTS_SUCCESS,
+  FETCH_LAST_INSERT_INVOICE_SUCCESS,
+  FETCH_LAST_INSERT_PATTERN_SUCCESS,
   ADD_PAYMENT_SUCCESS,
   REMOVE_PAYMENT_SUCCESS,
   UPDATE_PAYMENT_SUCCESS,
@@ -8,6 +10,8 @@ import {
 
 const initialState = {
   payments: [],
+  lastInsertInvoice: null,
+  lastInsertPattern: null,
   errors: []
 };
 
@@ -17,6 +21,16 @@ export const paymentsReducer = (state = initialState, action) => {
       return {
         ...state,
         payments: action.payload
+      };
+    case FETCH_LAST_INSERT_INVOICE_SUCCESS:
+      return {
+        ...state,
+        lastInsertInvoice: action.payload
+      };
+    case FETCH_LAST_INSERT_PATTERN_SUCCESS:
+      return {
+        ...state,
+        lastInsertPattern: action.payload
       };
     case ADD_PAYMENT_SUCCESS:
       return {

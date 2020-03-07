@@ -7,16 +7,35 @@ class PaymentsList extends Component {
   render() {
     const { payments } = this.props;
 
-    console.log(this.props);
-
     const paymentsContainer =
       payments && payments.length > 0
         ? payments.map(payment => (
             <PaymentsItem key={payment._id} item={payment} />
           ))
-        : "Brak płatności...";
+        : null;
 
-    return <div>{paymentsContainer}</div>;
+    return (
+      <div>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Nr płatności</th>
+              <th scope="col">Nazwa kontrahenta</th>
+              <th scope="col">Typ</th>
+              <th scope="col">Status</th>
+              <th scope="col">Cykl</th>
+              <th scope="col">Miesiąc</th>
+              <th scope="col">Termin</th>
+              <th scope="col">Utworzono</th>
+              <th scope="col">Wartość netto</th>
+              <th scope="col">Wartość brutto</th>
+              <th scope="col">Akcje</th>
+            </tr>
+          </thead>
+          <tbody>{paymentsContainer}</tbody>
+        </table>
+      </div>
+    );
   }
 }
 const mapStateToProps = state => {

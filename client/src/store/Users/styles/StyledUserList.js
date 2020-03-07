@@ -23,14 +23,14 @@ export const StyledUserList = styled.div`
     left: 0px;
     z-index: 100;
     overflow-y: auto;
-    width: 260px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
   }
   .users-list > div {
     padding-left: 0px;
     padding-right: 0px;
     margin-bottom: 0px;
-    display: flex;
-    flex-direction: column;
     position: relative;
   }
   .users-list > div .edit-form > i {
@@ -70,6 +70,8 @@ export const StyledUserList = styled.div`
     padding-left: 5px;
     padding-bottom: 5px;
     text-align: left;
+    float: left;
+    width: 74%;
   }
   .users-list .status {
     background-color: grey;
@@ -106,9 +108,6 @@ export const StyledUserList = styled.div`
   }
   .user-list-flow-box.active > button {
     background-color: green;
-  }
-  .user-list-flow-box button {
-    padding-right: 22px;
   }
   .user-list-flow-box .glyphicon-filter {
     margin-left: 4px;

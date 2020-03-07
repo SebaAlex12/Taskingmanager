@@ -44,6 +44,7 @@ export const StyledContractorList = styled.div`
   }
   .contractors-list .content > div {
     position: relative;
+    cursor: default;
   }
   .contractors-list .content .edit-form > i {
     position: absolute;
@@ -83,7 +84,7 @@ export const StyledContractorList = styled.div`
     float: left;
     padding-left: 5px;
     padding-bottom: 5px;
-    width: 85%;
+    width: 75%;
     text-align: left;
     height: 18px;
   }
@@ -109,6 +110,9 @@ export const StyledContractorList = styled.div`
   }
   .contractors-list form .form-group .form-content {
     position: relative;
+  }
+  .contractor-update-form-box > form > div:first-child {
+    display: none;
   }
   .contractor-update-form-box .textarea.form-group {
     width: 100%;

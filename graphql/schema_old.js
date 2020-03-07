@@ -37,6 +37,10 @@ module.exports = buildSchema(`
     type Payment {
         _id: ID
         paymentNumber: String
+        paymentMonth: String
+        paymentYear: String
+        paymentType: String
+        paymentCycle: String
         companyName: String
         contractorName: String
         companyAddress: String
@@ -169,6 +173,10 @@ module.exports = buildSchema(`
     input PaymentInputData {
         _id: ID
         paymentNumber: String
+        paymentMonth: String
+        paymentYear: String
+        paymentType: String
+        paymentCycle: String
         companyName: String
         contractorName: String
         companyAddress: String
@@ -307,7 +315,9 @@ module.exports = buildSchema(`
         loginUser(email: String!, password: String!): UserLoginData!
         fetchCompanies: [Company]!
         fetchContractors: [Contractor]!
-        fetchPayments: [Payment]!
+        fetchPayments(paymentInput: PaymentInputData): [Payment]!
+        fetchLastInsertInvoice: Payment!
+        fetchLastInsertPattern: Payment!
         fetchUsers: [User]!
         fetchUsersByLoggedUserProjects(projects: String): [User]!
         fetchSettings: Settings!

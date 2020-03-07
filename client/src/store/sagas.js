@@ -62,6 +62,8 @@ import {
 } from "./Files/saga";
 import {
   fetchPaymentsWatcher,
+  fetchLastInsertInvoiceWatcher,
+  fetchLastInsertPatternWatcher,
   addPaymentWatcher,
   updatePaymentWatcher,
   removePaymentWatcher
@@ -116,6 +118,8 @@ export default function* rootSaga() {
     fork(addFileWatcher),
     fork(removeFileWatcher),
     fork(fetchPaymentsWatcher),
+    fork(fetchLastInsertInvoiceWatcher),
+    fork(fetchLastInsertPatternWatcher),
     fork(addPaymentWatcher),
     fork(updatePaymentWatcher),
     fork(removePaymentWatcher)

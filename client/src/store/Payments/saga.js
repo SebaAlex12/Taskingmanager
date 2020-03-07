@@ -3,6 +3,10 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import {
   FETCHING_PAYMENTS,
   FETCH_PAYMENTS_SUCCESS,
+  FETCHING_LAST_INSERT_INVOICE,
+  FETCH_LAST_INSERT_INVOICE_SUCCESS,
+  FETCHING_LAST_INSERT_PATTERN,
+  FETCH_LAST_INSERT_PATTERN_SUCCESS,
   ADDING_PAYMENT,
   ADD_PAYMENT_SUCCESS,
   REMOVING_PAYMENT,
@@ -14,14 +18,18 @@ import {
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 
-function* fetchPaymentsAsync() {
+function* fetchPaymentsAsync(action) {
   try {
     const graph = {
       query: `
         query {
-          fetchPayments{
+          fetchPayments(paymentInput: { paymentType: "${action.data.paymentType}" }){
             _id
             paymentNumber
+            paymentMonth
+            paymentYear
+            paymentType
+            paymentCycle
             companyName
             contractorName
             companyAddress
@@ -66,11 +74,132 @@ export function* fetchPaymentsWatcher() {
   yield takeEvery(FETCHING_PAYMENTS, fetchPaymentsAsync);
 }
 
+//fdbsfbfdbdsbfdbdsbdbd
+
+function* fetchLastInsertInvoiceAsync(action) {
+  try {
+    const graph = {
+      query: `
+        query {
+          fetchLastInsertInvoice{
+            _id
+            paymentNumber
+            paymentMonth
+            paymentYear
+            paymentType
+            paymentCycle
+            companyName
+            contractorName
+            companyAddress
+            contractorAddress
+            companyNIP
+            contractorNIP
+            companyWebsite
+            companyPhone
+            contractorPhone
+            companyMail
+            contractorMail
+            companyBankName
+            companyBankAcount
+            description
+            netValue
+            grossValue
+            status
+            paymentMethod
+            termAt
+            createdAt
+          }
+        }
+    `
+    };
+
+    const res = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
+    // console.log("saga", res.data);
+    yield put({
+      type: FETCH_LAST_INSERT_INVOICE_SUCCESS,
+      payload: res.data.data.fetchLastInsertInvoice
+    });
+  } catch (error) {
+    yield put({ type: PAYMENTS_ERROR, payload: error });
+  }
+}
+
+export function* fetchLastInsertInvoiceWatcher() {
+  yield takeEvery(FETCHING_LAST_INSERT_INVOICE, fetchLastInsertInvoiceAsync);
+}
+
+function* fetchLastInsertPatternAsync(action) {
+  try {
+    const graph = {
+      query: `
+        query {
+          fetchLastInsertPattern{
+            _id
+            paymentNumber
+            paymentMonth
+            paymentYear
+            paymentType
+            paymentCycle
+            companyName
+            contractorName
+            companyAddress
+            contractorAddress
+            companyNIP
+            contractorNIP
+            companyWebsite
+            companyPhone
+            contractorPhone
+            companyMail
+            contractorMail
+            companyBankName
+            companyBankAcount
+            description
+            netValue
+            grossValue
+            status
+            paymentMethod
+            termAt
+            createdAt
+          }
+        }
+    `
+    };
+
+    const res = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
+    yield put({
+      type: FETCH_LAST_INSERT_PATTERN_SUCCESS,
+      payload: res.data.data.fetchLastInsertPattern
+    });
+  } catch (error) {
+    yield put({ type: PAYMENTS_ERROR, payload: error });
+  }
+}
+
+export function* fetchLastInsertPatternWatcher() {
+  yield takeEvery(FETCHING_LAST_INSERT_PATTERN, fetchLastInsertPatternAsync);
+}
+
+//wgwergegergegrege
+
 function* addPaymentAsync(action) {
   // try {
   const data = action.data;
   const paymentInput = {
     paymentNumber: data.paymentNumber,
+    paymentMonth: data.paymentMonth,
+    paymentYear: data.paymentYear,
+    paymentType: data.paymentType,
+    paymentCycle: data.paymentCycle,
     companyName: data.companyName,
     contractorName: data.contractorName,
     companyAddress: data.companyAddress,
@@ -92,11 +221,15 @@ function* addPaymentAsync(action) {
     termAt: data.termAt,
     createdAt: data.createdAt
   };
-  console.log("payent input", paymentInput);
+  // console.log("payent input", paymentInput);
   const graph = {
     query: `mutation {
       addPayment(paymentInput: {
         paymentNumber: "${paymentInput.paymentNumber}",
+        paymentMonth: "${paymentInput.paymentMonth}",
+        paymentYear: "${paymentInput.paymentYear}",
+        paymentType: "${paymentInput.paymentType}",
+        paymentCycle: "${paymentInput.paymentCycle}",
         companyName: "${paymentInput.companyName}",
         contractorName: "${paymentInput.contractorName}",
         companyAddress: "${paymentInput.companyAddress}",
@@ -119,6 +252,10 @@ function* addPaymentAsync(action) {
         createdAt: "${paymentInput.createdAt}"}){
         _id
         paymentNumber,
+        paymentMonth,
+        paymentYear,
+        paymentType,
+        paymentCycle,
         companyName,
         contractorName,
         companyAddress,
@@ -142,7 +279,7 @@ function* addPaymentAsync(action) {
       }
     }`
   };
-
+  // console.log("graph", JSON.stringify(graph));
   const paymentData = yield call(
     [axios, axios.post],
     "/graphql",
@@ -181,6 +318,10 @@ function* updatePaymentAsync(action) {
   const paymentInput = {
     _id: data._id,
     paymentNumber: data.paymentNumber ? data.paymentNumber : "",
+    paymentMonth: data.paymentMonth ? data.paymentMonth : "",
+    paymentYear: data.paymentYear ? data.paymentYear : "",
+    paymentType: data.paymentType ? data.paymentType : "",
+    paymentCycle: data.paymentCycle ? data.paymentCycle : "",
     companyName: data.companyName ? data.companyName : "",
     contractorName: data.contractorName ? data.contractorName : "",
     companyAddress: data.companyAddress ? data.companyAddress : "",
@@ -208,6 +349,10 @@ function* updatePaymentAsync(action) {
       updatePayment(paymentInput: {
         _id: "${paymentInput._id}",
         paymentNumber: "${paymentInput.paymentNumber}",
+        paymentMonth: "${paymentInput.paymentMonth}",
+        paymentYear: "${paymentInput.paymentYear}",
+        paymentType: "${paymentInput.paymentType}",
+        paymentCycle: "${paymentInput.paymentCycle}",
         companyName: "${paymentInput.companyName}",
         contractorName: "${paymentInput.contractorName}",
         companyAddress: "${paymentInput.companyAddress}",
@@ -230,6 +375,10 @@ function* updatePaymentAsync(action) {
         createdAt: "${paymentInput.createdAt}"}){
         _id
         paymentNumber,
+        paymentMonth,
+        paymentYear,
+        paymentType,
+        paymentCycle,
         companyName,
         contractorName,
         companyAddress,

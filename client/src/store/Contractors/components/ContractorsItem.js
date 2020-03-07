@@ -7,6 +7,14 @@ import MailsAddForm from "../../Mails/components/MailsAddForm";
 import PaymentsAddForm from "../../Payments/components/PaymentsAddForm";
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
 
+import { SmallerButton } from "../../../themes/basic";
+import {
+  faEnvelope,
+  faEdit,
+  faAsterisk
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 class ContractorsItem extends Component {
   constructor(props) {
     super(props);
@@ -44,18 +52,23 @@ class ContractorsItem extends Component {
       <div className={clazz_box}>
         <div className="title">{item.name}</div>
         <div className="edit-form">
-          <i
-            className="glyphicon glyphicon-usd"
+          <SmallerButton
             onClick={() => this.showPaymentModal(true)}
-          ></i>
-          <i
-            className="glyphicon glyphicon-envelope"
+            title="dodaj nową płatność"
+          >
+            <FontAwesomeIcon icon={faAsterisk} />
+          </SmallerButton>
+          <SmallerButton
             onClick={() => this.showModal(true)}
-          ></i>
+            title="wyślij maila"
+          >
+            <FontAwesomeIcon icon={faEnvelope} />
+          </SmallerButton>
           {showPaymentModalTrigger ? (
             <ModalDialog
               title="Dodaj nową płatność"
               showModal={() => this.showPaymentModal(false)}
+              width="960px"
             >
               <PaymentsAddForm contractor={item} />
             </ModalDialog>
@@ -79,12 +92,14 @@ class ContractorsItem extends Component {
           ) : null}
           {loggedUser.status === "Administrator" ? (
             <React.Fragment>
-              <i
-                className="glyphicon glyphicon-edit"
+              <SmallerButton
+                title="edytuj"
                 onClick={() =>
                   this.setState({ toggleEditForm: !toggleEditForm })
                 }
-              ></i>
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </SmallerButton>
               {toggleEditForm ? <ContractorsEditForm item={item} /> : null}
             </React.Fragment>
           ) : null}

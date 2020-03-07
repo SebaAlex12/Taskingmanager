@@ -1,96 +1,27 @@
 import styled from "styled-components";
 
-export const StyledTaskListContainer = styled.div`
-  .flow-box {
-    position: fixed;
-    float: left;
-    text-align: right;
-    top: 0px;
-    right: 0px;
-    z-index: 9;
+export const StyledPaymentContainer = styled.div`
+  .panel-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 0px;
   }
-  .flow-box.active > button {
-    background-color: green;
-  }
-  .task-items-box > div > * {
-    float: left;
-  }
-  .task-items-box > .title {
-    font-weight: bold;
-  }
-  .task-items-box > .refresh-box,
-  .task-items-box .task-all-switcher {
-    float: left;
-    padding: 10px;
-  }
-  .task-items-box > .title {
-    float: left;
-    padding: 15px 0px;
-  }
-  .task-items-box table .glyphicon-envelope {
-    display: block;
-    cursor: pointer;
-    font-size: 25px;
-  }
-  .task-items-box table tr.status_2,
-  .task-items-box table tr.priority_0 {
-    background-color: rgba(255, 78, 78, 0.1);
-  }
-  .task-items-box table tr:hover {
-    background-color: rgba(128, 128, 128, 0.1);
-  }
-  .task-items-box table .details {
-    text-align: left;
-    width: 100px;
-  }
-  .task-items-box .details i {
-    cursor: pointer;
-    margin-left: 4px;
-    font-size: 19px;
-  }
-  .task-items-box .details i.glyphicon-remove {
-    color: red;
-  }
-  .task-items-boxtable>thead>tr>th: first-child {
-    width: 180px;
-  }
-  .task-items-box table > thead > tr > th i {
-    cursor: pointer;
-    margin-left: 2px;
-    margin-right: 2px;
-    display: block;
-    float: left;
-  }
-  .task-items-box table > tbody .name i {
-    width: 10px;
-    height: 10px;
-    left: -7px;
-    cursor: pointer;
-  }
-  .task-items-box table > tbody .name .lights {
-    color: red;
-    display: none;
-  }
-  .task-items-box table > tbody .name .lights.active {
-    color: green;
-  }
-  .task-items-box table > tbody > tr > td {
+  .payments-generator-container-box {
     position: relative;
   }
-  .task-items-box table > tbody .desc-box {
-    float: left;
-    position: relative;
+  .panel-box > h1 {
+    margin: 0px;
+    padding-right: 15px;
   }
-  .task-items-box table > tbody .desc-box .edit {
+  .payments-generator-container-box > button {
     position: absolute;
-    right: 4px;
-    bottom: 4px;
-    display: block;
-    cursor: pointer;
+    right: 5px;
+    top: 5px;
   }
   .task-switcher {
-    float: right;
     padding-top: 5px;
+    margin-left: auto;
   }
   .task-switcher > label:first-child {
     margin-top: 7px;

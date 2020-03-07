@@ -134,11 +134,11 @@ class CompaniesEditFrom extends Component {
           <div className="form-group">
             <label htmlFor="">Adres</label>
             <div className="form-content">
-              <i
+              {/* <i
                 className="show-hide-button glyphicon glyphicon-eye-open"
                 onClick={this.toggleClassHandler}
               ></i>
-              <div className="glass">dane ukryte</div>
+              <div className="glass">dane ukryte</div> */}
               <input
                 onChange={this.onChangeInput}
                 type="text"
@@ -153,11 +153,11 @@ class CompaniesEditFrom extends Component {
           <div className="form-group">
             <label htmlFor="">NIP</label>
             <div className="form-content">
-              <i
+              {/* <i
                 className="show-hide-button glyphicon glyphicon-eye-open"
                 onClick={this.toggleClassHandler}
               ></i>
-              <div className="glass">dane ukryte</div>
+              <div className="glass">dane ukryte</div> */}
               <input
                 onChange={this.onChangeInput}
                 type="text"
@@ -172,11 +172,11 @@ class CompaniesEditFrom extends Component {
           <div className="form-group">
             <label htmlFor="">Adres strony internetowej</label>
             <div className="form-content">
-              <i
+              {/* <i
                 className="show-hide-button glyphicon glyphicon-eye-open"
                 onClick={this.toggleClassHandler}
               ></i>
-              <div className="glass">dane ukryte</div>
+              <div className="glass">dane ukryte</div> */}
               <input
                 onChange={this.onChangeInput}
                 type="text"
@@ -191,11 +191,11 @@ class CompaniesEditFrom extends Component {
           <div className="form-group">
             <label htmlFor="">Telefon</label>
             <div className="form-content">
-              <i
+              {/* <i
                 className="show-hide-button glyphicon glyphicon-eye-open"
                 onClick={this.toggleClassHandler}
               ></i>
-              <div className="glass">dane ukryte</div>
+              <div className="glass">dane ukryte</div> */}
               <input
                 onChange={this.onChangeInput}
                 type="text"
@@ -210,11 +210,11 @@ class CompaniesEditFrom extends Component {
           <div className="form-group">
             <label htmlFor="">Fax</label>
             <div className="form-content">
-              <i
+              {/* <i
                 className="show-hide-button glyphicon glyphicon-eye-open"
                 onClick={this.toggleClassHandler}
               ></i>
-              <div className="glass">dane ukryte</div>
+              <div className="glass">dane ukryte</div> */}
               <input
                 onChange={this.onChangeInput}
                 type="text"
@@ -229,11 +229,11 @@ class CompaniesEditFrom extends Component {
           <div className="form-group">
             <label htmlFor="">Adres email</label>
             <div className="form-content">
-              <i
+              {/* <i
                 className="show-hide-button glyphicon glyphicon-eye-open"
                 onClick={this.toggleClassHandler}
               ></i>
-              <div className="glass">dane ukryte</div>
+              <div className="glass">dane ukryte</div> */}
               <input
                 onChange={this.onChangeInput}
                 type="text"
@@ -248,11 +248,11 @@ class CompaniesEditFrom extends Component {
           <div className="form-group">
             <label htmlFor="">Nazwa banku</label>
             <div className="form-content">
-              <i
+              {/* <i
                 className="show-hide-button glyphicon glyphicon-eye-open"
                 onClick={this.toggleClassHandler}
               ></i>
-              <div className="glass">dane ukryte</div>
+              <div className="glass">dane ukryte</div> */}
               <input
                 onChange={this.onChangeInput}
                 type="text"
@@ -267,11 +267,11 @@ class CompaniesEditFrom extends Component {
           <div className="form-group">
             <label htmlFor="">Numer konta banowego</label>
             <div className="form-content">
-              <i
+              {/* <i
                 className="show-hide-button glyphicon glyphicon-eye-open"
                 onClick={this.toggleClassHandler}
               ></i>
-              <div className="glass">dane ukryte</div>
+              <div className="glass">dane ukryte</div> */}
               <input
                 onChange={this.onChangeInput}
                 type="text"
@@ -286,11 +286,11 @@ class CompaniesEditFrom extends Component {
           <div className="form-group textarea">
             <label htmlFor="">Notatka</label>
             <div className="form-content">
-              <i
+              {/* <i
                 className="show-hide-button glyphicon glyphicon-eye-open"
                 onClick={this.toggleClassHandler}
               ></i>
-              <div className="glass">dane ukryte</div>
+              <div className="glass">dane ukryte</div> */}
               <textarea
                 onChange={this.onChangeInput}
                 type="text"

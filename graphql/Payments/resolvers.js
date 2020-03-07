@@ -2,11 +2,24 @@ const Payment = require("../../models/Payment");
 const tools = require("../../utils/tools");
 
 module.exports = {
-  fetchPayments: async function() {
-    let payments = await Payment.find(null, null, {
-      sort: { paymentNumber: 1 }
+  fetchPayments: async function({ paymentInput }) {
+    let params = {};
+    params.paymentType = paymentInput.paymentType;
+
+    let payment = await Payment.find(params);
+    return payment;
+  },
+  fetchLastInsertInvoice: async function() {
+    let payment = await Payment.findOne({ paymentType: "Faktura" }, null, {
+      sort: { paymentNumber: -1 }
     });
-    return payments;
+    return payment;
+  },
+  fetchLastInsertPattern: async function() {
+    let payment = await Payment.findOne({ paymentType: "Wzór" }, null, {
+      sort: { paymentNumber: -1 }
+    });
+    return payment;
   },
   addPayment: async function({ paymentInput }, req) {
     // const result = await Payment.findOne({
@@ -19,9 +32,13 @@ module.exports = {
     //     ]
     //   };
     // }
-
+    // console.log("resover", paymentInput);
     const payment = new Payment({
       paymentNumber: paymentInput.paymentNumber,
+      paymentMonth: paymentInput.paymentMonth,
+      paymentYear: paymentInput.paymentYear,
+      paymentType: paymentInput.paymentType,
+      paymentCycle: paymentInput.paymentCycle,
       companyName: paymentInput.companyName,
       contractorName: paymentInput.contractorName,
       companyAddress: paymentInput.companyAddress,
@@ -61,6 +78,18 @@ module.exports = {
       paymentNumber: paymentInput.paymentNumber
         ? paymentInput.paymentNumber
         : payment.paymentNumber,
+      paymentMonth: paymentInput.paymentMonth
+        ? paymentInput.paymentMonth
+        : payment.paymentMonth,
+      paymentYear: paymentInput.paymentYear
+        ? paymentInput.paymentYear
+        : payment.paymentYear,
+      paymentType: paymentInput.paymentType
+        ? paymentInput.paymentType
+        : payment.paymentType,
+      paymentCycle: paymentInput.paymentCycle
+        ? paymentInput.paymentCycle
+        : payment.paymentCycle,
       companyName: paymentInput.companyName
         ? paymentInput.companyName
         : payment.companyName,
@@ -129,7 +158,7 @@ module.exports = {
       return { errors: tools.formatErrors(e) };
     }
   },
-  removeCotractor: async function({ paymentId }) {
+  removeContractor: async function({ paymentId }) {
     try {
       await Cotractor.deleteOne({ _id: paymentId });
     } catch (e) {

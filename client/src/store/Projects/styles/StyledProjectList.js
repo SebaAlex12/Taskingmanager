@@ -23,14 +23,14 @@ export const StyledProjectList = styled.div`
     left: 0px;
     z-index: 100;
     overflow-y: auto;
-    width: 260px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
   }
   .projects-list > div {
     padding-left: 0px;
     padding-right: 0px;
     margin-bottom: 0px;
-    display: flex;
-    flex-direction: column;
     position: relative;
   }
   .projects-list > div .edit-form > i {
@@ -70,7 +70,7 @@ export const StyledProjectList = styled.div`
     float: left;
     padding-left: 5px;
     padding-bottom: 5px;
-    width: 85%;
+    width: 74%;
     text-align: left;
     height: 18px;
   }
@@ -116,9 +116,6 @@ export const StyledProjectList = styled.div`
   }
   .project-list-flow-box.active > button {
     background-color: green;
-  }
-  .project-list-flow-box button {
-    padding-right: 22px;
   }
   .project-list-flow-box .glyphicon-filter {
     margin-left: 4px;

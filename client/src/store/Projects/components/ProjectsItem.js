@@ -7,6 +7,10 @@ import { updateFilter } from "../../Filters/actions";
 import MailsAddForm from "../../Mails/components/MailsAddForm";
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
 
+import { SmallerButton } from "../../../themes/basic";
+import { faEnvelope, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 class ProjectsItem extends Component {
   constructor(props) {
     super(props);
@@ -69,10 +73,12 @@ class ProjectsItem extends Component {
           {item.name}
         </div>
         <div className="edit-form">
-          <i
-            className="glyphicon glyphicon-envelope"
+          <SmallerButton
             onClick={() => this.showModal(true)}
-          ></i>
+            title="wyślij maila"
+          >
+            <FontAwesomeIcon icon={faEnvelope} />
+          </SmallerButton>
           {showModalTrigger ? (
             <ModalDialog
               title="Wyślij email"
@@ -92,12 +98,14 @@ class ProjectsItem extends Component {
           ) : null}
           {loggedUser.status === "Administrator" ? (
             <React.Fragment>
-              <i
-                className="glyphicon glyphicon-edit"
+              <SmallerButton
+                title="edytuj"
                 onClick={() =>
                   this.setState({ toggleEditForm: !toggleEditForm })
                 }
-              ></i>
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </SmallerButton>
               {toggleEditForm ? <ProjectsEditForm item={item} /> : null}
             </React.Fragment>
           ) : null}

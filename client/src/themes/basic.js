@@ -57,11 +57,18 @@ export const Button = styled.button`
   border-color: ${borderColor};
   padding: 4px 8px;
   border-radius: 5px;
-  margin: 2px;
+  margin: 5px;
+  min-width: 30px;
 `;
 
 export const BiggerButton = styled(Button)`
   padding: 10px 18px;
+`;
+
+export const SmallerButton = styled(Button)`
+  padding: 2px 4px;
+  font-size: 12px;
+  margin: 2px;
 `;
 
 export const DisabledButton = styled(Button)`

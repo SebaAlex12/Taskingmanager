@@ -25,12 +25,12 @@ export const StyledPaymentForm = styled.div`
     justify-content: space-between;
   }
   .payment-add-form-box form .form-group {
-    width: 33.3%;
+    width: 25%;
     box-sizing: border-box;
     padding: 0px 10px;
   }
   .payment-add-form-box form .form-group.description {
-    width: 66.6%;
+    width: 50%;
   }
   .payment-add-form-box form .form-group.add {
     display: flex;

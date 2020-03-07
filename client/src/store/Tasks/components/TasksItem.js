@@ -67,12 +67,7 @@ class TasksItem extends Component {
       files,
       mailRemainderData
     });
-    // console.log(this.props.item);
   }
-
-  // componentDidUpdate() {
-  //   console.log("update props", this.props);
-  // }
 
   componentWillReceiveProps(nextProps) {
     // const {

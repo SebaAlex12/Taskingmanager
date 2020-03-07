@@ -4,7 +4,23 @@ const Schema = mongoose.Schema;
 const PaymentSchema = new Schema({
   paymentNumber: {
     type: String,
-    required: [true, "Numer płatności"]
+    required: [true, "Numer płatności jest wymagany"]
+  },
+  paymentMonth: {
+    type: String,
+    required: [true, "Miesiąc płatności jest wymagany"]
+  },
+  paymentYear: {
+    type: String,
+    required: [true, "Rok płatności jest wymagany"]
+  },
+  paymentType: {
+    type: String,
+    required: [true, "Rodzaj płatności jest wymagany"]
+  },
+  paymentCycle: {
+    type: String,
+    required: [true, "Rodzaj płatności jest wymagany"]
   },
   companyName: {
     type: String,
@@ -70,8 +86,7 @@ const PaymentSchema = new Schema({
     type: String
   },
   termAt: {
-    type: String,
-    required: [true, "Termin płatności jest wymagany"]
+    type: String
   },
   createdAt: {
     type: String,

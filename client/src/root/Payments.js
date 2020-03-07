@@ -4,7 +4,11 @@ import styled from "styled-components";
 
 import PaymentsContainer from "../store/Payments/components/PaymentsContainer";
 
-import { fetchPayments } from "../store/Payments/actions";
+import {
+  fetchPayments,
+  fetchLastInsertInvoice,
+  fetchLastInsertPattern
+} from "../store/Payments/actions";
 import { fetchCompanies } from "../store/Companies/actions";
 import { fetchContractors } from "../store/Contractors/actions";
 import CompaniesList from "../store/Companies/components/CompaniesList";
@@ -12,17 +16,24 @@ import ContractorsList from "../store/Contractors/components/ContractorsList";
 
 class Payments extends Component {
   componentDidMount() {
-    const { fetchCompanies, fetchContractors, fetchPayments } = this.props;
-    fetchPayments();
+    const {
+      fetchCompanies,
+      fetchContractors,
+      fetchPayments,
+      fetchLastInsertInvoice,
+      fetchLastInsertPattern
+    } = this.props;
+    fetchPayments({ paymentType: "Faktura" });
     fetchCompanies();
     fetchContractors();
+    fetchLastInsertInvoice();
+    fetchLastInsertPattern();
   }
   render() {
     return (
       <PaymentStyled>
         <CompaniesList />
         <ContractorsList />
-        <h1>Płatności</h1>
         <PaymentsContainer />
       </PaymentStyled>
     );
@@ -47,5 +58,7 @@ const PaymentStyled = styled.div`
 export default connect(null, {
   fetchCompanies,
   fetchContractors,
-  fetchPayments
+  fetchPayments,
+  fetchLastInsertInvoice,
+  fetchLastInsertPattern
 })(Payments);

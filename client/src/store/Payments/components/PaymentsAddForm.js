@@ -2,8 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 
-import isEmpty from "../../../common/is-empty";
-import { addPayment } from "../actions";
+import {
+  years,
+  months,
+  payment_types,
+  payment_methods,
+  payment_cycles
+} from "../../ini";
+import {
+  addPayment,
+  fetchLastInsertInvoice,
+  fetchLastInsertPattern
+} from "../actions";
 import { StyledPaymentForm } from "../styles/StyledPaymentForm";
 
 class PaymentsAddForm extends Component {
@@ -17,34 +27,12 @@ class PaymentsAddForm extends Component {
     );
     company = company[0];
 
-    // console.log("contractor", contractor);
-    // console.log("company", company[0]);
-
-    // _id: "5e4ea751b954ee1bfc306e2f"
-    // name: "konrahent nazwa"
-    // address: "konrahent adres"
-    // NIP: "konrahent nip"
-    // KRS: "konrahent krs"
-    // website: "konrahent website"
-    // phone: "telefon konrahent"
-    // fax: "konrahent fax"
-    // mail: "konrahent email"
-    // description: "konrahent opis"
-
-    //     _id: "5e4f6ffd87ee9612c86985c8"
-    // name: "Blumoseo"
-    // address: "dluga, 2"
-    // NIP: "fghr"
-    // website: "fgheh"
-    // phone: "444444"
-    // fax: "hreh"
-    // mail: "zbyszek@wp.pl"
-    // bankName: "rthre"
-    // bankAcount: "hrt"
-    // description: "herhr"
-
     this.state = {
-      paymentNumber: "12345",
+      paymentNumber: "",
+      paymentMonth: "",
+      paymentYear: "2020",
+      paymentCycle: "Miesięczna",
+      paymentType: "Wzór",
       companyName: company.name ? company.name : "",
       contractorName: contractor.name ? contractor.name : "",
       companyAddress: company.address ? company.address : "",
@@ -59,13 +47,12 @@ class PaymentsAddForm extends Component {
       companyBankName: company.bankName ? company.bankName : "",
       companyBankAcount: company.bankAcount ? company.bankAcount : "",
       description: "",
-      netValue: 123,
-      grossValue: 345,
+      netValue: "",
+      grossValue: "",
       status: "utworzona",
-      paymentMethod: "przelew",
-      termAt: null,
-      createdBy: loggedUser.name,
-      createdAt: "234"
+      paymentMethod: "Przelew",
+      termAt: "",
+      createdBy: loggedUser.name
     };
   }
   onChangeInput = event => {
@@ -77,13 +64,19 @@ class PaymentsAddForm extends Component {
   onChangeSelect = event => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
+      paymentNumber: document.getElementById("paymentNumber").value
     });
   };
   addHandler = event => {
     const { addPayment } = this.props;
     const {
       paymentNumber,
+      paymentMonth,
+      paymentYear,
+      paymentType,
+      paymentCycle,
+      paymentPattern,
       companyName,
       contractorName,
       companyAddress,
@@ -107,6 +100,11 @@ class PaymentsAddForm extends Component {
 
     const data = {
       paymentNumber,
+      paymentMonth,
+      paymentYear,
+      paymentType,
+      paymentCycle,
+      paymentPattern,
       companyName,
       contractorName,
       companyAddress,
@@ -128,14 +126,83 @@ class PaymentsAddForm extends Component {
       termAt,
       createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
     };
-
+    const { fetchLastInsertInvoice, fetchLastInsertPattern } = this.props;
     event.preventDefault();
-    console.log("component", data);
-    addPayment(data);
+    console.log("add form data", data);
+    const result = addPayment(data);
+    if (result) {
+      fetchLastInsertInvoice();
+      fetchLastInsertPattern();
+    }
+  };
+  patternInvoiceNumberGenerator = (
+    pattern = false,
+    invoice = false,
+    year = "",
+    month = ""
+  ) => {
+    const { lastInsertPattern, lastInsertInvoice } = this.props;
+    let number = [];
+    let str = "";
+
+    console.log("pattern", pattern);
+    console.log("invoice", invoice);
+    if (pattern) {
+      // generate next pattern number
+      let newNumber = 1;
+      if (lastInsertPattern) {
+        let lastPatternNumber = lastInsertPattern.paymentNumber;
+        let arr = lastPatternNumber.split("/");
+        let clearNumber = null;
+        console.log("arr", arr);
+        arr.forEach(value => {
+          if (value.includes("P")) {
+            clearNumber = parseInt(value.replace("P", ""));
+          }
+        });
+        newNumber = clearNumber + 1;
+      }
+      str = "P" + newNumber;
+      console.log("str", str);
+      number.push(str);
+    }
+    console.log("number", number);
+    if (invoice) {
+      // generate next invoice number
+      let newNumber = 1;
+      if (lastInsertInvoice) {
+        let lastInvoiceNumber = lastInsertInvoice.paymentNumber;
+        let arr = lastInvoiceNumber.split("/");
+        let clearNumber = null;
+        console.log("arr", arr);
+        arr.forEach(value => {
+          if (value.includes("I")) {
+            clearNumber = parseInt(value.replace("I", ""));
+          }
+        });
+        newNumber = clearNumber + 1;
+      }
+      str = "I" + newNumber;
+      console.log("str", str);
+      number.push(str);
+    }
+    if (month.length > 0) {
+      const monthSelected = months.filter(m => m.name === month);
+      number.push("M" + monthSelected[0].value);
+    }
+    if (year.length > 0) number.push("Y" + year);
+
+    number = number.join("/");
+
+    return number;
   };
   render() {
     const {
       paymentNumber,
+      paymentMonth,
+      paymentYear,
+      paymentType,
+      paymentCycle,
       companyName,
       contractorName,
       companyAddress,
@@ -153,11 +220,15 @@ class PaymentsAddForm extends Component {
       netValue,
       grossValue,
       paymentMethod,
-      termAt,
-      createdAt
+      termAt
     } = this.state;
 
-    console.log("state payment", this.state);
+    const number = this.patternInvoiceNumberGenerator(
+      paymentType === "Wzór" ? true : false,
+      paymentType === "Faktura" ? true : false,
+      paymentYear,
+      paymentMonth
+    );
 
     return (
       <StyledPaymentForm>
@@ -168,8 +239,9 @@ class PaymentsAddForm extends Component {
               <div className="payment-content">
                 <div className="form-group">
                   <input
+                    id="paymentNumber"
                     onChange={this.onChangeInput}
-                    value={paymentNumber}
+                    value={number ? number : paymentNumber}
                     type="text"
                     name="paymentNumber"
                     className="form-control"
@@ -177,6 +249,87 @@ class PaymentsAddForm extends Component {
                     title="Numer płatności Kontrahenta"
                     required
                   />
+                </div>
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    onChange={this.onChangeSelect}
+                    name="paymentMonth"
+                    required
+                  >
+                    <option value="">Wybierz miesiąc</option>
+                    {months
+                      ? months.map(item => {
+                          let option = "";
+                          option = (
+                            <option
+                              key={item._id}
+                              value={item.name}
+                              selected={
+                                item.name === paymentMonth ? "selected" : null
+                              }
+                            >
+                              {item.name}
+                            </option>
+                          );
+                          return option;
+                        })
+                      : null}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    onChange={this.onChangeSelect}
+                    name="paymentYear"
+                    required
+                  >
+                    <option value="">Wybierz rok</option>
+                    {years
+                      ? years.map(item => {
+                          let option = "";
+                          option = (
+                            <option
+                              key={item._id}
+                              value={item.name}
+                              defaultValue={
+                                item.name === paymentYear ? "selected" : null
+                              }
+                            >
+                              {item.name}
+                            </option>
+                          );
+                          return option;
+                        })
+                      : null}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    onChange={this.onChangeSelect}
+                    name="paymentType"
+                    required
+                  >
+                    <option value="">Wybierz rodzaj</option>
+                    {payment_types
+                      ? payment_types.map(item => {
+                          let option = "";
+                          option = (
+                            <option
+                              key={item._id}
+                              value={item.name}
+                              defaultValue={
+                                item.name === paymentType ? "selected" : null
+                              }
+                            >
+                              {item.name}
+                            </option>
+                          );
+                          return option;
+                        })
+                      : null}
+                  </select>
                 </div>
               </div>
             </div>
@@ -348,20 +501,116 @@ class PaymentsAddForm extends Component {
                     required
                   />
                 </div>
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    onChange={this.onChangeSelect}
+                    name="paymentMethod"
+                    required
+                  >
+                    <option value="">Wybierz metodę</option>
+                    {payment_methods
+                      ? payment_methods.map(item => {
+                          let option = "";
+                          option = (
+                            <option
+                              key={item._id}
+                              value={item.name}
+                              defaultValue={
+                                item.name === paymentMethod ? "selected" : null
+                              }
+                            >
+                              {item.name}
+                            </option>
+                          );
+                          return option;
+                        })
+                      : null}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    onChange={this.onChangeSelect}
+                    name="paymentCycle"
+                    required
+                  >
+                    <option value="">Wybierz cykl</option>
+                    {payment_cycles
+                      ? payment_cycles.map(item => {
+                          let option = "";
+                          option = (
+                            <option
+                              key={item._id}
+                              value={item.name}
+                              defaultValue={
+                                item.name === paymentCycle ? "selected" : null
+                              }
+                            >
+                              {item.name}
+                            </option>
+                          );
+                          return option;
+                        })
+                      : null}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <input
+                    onChange={this.onChangeInput}
+                    value={termAt}
+                    type="date"
+                    name="termAt"
+                    className="form-control"
+                    placeholder="Termin płatności"
+                    title="Termin płatności"
+                    required
+                  />
+                </div>
               </div>
             </div>
-
-            <div className="form-group description">
-              <textarea
-                onChange={this.onChangeInput}
-                type="text"
-                name="description"
-                className="form-control"
-                rows="5"
-                placeholder="Opis"
-                title="Opis"
-                required
-              />
+            <div className="group">
+              <div className="payment-content">
+                <div className="form-group description">
+                  <textarea
+                    onChange={this.onChangeInput}
+                    type="text"
+                    value={description}
+                    name="description"
+                    className="form-control"
+                    rows="5"
+                    placeholder="Opis"
+                    title="Opis"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="">Kwota netto</label>
+                  <input
+                    onChange={this.onChangeInput}
+                    value={netValue}
+                    type="text"
+                    name="netValue"
+                    className="form-control"
+                    placeholder="Kwota netto"
+                    title="Kwota netto"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="">Kwota brutto</label>
+                  <input
+                    onChange={this.onChangeInput}
+                    value={grossValue}
+                    type="text"
+                    name="grossValue"
+                    className="form-control"
+                    placeholder="Kwota brutto"
+                    title="Kwota brutto"
+                    required
+                  />
+                </div>
+              </div>
             </div>
             <div className="form-group add">
               <input
@@ -381,8 +630,14 @@ class PaymentsAddForm extends Component {
 const mapStateToProps = state => {
   return {
     loggedUser: state.users.logged_user,
-    companies: state.companies.companies
+    companies: state.companies.companies,
+    lastInsertInvoice: state.payments.lastInsertInvoice,
+    lastInsertPattern: state.payments.lastInsertPattern
   };
 };
 
-export default connect(mapStateToProps, { addPayment })(PaymentsAddForm);
+export default connect(mapStateToProps, {
+  addPayment,
+  fetchLastInsertInvoice,
+  fetchLastInsertPattern
+})(PaymentsAddForm);

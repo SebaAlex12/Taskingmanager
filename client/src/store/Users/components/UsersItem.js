@@ -6,6 +6,10 @@ import MailsAddForm from "../../Mails/components/MailsAddForm";
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
 import { updateFilter } from "../../Filters/actions";
 
+import { SmallerButton } from "../../../themes/basic";
+import { faEnvelope, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 class UsersItem extends Component {
   constructor(props) {
     super(props);
@@ -67,10 +71,12 @@ class UsersItem extends Component {
           {item.name}
         </div>
         <div className="edit-form">
-          <i
-            className="glyphicon glyphicon-envelope"
+          <SmallerButton
             onClick={() => this.showModal(true)}
-          ></i>
+            title="wyślij maila"
+          >
+            <FontAwesomeIcon icon={faEnvelope} />
+          </SmallerButton>
           {showModalTrigger ? (
             <ModalDialog
               title="Wyślij email"
@@ -84,23 +90,27 @@ class UsersItem extends Component {
           ) : null}
           {loggedUser.status === "Administrator" ? (
             <React.Fragment>
-              <i
-                className="glyphicon glyphicon-edit"
+              <SmallerButton
+                title="edytuj"
                 onClick={() =>
                   this.setState({ toggleEditForm: !toggleEditForm })
                 }
-              ></i>
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </SmallerButton>
               {toggleEditForm ? <UsersEditForm item={item} /> : null}
             </React.Fragment>
           ) : item.status !== "Administrator" &&
             item.name !== loggedUser.name ? (
             <React.Fragment>
-              <i
-                className="glyphicon glyphicon-edit"
+              <SmallerButton
+                title="edytuj"
                 onClick={() =>
                   this.setState({ toggleEditForm: !toggleEditForm })
                 }
-              ></i>
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </SmallerButton>
               {toggleEditForm ? <UsersEditForm item={item} /> : null}
             </React.Fragment>
           ) : null}
