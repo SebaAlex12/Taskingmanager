@@ -30,7 +30,7 @@ class PaymentsAddForm extends Component {
 
     this.state = {
       paymentNumber: "",
-      paymentMonth: "",
+      paymentMonth: "Styczeń",
       paymentYear: "2020",
       paymentCycle: "Miesięczna",
       paymentType: "Wzór",
@@ -164,14 +164,24 @@ class PaymentsAddForm extends Component {
     } = this.state;
     const { lastInsertInvoice, lastInsertPattern } = this.props;
 
-    const number = patternInvoiceNumberGenerator(
-      lastInsertPattern.paymentNumber,
-      lastInsertInvoice.paymentNumber,
-      paymentType === "Wzór" ? true : false,
-      paymentType === "Faktura" ? true : false,
-      paymentYear,
-      paymentMonth
-    );
+    let number = "";
+    const monthSelected = months.filter(m => m.name === paymentMonth);
+    // console.log("months", months);
+    // console.log("month selected", monthSelected[0].value);
+    if (paymentType === "Wzór" && lastInsertPattern === null) {
+      number = "P1/M" + monthSelected[0].value + "/Y" + paymentYear;
+    } else if (paymentType === "Faktura" && lastInsertInvoice === null) {
+      number = "I1/M" + monthSelected[0].value + "/Y" + paymentYear;
+    } else {
+      number = patternInvoiceNumberGenerator(
+        lastInsertPattern.paymentNumber,
+        lastInsertInvoice.paymentNumber,
+        paymentType === "Wzór" ? true : false,
+        paymentType === "Faktura" ? true : false,
+        paymentYear,
+        paymentMonth
+      );
+    }
 
     return (
       <StyledPaymentForm>
