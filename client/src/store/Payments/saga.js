@@ -3,6 +3,8 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import {
   FETCHING_PAYMENTS,
   FETCH_PAYMENTS_SUCCESS,
+  FETCHING_NOT_USED_PATTERNS,
+  FETCH_NOT_USED_PATTERNS_SUCCESS,
   FETCHING_LAST_INSERT_INVOICE,
   FETCH_LAST_INSERT_INVOICE_SUCCESS,
   FETCHING_LAST_INSERT_PATTERN,
@@ -75,6 +77,66 @@ export function* fetchPaymentsWatcher() {
 }
 
 //fdbsfbfdbdsbfdbdsbdbd
+
+function* fetchNotUsedPatternsAsync(action) {
+  console.log("eferfer", action);
+  try {
+    const graph = {
+      query: `
+        query {
+          fetchNotUsedPatterns(month: "${action.data.month}", year: "${action.data.year}"){
+            _id
+            paymentNumber
+            paymentMonth
+            paymentYear
+            paymentType
+            paymentCycle
+            companyName
+            contractorName
+            companyAddress
+            contractorAddress
+            companyNIP
+            contractorNIP
+            companyWebsite
+            companyPhone
+            contractorPhone
+            companyMail
+            contractorMail
+            companyBankName
+            companyBankAcount
+            description
+            netValue
+            grossValue
+            status
+            paymentMethod
+            termAt
+            createdAt
+          }
+        }
+    `
+    };
+    console.log("graph", JSON.stringify(graph));
+    const res = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    yield put({
+      type: FETCH_NOT_USED_PATTERNS_SUCCESS,
+      payload: res.data.data.fetchNotUsedPatterns
+    });
+  } catch (error) {
+    yield put({ type: PAYMENTS_ERROR, payload: error });
+  }
+}
+
+export function* fetchNotUsedPatternsWatcher() {
+  yield takeEvery(FETCHING_NOT_USED_PATTERNS, fetchNotUsedPatternsAsync);
+}
+
+//w rtbrttehtyejtrjty
 
 function* fetchLastInsertInvoiceAsync(action) {
   try {
@@ -188,8 +250,6 @@ function* fetchLastInsertPatternAsync(action) {
 export function* fetchLastInsertPatternWatcher() {
   yield takeEvery(FETCHING_LAST_INSERT_PATTERN, fetchLastInsertPatternAsync);
 }
-
-//wgwergegergegrege
 
 function* addPaymentAsync(action) {
   // try {
@@ -436,13 +496,35 @@ export function* updatePaymentWatcher() {
 }
 
 function* removePaymentAsync(action) {
-  try {
+  const paymentId = action.data;
+  const graph = {
+    query: `mutation {
+      removePayment(paymentId: "${paymentId}"){
+        _id
+      }
+    }`
+  };
+
+  const paymentData = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
+  const response = paymentData.data.data.removePayment;
+
+  if (response.errors) {
+    yield put({ type: PAYMENTS_ERROR, payload: response.errors });
     yield put({
-      type: REMOVE_PAYMENT_SUCCESS,
-      payload: action.paymentId
+      type: UPDATE_PAYMENT_SUCCESS,
+      payload: { errors: response.errors }
     });
-  } catch (error) {
-    yield put({ type: PAYMENTS_ERROR, payload: error });
+  } else {
+    yield put({ type: REMOVE_PAYMENT_SUCCESS, payload: response });
+    yield put({
+      type: UPDATE_PAYMENT_SUCCESS,
+      payload: { success: [{ message: "Płatność została usunięta" }] }
+    });
   }
 }
 

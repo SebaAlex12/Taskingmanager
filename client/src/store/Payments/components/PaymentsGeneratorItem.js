@@ -2,34 +2,71 @@ import React, { Component } from "react";
 import moment from "moment";
 
 import { Button } from "../../../themes/basic";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import { faFilePdf, faInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class PaymentsGeneratorItem extends Component {
-  showDetails = () => {
-    console.log("show details");
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedItem: false
+    };
+  }
+  onChangeSelectHandler = element => {
+    const {
+      itemSelectorHandler,
+      item: { _id }
+    } = this.props;
+    const { selectedItem } = this.state;
+    itemSelectorHandler(_id, !selectedItem);
+
+    this.setState({
+      ...this.state,
+      ...element
+    });
   };
   render() {
     const {
       item: {
-        _id,
         paymentType,
         paymentMonth,
         paymentCycle,
         paymentNumber,
+        companyName,
         contractorName,
+        companyAddress,
+        contractorAddress,
+        companyNIP,
+        contractorNIP,
+        companyWebsite,
+        companyPhone,
+        contractorPhone,
+        companyMail,
+        contractorMail,
+        companyBankName,
+        companyBankAcount,
+        description,
         netValue,
         grossValue,
         status,
+        paymentMethod,
+        createdBy,
         termAt,
         createdAt
       },
       item
     } = this.props;
 
+    const { selectedItem } = this.state;
+
     return (
       <tr>
-        <td>{paymentNumber}</td>
+        <td>
+          <Button title={description}>
+            <FontAwesomeIcon icon={faInfo} />
+          </Button>
+          {paymentNumber}
+        </td>
         <td>{contractorName}</td>
         <td>{paymentType}</td>
         <td>{status}</td>
@@ -40,9 +77,15 @@ class PaymentsGeneratorItem extends Component {
         <td>{netValue}</td>
         <td>{grossValue}</td>
         <td className="details">
-          <Button onClick={this.showDetails}>
-            <FontAwesomeIcon icon={faFilePdf} />
-          </Button>
+          <input
+            className="form-control"
+            type="checkbox"
+            name="selectedItem"
+            value={selectedItem}
+            onChange={() =>
+              this.onChangeSelectHandler({ selectedItem: !selectedItem })
+            }
+          />
         </td>
       </tr>
     );

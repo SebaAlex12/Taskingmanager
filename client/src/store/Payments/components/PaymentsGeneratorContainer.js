@@ -32,6 +32,10 @@ class PaymentsGeneratorContainer extends Component {
   };
   render() {
     const { year, month, showPaymentGeneratorModalTrigger } = this.state;
+    let alerts = [];
+    if (year.length < 1) alerts.push("musisz wybrać rok");
+    if (month.length < 1) alerts.push("musisz wybrać miesiąc");
+
     return (
       <div className="payments-generator-container-box">
         <PaymentsGeneratorSelectForm
@@ -46,7 +50,13 @@ class PaymentsGeneratorContainer extends Component {
             showModal={() => this.showPaymentGeneratorModal(false)}
             width="1270px"
           >
-            <PaymentsGeneratorList itemYear={year} itemMonth={month} />
+            {alerts.length > 0 ? (
+              alerts.map(alert => (
+                <div className="alert alert-danger">{alert}</div>
+              ))
+            ) : (
+              <PaymentsGeneratorList itemYear={year} itemMonth={month} />
+            )}
           </ModalDialog>
         ) : null}
       </div>

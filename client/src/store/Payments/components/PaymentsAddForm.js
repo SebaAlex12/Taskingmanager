@@ -9,6 +9,7 @@ import {
   payment_methods,
   payment_cycles
 } from "../../ini";
+import { patternInvoiceNumberGenerator } from "../common/functions";
 import {
   addPayment,
   fetchLastInsertInvoice,
@@ -135,67 +136,6 @@ class PaymentsAddForm extends Component {
       fetchLastInsertPattern();
     }
   };
-  patternInvoiceNumberGenerator = (
-    pattern = false,
-    invoice = false,
-    year = "",
-    month = ""
-  ) => {
-    const { lastInsertPattern, lastInsertInvoice } = this.props;
-    let number = [];
-    let str = "";
-
-    console.log("pattern", pattern);
-    console.log("invoice", invoice);
-    if (pattern) {
-      // generate next pattern number
-      let newNumber = 1;
-      if (lastInsertPattern) {
-        let lastPatternNumber = lastInsertPattern.paymentNumber;
-        let arr = lastPatternNumber.split("/");
-        let clearNumber = null;
-        console.log("arr", arr);
-        arr.forEach(value => {
-          if (value.includes("P")) {
-            clearNumber = parseInt(value.replace("P", ""));
-          }
-        });
-        newNumber = clearNumber + 1;
-      }
-      str = "P" + newNumber;
-      console.log("str", str);
-      number.push(str);
-    }
-    console.log("number", number);
-    if (invoice) {
-      // generate next invoice number
-      let newNumber = 1;
-      if (lastInsertInvoice) {
-        let lastInvoiceNumber = lastInsertInvoice.paymentNumber;
-        let arr = lastInvoiceNumber.split("/");
-        let clearNumber = null;
-        console.log("arr", arr);
-        arr.forEach(value => {
-          if (value.includes("I")) {
-            clearNumber = parseInt(value.replace("I", ""));
-          }
-        });
-        newNumber = clearNumber + 1;
-      }
-      str = "I" + newNumber;
-      console.log("str", str);
-      number.push(str);
-    }
-    if (month.length > 0) {
-      const monthSelected = months.filter(m => m.name === month);
-      number.push("M" + monthSelected[0].value);
-    }
-    if (year.length > 0) number.push("Y" + year);
-
-    number = number.join("/");
-
-    return number;
-  };
   render() {
     const {
       paymentNumber,
@@ -222,8 +162,11 @@ class PaymentsAddForm extends Component {
       paymentMethod,
       termAt
     } = this.state;
+    const { lastInsertInvoice, lastInsertPattern } = this.props;
 
-    const number = this.patternInvoiceNumberGenerator(
+    const number = patternInvoiceNumberGenerator(
+      lastInsertPattern.paymentNumber,
+      lastInsertInvoice.paymentNumber,
       paymentType === "Wzór" ? true : false,
       paymentType === "Faktura" ? true : false,
       paymentYear,

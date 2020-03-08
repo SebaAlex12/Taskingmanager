@@ -7,6 +7,10 @@ export const StyledPaymentContainer = styled.div`
     justify-content: space-between;
     padding: 5px 0px;
   }
+  .generator-box button {
+    display: block;
+    margin-left: auto;
+  }
   .payments-generator-container-box {
     position: relative;
   }

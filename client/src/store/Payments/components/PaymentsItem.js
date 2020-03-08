@@ -13,7 +13,12 @@ import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
 import PaymentsToPdfInvoice from "./PaymentsToPdfInvoice";
 
 import { Button, WarningButton } from "../../../themes/basic";
-import { faFilePdf, faTimes, faInfo } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFilePdf,
+  faTimes,
+  faInfo,
+  faPencilAlt
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class PaymentsItem extends Component {
@@ -93,7 +98,7 @@ class PaymentsItem extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
-    const { updatePayment, updateMessages } = this.props;
+    const { updatePayment } = this.props;
     const { _id } = this.state;
     const data = {
       _id,
@@ -101,54 +106,52 @@ class PaymentsItem extends Component {
     };
     const response = updatePayment(data);
   };
-  removePaymentHandler = (event, _id) => {
-    // const { removePayment } = this.props;
-    // const result = window.confirm("Czy napewno chcesz usunąć płatność ?");
-    // if (result === true) {
-    //   const response = removePayment(_id);
-    //   if (response) {
-    //     updateMessages([
-    //       { name: "Płatność" },
-    //       { value: event.target.name + " płatność została usunięta" }
-    //     ]);
-    //   }
-    // }
+  onchangeInputHandler = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+  removePaymentHandler = event => {
+    const { removePayment } = this.props;
+    const { _id } = this.state;
+    const result = window.confirm("Czy napewno chcesz usunąć płatność ?");
+    if (result === true) {
+      const response = removePayment(_id);
+      // if (response) {
+      //   updateMessages([
+      //     { name: "Płatność" },
+      //     { value: event.target.name + " płatność została usunięta" }
+      //   ]);
+      // }
+    }
+  };
+  onchangeElementSubmitHandler = element => {
+    const { updatePayment } = this.props;
+    const { _id } = this.state;
+    const data = {
+      _id,
+      ...element
+    };
+    const response = updatePayment(data);
   };
   render() {
+    const { item, loggedUser } = this.props;
     const {
-      item: {
-        _id,
-        paymentType,
-        paymentMonth,
-        paymentCycle,
-        paymentNumber,
-        companyName,
-        contractorName,
-        companyAddress,
-        contractorAddress,
-        companyNIP,
-        contractorNIP,
-        companyWebsite,
-        companyPhone,
-        contractorPhone,
-        companyMail,
-        contractorMail,
-        companyBankName,
-        companyBankAcount,
-        description,
-        netValue,
-        grossValue,
-        status,
-        paymentMethod,
-        createdBy,
-        termAt,
-        createdAt
-      },
-      item,
-      loggedUser
-    } = this.props;
-    // console.log("state pay item", this.state);
-    const { showPaymentToPdfModalTrigger } = this.state;
+      showPaymentToPdfModalTrigger,
+      _id,
+      paymentType,
+      paymentMonth,
+      paymentCycle,
+      paymentNumber,
+      contractorName,
+      description,
+      netValue,
+      grossValue,
+      status,
+      createdBy,
+      termAt,
+      createdAt
+    } = this.state;
     const statuses =
       paymentType === "Faktura"
         ? payment_invoice_statuses
@@ -220,8 +223,38 @@ class PaymentsItem extends Component {
           <td>{paymentMonth}</td>
           <td>{paymentType === "Faktura" ? termAt : "nie dotyczy"}</td>
           <td>{moment(createdAt).format("YYYY-MM-DD HH:mm:ss")}</td>
-          <td>{netValue}</td>
-          <td>{grossValue}</td>
+          <td>
+            <input
+              className="form-control input-price"
+              type="text"
+              name="netValue"
+              value={netValue}
+              onChange={this.onchangeInputHandler}
+            />
+            <Button
+              onClick={() =>
+                this.onchangeElementSubmitHandler({ netValue: netValue })
+              }
+            >
+              <FontAwesomeIcon icon={faPencilAlt} />
+            </Button>
+          </td>
+          <td>
+            <input
+              className="form-control input-price"
+              type="text"
+              name="grossValue"
+              value={grossValue}
+              onChange={this.onchangeInputHandler}
+            />
+            <Button
+              onClick={() =>
+                this.onchangeElementSubmitHandler({ grossValue: grossValue })
+              }
+            >
+              <FontAwesomeIcon icon={faPencilAlt} />
+            </Button>
+          </td>
           <td className="details">
             {paymentType === "Faktura" ? (
               <Button onClick={() => this.showPaymentToPdfModal(true)}>
@@ -237,14 +270,9 @@ class PaymentsItem extends Component {
                 <PaymentsToPdfInvoice item={item} />
               </ModalDialog>
             ) : null}
-            {loggedUser.name === createdBy ? (
-              <WarningButton
-                warning
-                onClick={() => this.removePaymentHandler(_id)}
-              >
-                <FontAwesomeIcon icon={faTimes} />
-              </WarningButton>
-            ) : null}
+            <WarningButton warning onClick={this.removePaymentHandler}>
+              <FontAwesomeIcon icon={faTimes} />
+            </WarningButton>
           </td>
         </tr>
       </React.Fragment>

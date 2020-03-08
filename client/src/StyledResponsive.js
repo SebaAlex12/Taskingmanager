@@ -4,6 +4,10 @@ export const StyledResponsive = styled.div`
   .App .container {
     width: 1270px;
   }
+  .input-price {
+    display: inline-block;
+    width: 65px;
+  }
   .overflow-div {
     overflow: auto;
     clear: both;

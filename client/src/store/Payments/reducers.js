@@ -1,5 +1,6 @@
 import {
   FETCH_PAYMENTS_SUCCESS,
+  FETCH_NOT_USED_PATTERNS_SUCCESS,
   FETCH_LAST_INSERT_INVOICE_SUCCESS,
   FETCH_LAST_INSERT_PATTERN_SUCCESS,
   ADD_PAYMENT_SUCCESS,
@@ -18,6 +19,11 @@ const initialState = {
 export const paymentsReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_PAYMENTS_SUCCESS:
+      return {
+        ...state,
+        payments: action.payload
+      };
+    case FETCH_NOT_USED_PATTERNS_SUCCESS:
       return {
         ...state,
         payments: action.payload
@@ -41,7 +47,7 @@ export const paymentsReducer = (state = initialState, action) => {
       return {
         ...state,
         payments: state.payments.filter(
-          payment => payment.id !== action.payload
+          payment => payment._id !== action.payload._id
         )
       };
     case UPDATE_PAYMENT_SUCCESS:

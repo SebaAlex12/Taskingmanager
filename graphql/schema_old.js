@@ -316,6 +316,7 @@ module.exports = buildSchema(`
         fetchCompanies: [Company]!
         fetchContractors: [Contractor]!
         fetchPayments(paymentInput: PaymentInputData): [Payment]!
+        fetchNotUsedPatterns(month: String, year: String): [Payment]!
         fetchLastInsertInvoice: Payment!
         fetchLastInsertPattern: Payment!
         fetchUsers: [User]!

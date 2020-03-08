@@ -9,6 +9,15 @@ module.exports = {
     let payment = await Payment.find(params);
     return payment;
   },
+  fetchNotUsedPatterns: async function({ month, year }) {
+    let params = {};
+    console.log("resolver month", month);
+    console.log("resolver year", year);
+    // params.paymentType = paymentInput.paymentType;
+
+    let payment = await Payment.find(params);
+    return payment;
+  },
   fetchLastInsertInvoice: async function() {
     let payment = await Payment.findOne({ paymentType: "Faktura" }, null, {
       sort: { paymentNumber: -1 }
@@ -158,9 +167,9 @@ module.exports = {
       return { errors: tools.formatErrors(e) };
     }
   },
-  removeContractor: async function({ paymentId }) {
+  removePayment: async function({ paymentId }) {
     try {
-      await Cotractor.deleteOne({ _id: paymentId });
+      await Payment.deleteOne({ _id: paymentId });
     } catch (e) {
       return { errors: tools.formatErrors(e) };
     }
