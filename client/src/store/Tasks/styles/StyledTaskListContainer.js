@@ -39,6 +39,9 @@ export const StyledTaskListContainer = styled.div`
   .task-items-box table tr:hover {
     background-color: rgba(128, 128, 128, 0.1);
   }
+  .task-items-box table .createdAt{
+    width:128px;
+  }
   .task-items-box table .details {
     text-align: left;
     width: 100px;

@@ -96,7 +96,7 @@ class ProjectsItem extends Component {
               />
             </ModalDialog>
           ) : null}
-          {loggedUser.status === "Administrator" ? (
+          {loggedUser.status === "Administrator" || loggedUser.status === "Menadżer" || loggedUser.status === "Pracownik" ? (
             <React.Fragment>
               <SmallerButton
                 title="edytuj"

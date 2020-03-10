@@ -127,7 +127,7 @@ class Tasks extends Component {
           </React.Fragment>
         ) : null}
         {loggedUser.status === "Administrator" ||
-        loggedUser.status === "Menedżer" ? (
+        loggedUser.status === "Menedżer" || loggedUser.status === "Pracownik" ? (
           <ProjectsList />
         ) : null}
         {loggedUser.status === "Administrator" ||

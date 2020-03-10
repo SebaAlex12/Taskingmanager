@@ -68,6 +68,7 @@ class ProjectsEditFrom extends Component {
   };
   render() {
     const { name, description, cms, ftp, panel } = this.state;
+    const { loggedUser } = this.props;
     return (
       <div className="project-update-form-box">
         <form action="">
@@ -149,14 +150,18 @@ class ProjectsEditFrom extends Component {
               title="Panel hasło"
             />
           </div>
-          <div className="form-group">
-            <input
-              onClick={this.updateHandler}
-              className="btn btn-primary float-right"
-              type="submit"
-              value="zapisz"
-            />
-          </div>
+          {
+            loggedUser.status === "Administrator" ? (
+              <div className="form-group">
+                <input
+                  onClick={this.updateHandler}
+                  className="btn btn-primary float-right"
+                  type="submit"
+                  value="zapisz"
+                />
+              </div>
+            ): null
+          }
         </form>
       </div>
     );

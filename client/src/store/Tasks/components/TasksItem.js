@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import moment from "moment";
+// import moment from "moment";
+import moment from "moment/min/moment-with-locales";
 
 import TasksMailReminder from "./TasksMailReminder";
 import { updateTask, removeTask } from "../actions";
@@ -427,11 +428,11 @@ class TasksItem extends Component {
                           <option
                             key={item._id}
                             value={item.name}
-                            // selected={
-                            //   item.name === responsiblePerson
-                            //     ? "selected"
-                            //     : null
-                            // }
+                            selected={
+                              item.name === responsiblePerson
+                                ? "selected"
+                                : null
+                            }
                           >
                             {item.name}
                           </option>
@@ -443,9 +444,9 @@ class TasksItem extends Component {
                 : null}
             </select>
           </td>
-          <td className="term">{moment(new Date(termAt)).format("D/M/Y")}</td>
+          <td className="term">{moment(new Date(termAt)).locale('pl').format('LLLL')}</td>
           <td className="createdAt">
-            {moment(new Date(createdAt)).format("D/M/Y")}
+            {moment(new Date(createdAt)).locale('pl').format('LLLL')}
           </td>
           <td className="details">
             <Button onClick={setActiveTaskHandler}>
