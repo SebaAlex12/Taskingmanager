@@ -37,6 +37,48 @@ const borderColor = theme.variants("mode", "variant", {
   warning: { light: "#dc3545", dark: "#9b2631" }
 });
 
+export const ListBox = styled.div`
+  position: fixed;
+  top: 50px;
+  left: 0px;
+  padding:5px;
+  background-color:#fff;
+  z-index: 100;
+  overflow-y: auto;
+  width: 300px;
+  display: flex;
+  flex-direction:column;
+  .filter-box .form-group{
+    
+  }
+  .item-box {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-bottom: 0px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .remove-filter {
+    position: fixed;
+    left: 240px;
+    top: 60px;
+    color: grey;
+    opacity: 0.5;
+    cursor: default;
+    z-index: 1000;
+  }
+  .remove-filter.active {
+    opacity: 1;
+    color: red;
+    cursor: pointer;
+  }
+  .title {
+    display: flex;
+    flex-direction: row;
+  }
+`;
+
 export const Button = styled.button`
   background-color: ${props =>
     props.active ? backgroundColorHover : backgroundColor};

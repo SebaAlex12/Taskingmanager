@@ -8,7 +8,7 @@ import MailsAddForm from "../../Mails/components/MailsAddForm";
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
 
 import { SmallerButton } from "../../../themes/basic";
-import { faEnvelope, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faEdit, faFilter } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class ProjectsItem extends Component {
@@ -64,21 +64,38 @@ class ProjectsItem extends Component {
 
     clazz_box =
       item.name === projectName
-        ? "btn btn-default selected"
-        : "btn btn-default";
+        ? "item-box selected"
+        : "item-box";
 
     return (
       <div className={clazz_box}>
-        <div className="title" onClick={this.updateFilterHandler}>
-          {item.name}
+        <div className="title">
+          <div className="name">
+            <span>{item.name}</span>
+          </div>
+          <div className="buttons">
+              <SmallerButton onClick={this.updateFilterHandler}>
+                <FontAwesomeIcon icon={faFilter} />
+              </SmallerButton>
+              <SmallerButton
+                onClick={() => this.showModal(true)}
+                title="wyślij maila"
+              >
+                <FontAwesomeIcon icon={faEnvelope} />
+              </SmallerButton>
+              {loggedUser.status === "Administrator" || loggedUser.status === "Menadżer" || loggedUser.status === "Pracownik" ? (
+              <SmallerButton
+                    title="edytuj"
+                    onClick={() =>
+                      this.setState({ toggleEditForm: !toggleEditForm })
+                    }
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </SmallerButton>
+              ):null}
+          </div>
         </div>
         <div className="edit-form">
-          <SmallerButton
-            onClick={() => this.showModal(true)}
-            title="wyślij maila"
-          >
-            <FontAwesomeIcon icon={faEnvelope} />
-          </SmallerButton>
           {showModalTrigger ? (
             <ModalDialog
               title="Wyślij email"
@@ -98,14 +115,6 @@ class ProjectsItem extends Component {
           ) : null}
           {loggedUser.status === "Administrator" || loggedUser.status === "Menadżer" || loggedUser.status === "Pracownik" ? (
             <React.Fragment>
-              <SmallerButton
-                title="edytuj"
-                onClick={() =>
-                  this.setState({ toggleEditForm: !toggleEditForm })
-                }
-              >
-                <FontAwesomeIcon icon={faEdit} />
-              </SmallerButton>
               {toggleEditForm ? <ProjectsEditForm item={item} /> : null}
             </React.Fragment>
           ) : null}

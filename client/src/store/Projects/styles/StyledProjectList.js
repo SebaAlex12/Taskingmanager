@@ -17,68 +17,12 @@ export const StyledProjectList = styled.div`
     right: auto;
     top: 0px;
   }
-  .projects-list {
-    position: fixed;
-    top: 42px;
-    left: 0px;
-    z-index: 100;
-    overflow-y: auto;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-  }
-  .projects-list > div {
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-bottom: 0px;
-    position: relative;
-  }
-  .projects-list > div .edit-form > i {
-    position: absolute;
-    right: 10px;
-    top: 8px;
-  }
-  .projects-list > div .edit-form > i.glyphicon-envelope {
-    right: 25px;
-  }
-  .projects-list > .form-group {
-    position: fixed;
-    width: 243px;
-    z-index: 100;
-  }
-  .projects-list .remove-filter {
-    position: fixed;
-    left: 220px;
-    top: 52px;
-    color: grey;
-    opacity: 0.5;
-    cursor: default;
-    z-index: 1000;
-  }
-  .projects-list > div:nth-child(3) {
-    margin-top: 34px;
-  }
-  .projects-list .remove-filter.active {
-    opacity: 1;
-    color: red;
-    cursor: pointer;
-  }
-  .projects-list > div.selected {
-    background-color: #e2e2e2;
-  }
-  .projects-list .title {
-    float: left;
-    padding-left: 5px;
-    padding-bottom: 5px;
-    width: 74%;
-    text-align: left;
-    height: 18px;
-  }
+  
   .projects-list form > .form-group:first-child {
     display: none;
   }
-  .projects-list form > .form-group {
-    position: relative;
+  .projects-list form > .form-group{
+    position:relative;
   }
   .projects-list .project-update-form-box form textarea {
     min-height: 420px;

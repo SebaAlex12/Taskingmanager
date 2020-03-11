@@ -17,72 +17,16 @@ export const StyledUserList = styled.div`
     right: auto;
     top: 0px;
   }
-  .users-list {
-    position: fixed;
-    top: 42px;
-    left: 0px;
-    z-index: 100;
-    overflow-y: auto;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-  }
-  .users-list > div {
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-bottom: 0px;
-    position: relative;
-  }
-  .users-list > div .edit-form > i {
-    position: absolute;
-    right: 10px;
-    top: 8px;
-  }
-  .users-list > div .edit-form > i.glyphicon-envelope {
-    right: 25px;
-  }
-  .users-list > .form-group {
-    position: fixed;
-    width: 243px;
-    z-index: 100;
-  }
-  .users-list .remove-filter {
-    position: fixed;
-    left: 220px;
-    top: 52px;
-    color: grey;
-    opacity: 0.5;
-    cursor: default;
-    z-index: 1000;
-  }
-  .users-list > div:nth-child(3) {
-    margin-top: 34px;
-  }
-  .users-list .remove-filter.active {
-    opacity: 1;
-    color: red;
-    cursor: pointer;
-  }
-  .users-list > div.selected {
-    background-color: #e2e2e2;
-  }
-  .users-list .title {
-    padding-left: 5px;
-    padding-bottom: 5px;
-    text-align: left;
-    float: left;
-    width: 74%;
-  }
   .users-list .status {
     background-color: grey;
     color: #fff;
     padding: 2px;
     border-radius: 10px;
     width: 18px;
-    display: inline-block;
     font-size: 10px;
     margin-right: 5px;
     text-align: center;
+    display: inline-block;
   }
   .users-list .status.admin {
     background-color: #c30101;
@@ -99,6 +43,22 @@ export const StyledUserList = styled.div`
   .users-list .user-update-form-box select[name="projects"],
   .users-list .user-update-form-box select[name="users"] {
     height: 150px;
+  }
+  .users-list .user-update-form-box .multi-checkboxes{
+    height:150px;
+    overflow-y:scroll;
+  }
+  .users-list .user-update-form-box .multi-checkboxes .checkbox-item{
+    display:flex;
+    flex-direction:row;
+    padding:2px;
+  }
+  .users-list .user-update-form-box .multi-checkboxes .checkbox-item input{
+    cursor:pointer;
+    padding:5px;
+  }
+  .users-list .user-update-form-box .multi-checkboxes .checkbox-item div{
+    cursor:auto;
   }
   .user-list-flow-box {
     position: fixed;

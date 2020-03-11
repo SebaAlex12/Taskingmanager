@@ -228,6 +228,7 @@ class UsersEditFrom extends Component {
               name="projects"
               multiple={true}
               value={this.state.projects}
+              id="chkveg"
               // defaultValue={this.state.projects}
               required
             >
@@ -250,6 +251,29 @@ class UsersEditFrom extends Component {
                   })
                 : null}
             </select>
+          </div>
+          <div className="form-group form-row multi-checkboxes">
+            <label>[Przypisz projekty]</label>
+            {projects
+                ? projects.map(project => {
+                    return (
+                      <div className="checkbox-item">
+                          <input type="checkbox"
+                            key={project._id}
+                            value={project.name}
+                            checked={
+                              this.state.projects.includes(project.name)
+                                ? "checked"
+                                : null
+                            }
+                          />
+                          <div>
+                          {project.name}
+                          </div>
+                      </div>                        
+                    );
+                  })
+                : null}            
           </div>
           <div className="form-group form-row">
             <select

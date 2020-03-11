@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { BiggerButton } from "../../../themes/basic";
+import TextFieldGroup from "../../../common/Forms/components/TextFieldGroup";
+
+import { BiggerButton, SmallerButton, ListBox } from "../../../themes/basic";
 import { StyledProjectList } from "../styles/StyledProjectList";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { removeProject, updateProject } from "../actions";
 import { updateFilter } from "../../Filters/actions";
@@ -128,27 +132,26 @@ class ProjectsList extends Component {
               }
             ></i>
             {toggleProjectsList ? (
-              <div
+              <ListBox
                 className="projects-list"
                 style={{ height: `${windowHeight}px` }}
               >
-                <i
-                  className="remove-filter glyphicon glyphicon-remove"
-                  onClick={this.toggleClassHandler}
-                ></i>
-                <div className="form-group">
-                  <input
-                    onChange={this.onChangeInput}
-                    value={projectFilterName}
-                    type="text"
-                    name="projectFilterName"
-                    className="form-control"
-                    placeholder="filtruj po nazwie"
-                    title="filtruj po nazwie"
+                <SmallerButton className="remove-filter" onClick={this.toggleClassHandler}>
+                  <FontAwesomeIcon icon={faTimes} />
+                </SmallerButton>
+                <div className="filter-box"> 
+                  <TextFieldGroup 
+                      onChange={this.onChangeInput}
+                      value={projectFilterName}
+                      type="text"
+                      name="projectFilterName"
+                      className="form-control"
+                      placeholder="filtruj po nazwie"
+                      title="filtruj po nazwie" 
                   />
                 </div>
                 {projectsContent}
-              </div>
+              </ListBox>
             ) : null}
           </div>
         </div>
