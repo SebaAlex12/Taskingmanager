@@ -75,7 +75,7 @@ class ProjectsItem extends Component {
           </div>
           <div className="buttons">
               <SmallerButton onClick={this.updateFilterHandler}>
-                <FontAwesomeIcon icon={faFilter} />
+                <FontAwesomeIcon title="filtruj po nazwie" icon={faFilter} />
               </SmallerButton>
               <SmallerButton
                 onClick={() => this.showModal(true)}

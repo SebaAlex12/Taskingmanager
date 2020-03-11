@@ -48,6 +48,20 @@ export const ListBox = styled.div`
   width: 300px;
   display: flex;
   flex-direction:column;
+  > div:nth-child(1){
+    margin-top:28px;
+  }
+  .title {
+    display: flex;
+    flex-direction: row;
+  }
+  .name{
+    width:170px;
+    text-align:left;
+  }
+  .items{
+    margin-top:40px;
+  }
   .item-box {
     padding-left: 0px;
     padding-right: 0px;
@@ -55,6 +69,15 @@ export const ListBox = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
+  }
+  .filter-box{
+    position: fixed;
+    width: 272px;
+    background-color: #fff;
+    z-index: 10;
+  }
+  .filter-box .form-group{
+    margin:0px;
   }
   .remove-filter {
     position: fixed;
@@ -69,10 +92,6 @@ export const ListBox = styled.div`
     opacity: 1;
     color: red;
     cursor: pointer;
-  }
-  .title {
-    display: flex;
-    flex-direction: row;
   }
 `;
 

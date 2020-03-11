@@ -136,7 +136,7 @@ class UsersList extends Component {
                 style={{ height: `${windowHeight}px` }}
               >
                 <SmallerButton className="remove-filter" onClick={this.toggleClassHandler}>
-                  <FontAwesomeIcon icon={faTimes} />
+                  <FontAwesomeIcon title="usuń filtrowanie" icon={faTimes} />
                 </SmallerButton>
                 <div className="filter-box">  
                   <TextFieldGroup 
@@ -149,7 +149,9 @@ class UsersList extends Component {
                       title="filtruj po nazwie" 
                   />
                 </div>
-                {usersContent}
+                <div className="items">
+                  {usersContent}
+                </div>
               </ListBox>
             ) : null}
           </div>
