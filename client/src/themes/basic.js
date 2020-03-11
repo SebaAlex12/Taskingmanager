@@ -48,9 +48,6 @@ export const ListBox = styled.div`
   width: 300px;
   display: flex;
   flex-direction:column;
-  .filter-box .form-group{
-    
-  }
   .item-box {
     padding-left: 0px;
     padding-right: 0px;
