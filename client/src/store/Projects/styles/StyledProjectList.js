@@ -6,7 +6,7 @@ export const StyledProjectList = styled.div`
     float: left;
     text-align: right;
     top: 0px;
-    right: 126px;
+    right: 150px;
     z-index: 11;
   }
   .flow-box.active > button {
@@ -17,12 +17,11 @@ export const StyledProjectList = styled.div`
     right: auto;
     top: 0px;
   }
-  
   .projects-list form > .form-group:first-child {
     display: none;
   }
-  .projects-list form > .form-group{
-    position:relative;
+  .projects-list form > .form-group {
+    position: relative;
   }
   .projects-list .project-update-form-box form textarea {
     min-height: 420px;
@@ -65,9 +64,9 @@ export const StyledProjectList = styled.div`
     margin-left: 4px;
     cursor: pointer;
     position: absolute;
-    z-index: 1000;
-    right: 5px;
-    top: 12px;
+    z-index: 100;
+    right: 10px;
+    top: 18px;
   }
   .project-list-flow-box .glyphicon-filter:before {
     color: grey;

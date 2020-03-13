@@ -30,7 +30,7 @@ class FiltersForm extends Component {
     // console.log("lll");
     const { updateFilter } = this.props;
     let { statuses, priorities, projectName, responsiblePerson } = this.state;
-    event.preventDefault();
+    // event.preventDefault();
     statuses.map(status => {
       if (status.name === event.target.name) {
         status.active = event.target.checked;
@@ -47,7 +47,7 @@ class FiltersForm extends Component {
   onChangePriorityHandler = event => {
     const { updateFilter } = this.props;
     let { statuses, priorities, projectName, responsiblePerson } = this.state;
-    event.preventDefault();
+    // event.preventDefault();
     priorities.map(priority => {
       if (priority.name === event.target.name) {
         priority.active = event.target.checked;
@@ -136,7 +136,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { updateFilter }
-)(FiltersForm);
+export default connect(mapStateToProps, { updateFilter })(FiltersForm);

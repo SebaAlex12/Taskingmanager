@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import TextFieldGroup from '../../../common/Forms/components/TextFieldGroup'
+import TextFieldGroup from "../../../common/Forms/components/TextFieldGroup";
 
 import { BiggerButton, SmallerButton, ListBox } from "../../../themes/basic";
 import { StyledUserList } from "../styles/StyledUserList";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTimes,
+  faArrowAltCircleDown
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { fetchUsers, removeUser, updateUser } from "../actions";
@@ -100,13 +103,15 @@ class UsersList extends Component {
             <div className={btn_clazz}>
               <BiggerButton
                 variant="primary"
+                title="Rozwiń formularz"
                 onClick={() =>
                   this.setState({
                     toggleRegistryForm: !toggleRegistryForm
                   })
                 }
               >
-                Dodaj użytkownika
+                <FontAwesomeIcon icon={faArrowAltCircleDown} />
+                <span>Dodaj użytkownika</span>
               </BiggerButton>
               {toggleRegistryForm ? <RegistryForm /> : null}
             </div>
@@ -114,13 +119,15 @@ class UsersList extends Component {
           <div className={btn_list_clazz}>
             <BiggerButton
               variant="primary"
+              title="Pokaż listę użytkowników"
               onClick={() =>
                 this.setState({
                   toggleUsersList: !toggleUsersList
                 })
               }
             >
-              Lista użytkowników
+              <FontAwesomeIcon icon={faArrowAltCircleDown} />
+              <span>Lista użytkowników</span>
             </BiggerButton>
             <i
               className={clazz}
@@ -135,23 +142,24 @@ class UsersList extends Component {
                 className="users-list"
                 style={{ height: `${windowHeight}px` }}
               >
-                <SmallerButton className="remove-filter" onClick={this.toggleClassHandler}>
+                <SmallerButton
+                  className="remove-filter"
+                  onClick={this.toggleClassHandler}
+                >
                   <FontAwesomeIcon title="usuń filtrowanie" icon={faTimes} />
                 </SmallerButton>
-                <div className="filter-box">  
-                  <TextFieldGroup 
-                      onChange={this.onChangeInput}
-                      value={userFilterName}
-                      type="text"
-                      name="userFilterName"
-                      className="form-control"
-                      placeholder="filtruj po nazwie"
-                      title="filtruj po nazwie" 
+                <div className="filter-box">
+                  <TextFieldGroup
+                    onChange={this.onChangeInput}
+                    value={userFilterName}
+                    type="text"
+                    name="userFilterName"
+                    className="form-control"
+                    placeholder="filtruj po nazwie"
+                    title="filtruj po nazwie"
                   />
                 </div>
-                <div className="items">
-                  {usersContent}
-                </div>
+                <div className="items">{usersContent}</div>
               </ListBox>
             ) : null}
           </div>

@@ -5,7 +5,11 @@ import TextFieldGroup from "../../../common/Forms/components/TextFieldGroup";
 
 import { BiggerButton, SmallerButton, ListBox } from "../../../themes/basic";
 import { StyledProjectList } from "../styles/StyledProjectList";
-import { faTimes, faFilter } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTimes,
+  faFilter,
+  faArrowAltCircleDown
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { removeProject, updateProject } from "../actions";
@@ -103,13 +107,15 @@ class ProjectsList extends Component {
             <div className={btn_clazz}>
               <BiggerButton
                 variant="primary"
+                title="Rozwiń formularz"
                 onClick={() =>
                   this.setState({
                     toggleProjectsAddForm: !toggleProjectsAddForm
                   })
                 }
               >
-                Dodaj projekt
+                <FontAwesomeIcon icon={faArrowAltCircleDown} />
+                <span>Dodaj projekt</span>
               </BiggerButton>
               {toggleProjectsAddForm ? <ProjectsAddForm /> : null}
             </div>
@@ -117,16 +123,15 @@ class ProjectsList extends Component {
           <div className={btn_list_clazz}>
             <BiggerButton
               variant="primary"
+              title="Pokaż listę projektów"
               onClick={() =>
                 this.setState({
                   toggleProjectsList: !toggleProjectsList
                 })
               }
             >
-              {/* <SmallerButton onClick={projectName !== "" ? this.removeProjectFilterNameHandler : null}> */}
-                  {/* <FontAwesomeIcon title="filtrowanie listy" icon={faFilter} /> */}
-                  <span>Lista projektów</span>
-              {/* </SmallerButton> */}
+              <FontAwesomeIcon icon={faArrowAltCircleDown} />
+              <span>Lista Projektów</span>
             </BiggerButton>
             <i
               className={clazz}
@@ -134,29 +139,29 @@ class ProjectsList extends Component {
                 projectName !== "" ? this.removeProjectFilterNameHandler : null
               }
             ></i>
-
             {toggleProjectsList ? (
               <ListBox
                 className="projects-list"
                 style={{ height: `${windowHeight}px` }}
               >
-                <SmallerButton className="remove-filter" onClick={this.toggleClassHandler}>
+                <SmallerButton
+                  className="remove-filter"
+                  onClick={this.toggleClassHandler}
+                >
                   <FontAwesomeIcon title="usuń filtrowanie" icon={faTimes} />
                 </SmallerButton>
-                <div className="filter-box"> 
-                  <TextFieldGroup 
-                      onChange={this.onChangeInput}
-                      value={projectFilterName}
-                      type="text"
-                      name="projectFilterName"
-                      className="form-control"
-                      placeholder="filtruj po nazwie"
-                      title="filtruj po nazwie" 
+                <div className="filter-box">
+                  <TextFieldGroup
+                    onChange={this.onChangeInput}
+                    value={projectFilterName}
+                    type="text"
+                    name="projectFilterName"
+                    className="form-control"
+                    placeholder="filtruj po nazwie"
+                    title="filtruj po nazwie"
                   />
                 </div>
-                <div className="items">
-                  {projectsContent}
-                </div>
+                <div className="items">{projectsContent}</div>
               </ListBox>
             ) : null}
           </div>

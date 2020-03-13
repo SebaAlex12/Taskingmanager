@@ -14,7 +14,11 @@ import {
 } from "../actions";
 import { updateFilter } from "../../Filters/actions";
 
-import { faSyncAlt, faLayerGroup } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSyncAlt,
+  faLayerGroup,
+  faArrowAltCircleDown
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class TasksListContainer extends Component {
@@ -271,13 +275,15 @@ class TasksListContainer extends Component {
             <div className={clazz}>
               <BiggerButton
                 variant="primary"
+                title="Rozwiń formularz"
                 onClick={() =>
                   this.setState({
                     toggleTasksAddForm: !toggleTasksAddForm
                   })
                 }
               >
-                Dodaj zadanie
+                <FontAwesomeIcon icon={faArrowAltCircleDown} />
+                <span>Dodaj zadanie</span>
               </BiggerButton>
               {toggleTasksAddForm ? <TaskAddForm /> : null}
             </div>

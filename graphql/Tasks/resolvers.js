@@ -25,7 +25,7 @@ module.exports = {
     if (taskInput.createdBy && taskInput.createdBy !== "undefined")
       params.createdBy = taskInput.createdBy;
 
-    let tasks = await Task.find(params);
+    let tasks = await Task.find(params).sort({ createdAt: -1 });
 
     const newTasks = tasks.map(async task => {
       let path = "./client/public/files/tasks/" + task._id;
@@ -62,13 +62,15 @@ module.exports = {
 
     // let tasks = await Task.find(params);
 
-    let tasks = await Task.find(params).or([
-      {
-        projectName: {
-          $in: pregmatch
+    let tasks = await Task.find(params)
+      .sort({ createdAt: -1 })
+      .or([
+        {
+          projectName: {
+            $in: pregmatch
+          }
         }
-      }
-    ]);
+      ]);
 
     // console.log("tasks", tasks);
 

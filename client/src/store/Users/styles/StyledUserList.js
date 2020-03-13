@@ -6,7 +6,7 @@ export const StyledUserList = styled.div`
     float: left;
     text-align: right;
     top: 0px;
-    right: 248px;
+    right: 296px;
     z-index: 12;
   }
   .users-box > .flow-box.active > button {
@@ -44,26 +44,26 @@ export const StyledUserList = styled.div`
   .users-list .user-update-form-box select[name="users"] {
     height: 150px;
   }
-  .users-list .user-update-form-box .multi-checkboxes{
-    height:150px;
-    overflow-y:scroll;
+  .users-list .user-update-form-box .multi-checkboxes {
+    height: 150px;
+    overflow-y: scroll;
   }
-  .users-list .user-update-form-box .multi-checkboxes .checkbox-item{
-    display:flex;
-    flex-direction:row;
-    padding:2px;
+  .users-list .user-update-form-box .multi-checkboxes .checkbox-item {
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
   }
-  .users-list .user-update-form-box .multi-checkboxes .checkbox-item input{
-    cursor:pointer;
-    padding:5px;
+  .users-list .user-update-form-box .multi-checkboxes .checkbox-item input {
+    cursor: pointer;
+    padding: 5px;
   }
-  .users-list .user-update-form-box .multi-checkboxes .checkbox-item div{
-    cursor:auto;
+  .users-list .user-update-form-box .multi-checkboxes .checkbox-item div {
+    cursor: auto;
   }
   .user-list-flow-box {
     position: fixed;
     top: 0px;
-    left: 136px;
+    left: 155px;
     z-index: 102;
   }
   .user-list-flow-box.active > button {
@@ -74,8 +74,8 @@ export const StyledUserList = styled.div`
     cursor: pointer;
     position: absolute;
     z-index: 100;
-    right: 5px;
-    top: 12px;
+    right: 10px;
+    top: 18px;
   }
   .user-list-flow-box .glyphicon-filter:before {
     color: grey;

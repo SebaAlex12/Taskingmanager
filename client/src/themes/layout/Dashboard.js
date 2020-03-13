@@ -58,11 +58,11 @@ class Dashboard extends Component {
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>
-        {loggedUser.status === "Administrator" ? (
+        {/* {loggedUser.status === "Administrator" ? (
           <Link className="btn btn-default" to="/payments">
             Płatności
           </Link>
-        ) : null}
+        ) : null} */}
         {/* <Link className="btn btn-default" to="/mails">
           Poczta
         </Link> */}

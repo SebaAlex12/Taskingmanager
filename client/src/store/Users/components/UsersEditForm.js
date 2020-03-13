@@ -15,23 +15,21 @@ class UsersEditFrom extends Component {
       password: "",
       status: "",
       company: "",
-      projects: [],
-      users: []
+      selectedProjects: [],
+      selectedUsers: []
     };
   }
   componentDidMount() {
-    const {
-      item: { _id, name, email, status, projects, company, users }
-    } = this.props;
+    const { item } = this.props;
 
     this.setState({
-      _id,
-      name,
-      email,
-      status,
-      company,
-      projects: projects ? projects.split(",") : [],
-      users: users ? users.split(",") : []
+      _id: item ? item._id : "",
+      name: item ? item.name : "",
+      email: item ? item.email : "",
+      status: item ? item.status : "",
+      company: item ? item.company : "",
+      selectedProjects: item ? item.projects.split(",") : [],
+      selectedUsers: item ? item.users.split(",") : []
     });
   }
   onChangeInput = event => {
@@ -46,15 +44,33 @@ class UsersEditFrom extends Component {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
-  onChangeMultiSelect = event => {
-    var options = event.target.options;
-    var value = [];
-    for (var i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    this.setState({ [event.target.name]: value });
+  onChangeUsersMultiCheckbox = event => {
+    let { selectedUsers } = this.state;
+
+    selectedUsers.includes(event.currentTarget.value)
+      ? (selectedUsers = selectedUsers.filter(
+          item => item !== event.currentTarget.value
+        ))
+      : selectedUsers.push(event.currentTarget.value);
+
+    this.setState({
+      ...this.state,
+      selectedUsers: selectedUsers
+    });
+  };
+  onChangeProjectsMultiCheckbox = event => {
+    let { selectedProjects } = this.state;
+
+    selectedProjects.includes(event.currentTarget.value)
+      ? (selectedProjects = selectedProjects.filter(
+          item => item !== event.currentTarget.value
+        ))
+      : selectedProjects.push(event.currentTarget.value);
+
+    this.setState({
+      ...this.state,
+      selectedProjects: selectedProjects
+    });
   };
   updateHandler = event => {
     const { updateUser, updateMessages } = this.props;
@@ -64,8 +80,8 @@ class UsersEditFrom extends Component {
       email,
       password,
       status,
-      projects,
-      users,
+      selectedProjects,
+      selectedUsers,
       company
     } = this.state;
 
@@ -76,8 +92,8 @@ class UsersEditFrom extends Component {
       password,
       status,
       company,
-      projects,
-      users
+      projects: selectedProjects,
+      users: selectedUsers
     };
 
     const response = updateUser(data);
@@ -90,33 +106,74 @@ class UsersEditFrom extends Component {
     event.preventDefault();
   };
   render() {
-    const { name, email, password, status, company } = this.state;
-    const { projects, companies, loggedUser } = this.props;
+    const {
+      name,
+      email,
+      password,
+      status,
+      company,
+      selectedProjects,
+      selectedUsers
+    } = this.state;
+    const { projects, users, companies, loggedUser } = this.props;
+    let projectContent = "";
+    let userContent = "";
 
-    console.log("user state", this.state);
-    // console.log("users", this.props.users);
-    // filter users compare to selected projects
-    let users;
+    // if (this.state.projects) {
+    //   users = this.props.users.filter(user => {
+    //     if (user.projects !== null) {
+    //       let userProjects = user.projects.split(",");
+    //       let isProject = false;
+    //       userProjects.forEach(project => {
+    //         if (this.state.projects.includes(project)) {
+    //           isProject = true;
+    //         }
+    //       });
 
-    if (this.state.projects) {
-      users = this.props.users.filter(user => {
-        if (user.projects !== null) {
-          let userProjects = user.projects.split(",");
-          let isProject = false;
-          userProjects.forEach(project => {
-            if (this.state.projects.includes(project)) {
-              isProject = true;
-            }
-          });
+    //       if (isProject) {
+    //         return user;
+    //       } else {
+    //         return null;
+    //       }
+    //     } else {
+    //       return null;
+    //     }
+    //   });
+    // }
 
-          if (isProject) {
-            return user;
-          } else {
-            return null;
-          }
-        } else {
-          return null;
-        }
+    if (projects) {
+      let counter = 1;
+      projectContent = projects.map(project => {
+        return (
+          <div className="checkbox-item" key={counter++}>
+            <input
+              type="checkbox"
+              name={project.name}
+              value={project.name}
+              onChange={this.onChangeProjectsMultiCheckbox}
+              checked={selectedProjects.includes(project.name)}
+            />
+            <div>{project.name}</div>
+          </div>
+        );
+      });
+    }
+
+    if (users) {
+      let counter = 1;
+      userContent = users.map(user => {
+        return (
+          <div className="checkbox-item" key={counter++}>
+            <input
+              type="checkbox"
+              name={user.name}
+              value={user.name}
+              onChange={this.onChangeUsersMultiCheckbox}
+              checked={selectedUsers.includes(user.name)}
+            />
+            <div>{user.name}</div>
+          </div>
+        );
       });
     }
 
@@ -217,88 +274,14 @@ class UsersEditFrom extends Component {
                 : null}
             </select>
           </div>
-          {/* {status === "Menedżer" ||
-          status === "Pracownik" ||
-          status === "Klient" ? (
-            <React.Fragment> */}
-          <div className="form-group form-row">
-            <select
-              className="form-control"
-              onChange={this.onChangeMultiSelect}
-              name="projects"
-              multiple={true}
-              value={this.state.projects}
-              id="chkveg"
-              // defaultValue={this.state.projects}
-              required
-            >
-              <option value="">[Przypisz projekty]</option>
-              {projects
-                ? projects.map(project => {
-                    return (
-                      <option
-                        key={project._id}
-                        value={project.name}
-                        selected={
-                          this.state.projects.includes(project.name)
-                            ? "selected"
-                            : null
-                        }
-                      >
-                        {project.name}
-                      </option>
-                    );
-                  })
-                : null}
-            </select>
+          <div className="form-group form-row multi-checkboxes">
+            <label>[Przypisz projekty]</label>
+            {projectContent}
           </div>
           <div className="form-group form-row multi-checkboxes">
             <label>[Przypisz projekty]</label>
-            {projects
-                ? projects.map(project => {
-                    return (
-                      <div className="checkbox-item">
-                          <input type="checkbox"
-                            key={project._id}
-                            value={project.name}
-                            checked={
-                              this.state.projects.includes(project.name)
-                                ? "checked"
-                                : null
-                            }
-                          />
-                          <div>
-                          {project.name}
-                          </div>
-                      </div>                        
-                    );
-                  })
-                : null}            
+            {userContent}
           </div>
-          <div className="form-group form-row">
-            <select
-              className="form-control"
-              onChange={this.onChangeMultiSelect}
-              name="users"
-              multiple={true}
-              value={this.state.users}
-              // defaultValue={this.state.users}
-              required
-            >
-              <option value="">[Przypisz osoby]</option>
-              {users
-                ? users.map(user => {
-                    return (
-                      <option key={user._id} value={user.name}>
-                        {user.name}
-                      </option>
-                    );
-                  })
-                : null}
-            </select>
-          </div>
-          {/* </React.Fragment>
-          ) : null} */}
           <div className="form-group">
             <input
               onClick={this.updateHandler}

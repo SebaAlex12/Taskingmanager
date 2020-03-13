@@ -418,6 +418,7 @@ class TasksItem extends Component {
               name="responsiblePerson"
               disabled={loggedUser.name !== createdBy ? "disabled" : null}
               value={responsiblePerson}
+              defaultValue={responsiblePerson}
               required
             >
               {users
@@ -428,11 +429,12 @@ class TasksItem extends Component {
                           <option
                             key={item._id}
                             value={item.name}
-                            selected={
-                              item.name === responsiblePerson
-                                ? "selected"
-                                : null
-                            }
+                            // defaultValue={item.name}
+                            // selected={
+                            //   item.name === responsiblePerson
+                            //     ? "selected"
+                            //     : null
+                            // }
                           >
                             {item.name}
                           </option>
@@ -444,9 +446,15 @@ class TasksItem extends Component {
                 : null}
             </select>
           </td>
-          <td className="term">{moment(new Date(termAt)).locale('pl').format('LLLL')}</td>
+          <td className="term">
+            {moment(new Date(termAt))
+              .locale("pl")
+              .format("LLLL")}
+          </td>
           <td className="createdAt">
-            {moment(new Date(createdAt)).locale('pl').format('LLLL')}
+            {moment(new Date(createdAt))
+              .locale("pl")
+              .format("LLLL")}
           </td>
           <td className="details">
             <Button onClick={setActiveTaskHandler}>
