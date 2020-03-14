@@ -24,8 +24,8 @@ class Payments extends Component {
       fetchLastInsertPattern
     } = this.props;
     fetchPayments({ paymentType: "Faktura" });
-    fetchCompanies();
-    fetchContractors();
+    // fetchCompanies();
+    // fetchContractors();
     fetchLastInsertInvoice();
     fetchLastInsertPattern();
   }
@@ -33,7 +33,7 @@ class Payments extends Component {
     return (
       <PaymentStyled>
         <CompaniesList />
-        <ContractorsList />
+        {/* <ContractorsList /> */}
         <PaymentsContainer />
       </PaymentStyled>
     );

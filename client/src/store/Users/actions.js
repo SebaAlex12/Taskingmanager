@@ -23,8 +23,9 @@ export const fetchLoggedUser = data => ({
   data
 });
 
-export const fetchUsers = () => ({
-  type: FETCHING_USERS
+export const fetchUsers = data => ({
+  type: FETCHING_USERS,
+  data
 });
 
 export const fetchUsersByLoggedUserProjects = data => ({

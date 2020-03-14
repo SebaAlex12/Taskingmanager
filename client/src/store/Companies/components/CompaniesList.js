@@ -63,9 +63,9 @@ class CompaniesList extends Component {
     let companies =
       this.state.companies > 0 ? this.state.companies : this.props.companies;
 
-    if (companies && companies.length > 0) {
-      companies = this.filterItems(companies);
-    }
+    // if (companies && companies.length > 0) {
+    //   companies = this.filterItems(companies);
+    // }
 
     const companiesContent = companies.map(company => {
       return <CompaniesItem item={company} key={company._id} />;
@@ -97,16 +97,19 @@ class CompaniesList extends Component {
             </div>
           ) : null}
           <div className={btn_list_clazz}>
-            <BiggerButton
-              variant="primary"
-              onClick={() =>
-                this.setState({
-                  toggleCompaniesList: !toggleCompaniesList
-                })
-              }
-            >
-              Lista firm
-            </BiggerButton>
+            {loggedUser.status === "SuperAdministrator" ? (
+              <BiggerButton
+                variant="primary"
+                onClick={() =>
+                  this.setState({
+                    toggleCompaniesList: !toggleCompaniesList
+                  })
+                }
+              >
+                Lista firm
+              </BiggerButton>
+            ) : null}
+
             {toggleCompaniesList ? (
               <div
                 className="companies-list"

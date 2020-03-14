@@ -56,10 +56,10 @@ if (localStorage.jwtTokenAuthorization) {
         logged
       })
     );
-    if (status === "Administrator") {
+    if (status === "SuperAdministrator") {
       store.dispatch(fetchUsers());
     } else {
-      store.dispatch(fetchUsersByLoggedUserProjects(projects));
+      store.dispatch(fetchUsers({ company: company }));
     }
     store.dispatch(fetchSettings());
   } else {

@@ -313,12 +313,12 @@ class TasksItem extends Component {
               termAt={termAt}
               mailRemainderData={mailRemainderData}
             />
-            <Button
+            {/* <Button
               onClick={() => this.showModalCalendar(true)}
               title="kalendarz"
             >
               <FontAwesomeIcon icon={faCalendarAlt} />
-            </Button>
+            </Button> */}
             {showModalCalendarTrigger ? (
               <ModalDialog
                 title="Kalendarz."

@@ -102,13 +102,6 @@ function* registerUserAsync(action) {
     { headers: { "Content-Type": "application/json" } }
   );
 
-  //   yield put({
-  //     type: REGISTER_USER_SUCCESS,
-  //     payload: res.data.data.createUser
-  //   });
-  // } catch (error) {
-  //   yield put({ type: USER_ERROR, payload: error });
-  // }
   const response = res.data.data.createUser;
   if (response.errors) {
     yield put({ type: USER_ERROR, payload: response.errors });
@@ -145,11 +138,12 @@ export function* fetchLoggedUserWatcher() {
 }
 
 function* fetchUsersAsync(action) {
+  const data = action.data;
   try {
     const graph = {
       query: `
         query {
-          fetchUsers{
+          fetchUsers(userInput:{company:"${data.company}"}){
             _id
             name
             email
@@ -266,13 +260,7 @@ function* updateUserAsync(action) {
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
-  //   yield put({
-  //     type: UPDATE_USER_SUCCESS,
-  //     payload: userData.data.data.updateUser
-  //   });
-  // } catch (error) {
-  //   yield put({ type: USER_ERROR, payload: error });
-  // }
+
   const response = userData.data.data.updateUser;
   if (response.errors) {
     yield put({ type: USER_ERROR, payload: response.errors });

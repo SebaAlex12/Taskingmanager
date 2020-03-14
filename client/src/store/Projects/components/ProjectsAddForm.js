@@ -15,6 +15,12 @@ class ProjectsAddForm extends Component {
       panel: ""
     };
   }
+  componentDidMount() {
+    const { loggedUser } = this.props;
+    this.setState({
+      company: loggedUser.company
+    });
+  }
   onChangeInput = event => {
     this.setState({
       ...this.state,
@@ -28,11 +34,12 @@ class ProjectsAddForm extends Component {
     });
   };
   addHandler = event => {
-    const { addProject } = this.props;
+    const { addProject, loggedUser } = this.props;
     const { name, description, cms, ftp, panel } = this.state;
 
     const data = {
       name,
+      company: loggedUser.company,
       description,
       cms,
       ftp,
@@ -40,7 +47,6 @@ class ProjectsAddForm extends Component {
     };
 
     event.preventDefault();
-
     addProject(data);
   };
   render() {

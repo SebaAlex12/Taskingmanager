@@ -40,24 +40,25 @@ export const StyledUserList = styled.div`
   .users-list .user-update-form-box form > .form-group:first-child {
     display: none;
   }
-  .users-list .user-update-form-box select[name="projects"],
-  .users-list .user-update-form-box select[name="users"] {
+  .users-box select[name="projects"],
+  .users-box select[name="users"] {
     height: 150px;
   }
-  .users-list .user-update-form-box .multi-checkboxes {
-    height: 150px;
+  .users-box .multi-checkboxes {
+    height: 250px;
     overflow-y: scroll;
+    text-align: center;
   }
-  .users-list .user-update-form-box .multi-checkboxes .checkbox-item {
+  .users-box .multi-checkboxes .checkbox-item {
     display: flex;
     flex-direction: row;
     padding: 2px;
   }
-  .users-list .user-update-form-box .multi-checkboxes .checkbox-item input {
+  .users-box .multi-checkboxes .checkbox-item input {
     cursor: pointer;
     padding: 5px;
   }
-  .users-list .user-update-form-box .multi-checkboxes .checkbox-item div {
+  .users-box .multi-checkboxes .checkbox-item div {
     cursor: auto;
   }
   .user-list-flow-box {

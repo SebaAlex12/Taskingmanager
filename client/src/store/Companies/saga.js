@@ -102,23 +102,23 @@ export function* fetchCompaniesByLoggedUserCompaniesWatcher() {
 }
 
 function* addCompanyAsync(action) {
-  // try {
-  const data = action.data;
-  const companyInput = {
-    name: data.name,
-    address: data.address,
-    NIP: data.NIP,
-    website: data.website,
-    phone: data.phone,
-    fax: data.fax,
-    mail: data.mail,
-    bankName: data.bankName,
-    bankAcount: data.bankAcount,
-    description: data.description
-  };
+  try {
+    const data = action.data;
+    const companyInput = {
+      name: data.name,
+      address: data.address,
+      NIP: data.NIP,
+      website: data.website,
+      phone: data.phone,
+      fax: data.fax,
+      mail: data.mail,
+      bankName: data.bankName,
+      bankAcount: data.bankAcount,
+      description: data.description
+    };
 
-  const graph = {
-    query: `mutation {
+    const graph = {
+      query: `mutation {
       addCompany(companyInput: {
       name: "${companyInput.name}",
       address: "${companyInput.address}",
@@ -140,35 +140,43 @@ function* addCompanyAsync(action) {
         mail,
         bankName,
         bankAcount,
-        description
-      }
+        description,
+        errors{
+          path
+          message
+        }
+      },
     }`
-  };
+    };
 
-  const companyData = yield call(
-    [axios, axios.post],
-    "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
-  );
+    const companyData = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
 
-  const response = companyData.data.data.addCompany;
-  console.log("saga resolver ", companyData);
-  if (response.errors) {
-    yield put({ type: COMPANIES_ERROR, payload: response.errors });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
-    });
-  } else {
-    yield put({
-      type: ADD_COMPANY_SUCCESS,
-      payload: response
-    });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Firma została dodana" }] }
-    });
+    const response = companyData.data.data.addCompany;
+
+    if (response.errors) {
+      yield put({ type: COMPANIES_ERROR, payload: response.errors });
+      yield put({
+        type: UPDATE_MESSAGES_SUCCESS,
+        payload: { errors: response.errors }
+      });
+    } else {
+      localStorage.setItem("companyName", response.name);
+      yield put({
+        type: ADD_COMPANY_SUCCESS,
+        payload: response
+      });
+      yield put({
+        type: UPDATE_MESSAGES_SUCCESS,
+        payload: { success: [{ message: "Firma została dodana" }] }
+      });
+    }
+  } catch (error) {
+    yield put({ type: COMPANIES_ERROR, payload: error });
   }
 }
 

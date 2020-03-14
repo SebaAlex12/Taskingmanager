@@ -36,6 +36,7 @@ class Dashboard extends Component {
   }
   logoutUserHandler = async () => {
     const { logoutUser } = this.props;
+    localStorage.removeItem("companyName");
     const reload = () => {
       window.location.href = "/";
     };
@@ -44,13 +45,16 @@ class Dashboard extends Component {
   };
   render() {
     const { loggedUser } = this.props;
+
     return (
       <div className="dashboard-box">
         {/* <Preloader /> */}
         <MessagesAlertList />
         <div className="logged-user">
           Witaj:{" "}
-          {loggedUser ? `${loggedUser.name} / ${loggedUser.status}` : null}
+          {loggedUser
+            ? `${loggedUser.name} / ${loggedUser.status} : [ firma: ${loggedUser.company}]`
+            : null}
         </div>
         <Link className="btn btn-default" to="/messenger">
           Komunikator
@@ -58,11 +62,11 @@ class Dashboard extends Component {
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>
-        {/* {loggedUser.status === "Administrator" ? (
+        {loggedUser.status === "Administrator" ? (
           <Link className="btn btn-default" to="/payments">
             Płatności
           </Link>
-        ) : null} */}
+        ) : null}
         {/* <Link className="btn btn-default" to="/mails">
           Poczta
         </Link> */}

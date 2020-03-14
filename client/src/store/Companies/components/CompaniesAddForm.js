@@ -32,7 +32,7 @@ class CompaniesAddForm extends Component {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
-  addHandler = event => {
+  addHandler = async event => {
     const { addCompany } = this.props;
     const {
       name,

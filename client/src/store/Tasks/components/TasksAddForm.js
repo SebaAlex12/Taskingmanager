@@ -104,9 +104,9 @@ class TasksAddForm extends Component {
           return user;
         }
       }
-      if (user.status === "Administrator") {
-        return user;
-      }
+      // if (user.status === "Administrator") {
+      //   return user;
+      // }
       return null;
     });
     // }
@@ -205,7 +205,7 @@ class TasksAddForm extends Component {
                 required
               >
                 <option value="">Przypisz do</option>
-                {users
+                {users && projectName.length > 0
                   ? users.map(user => {
                       let option = "";
                       // if (

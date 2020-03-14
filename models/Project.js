@@ -6,6 +6,10 @@ const ProjectSchema = new Schema({
     type: String,
     required: [true, "Nazwa projektu jest wymagana"]
   },
+  company: {
+    type: String,
+    required: [true, "Nazwa firmy jest wymagana"]
+  },
   description: {
     type: String
   },

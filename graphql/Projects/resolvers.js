@@ -3,8 +3,10 @@ const crypt = require("../../utils/crypt");
 const tools = require("../../utils/tools");
 
 module.exports = {
-  fetchProjects: async function() {
-    let projects = await Project.find(null, null, { sort: { name: 1 } });
+  fetchProjects: async function({ projectInput }) {
+    let projects = await Project.find(projectInput, null, {
+      sort: { name: 1 }
+    });
     // console.log("projects resolver", projects);
     projects = projects.map(project => {
       if (project.description && project.description.length > 1) {
@@ -66,6 +68,7 @@ module.exports = {
     // console.log("add project");
     const data = {
       name: projectInput.name,
+      company: projectInput.company,
       description:
         projectInput.description && projectInput.description.length > 1
           ? crypt.encrypt(projectInput.description)
@@ -119,6 +122,8 @@ module.exports = {
     const data = {
       _id: projectInput._id,
       name: projectInput.name !== "" ? projectInput.name : project.name,
+      company:
+        projectInput.company !== "" ? projectInput.company : project.company,
       description:
         projectInput.description.length > 1
           ? crypt.encrypt(projectInput.description)

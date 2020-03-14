@@ -19,6 +19,7 @@ module.exports = buildSchema(`
         bankName: String
         bankAcount: String
         description: String
+        errors: [Error]
     }
 
     type Contractor {
@@ -136,6 +137,7 @@ module.exports = buildSchema(`
     type Project {
         _id: ID
         name: String
+        company: String
         description: String
         cms: String
         ftp: String
@@ -146,14 +148,14 @@ module.exports = buildSchema(`
     input CompanyInputData {
         _id: ID
         name: String!
-        address: String!
-        NIP: String!
+        address: String
+        NIP: String
         website: String
         phone: String
         fax: String
         mail: String
-        bankName: String!
-        bankAcount: String!
+        bankName: String
+        bankAcount: String
         description: String
     }
 
@@ -201,10 +203,10 @@ module.exports = buildSchema(`
 
     input UserInputData {
         _id: String
-        name: String!
-        email: String!
+        name: String
+        email: String
         password: String
-        status: String!
+        status: String
         company: String
         projects: String
         users: String
@@ -267,6 +269,7 @@ module.exports = buildSchema(`
     input ProjectInputData {
         _id: String
         name: String
+        company: String
         description: String
         cms: String
         ftp: String
@@ -319,14 +322,14 @@ module.exports = buildSchema(`
         fetchNotUsedPatterns(month: String, year: String): [Payment]!
         fetchLastInsertInvoice: Payment
         fetchLastInsertPattern: Payment
-        fetchUsers: [User]!
+        fetchUsers(userInput: UserInputData): [User]!
         fetchUsersByLoggedUserProjects(projects: String): [User]!
         fetchSettings: Settings!
         fetchTasks(taskInput: TaskInputData): [Task]!
         fetchTasksByLoggedUserProjects(taskInput: TaskInputData, projects: String): [Task]!
         fetchComments(commentInput: CommentInputData): [Comment]!
         fetchMessengersByName(name: String): [Messenger]!
-        fetchProjects: [Project]!
+        fetchProjects(projectInput: ProjectInputData): [Project]!
         fetchMails: [Mail]!
         fetchProjectsByLoggedUserProjects(projects: String): [Project]!
     }

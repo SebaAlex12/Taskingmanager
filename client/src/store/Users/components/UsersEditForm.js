@@ -115,9 +115,18 @@ class UsersEditFrom extends Component {
       selectedProjects,
       selectedUsers
     } = this.state;
-    const { projects, users, companies, loggedUser } = this.props;
+    const { users, companies, loggedUser } = this.props;
+    let { projects } = this.props;
     let projectContent = "";
     let userContent = "";
+
+    if (projects && loggedUser) {
+      if (loggedUser.status !== "Administrator") {
+        projects = loggedUser.projects.split(",");
+      } else {
+        projects = projects.map(item => item.name);
+      }
+    }
 
     // if (this.state.projects) {
     //   users = this.props.users.filter(user => {
@@ -148,34 +157,34 @@ class UsersEditFrom extends Component {
           <div className="checkbox-item" key={counter++}>
             <input
               type="checkbox"
-              name={project.name}
-              value={project.name}
+              name={project}
+              value={project}
               onChange={this.onChangeProjectsMultiCheckbox}
-              checked={selectedProjects.includes(project.name)}
+              checked={selectedProjects.includes(project)}
             />
-            <div>{project.name}</div>
+            <div>{project}</div>
           </div>
         );
       });
     }
 
-    if (users) {
-      let counter = 1;
-      userContent = users.map(user => {
-        return (
-          <div className="checkbox-item" key={counter++}>
-            <input
-              type="checkbox"
-              name={user.name}
-              value={user.name}
-              onChange={this.onChangeUsersMultiCheckbox}
-              checked={selectedUsers.includes(user.name)}
-            />
-            <div>{user.name}</div>
-          </div>
-        );
-      });
-    }
+    // if (users) {
+    //   let counter = 1;
+    //   userContent = users.map(user => {
+    //     return (
+    //       <div className="checkbox-item" key={counter++}>
+    //         <input
+    //           type="checkbox"
+    //           name={user.name}
+    //           value={user.name}
+    //           onChange={this.onChangeUsersMultiCheckbox}
+    //           checked={selectedUsers.includes(user.name)}
+    //         />
+    //         <div>{user.name}</div>
+    //       </div>
+    //     );
+    //   });
+    // }
 
     return (
       <div
@@ -217,7 +226,7 @@ class UsersEditFrom extends Component {
               required
             />
           </div>
-          <div className="form-group form-row">
+          {/* <div className="form-group form-row">
             <select
               className="form-control"
               onChange={this.onChangeSelect}
@@ -236,7 +245,7 @@ class UsersEditFrom extends Component {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
           <div className="form-group form-row">
             <select
               className="form-control"
@@ -278,10 +287,10 @@ class UsersEditFrom extends Component {
             <label>[Przypisz projekty]</label>
             {projectContent}
           </div>
-          <div className="form-group form-row multi-checkboxes">
-            <label>[Przypisz projekty]</label>
+          {/* <div className="form-group form-row multi-checkboxes">
+            <label>[Przypisz użytkowników]</label>
             {userContent}
-          </div>
+          </div> */}
           <div className="form-group">
             <input
               onClick={this.updateHandler}

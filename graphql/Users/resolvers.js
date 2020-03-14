@@ -5,11 +5,9 @@ const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const tools = require("../../utils/tools");
-
 module.exports = {
-  fetchUsers: async function() {
-    const users = await User.find(null, null, { sort: { name: 1 } });
+  fetchUsers: async function({ userInput }) {
+    const users = await User.find(userInput, null, { sort: { name: 1 } });
     return users;
   },
   fetchUsersByLoggedUserProjects: async function({ projects }) {
@@ -30,20 +28,30 @@ module.exports = {
     //   throw err;
     // }
 
-    const userExists = await User.findOne({ email: userInput.email });
+    const mailExists = await User.findOne({ email: userInput.email });
 
-    if (userExists) {
-      const err = new Error("User email already exists");
-      throw err;
-      // return { errors: "User email already exists" };
+    if (mailExists) {
+      return {
+        errors: [
+          {
+            path: "Dodawanie użytkownika",
+            message: "Istnieje już email o podanej nazwie"
+          }
+        ]
+      };
     }
 
     const userNameExists = await User.findOne({ name: userInput.name });
 
     if (userNameExists) {
-      const err = new Error("User name already exists");
-      throw err;
-      // return { errors: "User name already exists" };
+      return {
+        errors: [
+          {
+            path: "Dodawanie użytkownika",
+            message: "Istnieje już użytkownik o podanej nazwie"
+          }
+        ]
+      };
     }
 
     const salt = bcrypt.genSaltSync(14);
@@ -65,27 +73,52 @@ module.exports = {
       const storedUser = await user.save();
       return { ...storedUser._doc, _id: storedUser._id.toString() };
     } catch (e) {
-      return { errors: tools.formatErrors(e) };
+      return {
+        errors: [
+          {
+            path: "dodawanie użytkownika",
+            message: e
+          }
+        ]
+      };
     }
   },
   loginUser: async function({ email, password }) {
     if (!email || !password) {
-      const err = new Error("You left input fields epmty");
-      throw err;
+      return {
+        errors: [
+          {
+            path: "Logowanie użytkownika",
+            message: "Email lub hasło nie zostało wprowadzone"
+          }
+        ]
+      };
     }
 
     const userData = await User.findOne({ email: email });
 
     if (!userData) {
-      const err = new Error("User does not exists");
-      throw err;
+      return {
+        errors: [
+          {
+            path: "Logowanie użytkownika",
+            message: "Użytkownik nie istnieje"
+          }
+        ]
+      };
     }
 
     const pass = await bcrypt.compare(password, userData.password);
 
     if (!pass) {
-      const err = new Error("Password incorrect");
-      throw err;
+      return {
+        errors: [
+          {
+            path: "Logowanie użytkownika",
+            message: "Podałeś niepoprawne hasło"
+          }
+        ]
+      };
     }
     // console.log("resolverlogin", userData);
     const token = await jwt.sign(
@@ -114,8 +147,14 @@ module.exports = {
   updateUser: async function({ userInput }, req) {
     // console.log("user input", userInput);
     if (!userInput.name || !userInput.email) {
-      const err = new Error("You left input fields epmty");
-      throw err;
+      return {
+        errors: [
+          {
+            path: "Aktualizacja danych użytkownika",
+            message: "Pozostawiłeś nazwę lub email pusty"
+          }
+        ]
+      };
     }
     const _id = userInput._id;
     const user = await User.findOne({ _id });
@@ -143,7 +182,14 @@ module.exports = {
       const storedUser = await user.save();
       return { ...storedUser._doc, _id: storedUser._id.toString() };
     } catch (e) {
-      return { errors: tools.formatErrors(e) };
+      return {
+        errors: [
+          {
+            path: "Aktualizacja danych użytkownika",
+            message: e
+          }
+        ]
+      };
     }
   }
 };

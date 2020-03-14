@@ -15,14 +15,17 @@ import {
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 
-function* fetchProjectsAsync() {
+function* fetchProjectsAsync(action) {
+  const data = action.data;
+  console.log("saga", data);
   try {
     const graph = {
       query: `
         query {
-          fetchProjects{
+          fetchProjects(projectInput:{company:"${data.company}"}){
             _id
             name
+            company
             description
             cms
             ftp
@@ -60,6 +63,7 @@ function* fetchProjectsByLoggedUserProjectsAsync(action) {
           fetchProjectsByLoggedUserProjects(projects:"${data}"){
             _id
             name
+            company
             description
             cms
             ftp
@@ -96,6 +100,7 @@ function* addProjectAsync(action) {
   const data = action.data;
   const projectInput = {
     name: data.name,
+    company: data.company,
     description: data.description,
     cms: data.cms,
     ftp: data.ftp,
@@ -106,12 +111,14 @@ function* addProjectAsync(action) {
     query: `mutation {
       addProject(projectInput: {
       name: "${projectInput.name}",
+      company: "${projectInput.company}",
       description: """${projectInput.description}""",
       cms: """${projectInput.cms}""",
       ftp: """${projectInput.ftp}""",
       panel: """${projectInput.panel}"""}){
         _id
         name
+        company
         description
         cms
         ftp
@@ -169,6 +176,7 @@ function* updateProjectAsync(action) {
   const projectInput = {
     _id: data._id,
     name: data.name ? data.name : "",
+    company: data.company ? data.company : "",
     description: data.description ? data.description : "",
     cms: data.cms ? data.cms : "",
     ftp: data.ftp ? data.ftp : "",
@@ -180,12 +188,14 @@ function* updateProjectAsync(action) {
       updateProject(projectInput: {
       _id: "${projectInput._id}",  
       name: "${projectInput.name}",
+      company: "${projectInput.company}",
       description: """${projectInput.description}""",
       cms: """${projectInput.cms}""",
       ftp: """${projectInput.ftp}""",
       panel: """${projectInput.panel}"""}){
         _id
         name
+        company
         description
         cms
         ftp

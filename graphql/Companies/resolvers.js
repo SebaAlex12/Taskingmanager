@@ -1,5 +1,4 @@
 const Company = require("../../models/Company");
-const tools = require("../../utils/tools");
 
 module.exports = {
   fetchCompanies: async function() {
@@ -9,9 +8,12 @@ module.exports = {
   addCompany: async function({ companyInput }, req) {
     const result = await Company.findOne({ name: companyInput.name });
     if (result) {
-      throw {
+      return {
         errors: [
-          { path: "name", message: "Istnieje już firma o podanej nazwie" }
+          {
+            path: "add company",
+            message: "Istnieje już firma o podanej nazwie"
+          }
         ]
       };
     }
@@ -33,7 +35,14 @@ module.exports = {
       const storedCompany = await company.save();
       return { ...storedCompany._doc, _id: storedCompany._id.toString() };
     } catch (e) {
-      return { errors: tools.formatErrors(e) };
+      return {
+        errors: [
+          {
+            path: "add company",
+            message: e
+          }
+        ]
+      };
     }
   },
   updateCompany: async function({ companyInput }, req) {
@@ -42,7 +51,7 @@ module.exports = {
 
     const data = {
       _id: companyInput._id,
-      name: companyInput.name ? companyInput.name : company.name,
+      name: company.name,
       address: companyInput.address ? companyInput.address : company.address,
       NIP: companyInput.NIP ? companyInput.NIP : company.NIP,
       website: companyInput.website ? companyInput.website : company.website,
@@ -68,14 +77,28 @@ module.exports = {
         _id: storedCompany._id.toString()
       };
     } catch (e) {
-      return { errors: tools.formatErrors(e) };
+      return {
+        errors: [
+          {
+            path: "update company",
+            message: e
+          }
+        ]
+      };
     }
   },
   removeCompany: async function({ companyId }) {
     try {
       await Company.deleteOne({ _id: companyId });
     } catch (e) {
-      return { errors: tools.formatErrors(e) };
+      return {
+        errors: [
+          {
+            path: "remove company",
+            message: e
+          }
+        ]
+      };
     }
     return { _id: companyId };
   }

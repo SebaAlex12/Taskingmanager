@@ -31,15 +31,17 @@ class Tasks extends Component {
       fetchProjects,
       fetchProjectsByLoggedUserProjects,
       fetchTasks,
-      loggedUser: { status, name, projects }
+      loggedUser: { status, name, projects, company }
     } = this.props;
 
     fetchFilters();
 
-    if (status === "Administrator") {
+    if (status === "SuperAdministrator") {
       fetchProjects();
       fetchContractors();
       fetchCompanies();
+    } else if (status === "Administrator" || status === "Menedżer") {
+      fetchProjects({ company: company });
     } else {
       fetchProjectsByLoggedUserProjects(projects);
     }
@@ -118,25 +120,32 @@ class Tasks extends Component {
   }
   render() {
     const { loggedUser } = this.props;
+    const insertedCompanyName = localStorage.getItem("companyName");
+    // console.log("local storage", insertedCompanyName);
     return (
       <div className="tasks-box">
-        {loggedUser.status === "Administrator" ? (
+        <div style={{ color: "red", fontWeight: "bold", fontSize: "14px" }}>
+          {insertedCompanyName
+            ? `Właśnie dodałeś firme o nazwie: "${insertedCompanyName}" dodaj użytkownika o statusie administrator i się na niego zaloguj !!!`
+            : null}
+        </div>
+        {loggedUser.status === "SuperAdministrator" ? (
           <React.Fragment>
             {/* <ContractorsList />
             <CompaniesList /> */}
           </React.Fragment>
         ) : null}
-        {loggedUser.status === "Administrator" ||
-        loggedUser.status === "Menedżer" || loggedUser.status === "Pracownik" ? (
+        {loggedUser.status !== "Klient" && !insertedCompanyName ? (
           <ProjectsList />
         ) : null}
-        {loggedUser.status === "Administrator" ||
+        {loggedUser.status === "SuperAdministrator" ||
+        loggedUser.status === "Administrator" ||
         loggedUser.status === "Menedżer" ? (
           <UsersList />
         ) : null}
         {/* <TasksList /> */}
         <FiltersContainer />
-        <TasksListContainer />
+        {!insertedCompanyName ? <TasksListContainer /> : null}
       </div>
     );
   }

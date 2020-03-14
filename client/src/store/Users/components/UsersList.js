@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { fetchUsers, removeUser, updateUser } from "../actions";
+import { removeUser, updateUser } from "../actions";
 import RegistryForm from "./RegistryForm";
 
 import { updateFilter } from "../../Filters/actions";
@@ -75,6 +75,9 @@ class UsersList extends Component {
     } = this.props;
     const { toggleRegistryForm, toggleUsersList, userFilterName } = this.state;
 
+    // check if someone created new company
+    const insertedCompanyName = localStorage.getItem("companyName");
+
     let users = this.state.users > 0 ? this.state.users : this.props.users;
 
     if (users && users.length > 0) {
@@ -117,26 +120,30 @@ class UsersList extends Component {
             </div>
           ) : null}
           <div className={btn_list_clazz}>
-            <BiggerButton
-              variant="primary"
-              title="Pokaż listę użytkowników"
-              onClick={() =>
-                this.setState({
-                  toggleUsersList: !toggleUsersList
-                })
-              }
-            >
-              <FontAwesomeIcon icon={faArrowAltCircleDown} />
-              <span>Lista użytkowników</span>
-            </BiggerButton>
-            <i
-              className={clazz}
-              onClick={
-                responsiblePerson !== ""
-                  ? this.removeProjectFilterResponsiblePersonHandler
-                  : null
-              }
-            ></i>
+            {!insertedCompanyName ? (
+              <React.Fragment>
+                <BiggerButton
+                  variant="primary"
+                  title="Pokaż listę użytkowników"
+                  onClick={() =>
+                    this.setState({
+                      toggleUsersList: !toggleUsersList
+                    })
+                  }
+                >
+                  <FontAwesomeIcon icon={faArrowAltCircleDown} />
+                  <span>Lista użytkowników</span>
+                </BiggerButton>
+                <i
+                  className={clazz}
+                  onClick={
+                    responsiblePerson !== ""
+                      ? this.removeProjectFilterResponsiblePersonHandler
+                      : null
+                  }
+                ></i>
+              </React.Fragment>
+            ) : null}
             {toggleUsersList ? (
               <ListBox
                 className="users-list"
@@ -178,7 +185,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  fetchUsers,
   removeUser,
   updateUser,
   updateFilter
