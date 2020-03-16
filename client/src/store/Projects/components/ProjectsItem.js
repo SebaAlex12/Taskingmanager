@@ -116,7 +116,7 @@ class ProjectsItem extends Component {
             </ModalDialog>
           ) : null}
           {loggedUser.status === "Administrator" ||
-          loggedUser.status === "Menadżer" ||
+          loggedUser.status === "Menedżer" ||
           loggedUser.status === "Pracownik" ? (
             <React.Fragment>
               {toggleEditForm ? <ProjectsEditForm item={item} /> : null}
