@@ -21,7 +21,7 @@ class UsersEditFrom extends Component {
   }
   componentDidMount() {
     const { item } = this.props;
-
+    console.log(item);
     this.setState({
       _id: item ? item._id : "",
       name: item ? item.name : "",
@@ -149,7 +149,7 @@ class UsersEditFrom extends Component {
     //     }
     //   });
     // }
-
+    // console.log("selected projects", selectedProjects);
     if (projects) {
       let counter = 1;
       projectContent = projects.map(project => {

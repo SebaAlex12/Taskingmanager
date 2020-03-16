@@ -40,9 +40,13 @@ class Tasks extends Component {
       fetchProjects();
       fetchContractors();
       fetchCompanies();
-    } else if (status === "Administrator" || status === "Menedżer") {
+    } else if (status === "Administrator") {
+      // console.log("by company");
       fetchProjects({ company: company });
+    } else if (status === "Menedżer") {
+      fetchProjectsByLoggedUserProjects(projects);
     } else {
+      // console.log("fetchProjectsByLoggedUserProjects", projects);
       fetchProjectsByLoggedUserProjects(projects);
     }
 
