@@ -24,7 +24,7 @@ export const StyledProjectList = styled.div`
     position: relative;
   }
   .projects-list .project-update-form-box form textarea {
-    min-height: 420px;
+    min-height: 220px;
   }
   .projects-list form .show-hide-button {
     position: absolute;
@@ -55,7 +55,7 @@ export const StyledProjectList = styled.div`
     position: fixed;
     top: 0px;
     left: 0px;
-    z-index: 101;
+    z-index: 100;
   }
   .project-list-flow-box.active > button {
     background-color: green;

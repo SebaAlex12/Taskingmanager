@@ -41,26 +41,26 @@ export const ListBox = styled.div`
   position: fixed;
   top: 50px;
   left: 0px;
-  padding:5px;
-  background-color:#fff;
+  padding: 5px;
+  background-color: #fff;
   z-index: 100;
-  overflow-y: auto;
+  overflow-y: scroll;
   width: 300px;
   display: flex;
-  flex-direction:column;
-  > div:nth-child(1){
-    margin-top:28px;
+  flex-direction: column;
+  > div:nth-child(1) {
+    margin-top: 28px;
   }
   .title {
     display: flex;
     flex-direction: row;
   }
-  .name{
-    width:170px;
-    text-align:left;
+  .name {
+    width: 170px;
+    text-align: left;
   }
-  .items{
-    margin-top:40px;
+  .items {
+    margin-top: 40px;
   }
   .item-box {
     padding-left: 0px;
@@ -70,14 +70,14 @@ export const ListBox = styled.div`
     display: flex;
     flex-direction: column;
   }
-  .filter-box{
+  .filter-box {
     position: fixed;
     width: 272px;
     background-color: #fff;
     z-index: 10;
   }
-  .filter-box .form-group{
-    margin:0px;
+  .filter-box .form-group {
+    margin: 0px;
   }
   .remove-filter {
     position: fixed;

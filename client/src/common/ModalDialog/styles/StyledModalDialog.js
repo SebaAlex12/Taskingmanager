@@ -15,7 +15,7 @@ export const StyledModalDialog = styled.div`
     margin-right: auto;
     color: #000;
     font-size: 16px;
-    margin-top: 10px;
+    margin-top: 60px;
     background-color: #fff;
     padding: 30px;
   }

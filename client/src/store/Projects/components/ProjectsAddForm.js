@@ -77,7 +77,7 @@ class ProjectsAddForm extends Component {
                 required
               />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <input
                 onChange={this.onChangeInput}
                 type="text"
@@ -106,7 +106,7 @@ class ProjectsAddForm extends Component {
                 placeholder="Panel hasło"
                 title="Panel hasło"
               />
-            </div>
+            </div> */}
             <div className="form-group">
               <input
                 onClick={this.addHandler}

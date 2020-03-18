@@ -102,7 +102,7 @@ class ProjectsEditFrom extends Component {
               title="Opis"
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <i
               className="show-hide-button glyphicon glyphicon-eye-open"
               onClick={this.toggleClassHandler}
@@ -149,19 +149,17 @@ class ProjectsEditFrom extends Component {
               placeholder="Panel hasło"
               title="Panel hasło"
             />
-          </div>
-          {
-            loggedUser.status === "Administrator" ? (
-              <div className="form-group">
-                <input
-                  onClick={this.updateHandler}
-                  className="btn btn-primary float-right"
-                  type="submit"
-                  value="zapisz"
-                />
-              </div>
-            ): null
-          }
+          </div> */}
+          {loggedUser.status === "Administrator" ? (
+            <div className="form-group">
+              <input
+                onClick={this.updateHandler}
+                className="btn btn-primary float-right"
+                type="submit"
+                value="zapisz"
+              />
+            </div>
+          ) : null}
         </form>
       </div>
     );
