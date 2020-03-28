@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect, ReactReduxContext } from "react-redux";
 import { Route, Link } from "react-router-dom";
-import io from "socket.io-client";
+// import io from "socket.io-client";
+import { socket } from "../../store/ini";
 
 import { logoutUser } from "../../store/Users/actions";
 import Tasks from "../../root/Tasks";
@@ -22,18 +23,18 @@ class Dashboard extends Component {
 
     // const port = process.env.PORT || 5000;
     // console.log("port", port);
-    if (!this.socket) {
-      this.socket = io();
-      this.socket.on("chat", function(msg) {
-        let users = msg.to.split(",");
-        if (users.includes(loggedUser.name)) {
-          updateMessenger(msg);
-          if (msg.from !== loggedUser.name) {
-            updateAlertMessages({ type: "messenger", data: msg });
-          }
+    // if (!this.socket) {
+    // this.socket = io();
+    socket.on("chat", function(msg) {
+      let users = msg.to.split(",");
+      if (users.includes(loggedUser.name)) {
+        updateMessenger(msg);
+        if (msg.from !== loggedUser.name) {
+          updateAlertMessages({ type: "messenger", data: msg });
         }
-      });
-    }
+      }
+    });
+    // }
   }
   logoutUserHandler = async () => {
     const { logoutUser } = this.props;

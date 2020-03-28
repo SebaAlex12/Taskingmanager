@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
-import io from "socket.io-client";
+// import io from "socket.io-client";
+import { socket } from "../../ini";
 
 import { StyledMessengersForm } from "../styles/StyledMessengersForm";
 import { addMessenger } from "../actions";
@@ -9,13 +10,9 @@ import { addMessenger } from "../actions";
 class MessengersAddForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       message: ""
     };
-    if (!this.socket) {
-      this.socket = io();
-    }
   }
 
   onChangeInput = event => {
@@ -44,7 +41,7 @@ class MessengersAddForm extends Component {
       type: "msg_add",
       createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
     };
-    this.socket.emit("chat", data);
+    socket.emit("chat", data);
     addMessenger(data);
     this.setState({
       message: ""

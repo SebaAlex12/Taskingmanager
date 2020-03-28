@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
 import { StyledMessagesList } from "../styles/StyledMessagesList";
 import { updateMessages } from "../actions";
@@ -9,9 +9,9 @@ class MessagesList extends Component {
   constructor(props) {
     super(props);
 
-    if (!this.socket) {
-      this.socket = io();
-    }
+    // if (!this.socket) {
+    //   this.socket = io();
+    // }
   }
   componentDidUpdate() {
     const { messages } = this.props;

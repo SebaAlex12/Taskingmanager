@@ -121,7 +121,7 @@ io.on("connection", function(socket) {
 
   if (!existingSocket) {
     activeSockets.push(socket.id);
-    console.log("existing socket", existingSocket);
+
     socket.emit("update-user-list", {
       users: activeSockets.filter(
         existingSocket => existingSocket !== socket.id
