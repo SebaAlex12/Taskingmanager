@@ -103,11 +103,62 @@ const server = http
   .listen(port, () => console.log(`server running on port ${port}`));
 
 const io = socketIo(server);
+let connections = [];
 
 io.on("connection", function(socket) {
-  // console.log("user connected");
-  socket.on("chat:message", function(msg) {
-    io.emit("chat:message", msg);
+  let activeSockets = [];
+
+  connections.push(socket);
+  console.log("socket connections", connections.length);
+
+  socket.on("chat", function(msg) {
+    io.emit("chat", msg);
+  });
+
+  const existingSocket = activeSockets.find(
+    existingSocket => existingSocket === socket.id
+  );
+
+  if (!existingSocket) {
+    activeSockets.push(socket.id);
+    console.log("existing socket", existingSocket);
+    socket.emit("update-user-list", {
+      users: activeSockets.filter(
+        existingSocket => existingSocket !== socket.id
+      )
+    });
+
+    socket.broadcast.emit("update-user-list", {
+      users: [socket.id]
+    });
+  }
+
+  console.log("socket", socket.id);
+  //console.log("active sockets", activeSockets);
+  //console.log("existing socket", existingSocket);
+
+  socket.on("call-user", data => {
+    socket.to(data.to).emit("call-made", {
+      offer: data.offer,
+      socket: socket.id
+    });
+  });
+
+  socket.on("make-answer", data => {
+    socket.to(data.to).emit("answer-made", {
+      socket: socket.id,
+      answer: data.answer
+    });
+  });
+  socket.on("disconnect", () => {
+    let dfggd = activeSockets.filter(
+      existingSocket => existingSocket !== socket.id
+    );
+    socket.broadcast.emit("remove-user", {
+      socketId: socket.id
+    });
+    connections.splice(connections.indexOf(socket), 1);
+    console.log("Disconnected: sockets connected", connections.length);
   });
 });
 

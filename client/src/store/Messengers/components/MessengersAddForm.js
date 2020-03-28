@@ -44,7 +44,7 @@ class MessengersAddForm extends Component {
       type: "msg_add",
       createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
     };
-    this.socket.emit("chat:message", data);
+    this.socket.emit("chat", data);
     addMessenger(data);
     this.setState({
       message: ""

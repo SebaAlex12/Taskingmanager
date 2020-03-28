@@ -17,9 +17,9 @@ class MessagesList extends Component {
     const { messages } = this.props;
     this.reloadInfo();
 
-    if (messages.alert) {
-      this.socket.emit("chat:message", messages.alert);
-    }
+    // if (messages.alert) {
+    //   this.socket.emit("chat", messages.alert);
+    // }
   }
   reloadInfo() {
     var messagesBox = document.getElementById("messages");

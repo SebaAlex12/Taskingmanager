@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import { connect, ReactReduxContext } from "react-redux";
 import { Route, Link } from "react-router-dom";
 import io from "socket.io-client";
 
@@ -9,6 +9,7 @@ import Payments from "../../root/Payments";
 import Messengers from "../../root/Messengers";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
+import Interview from "../../store/Cameras/components/Interview";
 
 // import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
@@ -23,7 +24,7 @@ class Dashboard extends Component {
     // console.log("port", port);
     if (!this.socket) {
       this.socket = io();
-      this.socket.on("chat:message", function(msg) {
+      this.socket.on("chat", function(msg) {
         let users = msg.to.split(",");
         if (users.includes(loggedUser.name)) {
           updateMessenger(msg);
@@ -63,9 +64,14 @@ class Dashboard extends Component {
           Zadania
         </Link>
         {loggedUser.status === "Administrator" ? (
-          <Link className="btn btn-default" to="/payments">
-            Płatności
-          </Link>
+          <React.Fragment>
+            <Link className="btn btn-default" to="/payments">
+              Płatności
+            </Link>
+            <Link className="btn btn-default" to="/cameras">
+              Kamery
+            </Link>
+          </React.Fragment>
         ) : null}
         {/* <Link className="btn btn-default" to="/mails">
           Poczta
@@ -78,6 +84,7 @@ class Dashboard extends Component {
           <Route exact path="/" component={Tasks} />
           <Route exact path="/messenger" component={Messengers} />
           <Route exact path="/mails" component={MailsListContainer} />
+          <Route exact path="/cameras" component={Interview} />
           {loggedUser.status === "Administrator" ? (
             <Route exact path="/payments" component={Payments} />
           ) : null}
