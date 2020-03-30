@@ -111,22 +111,45 @@ class Interview extends Component {
     });
   }
   render() {
-    navigator.getUserMedia(
-      { video: { width: 460, height: 320 }, audio: true },
-      // { video: false, audio: true },
-      stream => {
+    // navigator.mediaDevices.getUserMedia(
+    //   { video: { width: 460, height: 320 }, audio: true },
+    //   // { video: false, audio: true },
+    //   stream => {
+    //     const localVideo = document.getElementById("local-video");
+    //     stream
+    //       .getTracks()
+    //       .forEach(track => peerConnection.addTrack(track, stream));
+    //     if (localVideo) {
+    //       localVideo.srcObject = stream;
+    //     }
+    //   },
+    //   error => {
+    //     console.warn(error.message);
+    //   }
+    // );
+    // Prefer camera resolution nearest to 1280x720.
+    var constraints = { audio: true, video: { width: 1280, height: 720 } };
+
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then(function(mediaStream) {
         const localVideo = document.getElementById("local-video");
-        stream
+        mediaStream
           .getTracks()
-          .forEach(track => peerConnection.addTrack(track, stream));
+          .forEach(track => peerConnection.addTrack(track, mediaStream));
         if (localVideo) {
-          localVideo.srcObject = stream;
+          localVideo.srcObject = mediaStream;
         }
-      },
-      error => {
-        console.warn(error.message);
-      }
-    );
+
+        // const localVideo = document.getElementById("local-video");
+        // localVideo.srcObject = mediaStream;
+        // localVideo.onloadedmetadata = function(e) {
+        //   localVideo.play();
+        // };
+      })
+      .catch(function(err) {
+        console.log(err.name + ": " + err.message);
+      });
     return (
       <StyledInterview>
         <div className="active-users-panel" id="active-user-container">
