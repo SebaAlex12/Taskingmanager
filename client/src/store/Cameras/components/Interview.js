@@ -132,20 +132,14 @@ class Interview extends Component {
 
     navigator.mediaDevices
       .getUserMedia(constraints)
-      .then(function(mediaStream) {
+      .then(function(stream) {
         const localVideo = document.getElementById("local-video");
-        mediaStream
+        stream
           .getTracks()
-          .forEach(track => peerConnection.addTrack(track, mediaStream));
+          .forEach(track => peerConnection.addTrack(track, stream));
         if (localVideo) {
-          localVideo.srcObject = mediaStream;
+          localVideo.srcObject = stream;
         }
-
-        // const localVideo = document.getElementById("local-video");
-        // localVideo.srcObject = mediaStream;
-        // localVideo.onloadedmetadata = function(e) {
-        //   localVideo.play();
-        // };
       })
       .catch(function(err) {
         console.log(err.name + ": " + err.message);
