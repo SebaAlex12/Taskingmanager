@@ -9,9 +9,10 @@ class MessengersUsersList extends Component {
     const { filterSelectedUsersHandler } = this.props;
     let { selectedUsers, selectedChannelId } = this.props;
     let n = 0;
+
     const usersContent = selectedUsers
       ? selectedUsers
-          .map(user => {
+          .map((user) => {
             return (
               <MessengersUsersItem
                 item={user}
@@ -31,7 +32,7 @@ class MessengersUsersList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {};
 };
 

@@ -195,8 +195,7 @@ export const StyledMessengersContainer = styled.div`
     border: 1px solid #c4c4c4;
     color: #4c4c4c;
     font-size: 15px;
-    min-height: 35px;
-    width: 100%;
+    // width: 100%;
   }
 
   .type_msg {

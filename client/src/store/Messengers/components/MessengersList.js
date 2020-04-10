@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import MessengersItem from "./MessengersItem";
 // import { Button } from "../../../themes/basic";
 import MessengersAddForm from "./MessengersAddForm";
+import MessengersChannelForm from "./MessengersChannelForm";
 import MessengersQuickUsersListForm from "./MessengersQuickUsersListForm";
 import { StyledMessengerList } from "../styles/StyledMessengerList";
 import { mapReverse } from "../../../common/tools";
@@ -15,15 +16,15 @@ class MessengersList extends Component {
       filteredUsers,
       selectedUsers,
       selectedChannelId,
-      filterSelectedUsersHandler
+      filterSelectedUsersHandler,
     } = this.props;
     let n = 0;
 
-    const messengersReverse = mapReverse(messengers, function(i) {
+    const messengersReverse = mapReverse(messengers, function (i) {
       return i;
     });
 
-    const messengersContent = messengersReverse.map(messenger => {
+    const messengersContent = messengersReverse.map((messenger) => {
       // return <div>{messanger.msg}</div>;
       return (
         <MessengersItem
@@ -44,6 +45,11 @@ class MessengersList extends Component {
                 selectedChannelId={selectedChannelId}
                 filterSelectedUsersHandler={filterSelectedUsersHandler}
               />
+              <MessengersChannelForm
+                selectedChannelId={selectedChannelId}
+                filteredUsers={filteredUsers}
+                filterSelectedUsersHandler={filterSelectedUsersHandler}
+              />
               <MessengersAddForm filteredUsers={filteredUsers} />
             </div>
           </div>
@@ -56,10 +62,10 @@ class MessengersList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     users: state.users.users,
-    messengers: state.messengers.messengers
+    messengers: state.messengers.messengers,
   };
 };
 

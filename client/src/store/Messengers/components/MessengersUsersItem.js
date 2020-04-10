@@ -8,12 +8,12 @@ class MessengersUsersItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showModalTrigger: false
+      showModalTrigger: false,
     };
   }
-  showModal = result => {
+  showModal = (result) => {
     this.setState({
-      showModalTrigger: result
+      showModalTrigger: result,
     });
   };
   render() {
@@ -22,7 +22,7 @@ class MessengersUsersItem extends Component {
       item: { _id, name, status, email },
       filterSelectedUsersHandler,
       selectedChannelId,
-      loggedUser
+      loggedUser,
     } = this.props;
 
     let clazz =
@@ -33,7 +33,8 @@ class MessengersUsersItem extends Component {
         {name !== "[Administrator+Manager+Employee]" &&
         name !== "[Administrator]" &&
         name !== "[Manager]" &&
-        name !== "[Employee]" ? (
+        name !== "[Employee]" &&
+        name !== "[Indyvidual+Channel]" ? (
           <React.Fragment>
             <i
               className="glyphicon glyphicon-envelope"
@@ -77,9 +78,9 @@ class MessengersUsersItem extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    loggedUser: state.users.logged_user
+    loggedUser: state.users.logged_user,
   };
 };
 
