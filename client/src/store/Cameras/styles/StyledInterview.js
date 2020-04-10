@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const StyledInterview = styled.div`
   .video-container {
-    width: 460px;
-    height: 320px;
+    width: 420px;
+    height: 220px;
     margin-left: auto;
     margin-right: auto;
     padding-tio: 50px;

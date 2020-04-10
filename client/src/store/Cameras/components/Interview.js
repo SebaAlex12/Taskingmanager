@@ -12,7 +12,7 @@ class Interview extends Component {
 
     let isAlreadyCalling = false;
 
-    socket.on("call-made", async data => {
+    socket.on("call-made", async (data) => {
       await peerConnection.setRemoteDescription(
         new RTCSessionDescription(data.offer)
       );
@@ -23,10 +23,10 @@ class Interview extends Component {
       console.log("call-made");
       socket.emit("make-answer", {
         answer,
-        to: data.socket
+        to: data.socket,
       });
     });
-    socket.on("answer-made", async data => {
+    socket.on("answer-made", async (data) => {
       await peerConnection.setRemoteDescription(
         new RTCSessionDescription(data.answer)
       );
@@ -48,7 +48,7 @@ class Interview extends Component {
         elToRemove.remove();
       }
     });
-    peerConnection.ontrack = function({ streams: [stream] }) {
+    peerConnection.ontrack = function ({ streams: [stream] }) {
       const remoteVideo = document.getElementById("remote-video");
       if (remoteVideo) {
         remoteVideo.srcObject = stream;
@@ -85,7 +85,7 @@ class Interview extends Component {
     // console.log("call-user");
     socket.emit("call-user", {
       offer,
-      to: socketId
+      to: socketId,
     });
   }
   updateUserList(socketIds) {
@@ -93,7 +93,7 @@ class Interview extends Component {
       "active-user-container"
     );
 
-    socketIds.forEach(socketId => {
+    socketIds.forEach((socketId) => {
       const alreadyExistingUser = document.getElementById(socketId);
       if (!alreadyExistingUser) {
         const userContainerEl = this.createUserItemContainer(socketId);
@@ -106,7 +106,7 @@ class Interview extends Component {
       ".active-user.active-user--selected"
     );
 
-    alreadySelectedUser.forEach(el => {
+    alreadySelectedUser.forEach((el) => {
       el.setAttribute("class", "active-user");
     });
   }
@@ -128,20 +128,20 @@ class Interview extends Component {
     //   }
     // );
     // Prefer camera resolution nearest to 1280x720.
-    var constraints = { audio: true, video: { width: 1280, height: 720 } };
+    var constraints = { audio: true, video: { width: 420, height: 220 } };
 
     navigator.mediaDevices
       .getUserMedia(constraints)
-      .then(function(stream) {
+      .then(function (stream) {
         const localVideo = document.getElementById("local-video");
         stream
           .getTracks()
-          .forEach(track => peerConnection.addTrack(track, stream));
+          .forEach((track) => peerConnection.addTrack(track, stream));
         if (localVideo) {
           localVideo.srcObject = stream;
         }
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.log(err.name + ": " + err.message);
       });
     return (
