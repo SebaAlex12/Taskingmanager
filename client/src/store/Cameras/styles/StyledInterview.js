@@ -12,7 +12,7 @@ export const StyledInterview = styled.div`
   .local-video {
     width: 100px;
     position: absolute;
-    right: 3px;
+    right: 100px;
     top: 3px;
     border: 1px solid #fff;
   }
