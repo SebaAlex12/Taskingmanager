@@ -1,39 +1,43 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import moment from "moment";
 
 import { addComment } from "../actions";
 import { updateTask } from "../../Tasks/actions";
+import { addUserHistory } from "../../UsersHistory/actions";
+
 import { StyledCommentAddForm } from "../styles/StyledCommentAddForm";
 
 class CommentsAddForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      description: ""
+      description: "",
     };
     this.retrieveImageFromClipboardAsBase64 = this.retrieveImageFromClipboardAsBase64.bind(
       this
     );
     this.attachimageDataBase64toWindow(this);
   }
-  onChangeInput = event => {
+  onChangeInput = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
   onChangeTextImagesArea = () => {
     this.setState({
-      description: document.getElementById("mixTextImagesArea").innerHTML
+      description: document.getElementById("mixTextImagesArea").innerHTML,
     });
   };
-  addHandler = event => {
+  addHandler = (event) => {
     const {
       addComment,
       taskId,
       responsiblePerson,
       loggedUser,
-      updateTask
+      updateTask,
+      addUserHistory,
     } = this.props;
 
     const description = document.getElementById("mixTextImagesArea").innerHTML;
@@ -42,7 +46,7 @@ class CommentsAddForm extends Component {
       taskId: taskId,
       userId: loggedUser._id,
       createdBy: loggedUser.name,
-      description
+      description,
     };
 
     const responsiblePersonLastComment =
@@ -51,10 +55,16 @@ class CommentsAddForm extends Component {
     event.preventDefault();
 
     addComment(data);
+    addUserHistory({
+      userId: loggedUser._id,
+      event: "dodał komentarz",
+      createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
+    });
+
     // document.getElementById("mixTextImagesArea").innerHTML = "";
     updateTask({
       _id: taskId,
-      responsiblePersonLastComment: responsiblePersonLastComment
+      responsiblePersonLastComment: responsiblePersonLastComment,
     });
   };
   debugBase64(base64URL) {
@@ -94,7 +104,7 @@ class CommentsAddForm extends Component {
       var img = new Image();
 
       // Once the image loads, render the img on the canvas
-      img.onload = function() {
+      img.onload = function () {
         // Update dimensions of the canvas with the dimensions of the image
         mycanvas.width = this.width;
         mycanvas.height = this.height;
@@ -117,25 +127,25 @@ class CommentsAddForm extends Component {
   }
   Base64ToImage(base64img, callback) {
     var img = new Image();
-    img.onload = function() {
+    img.onload = function () {
       callback(img);
     };
     img.src = base64img;
   }
 
-  attachimageDataBase64toWindow = obj => {
+  attachimageDataBase64toWindow = (obj) => {
     window.addEventListener(
       "paste",
-      function(e) {
+      function (e) {
         // console.log("paste");
         // Handle the event
-        obj.retrieveImageFromClipboardAsBase64(e, function(imageDataBase64) {
+        obj.retrieveImageFromClipboardAsBase64(e, function (imageDataBase64) {
           // If there's an image, open it in the browser as a new window :)
           if (imageDataBase64) {
             // data:image/png;base64,iVBORw0KGgoAAAAN......
             // window.open(imageDataBase64);
             // obj.debugBase64(imageDataBase64);
-            obj.Base64ToImage(imageDataBase64, function(img) {
+            obj.Base64ToImage(imageDataBase64, function (img) {
               // document.getElementById('main').appendChild(img);
               // var log = "w=" + img.width + " h=" + img.height;
               // document.getElementById('log').value = log;
@@ -183,13 +193,14 @@ class CommentsAddForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    loggedUser: state.users.logged_user
+    loggedUser: state.users.logged_user,
   };
 };
 
 export default connect(mapStateToProps, {
   addComment,
-  updateTask
+  updateTask,
+  addUserHistory,
 })(CommentsAddForm);

@@ -77,6 +77,14 @@ module.exports = buildSchema(`
         errors: [Error]
     }
 
+    type UserHistory {
+        _id: ID
+        userId: String
+        event: String
+        createdAt: String
+        errors: [Error]
+    }
+
     type Settings {
         _id: ID
         mailingDate: String
@@ -213,6 +221,13 @@ module.exports = buildSchema(`
         createdAt: String
     }
 
+    input UserHistoryInputData {
+        _id: String,
+        userId: String
+        event: String
+        createdAt: String
+    }
+
     input SettingsInputData {
         _id: String
         mailingDate: String
@@ -299,6 +314,7 @@ module.exports = buildSchema(`
         updatePayment(paymentInput: PaymentInputData): Payment! 
         removePayment(paymentId: String!): Payment!
         createUser(userInput: UserInputData): User!
+        addUserHistory(dataInput: UserHistoryInputData): UserHistory!
         addTask(taskInput: TaskInputData): Task!
         updateTask(taskInput: TaskInputData): Task!
         updateSettings(settingsInput: SettingsInputData): Settings!
@@ -324,6 +340,7 @@ module.exports = buildSchema(`
         fetchLastInsertPattern: Payment
         fetchUsers(userInput: UserInputData): [User]!
         fetchUsersByLoggedUserProjects(projects: String): [User]!
+        fetchUsersHistory(userId: String): [UserHistory]!
         fetchSettings: Settings!
         fetchTasks(taskInput: TaskInputData): [Task]!
         fetchTasksByLoggedUserProjects(taskInput: TaskInputData, projects: String): [Task]!

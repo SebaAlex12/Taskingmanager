@@ -3,26 +3,26 @@ import { fetchFiltersWatcher, updateFilterWatcher } from "./Filters/saga";
 import {
   addMessengerWatcher,
   fetchMessengersByNameWatcher,
-  updateMessengerWatcher
+  updateMessengerWatcher,
 } from "./Messengers/saga";
 import {
   updateMessagesWatcher,
   updateAlertMessagesWatcher,
   removeAlertMessagesWatcher,
-  fetchMessagesWatcher
+  fetchMessagesWatcher,
 } from "./Messages/saga";
 import {
   fetchContractorsWatcher,
   addContractorWatcher,
   updateContractorWatcher,
-  removeContractorWatcher
+  removeContractorWatcher,
 } from "./Contractors/saga";
 import {
   fetchCompaniesWatcher,
   fetchCompaniesByLoggedUserCompaniesWatcher,
   addCompanyWatcher,
   updateCompanyWatcher,
-  removeCompanyWatcher
+  removeCompanyWatcher,
 } from "./Companies/saga";
 import {
   fetchTasksWatcher,
@@ -30,12 +30,12 @@ import {
   addTaskWatcher,
   updateTaskWatcher,
   removeTaskWatcher,
-  sendMailingTaskWatcher
+  sendMailingTaskWatcher,
 } from "./Tasks/saga";
 import {
   fetchCommentsWatcher,
   addCommentWatcher,
-  removeCommentsByTaskIdWatcher
+  removeCommentsByTaskIdWatcher,
 } from "./Comments/saga";
 import { addMailWatcher, fetchMailsWatcher } from "./Mails/saga";
 import { fetchSettingsWatcher, updateSettingWatcher } from "./Settings/saga";
@@ -46,19 +46,23 @@ import {
   fetchLoggedUserWatcher,
   fetchUsersWatcher,
   fetchUsersByLoggedUserProjectsWatcher,
-  logoutUserWatcher
+  logoutUserWatcher,
 } from "./Users/saga";
+import {
+  fetchUsersHistoryWatcher,
+  addUserHistoryWatcher,
+} from "./UsersHistory/saga";
 import {
   fetchProjectsWatcher,
   fetchProjectsByLoggedUserProjectsWatcher,
   addProjectWatcher,
   updateProjectWatcher,
-  removeProjectWatcher
+  removeProjectWatcher,
 } from "./Projects/saga";
 import {
   fetchFilesWatcher,
   addFileWatcher,
-  removeFileWatcher
+  removeFileWatcher,
 } from "./Files/saga";
 import {
   fetchPaymentsWatcher,
@@ -67,7 +71,7 @@ import {
   fetchLastInsertPatternWatcher,
   addPaymentWatcher,
   updatePaymentWatcher,
-  removePaymentWatcher
+  removePaymentWatcher,
 } from "./Payments/saga";
 
 export default function* rootSaga() {
@@ -106,6 +110,8 @@ export default function* rootSaga() {
     fork(removeCommentsByTaskIdWatcher),
     fork(updateTaskWatcher),
     fork(removeTaskWatcher),
+    fork(fetchUsersHistoryWatcher),
+    fork(addUserHistoryWatcher),
     fork(fetchProjectsWatcher),
     fork(fetchProjectsByLoggedUserProjectsWatcher),
     fork(addProjectWatcher),
@@ -124,6 +130,6 @@ export default function* rootSaga() {
     fork(fetchLastInsertPatternWatcher),
     fork(addPaymentWatcher),
     fork(updatePaymentWatcher),
-    fork(removePaymentWatcher)
+    fork(removePaymentWatcher),
   ]);
 }

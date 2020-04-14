@@ -10,14 +10,14 @@ import {
   REMOVE_PROJECT_SUCCESS,
   UPDATING_PROJECT,
   UPDATE_PROJECT_SUCCESS,
-  PROJECTS_ERROR
+  PROJECTS_ERROR,
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 
 function* fetchProjectsAsync(action) {
   const data = action.data;
-  console.log("saga", data);
+  // console.log("saga", data);
   try {
     const graph = {
       query: `
@@ -32,7 +32,7 @@ function* fetchProjectsAsync(action) {
             panel
           }
         }
-    `
+    `,
     };
 
     const res = yield call(
@@ -43,7 +43,7 @@ function* fetchProjectsAsync(action) {
     );
     yield put({
       type: FETCH_PROJECTS_SUCCESS,
-      payload: res.data.data.fetchProjects
+      payload: res.data.data.fetchProjects,
     });
   } catch (error) {
     yield put({ type: PROJECTS_ERROR, payload: error });
@@ -70,7 +70,7 @@ function* fetchProjectsByLoggedUserProjectsAsync(action) {
             panel
           }
         }
-    `
+    `,
     };
 
     const res = yield call(
@@ -81,7 +81,7 @@ function* fetchProjectsByLoggedUserProjectsAsync(action) {
     );
     yield put({
       type: FETCH_PROJECTS_SUCCESS,
-      payload: res.data.data.fetchProjectsByLoggedUserProjects
+      payload: res.data.data.fetchProjectsByLoggedUserProjects,
     });
   } catch (error) {
     yield put({ type: PROJECTS_ERROR, payload: error });
@@ -104,7 +104,7 @@ function* addProjectAsync(action) {
     description: data.description,
     cms: data.cms,
     ftp: data.ftp,
-    panel: data.panel
+    panel: data.panel,
   };
 
   const graph = {
@@ -128,7 +128,7 @@ function* addProjectAsync(action) {
           message
         }
       }
-    }`
+    }`,
   };
 
   const projectData = yield call(
@@ -151,16 +151,16 @@ function* addProjectAsync(action) {
     yield put({ type: PROJECTS_ERROR, payload: response.errors });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
+      payload: { errors: response.errors },
     });
   } else {
     yield put({
       type: ADD_PROJECT_SUCCESS,
-      payload: response
+      payload: response,
     });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Projekt został dodany" }] }
+      payload: { success: [{ message: "Projekt został dodany" }] },
     });
   }
 }
@@ -180,7 +180,7 @@ function* updateProjectAsync(action) {
     description: data.description ? data.description : "",
     cms: data.cms ? data.cms : "",
     ftp: data.ftp ? data.ftp : "",
-    panel: data.panel ? data.panel : ""
+    panel: data.panel ? data.panel : "",
   };
 
   const graph = {
@@ -205,7 +205,7 @@ function* updateProjectAsync(action) {
           message
         }
       }
-    }`
+    }`,
   };
   // console.log(graph);
   const projectData = yield call(
@@ -226,16 +226,16 @@ function* updateProjectAsync(action) {
     yield put({ type: PROJECTS_ERROR, payload: response.errors });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
+      payload: { errors: response.errors },
     });
   } else {
     yield put({
       type: UPDATE_PROJECT_SUCCESS,
-      payload: response
+      payload: response,
     });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Projekt został zaktualizowany" }] }
+      payload: { success: [{ message: "Projekt został zaktualizowany" }] },
     });
   }
 }

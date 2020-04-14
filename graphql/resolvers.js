@@ -1,5 +1,6 @@
 module.exports = {
   ...require("./Users/resolvers"),
+  ...require("./UsersHistory/resolvers"),
   ...require("./Payments/resolvers"),
   ...require("./Companies/resolvers"),
   ...require("./Contractors/resolvers"),
@@ -8,5 +9,5 @@ module.exports = {
   ...require("./Comments/resolvers"),
   ...require("./Mails/resolvers"),
   ...require("./Messengers/resolvers"),
-  ...require("./Projects/resolvers")
+  ...require("./Projects/resolvers"),
 };

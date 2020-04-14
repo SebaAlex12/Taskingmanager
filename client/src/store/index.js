@@ -7,6 +7,7 @@ import { settingsReducer } from "./Settings/reducers";
 import { commentsReducer } from "./Comments/reducers";
 import { mailsReducer } from "./Mails/reducers";
 import { usersReducer } from "./Users/reducers";
+import { usersHistoryReducer } from "./UsersHistory/reducers";
 import { projectsReducer } from "./Projects/reducers";
 import { filesReducer } from "./Files/reducers";
 import { filtersReducer } from "./Filters/reducers";
@@ -22,10 +23,11 @@ export const reducers = combineReducers({
   comments: commentsReducer,
   mails: mailsReducer,
   users: usersReducer,
+  usersHistory: usersHistoryReducer,
   projects: projectsReducer,
   files: filesReducer,
   filters: filtersReducer,
   messengers: messengersReducer,
   messages: messagesReducer,
-  payments: paymentsReducer
+  payments: paymentsReducer,
 });

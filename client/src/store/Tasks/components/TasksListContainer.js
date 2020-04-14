@@ -10,14 +10,14 @@ import {
   fetchTasks,
   fetchTasksByLoggedUserProjects,
   removeTask,
-  updateTask
+  updateTask,
 } from "../actions";
 import { updateFilter } from "../../Filters/actions";
 
 import {
   faSyncAlt,
   faLayerGroup,
-  faArrowAltCircleDown
+  faArrowAltCircleDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -31,31 +31,29 @@ class TasksListContainer extends Component {
       orderDirection: "desc",
       userTasks: false,
       activeTaskId: false,
-      activeAllTasks: false
+      activeAllTasks: false,
     };
   }
   componentDidMount() {
     const {
-      tasks
+      tasks,
       // filters: { statuses, priorities, projectName, responsiblePerson }
     } = this.props;
 
-    // console.log("tasks filters", this.props.filters);
-
     this.setState({
       tasks,
-      activeTaskId: false
+      activeTaskId: false,
     });
   }
-  setActiveTaskHandler = id => {
+  setActiveTaskHandler = (id) => {
     const { activeTaskId } = this.state;
     if (activeTaskId === id) {
       this.setState({
-        activeTaskId: false
+        activeTaskId: false,
       });
     } else {
       this.setState({
-        activeTaskId: id
+        activeTaskId: id,
       });
     }
   };
@@ -66,32 +64,32 @@ class TasksListContainer extends Component {
       fetchTasks,
       fetchTasksByLoggedUserProjects,
       updateFilter,
-      filters
+      filters,
     } = this.props;
 
     if (!activeAllTasks) {
       if (loggedUser.status !== "Administrator") {
         fetchTasksByLoggedUserProjects({
           projectId: 1,
-          projects: loggedUser.projects
+          projects: loggedUser.projects,
         });
       } else {
         fetchTasks({ projectId: 1 });
       }
       updateFilter({
         ...filters,
-        ownerToAcceptTasksOnly: false
+        ownerToAcceptTasksOnly: false,
       });
     } else {
       fetchTasks({ responsiblePerson: loggedUser.name });
       updateFilter({
         ...filters,
-        ownerToAcceptTasksOnly: true
+        ownerToAcceptTasksOnly: true,
       });
     }
     this.setState({
       ...this.state,
-      activeAllTasks: !activeAllTasks
+      activeAllTasks: !activeAllTasks,
     });
   };
   switchTasks = () => {
@@ -102,19 +100,19 @@ class TasksListContainer extends Component {
       fetchTasks({ createdBy: loggedUser.name });
       updateFilter({
         ...filters,
-        ownerToAcceptTasksOnly: false
+        ownerToAcceptTasksOnly: false,
       });
     } else {
       fetchTasks({ responsiblePerson: loggedUser.name });
       updateFilter({
         ...filters,
-        ownerToAcceptTasksOnly: true
+        ownerToAcceptTasksOnly: true,
       });
     }
 
     this.setState({
       userTasks: !userTasks,
-      activeTaskId: false
+      activeTaskId: false,
     });
   };
   sortArray(array, property, direction) {
@@ -137,51 +135,44 @@ class TasksListContainer extends Component {
     if (direction === "desc") {
       this.sortArray(items, column, -1);
     }
-    // console.log(items);
+
     this.setState({
       tasks: items,
       orderColumn: column,
-      orderDirection: direction
+      orderDirection: direction,
     });
-    // console.log(this.state);
+
     return items;
   };
   filterItems = (items, filters) => {
     const {
       orderColumn,
-      orderDirection
+      orderDirection,
       // filters: { projectName, responsiblePerson }
     } = this.state;
     const { loggedUser } = this.props;
-    // console.log("items", items);
-    // console.log("filters", filters);
 
     const priorities = filters.priorities
-      .map(priority => {
+      .map((priority) => {
         if (priority.active) {
           return priority.name;
         } else {
           return null;
         }
       })
-      .filter(elements => elements !== undefined);
+      .filter((elements) => elements !== undefined);
 
     const statuses = filters.statuses
-      .map(status => {
+      .map((status) => {
         if (status.active) {
           return status.name;
         } else {
           return null;
         }
       })
-      .filter(elements => elements !== undefined);
+      .filter((elements) => elements !== undefined);
 
-    // console.log("priorities", priorities);
-    // console.log("statuses", statuses);
-    // console.log("project name", projectName);
-    // console.log("responsible person", responsiblePerson);
-
-    items = items.filter(item => {
+    items = items.filter((item) => {
       if (
         priorities.includes(item.priority) &&
         statuses.includes(item.status)
@@ -217,12 +208,12 @@ class TasksListContainer extends Component {
   refreshPage = () => {
     const {
       fetchTasks,
-      loggedUser: { name }
+      loggedUser: { name },
     } = this.props;
     const response = fetchTasks({ responsiblePerson: name });
     this.setState({
       ...this.state,
-      tasks: response
+      tasks: response,
     });
   };
 
@@ -231,14 +222,12 @@ class TasksListContainer extends Component {
       toggleTasksAddForm,
       activeTaskId,
       activeAllTasks,
-      ownerToAcceptTasksOnly
+      ownerToAcceptTasksOnly,
     } = this.state;
     const { filters, loggedUser } = this.props;
     let tasks = this.state.tasks > 0 ? this.state.tasks : this.props.tasks;
     let tasksListContent;
 
-    // console.log("statttttteeeee", this.state);
-    // filter tasks
     if (tasks && tasks.length > 0) {
       tasks =
         filters.priorities.length > 0 &&
@@ -252,7 +241,7 @@ class TasksListContainer extends Component {
 
     if (tasks.length > 0) {
       tasksListContent = tasks
-        ? tasks.map(task => (
+        ? tasks.map((task) => (
             <TasksItem
               item={task}
               key={task._id}
@@ -278,7 +267,7 @@ class TasksListContainer extends Component {
                 title="Rozwiń formularz"
                 onClick={() =>
                   this.setState({
-                    toggleTasksAddForm: !toggleTasksAddForm
+                    toggleTasksAddForm: !toggleTasksAddForm,
                   })
                 }
               >
@@ -450,11 +439,11 @@ class TasksListContainer extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     tasks: state.tasks.tasks,
     filters: state.filters.filters,
-    loggedUser: state.users.logged_user
+    loggedUser: state.users.logged_user,
   };
 };
 
@@ -463,5 +452,5 @@ export default connect(mapStateToProps, {
   fetchTasks,
   fetchTasksByLoggedUserProjects,
   removeTask,
-  updateTask
+  updateTask,
 })(TasksListContainer);

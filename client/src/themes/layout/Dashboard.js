@@ -11,6 +11,7 @@ import Messengers from "../../root/Messengers";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
 import Interview from "../../store/Cameras/components/Interview";
+import UsersHistoryQuickView from "../../store/UsersHistory/components/UsersHistoryQuickView";
 
 // import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
@@ -25,7 +26,7 @@ class Dashboard extends Component {
     // console.log("port", port);
     // if (!this.socket) {
     // this.socket = io();
-    socket.on("chat", function(msg) {
+    socket.on("chat", function (msg) {
       let users = msg.to.split(",");
       if (users.includes(loggedUser.name)) {
         updateMessenger(msg);
@@ -80,6 +81,7 @@ class Dashboard extends Component {
         <button className="btn btn-default" onClick={this.logoutUserHandler}>
           Logout
         </button>
+        <UsersHistoryQuickView />
         <div className="container">
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/" component={Tasks} />
@@ -95,14 +97,14 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    loggedUser: state.users.logged_user
+    loggedUser: state.users.logged_user,
   };
 };
 
 export default connect(mapStateToProps, {
   logoutUser,
   updateMessenger,
-  updateAlertMessages
+  updateAlertMessages,
 })(Dashboard);

@@ -12,14 +12,15 @@ import { fetchFilters } from "../store/Filters/actions";
 import { updateSettings } from "../store/Settings/actions";
 import { fetchContractors } from "../store/Contractors/actions";
 import { fetchCompanies } from "../store/Companies/actions";
+import { fetchUsersHistory } from "../store/UsersHistory/actions";
 import {
   fetchProjects,
-  fetchProjectsByLoggedUserProjects
+  fetchProjectsByLoggedUserProjects,
 } from "../store/Projects/actions";
 import {
   fetchTasks,
   fetchTasksByLoggedUserProjects,
-  sendMailingTask
+  sendMailingTask,
 } from "../store/Tasks/actions";
 
 class Tasks extends Component {
@@ -29,12 +30,14 @@ class Tasks extends Component {
       fetchCompanies,
       fetchContractors,
       fetchProjects,
+      fetchUsersHistory,
       fetchProjectsByLoggedUserProjects,
       fetchTasks,
-      loggedUser: { status, name, projects, company }
+      loggedUser: { status, name, projects, company },
     } = this.props;
 
     fetchFilters();
+    fetchUsersHistory();
 
     if (status === "SuperAdministrator") {
       fetchProjects();
@@ -65,8 +68,8 @@ class Tasks extends Component {
       this.setState({
         filters: {
           projectName,
-          responsiblePerson
-        }
+          responsiblePerson,
+        },
       });
     }
 
@@ -80,7 +83,7 @@ class Tasks extends Component {
       filters: { projectName, responsiblePerson },
       settings: { _id, mailingDate },
       sendMailingTask,
-      updateSettings
+      updateSettings,
     } = this.props;
 
     if (mailingDate !== prevProps.mailingDate) {
@@ -110,14 +113,14 @@ class Tasks extends Component {
         fetchTasksByLoggedUserProjects({
           projectName,
           responsiblePerson,
-          projects
+          projects,
         });
       }
       this.setState({
         filters: {
           projectName,
-          responsiblePerson
-        }
+          responsiblePerson,
+        },
       });
     }
     // console.log("this props update", this.props);
@@ -155,11 +158,11 @@ class Tasks extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loggedUser: state.users.logged_user,
     filters: state.filters.filters,
-    settings: state.settings.settings
+    settings: state.settings.settings,
   };
 };
 
@@ -171,6 +174,7 @@ export default connect(mapStateToProps, {
   fetchProjectsByLoggedUserProjects,
   fetchTasks,
   fetchTasksByLoggedUserProjects,
+  fetchUsersHistory,
   sendMailingTask,
-  updateSettings
+  updateSettings,
 })(Tasks);

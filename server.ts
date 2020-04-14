@@ -20,7 +20,7 @@ const bodyParserJson = bodyParser.json({ limit: "50mb" });
 const bodyParserUrlencoded = bodyParser.urlencoded({
   limit: "50mb",
   extended: true,
-  parameterLimit: 50000
+  parameterLimit: 50000,
 });
 
 // DB config
@@ -32,11 +32,11 @@ const db = require("./config/keys").mongoURI;
 mongoose
   .connect(db)
   .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // Handle the upload file
 app.post("/upload-files/:dest", async (req: any, res) => {
-  await upload(req, res, err => {
+  await upload(req, res, (err) => {
     if (err) {
       console.log("error message:", err);
       res.json(err);
@@ -46,11 +46,11 @@ app.post("/upload-files/:dest", async (req: any, res) => {
         res.json("No file selected!");
       } else {
         // console.log("req files", req.files);
-        req.files.forEach(file => {
+        req.files.forEach((file) => {
           const readStream = resize(file.path, "jpg", 50, 50);
           readStream.toFile(
             file.destination + "/mini/" + file.filename,
-            function(err) {
+            function (err) {
               console.log(err);
             }
           );
@@ -65,17 +65,17 @@ app.post("/upload-files/:dest", async (req: any, res) => {
 app.post("/delete-files/", bodyParserJson, (req: any, res) => {
   console.log(req.body.links);
   const links = req.body.links;
-  links.forEach(async link => {
+  links.forEach(async (link) => {
     // build link for mini folder
     const arr = link.split("/");
     const miniLink = [arr[1], arr[2], arr[3], "mini", arr[4]].join("/");
     console.log("miniLink", miniLink);
     try {
-      await fs.unlink("./client/public/" + link, function(err) {
+      await fs.unlink("./client/public/" + link, function (err) {
         if (err) throw err;
         console.log("File deleted!");
       });
-      await fs.unlink("./client/public/" + miniLink, function(err) {
+      await fs.unlink("./client/public/" + miniLink, function (err) {
         if (err) throw err;
         console.log("File deleted!");
       });
@@ -92,7 +92,7 @@ app.use(
   graphqlHttp({
     schema: graphqlSchema,
     rootValue: graphqlResolver,
-    graphiql: true
+    graphiql: true,
   })
 );
 
@@ -105,18 +105,18 @@ const server = http
 const io = socketIo(server);
 let connections = [];
 
-io.on("connection", function(socket) {
+io.on("connection", function (socket) {
   let activeSockets = [];
 
   connections.push(socket);
-  console.log("socket connections", connections.length);
+  // console.log("socket connections", connections.length);
 
-  socket.on("chat", function(msg) {
+  socket.on("chat", function (msg) {
     io.emit("chat", msg);
   });
 
   const existingSocket = activeSockets.find(
-    existingSocket => existingSocket === socket.id
+    (existingSocket) => existingSocket === socket.id
   );
 
   if (!existingSocket) {
@@ -124,38 +124,38 @@ io.on("connection", function(socket) {
 
     socket.emit("update-user-list", {
       users: activeSockets.filter(
-        existingSocket => existingSocket !== socket.id
-      )
+        (existingSocket) => existingSocket !== socket.id
+      ),
     });
 
     socket.broadcast.emit("update-user-list", {
-      users: [socket.id]
+      users: [socket.id],
     });
   }
 
-  console.log("socket", socket.id);
+  // console.log("socket", socket.id);
   //console.log("active sockets", activeSockets);
   //console.log("existing socket", existingSocket);
 
-  socket.on("call-user", data => {
+  socket.on("call-user", (data) => {
     socket.to(data.to).emit("call-made", {
       offer: data.offer,
-      socket: socket.id
+      socket: socket.id,
     });
   });
 
-  socket.on("make-answer", data => {
+  socket.on("make-answer", (data) => {
     socket.to(data.to).emit("answer-made", {
       socket: socket.id,
-      answer: data.answer
+      answer: data.answer,
     });
   });
   socket.on("disconnect", () => {
     let dfggd = activeSockets.filter(
-      existingSocket => existingSocket !== socket.id
+      (existingSocket) => existingSocket !== socket.id
     );
     socket.broadcast.emit("remove-user", {
-      socketId: socket.id
+      socketId: socket.id,
     });
     connections.splice(connections.indexOf(socket), 1);
     console.log("Disconnected: sockets connected", connections.length);

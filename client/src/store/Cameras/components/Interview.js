@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import io from "socket.io-client";
+
 import { socket } from "../../ini";
 import { StyledInterview } from "../styles/StyledInterview";
 
