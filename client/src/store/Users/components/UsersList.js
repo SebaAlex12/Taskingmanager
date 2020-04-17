@@ -7,12 +7,13 @@ import { BiggerButton, SmallerButton, ListBox } from "../../../themes/basic";
 import { StyledUserList } from "../styles/StyledUserList";
 import {
   faTimes,
-  faArrowAltCircleDown
+  faArrowAltCircleDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { removeUser, updateUser } from "../actions";
 import RegistryForm from "./RegistryForm";
+import UsersLastActiveList from "./UsersLastActiveList";
 
 import { updateFilter } from "../../Filters/actions";
 import UsersItem from "./UsersItem";
@@ -23,27 +24,27 @@ class UsersList extends Component {
     this.state = {
       userFilterName: "",
       toggleRegistryForm: false,
-      toggleUsersList: false
+      toggleUsersList: false,
     };
   }
-  removeUserHandler = id => {
+  removeUserHandler = (id) => {
     const { removeUser } = this.props;
     removeUser(id);
   };
-  updateUserHandler = data => {
+  updateUserHandler = (data) => {
     const { updateUser } = this.props;
     updateUser(data);
   };
   removeProjectFilterResponsiblePersonHandler = () => {
     const {
       updateFilter,
-      filters: { statuses, priorities, projectName }
+      filters: { statuses, priorities, projectName },
     } = this.props;
     updateFilter({ statuses, priorities, projectName, responsiblePerson: "" });
   };
-  filterItems = items => {
+  filterItems = (items) => {
     const { userFilterName } = this.state;
-    const filteredItems = items.filter(item => {
+    const filteredItems = items.filter((item) => {
       return item.name.toLowerCase().indexOf(userFilterName) !== -1;
     });
     if (document.querySelector(".remove-filter")) {
@@ -55,23 +56,23 @@ class UsersList extends Component {
     }
     return filteredItems;
   };
-  toggleClassHandler = event => {
+  toggleClassHandler = (event) => {
     event.preventDefault();
     event.target.classList.toggle("active");
     this.setState({
-      userFilterName: ""
+      userFilterName: "",
     });
   };
-  onChangeInput = event => {
+  onChangeInput = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
   render() {
     const {
       loggedUser,
-      filters: { responsiblePerson }
+      filters: { responsiblePerson },
     } = this.props;
     const { toggleRegistryForm, toggleUsersList, userFilterName } = this.state;
 
@@ -84,7 +85,7 @@ class UsersList extends Component {
       users = this.filterItems(users);
     }
 
-    const usersContent = users.map(user => {
+    const usersContent = users.map((user) => {
       return <UsersItem item={user} key={user._id} />;
     });
     const windowHeight = window.innerHeight - 50;
@@ -101,6 +102,7 @@ class UsersList extends Component {
     return (
       <StyledUserList>
         <div className="users-box">
+          <UsersLastActiveList />
           {loggedUser.status === "Administrator" ||
           loggedUser.status === "Menedżer" ? (
             <div className={btn_clazz}>
@@ -109,7 +111,7 @@ class UsersList extends Component {
                 title="Rozwiń formularz"
                 onClick={() =>
                   this.setState({
-                    toggleRegistryForm: !toggleRegistryForm
+                    toggleRegistryForm: !toggleRegistryForm,
                   })
                 }
               >
@@ -127,7 +129,7 @@ class UsersList extends Component {
                   title="Pokaż listę użytkowników"
                   onClick={() =>
                     this.setState({
-                      toggleUsersList: !toggleUsersList
+                      toggleUsersList: !toggleUsersList,
                     })
                   }
                 >
@@ -176,16 +178,16 @@ class UsersList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     users: state.users.users,
     loggedUser: state.users.logged_user,
-    filters: state.filters.filters
+    filters: state.filters.filters,
   };
 };
 
 export default connect(mapStateToProps, {
   removeUser,
   updateUser,
-  updateFilter
+  updateFilter,
 })(UsersList);

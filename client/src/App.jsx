@@ -12,7 +12,7 @@ import jwt_decode from "jwt-decode";
 import {
   fetchLoggedUser,
   fetchUsers,
-  fetchUsersByLoggedUserProjects
+  fetchUsersByLoggedUserProjects,
 } from "./store/Users/actions";
 import LoginForm from "./store/Users/components/LoginForm";
 import { fetchSettings } from "./store/Settings/actions";
@@ -31,9 +31,10 @@ if (localStorage.jwtTokenAuthorization) {
     company,
     projects,
     users,
+    lastActive,
     createdAt,
     tokenCreatedAt,
-    logged
+    logged,
   } = jwt_decode(localStorage.jwtTokenAuthorization);
 
   const expiredMinutes = 560;
@@ -52,8 +53,9 @@ if (localStorage.jwtTokenAuthorization) {
         projects,
         users,
         createdAt,
+        lastActive,
         tokenCreatedAt,
-        logged
+        logged,
       })
     );
     if (status === "SuperAdministrator") {

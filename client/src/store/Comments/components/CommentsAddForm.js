@@ -57,7 +57,8 @@ class CommentsAddForm extends Component {
     addComment(data);
     addUserHistory({
       userId: loggedUser._id,
-      event: "dodał komentarz",
+      userName: loggedUser.name,
+      event: "dodany komentarz do zadania",
       createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
     });
 

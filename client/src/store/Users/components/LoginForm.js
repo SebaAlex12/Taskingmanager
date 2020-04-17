@@ -9,13 +9,13 @@ class LoginForm extends Component {
       email: "",
       password: "",
       message: "",
-      logged: false
+      logged: false,
     };
   }
-  onChangeInput = event => {
+  onChangeInput = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
 
@@ -24,12 +24,12 @@ class LoginForm extends Component {
     const response = await loginUser(data);
     this.setState({
       ...this.state,
-      logged: true
+      logged: true,
     });
     // console.log("fffff");
     return response;
   }
-  loginHandler = event => {
+  loginHandler = (event) => {
     event.preventDefault();
     const { email, password } = this.state;
 
@@ -43,12 +43,12 @@ class LoginForm extends Component {
     // const reload = await reload();
 
     this.setState({
-      message: "Logowanie do systemu..."
+      message: "Logowanie do systemu...",
     });
 
     if (response) {
       console.log("response", response);
-      setTimeout(function() {
+      setTimeout(function () {
         window.location.href = "/";
       }, 4000);
     }
@@ -62,7 +62,7 @@ class LoginForm extends Component {
           marginTop: "150px",
           width: "300px",
           marginLeft: "auto",
-          marginRight: "auto"
+          marginRight: "auto",
         }}
       >
         <div className="message">
@@ -101,7 +101,7 @@ class LoginForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {};
 };
 

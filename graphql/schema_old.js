@@ -73,6 +73,7 @@ module.exports = buildSchema(`
         company: String
         projects: String
         users: String
+        lastActive: String
         createdAt: String
         errors: [Error]
     }
@@ -80,6 +81,7 @@ module.exports = buildSchema(`
     type UserHistory {
         _id: ID
         userId: String
+        userName: String
         event: String
         createdAt: String
         errors: [Error]
@@ -218,12 +220,14 @@ module.exports = buildSchema(`
         company: String
         projects: String
         users: String
+        lastActive: String
         createdAt: String
     }
 
     input UserHistoryInputData {
         _id: String,
         userId: String
+        userName: String
         event: String
         createdAt: String
     }
@@ -301,6 +305,7 @@ module.exports = buildSchema(`
         company: String
         projects: String
         users: String
+        lastActive: String
         token: String!
     }
 

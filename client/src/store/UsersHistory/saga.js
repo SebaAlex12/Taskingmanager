@@ -22,6 +22,7 @@ function* fetchUsersHistoryAsync(action) {
           fetchUsersHistory(userId:"${dataInput.userId}"){
             _id
             userId
+            userName
             event
             createdAt
             errors{
@@ -55,6 +56,7 @@ function* addUserHistoryAsync(action) {
   const data = action.data;
   const dataInput = {
     userId: data.userId,
+    userName: data.userName,
     event: data.event,
     createdAt: data.createdAt,
   };
@@ -63,10 +65,12 @@ function* addUserHistoryAsync(action) {
     query: `mutation {
       addUserHistory(dataInput: {
       userId: "${dataInput.userId}",
+      userName: "${dataInput.userName}",
       event: "${dataInput.event}",
       createdAt: "${dataInput.createdAt}"}){
         _id
         userId
+        userName
         event
         createdAt
         errors{

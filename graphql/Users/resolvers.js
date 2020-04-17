@@ -6,23 +6,24 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
-  fetchUsers: async function({ userInput }) {
+  fetchUsers: async function ({ userInput }) {
     const users = await User.find(userInput, null, { sort: { name: 1 } });
+    // console.log("fetch users", users);
     return users;
   },
-  fetchUsersByLoggedUserProjects: async function({ projects }) {
+  fetchUsersByLoggedUserProjects: async function ({ projects }) {
     const list = projects.split(",");
-    const pregmatch = list.map(item => new RegExp(item));
+    const pregmatch = list.map((item) => new RegExp(item));
     const users = await User.find().or([
       {
         projects: {
-          $in: pregmatch
-        }
-      }
+          $in: pregmatch,
+        },
+      },
     ]);
     return users;
   },
-  createUser: async function({ userInput }, req) {
+  createUser: async function ({ userInput }, req) {
     // if (!userInput.name || !userInput.email || !userInput.password) {
     //   const err = new Error("You left input fields epmty");
     //   throw err;
@@ -35,9 +36,9 @@ module.exports = {
         errors: [
           {
             path: "Dodawanie użytkownika",
-            message: "Istnieje już email o podanej nazwie"
-          }
-        ]
+            message: "Istnieje już email o podanej nazwie",
+          },
+        ],
       };
     }
 
@@ -48,9 +49,9 @@ module.exports = {
         errors: [
           {
             path: "Dodawanie użytkownika",
-            message: "Istnieje już użytkownik o podanej nazwie"
-          }
-        ]
+            message: "Istnieje już użytkownik o podanej nazwie",
+          },
+        ],
       };
     }
 
@@ -65,7 +66,8 @@ module.exports = {
       company: userInput.company,
       projects: userInput.projects,
       users: userInput.users,
-      createdAt: userInput.createdAt
+      lastActive: userInput.lastActive,
+      createdAt: userInput.createdAt,
     });
     // console.log("user", userInput);
 
@@ -77,21 +79,21 @@ module.exports = {
         errors: [
           {
             path: "dodawanie użytkownika",
-            message: e
-          }
-        ]
+            message: e,
+          },
+        ],
       };
     }
   },
-  loginUser: async function({ email, password }) {
+  loginUser: async function ({ email, password }) {
     if (!email || !password) {
       return {
         errors: [
           {
             path: "Logowanie użytkownika",
-            message: "Email lub hasło nie zostało wprowadzone"
-          }
-        ]
+            message: "Email lub hasło nie zostało wprowadzone",
+          },
+        ],
       };
     }
 
@@ -102,9 +104,9 @@ module.exports = {
         errors: [
           {
             path: "Logowanie użytkownika",
-            message: "Użytkownik nie istnieje"
-          }
-        ]
+            message: "Użytkownik nie istnieje",
+          },
+        ],
       };
     }
 
@@ -115,9 +117,9 @@ module.exports = {
         errors: [
           {
             path: "Logowanie użytkownika",
-            message: "Podałeś niepoprawne hasło"
-          }
-        ]
+            message: "Podałeś niepoprawne hasło",
+          },
+        ],
       };
     }
     // console.log("resolverlogin", userData);
@@ -130,13 +132,14 @@ module.exports = {
         company: userData.company ? userData.company : "",
         projects: userData.projects ? userData.projects : "",
         users: userData.users ? userData.users : "",
+        lastActive: userData.lastActive ? userData.lastActive : "",
         createdAt: userData.createdAt,
         tokenCreatedAt: new Date(),
-        logged: true
+        logged: true,
       },
       require("../../config/keys").secretOrKeyOk,
       {
-        expiresIn: "1h"
+        expiresIn: "1h",
       }
     );
 
@@ -144,16 +147,16 @@ module.exports = {
 
     return { ...userData._doc, _id: userData._id.toString(), token: token };
   },
-  updateUser: async function({ userInput }, req) {
+  updateUser: async function ({ userInput }, req) {
     // console.log("user input", userInput);
     if (!userInput.name || !userInput.email) {
       return {
         errors: [
           {
             path: "Aktualizacja danych użytkownika",
-            message: "Pozostawiłeś nazwę lub email pusty"
-          }
-        ]
+            message: "Pozostawiłeś nazwę lub email pusty",
+          },
+        ],
       };
     }
     const _id = userInput._id;
@@ -166,7 +169,8 @@ module.exports = {
       status: userInput.status,
       company: userInput.company ? userInput.company : "",
       projects: userInput.projects ? userInput.projects : "",
-      users: userInput.users ? userInput.users : ""
+      users: userInput.users ? userInput.users : "",
+      lastActive: userInput.lastActive ? userInput.lastActive : "",
     };
     // console.log("pass", userInput.password.length);
     if (userInput.password.length > 0) {
@@ -186,10 +190,10 @@ module.exports = {
         errors: [
           {
             path: "Aktualizacja danych użytkownika",
-            message: e
-          }
-        ]
+            message: e,
+          },
+        ],
       };
     }
-  }
+  },
 };

@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import { sortArray } from "../../../common/tools";
+
 import { BiggerButton, Button } from "../../../themes/basic";
 import { StyledTaskListContainer } from "../styles/StyledTaskListContainer";
+
+import { setUserActive } from "../../Users/common/UserTools";
 
 import TasksItem from "./TasksItem";
 import TaskAddForm from "./TasksAddForm";
@@ -39,7 +43,7 @@ class TasksListContainer extends Component {
       tasks,
       // filters: { statuses, priorities, projectName, responsiblePerson }
     } = this.props;
-
+    setUserActive();
     this.setState({
       tasks,
       activeTaskId: false,
@@ -115,25 +119,12 @@ class TasksListContainer extends Component {
       activeTaskId: false,
     });
   };
-  sortArray(array, property, direction) {
-    direction = direction || 1;
-    array.sort(function compare(a, b) {
-      let comparison = 0;
-      if (a[property] > b[property]) {
-        comparison = 1 * direction;
-      } else if (a[property] < b[property]) {
-        comparison = -1 * direction;
-      }
-      return comparison;
-    });
-    return array;
-  }
   sortItems = (items, column, direction) => {
     if (direction === "asc") {
-      this.sortArray(items, column);
+      sortArray(items, column);
     }
     if (direction === "desc") {
-      this.sortArray(items, column, -1);
+      sortArray(items, column, -1);
     }
 
     this.setState({
@@ -196,10 +187,10 @@ class TasksListContainer extends Component {
     // }
 
     if (orderDirection === "asc") {
-      items = this.sortArray(items, orderColumn);
+      items = sortArray(items, orderColumn);
     }
     if (orderDirection === "desc") {
-      items = this.sortArray(items, orderColumn, -1);
+      items = sortArray(items, orderColumn, -1);
     }
     // console.log("items after filter", items);
 

@@ -1,27 +1,26 @@
 import styled from "styled-components";
 
-export const StyledUserHistoryQuickView = styled.div`
+export const StyledLastActiveList = styled.div`
   position: absolute;
-  right: 10px;
+  left: 10px;
   top: 50px;
   pading: 15px;
   background-color: #fff;
   overflow: hidden;
-  width: 300px;
   z-index: 1;
+  min-width: 300px;
   button {
     position: absolute;
     right: 0px;
     top: 0px;
   }
-  .users-history-list-box {
+  .last-active-list-box {
     list-style-type: none;
     margin: 0px;
-    padding: 0px 10px 10px 10px;
+    padding: 0px;
     text-align: left;
   }
-  .users-history-list-box li {
+  .last-active-list-box li {
     font-size: 12px;
-    border-bottom: 1px solid grey;
   }
 `;

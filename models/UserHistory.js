@@ -6,14 +6,17 @@ const UsersHistorySchema = new Schema({
     type: String,
     required: [true, "Id użytkownika jest wymagany"],
   },
+  userName: {
+    type: String,
+    required: [true, "Nazwa użytownika jest wymagana"],
+  },
   event: {
     type: String,
     required: [true, "Zdażenie jest wymagane"],
   },
   createdAt: {
-    type: Date,
+    type: String,
     required: [true, "Data utworzenia jest wymagana"],
-    default: Date.now,
   },
 });
 

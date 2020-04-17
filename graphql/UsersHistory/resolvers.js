@@ -3,7 +3,6 @@ const tools = require("../../utils/tools");
 
 module.exports = {
   fetchUsersHistory: async function ({ dataInput }) {
-    console.log("fetch resolver", dataInput);
     const result = await UsersHistory.find(dataInput, null, {
       sort: { createdAt: 1 },
     });
@@ -12,6 +11,7 @@ module.exports = {
   addUserHistory: async function ({ dataInput }, req) {
     const data = {
       userId: dataInput.userId,
+      userName: dataInput.userName,
       event: dataInput.event,
       createdAt: dataInput.createdAt,
     };

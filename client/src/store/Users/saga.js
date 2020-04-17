@@ -14,7 +14,7 @@ import {
   LOGGED_OUT_SUCCESS,
   UPDATING_USER,
   UPDATE_USER_SUCCESS,
-  USER_ERROR
+  USER_ERROR,
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
@@ -31,11 +31,12 @@ function* loginUserAsync(action) {
             company
             projects
             users
+            lastActive
             createdAt
             token
           }
         }
-      `
+      `,
     };
 
     const res = yield call(
@@ -52,7 +53,7 @@ function* loginUserAsync(action) {
 
     yield put({
       type: FETCH_LOGGED_USER_SUCCESS,
-      payload: res.data.data.loginUser
+      payload: res.data.data.loginUser,
     });
   } catch (error) {
     yield put({ type: USER_ERROR, payload: error });
@@ -77,6 +78,7 @@ function* registerUserAsync(action) {
         company: "${action.data.company}",
         projects: "${action.data.projects}",
         users: "${action.data.users}", 
+        lastActive: "${presentDate}",
         createdAt: "${presentDate}"}){
         _id
         name
@@ -86,13 +88,14 @@ function* registerUserAsync(action) {
         company
         projects
         users
+        lastActive
         createdAt
         errors{
           path
           message
         }
       }
-    }`
+    }`,
   };
 
   const res = yield call(
@@ -107,16 +110,16 @@ function* registerUserAsync(action) {
     yield put({ type: USER_ERROR, payload: response.errors });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
+      payload: { errors: response.errors },
     });
   } else {
     yield put({
       type: REGISTER_USER_SUCCESS,
-      payload: response
+      payload: response,
     });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Użytkownik został dodany" }] }
+      payload: { success: [{ message: "Użytkownik został dodany" }] },
     });
   }
 }
@@ -151,10 +154,11 @@ function* fetchUsersAsync(action) {
             company
             projects
             users
+            lastActive
             createdAt
           }
         }
-    `
+    `,
     };
     const res = yield call(
       [axios, axios.post],
@@ -186,10 +190,11 @@ function* fetchUsersByLoggedUserProjectsAsync(action) {
             company
             projects
             users
+            lastActive
             createdAt
           }
         }
-    `
+    `,
     };
     const res = yield call(
       [axios, axios.post],
@@ -199,7 +204,7 @@ function* fetchUsersByLoggedUserProjectsAsync(action) {
     );
     yield put({
       type: FETCH_USERS_SUCCESS,
-      payload: res.data.data.fetchUsersByLoggedUserProjects
+      payload: res.data.data.fetchUsersByLoggedUserProjects,
     });
   } catch (error) {
     yield put({ type: USER_ERROR, payload: error });
@@ -225,7 +230,8 @@ function* updateUserAsync(action) {
     status: data.status ? data.status : "",
     company: data.company ? data.company : "",
     projects: data.projects ? data.projects : "",
-    users: data.users ? data.users : ""
+    users: data.users ? data.users : "",
+    lastActive: data.lastActive ? data.lastActive : "",
   };
 
   const graph = {
@@ -238,7 +244,8 @@ function* updateUserAsync(action) {
       status: "${userInput.status}",
       company: "${userInput.company}",
       projects: "${userInput.projects}",
-      users: "${userInput.users}"}){
+      users: "${userInput.users}",
+      lastActive: "${userInput.lastActive}"}){
         _id
         name
         email
@@ -246,12 +253,13 @@ function* updateUserAsync(action) {
         company
         projects
         users
+        lastActive
         errors{
           path
           message
         }
       }
-    }`
+    }`,
   };
   // console.log(graph);
   const userData = yield call(
@@ -266,13 +274,13 @@ function* updateUserAsync(action) {
     yield put({ type: USER_ERROR, payload: response.errors });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
+      payload: { errors: response.errors },
     });
   } else {
     yield put({ type: UPDATE_USER_SUCCESS, payload: response });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Użytkownik został zaktualizowany" }] }
+      payload: { success: [{ message: "Użytkownik został zaktualizowany" }] },
     });
   }
 }
