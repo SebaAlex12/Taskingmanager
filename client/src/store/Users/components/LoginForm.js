@@ -46,12 +46,12 @@ class LoginForm extends Component {
       message: "Logowanie do systemu...",
     });
 
-    // if (response) {
-    //   console.log("response", response);
-    //   setTimeout(function () {
-    //     window.location.href = "/";
-    //   }, 4000);
-    // }
+    if (response) {
+      console.log("response", response);
+      setTimeout(function () {
+        window.location.href = "/";
+      }, 4000);
+    }
   };
   render() {
     const { message } = this.state;

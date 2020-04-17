@@ -33,7 +33,8 @@ const UserSchema = new Schema({
     type: String,
   },
   createdAt: {
-    type: String,
+    type: Date,
+    default: Date.now,
   },
 });
 
