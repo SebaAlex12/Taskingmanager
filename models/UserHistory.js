@@ -10,6 +10,15 @@ const UsersHistorySchema = new Schema({
     type: String,
     required: [true, "Nazwa użytownika jest wymagana"],
   },
+  taskCreatedBy: {
+    type: String,
+  },
+  taskProjectName: {
+    type: String,
+  },
+  taskTitle: {
+    type: String,
+  },
   event: {
     type: String,
     required: [true, "Zdażenie jest wymagane"],

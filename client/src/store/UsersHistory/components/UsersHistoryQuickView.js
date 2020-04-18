@@ -3,11 +3,16 @@ import { connect } from "react-redux";
 import moment from "moment/min/moment-with-locales";
 
 import { SmallerButton } from "../../../themes/basic";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faInfoCircle,
+  faSyncAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { sortArray } from "../../../common/tools";
 import { StyledUserHistoryQuickView } from "../styles/StyledUserHistoryQuickView";
+import { fetchUsersHistory } from "../actions";
 
 class UsersHistoryQuickView extends Component {
   constructor(props) {
@@ -16,27 +21,39 @@ class UsersHistoryQuickView extends Component {
       toggleUserHistory: false,
     };
   }
+  refresh = () => {
+    const { fetchUsersHistory } = this.props;
+    fetchUsersHistory();
+  };
   render() {
     const { usersHistory } = this.props;
     const { toggleUserHistory } = this.state;
 
-    if (usersHistory.lenght > 0) {
-      console.log("users history", usersHistory);
-    }
     let sortedUsersHistory;
     let container = "";
     if (usersHistory.length > 0) {
-      sortedUsersHistory = sortArray(usersHistory, "createdAt", -1);
+      sortedUsersHistory = sortArray(usersHistory, "createdAt", 1);
       container = sortedUsersHistory.map((userHistory) => {
+        const {
+          _id,
+          createdAt,
+          userName,
+          taskCreatedBy,
+          taskProjectName,
+          taskTitle,
+          event,
+        } = userHistory;
         return (
-          <li>
-            <div>
-              {moment(new Date(userHistory.createdAt))
-                .locale("pl")
-                .format("LLLL")}
+          <li title={`Tytuł zadania: ${taskTitle}`} key={_id}>
+            <div className="date">
+              {moment(new Date(createdAt)).locale("pl").format("LLLL")}
+            </div>
+            <div className="info">
+              <FontAwesomeIcon icon={faInfoCircle} />
+              {taskProjectName} / {taskCreatedBy}
             </div>
             <div>
-              {userHistory.userName} - {userHistory.event}
+              {userName} - {event}
             </div>
           </li>
         );
@@ -45,6 +62,7 @@ class UsersHistoryQuickView extends Component {
     return (
       <StyledUserHistoryQuickView>
         <SmallerButton
+          className="btn-show-more"
           onClick={() =>
             this.setState({
               ...this.state,
@@ -54,13 +72,20 @@ class UsersHistoryQuickView extends Component {
         >
           <FontAwesomeIcon title="pokaż wszystkich" icon={faAngleDown} />
         </SmallerButton>
+        <SmallerButton className="btn-refresh">
+          <FontAwesomeIcon
+            title="odśwież"
+            onClick={this.refresh}
+            icon={faSyncAlt}
+          />
+        </SmallerButton>
         <ul
           className="users-history-list-box"
           style={{
-            cursor: "help",
-            height: toggleUserHistory ? "auto" : "50px",
+            // cursor: "help",
+            height: toggleUserHistory ? "500px" : "50px",
           }}
-          title="historia użytkowników"
+          // title="historia użytkowników"
         >
           {container}
         </ul>
@@ -75,4 +100,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(UsersHistoryQuickView);
+export default connect(mapStateToProps, { fetchUsersHistory })(
+  UsersHistoryQuickView
+);

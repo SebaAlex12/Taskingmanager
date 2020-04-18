@@ -12,6 +12,9 @@ module.exports = {
     const data = {
       userId: dataInput.userId,
       userName: dataInput.userName,
+      taskCreatedBy: dataInput.taskCreatedBy,
+      taskProjectName: dataInput.taskProjectName,
+      taskTitle: dataInput.taskTitle,
       event: dataInput.event,
       createdAt: dataInput.createdAt,
     };

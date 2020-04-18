@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 
+import { priorities, statuses } from "../../ini";
 import { addTask } from "../actions";
 import { updateMessages } from "../../Messages/actions";
-import { priorities, statuses } from "../../ini";
+import { addUserHistory } from "../../UsersHistory/actions";
 
 import { StyledTaskForm } from "../styles/StyledTaskForm";
 
@@ -20,23 +21,23 @@ class TasksAddForm extends Component {
       responsiblePersonLastComment: false,
       priority: "Normalny",
       status: "Do wykonania",
-      termAt: ""
+      termAt: "",
     };
   }
-  onChangeInput = event => {
+  onChangeInput = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  onChangeSelect = event => {
+  onChangeSelect = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  addHandler = async event => {
-    const { addTask, loggedUser, updateMessages } = this.props;
+  addHandler = async (event) => {
+    const { addTask, loggedUser, updateMessages, addUserHistory } = this.props;
     const {
       projectName,
       responsiblePerson,
@@ -45,7 +46,7 @@ class TasksAddForm extends Component {
       responsiblePersonLastComment,
       priority,
       status,
-      termAt
+      termAt,
     } = this.state;
 
     const data = {
@@ -59,7 +60,7 @@ class TasksAddForm extends Component {
       responsiblePersonLastComment,
       priority,
       status,
-      termAt
+      termAt,
     };
 
     event.preventDefault();
@@ -72,12 +73,22 @@ class TasksAddForm extends Component {
       priority: priority,
       topic: "masz nowe zadanie: " + title,
       type: "task_add",
-      createAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
+      createAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
     };
 
     if (response) {
       updateMessages({ alert: alertData });
     }
+
+    addUserHistory({
+      userId: loggedUser._id,
+      userName: loggedUser.name,
+      taskCreatedBy: loggedUser.name,
+      taskProjectName: projectName,
+      taskTitle: title,
+      event: "dodane nowe zadanie",
+      createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
+    });
   };
   render() {
     const { projects } = this.props;
@@ -97,7 +108,7 @@ class TasksAddForm extends Component {
     let users;
 
     // if (this.state.projects) {
-    users = this.props.users.filter(user => {
+    users = this.props.users.filter((user) => {
       if (user.projects !== null) {
         let userProjects = user.projects.split(",");
         if (userProjects.includes(projectName)) {
@@ -146,7 +157,7 @@ class TasksAddForm extends Component {
               >
                 <option value="">Wybierz priorytet</option>
                 {priorities
-                  ? priorities.map(prt => {
+                  ? priorities.map((prt) => {
                       return (
                         <option
                           key={prt._id}
@@ -179,7 +190,7 @@ class TasksAddForm extends Component {
               >
                 <option value="">Wybierz projekt</option>
                 {projects
-                  ? projects.map(project => {
+                  ? projects.map((project) => {
                       let option = "";
                       // if (
                       //   loggedUser.status === "Administrator" ||
@@ -206,7 +217,7 @@ class TasksAddForm extends Component {
               >
                 <option value="">Przypisz do</option>
                 {users && projectName.length > 0
-                  ? users.map(user => {
+                  ? users.map((user) => {
                       let option = "";
                       // if (
                       //   loggedUser.status === "Administrator" ||
@@ -234,7 +245,7 @@ class TasksAddForm extends Component {
               >
                 <option value="">Wybierz stan</option>
                 {statuses
-                  ? statuses.map(sts => {
+                  ? statuses.map((sts) => {
                       return (
                         <option
                           key={sts._id}
@@ -262,14 +273,16 @@ class TasksAddForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     users: state.users.users,
     projects: state.projects.projects,
-    loggedUser: state.users.logged_user
+    loggedUser: state.users.logged_user,
   };
 };
 
-export default connect(mapStateToProps, { addTask, updateMessages })(
-  TasksAddForm
-);
+export default connect(mapStateToProps, {
+  addTask,
+  updateMessages,
+  addUserHistory,
+})(TasksAddForm);

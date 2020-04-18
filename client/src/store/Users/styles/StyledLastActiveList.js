@@ -9,7 +9,7 @@ export const StyledLastActiveList = styled.div`
   overflow: hidden;
   z-index: 1;
   min-width: 300px;
-  button {
+  .btn-show-more {
     position: absolute;
     right: 0px;
     top: 0px;

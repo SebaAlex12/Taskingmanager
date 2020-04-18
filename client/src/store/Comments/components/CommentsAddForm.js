@@ -34,6 +34,9 @@ class CommentsAddForm extends Component {
     const {
       addComment,
       taskId,
+      taskCreatedBy,
+      taskProjectName,
+      taskTitle,
       responsiblePerson,
       loggedUser,
       updateTask,
@@ -58,6 +61,9 @@ class CommentsAddForm extends Component {
     addUserHistory({
       userId: loggedUser._id,
       userName: loggedUser.name,
+      taskCreatedBy: taskCreatedBy,
+      taskProjectName: taskProjectName,
+      taskTitle: taskTitle,
       event: "dodany komentarz do zadania",
       createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
     });

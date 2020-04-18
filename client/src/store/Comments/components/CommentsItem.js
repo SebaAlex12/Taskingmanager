@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import moment from "moment";
+import moment from "moment/min/moment-with-locales";
+
 import ReactHtmlParser from "react-html-parser";
 
 class CommentsItem extends Component {
@@ -11,7 +12,7 @@ class CommentsItem extends Component {
     // let description = this.retriveImageFromBase64(item.description);
     // console.log("constructor desc", description);
     this.state = {
-      toggleDescriptionMore: false
+      toggleDescriptionMore: false,
     };
   }
   // componentDidMount() {
@@ -64,9 +65,7 @@ class CommentsItem extends Component {
     return (
       <li className={isActive}>
         <div className="date">
-          {moment(new Date(item.createdAt))
-            .locale("de")
-            .format("LLLL")}
+          {moment(new Date(item.createdAt)).locale("pl").format("LLLL")}
         </div>
         <div className="creator-name">{item.createdBy}</div>
         <div className="content-box">
@@ -75,7 +74,7 @@ class CommentsItem extends Component {
               className={isDisabled}
               onClick={() =>
                 this.setState({
-                  toggleDescriptionMore: !toggleDescriptionMore
+                  toggleDescriptionMore: !toggleDescriptionMore,
                 })
               }
             ></i>
@@ -95,9 +94,9 @@ class CommentsItem extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    loggedUser: state.users.logged_user
+    loggedUser: state.users.logged_user,
   };
 };
 

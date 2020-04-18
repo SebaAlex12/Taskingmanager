@@ -25,7 +25,7 @@ class UsersLastActiveList extends Component {
       sortedUsers = sortArray(users, "lastActive", -1);
       container = sortedUsers.map((user) => {
         return (
-          <li>
+          <li key={user._id}>
             {user.name} -{" "}
             {moment(new Date(user.lastActive)).locale("pl").format("LLLL")}
           </li>
@@ -35,6 +35,7 @@ class UsersLastActiveList extends Component {
     return (
       <StyledLastActiveList>
         <SmallerButton
+          className="btn-show-more"
           onClick={() =>
             this.setState({
               ...this.state,

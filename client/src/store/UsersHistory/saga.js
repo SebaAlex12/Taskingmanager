@@ -23,6 +23,9 @@ function* fetchUsersHistoryAsync(action) {
             _id
             userId
             userName
+            taskCreatedBy
+            taskProjectName
+            taskTitle
             event
             createdAt
             errors{
@@ -57,6 +60,9 @@ function* addUserHistoryAsync(action) {
   const dataInput = {
     userId: data.userId,
     userName: data.userName,
+    taskCreatedBy: data.taskCreatedBy,
+    taskProjectName: data.taskProjectName,
+    taskTitle: data.taskTitle,
     event: data.event,
     createdAt: data.createdAt,
   };
@@ -66,11 +72,17 @@ function* addUserHistoryAsync(action) {
       addUserHistory(dataInput: {
       userId: "${dataInput.userId}",
       userName: "${dataInput.userName}",
+      taskCreatedBy: "${dataInput.taskCreatedBy}",
+      taskProjectName: "${dataInput.taskProjectName}",
+      taskTitle: "${dataInput.taskTitle}",
       event: "${dataInput.event}",
       createdAt: "${dataInput.createdAt}"}){
         _id
         userId
         userName
+        taskCreatedBy
+        taskProjectName
+        taskTitle
         event
         createdAt
         errors{
@@ -87,8 +99,8 @@ function* addUserHistoryAsync(action) {
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
-  const response = result.data.data.storedUserHistory;
-
+  const response = result.data.data.addUserHistory;
+  // console.log("saga", result.data);
   if (response.errors) {
     yield put({ type: USERS_HISTORY_ERROR, payload: response.errors });
     yield put({

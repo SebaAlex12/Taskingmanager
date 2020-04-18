@@ -23,7 +23,7 @@ import {
   faEnvelope,
   faTimes,
   faEdit,
-  faPencilAlt
+  faPencilAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -33,7 +33,7 @@ class TasksItem extends Component {
     this.state = {
       toggle: false,
       showModalMailTrigger: false,
-      showModalCalendarTrigger: false
+      showModalCalendarTrigger: false,
     };
   }
 
@@ -51,7 +51,7 @@ class TasksItem extends Component {
       termAt,
       createdAt,
       files,
-      mailRemainderData
+      mailRemainderData,
     } = this.props.item;
     this.setState({
       _id,
@@ -66,7 +66,7 @@ class TasksItem extends Component {
       termAt,
       createdAt,
       files,
-      mailRemainderData
+      mailRemainderData,
     });
   }
 
@@ -78,7 +78,7 @@ class TasksItem extends Component {
     if (nextProps.item.files !== this.props.item.files) {
       // console.log("next props files", nextProps.item.files);
       this.setState({
-        files: nextProps.item.files
+        files: nextProps.item.files,
       });
     }
     // console.log("next state", nextState);
@@ -90,10 +90,10 @@ class TasksItem extends Component {
     this.setState({ toggle: !toggle });
   };
 
-  onChangeHandler = event => {
+  onChangeHandler = (event) => {
     event.preventDefault();
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -102,7 +102,7 @@ class TasksItem extends Component {
     const { _id, description } = this.state;
     const data = {
       _id,
-      description
+      description,
     };
     const response = updateTask(data);
     if (response) {
@@ -110,7 +110,7 @@ class TasksItem extends Component {
     }
   };
 
-  onKeyUpHandler = event => {
+  onKeyUpHandler = (event) => {
     if (event.keyCode === 13) {
       const { updateTask } = this.props;
       const {
@@ -122,7 +122,7 @@ class TasksItem extends Component {
         priority,
         createdBy,
         termAt,
-        createdAt
+        createdAt,
       } = this.state;
       const data = {
         _id,
@@ -133,24 +133,24 @@ class TasksItem extends Component {
         priority,
         createdBy,
         termAt,
-        createdAt
+        createdAt,
       };
       updateTask(data);
       this.setState({
-        toggle: false
+        toggle: false,
       });
     }
   };
 
-  onChangeSelectHandler = event => {
+  onChangeSelectHandler = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
     const { updateTask, updateMessages, loggedUser } = this.props;
     const { _id, responsiblePerson, title, priority } = this.state;
     const data = {
       _id,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     };
     const response = updateTask(data);
 
@@ -163,7 +163,7 @@ class TasksItem extends Component {
             topic: "zadanie do wykonania: " + title,
             priority: priority,
             type: "task_change",
-            createAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
+            createAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
           }
         : false;
 
@@ -172,7 +172,7 @@ class TasksItem extends Component {
     }
   };
 
-  removeTaskHandler = event => {
+  removeTaskHandler = (event) => {
     const { removeTask } = this.props;
     const { _id, title } = this.state;
 
@@ -184,7 +184,7 @@ class TasksItem extends Component {
       if (response) {
         updateMessages([
           { name: "Zadanie" },
-          { value: event.target.name + " został usunięty" }
+          { value: event.target.name + " został usunięty" },
         ]);
       }
     }
@@ -192,21 +192,21 @@ class TasksItem extends Component {
 
   clear = () => {
     this.setState({
-      toggle: false
+      toggle: false,
     });
   };
 
-  showModalMail = result => {
+  showModalMail = (result) => {
     this.setState({
       ...this.state,
-      showModalMailTrigger: result
+      showModalMailTrigger: result,
     });
   };
 
-  showModalCalendar = result => {
+  showModalCalendar = (result) => {
     this.setState({
       ...this.state,
-      showModalCalendarTrigger: result
+      showModalCalendarTrigger: result,
     });
   };
 
@@ -227,14 +227,14 @@ class TasksItem extends Component {
       files,
       mailRemainderData,
       showModalMailTrigger,
-      showModalCalendarTrigger
+      showModalCalendarTrigger,
     } = this.state;
     const { setActiveTaskHandler, active, loggedUser, users } = this.props;
     // console.log("state item", this.state);
 
-    const taskCreatorUser = users.filter(user => user.name === createdBy);
+    const taskCreatorUser = users.filter((user) => user.name === createdBy);
     const taskResponsibleUser = users.filter(
-      user => user.name === responsiblePerson
+      (user) => user.name === responsiblePerson
     );
 
     // console.log("task creator user", taskCreatorUser);
@@ -247,7 +247,7 @@ class TasksItem extends Component {
     if (files && files.length > 0) {
       // console.log("files", files);
       // let item = 0;
-      filesContent = files.map(file => {
+      filesContent = files.map((file) => {
         // console.log("file", file);
         let imageUrl = `/files/tasks/${_id}/${file}`;
         // filesUrls.push(imageUrl);
@@ -262,8 +262,10 @@ class TasksItem extends Component {
       });
     }
 
-    const selectedPriority = priorities.filter(item => item.name === priority);
-    const selectedStatus = statuses.filter(item => item.name === status);
+    const selectedPriority = priorities.filter(
+      (item) => item.name === priority
+    );
+    const selectedStatus = statuses.filter((item) => item.name === status);
 
     let clazz;
     if (selectedPriority.length > 0 && selectedStatus.length > 0) {
@@ -345,7 +347,7 @@ class TasksItem extends Component {
             >
               {/* <option value="">Stan</option> */}
               {statuses
-                ? statuses.map(item => {
+                ? statuses.map((item) => {
                     return (
                       <option
                         key={item._id}
@@ -369,7 +371,7 @@ class TasksItem extends Component {
             >
               {/* <option value="">Priorytet</option> */}
               {priorities
-                ? priorities.map(item => {
+                ? priorities.map((item) => {
                     return (
                       <option
                         key={item._id}
@@ -422,7 +424,7 @@ class TasksItem extends Component {
               required
             >
               {users
-                ? users.map(item => {
+                ? users.map((item) => {
                     if (item.projects) {
                       if (item.projects.split(",").includes(projectName)) {
                         return (
@@ -447,14 +449,10 @@ class TasksItem extends Component {
             </select>
           </td>
           <td className="term">
-            {moment(new Date(termAt))
-              .locale("pl")
-              .format("LLLL")}
+            {moment(new Date(termAt)).locale("pl").format("LLLL")}
           </td>
           <td className="createdAt">
-            {moment(new Date(createdAt))
-              .locale("pl")
-              .format("LLLL")}
+            {moment(new Date(createdAt)).locale("pl").format("LLLL")}
           </td>
           <td className="details">
             <Button onClick={setActiveTaskHandler}>
@@ -494,6 +492,9 @@ class TasksItem extends Component {
                 />
                 <CommentsAddForm
                   taskId={_id}
+                  taskProjectName={projectName}
+                  taskTitle={title}
+                  taskCreatedBy={createdBy}
                   responsiblePerson={responsiblePerson}
                 />
               </td>
@@ -511,15 +512,15 @@ class TasksItem extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loggedUser: state.users.logged_user,
-    users: state.users.users
+    users: state.users.users,
   };
 };
 
 export default connect(mapStateToProps, {
   updateTask,
   removeTask,
-  updateMessages
+  updateMessages,
 })(TasksItem);

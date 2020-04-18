@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { removeUser, updateUser } from "../actions";
 import RegistryForm from "./RegistryForm";
 import UsersLastActiveList from "./UsersLastActiveList";
+import UsersHistoryQuickView from "../../UsersHistory/components/UsersHistoryQuickView";
 
 import { updateFilter } from "../../Filters/actions";
 import UsersItem from "./UsersItem";
@@ -103,6 +104,10 @@ class UsersList extends Component {
       <StyledUserList>
         <div className="users-box">
           <UsersLastActiveList />
+          {loggedUser.status === "Administrator" ||
+          loggedUser.status === "Menedżer" ? (
+            <UsersHistoryQuickView />
+          ) : null}
           {loggedUser.status === "Administrator" ||
           loggedUser.status === "Menedżer" ? (
             <div className={btn_clazz}>

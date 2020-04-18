@@ -13,7 +13,7 @@ class CommentsList extends Component {
   componentDidMount() {
     const { fetchComments, taskId } = this.props;
     const data = {
-      taskId
+      taskId,
     };
     fetchComments(data);
   }
@@ -47,7 +47,7 @@ class CommentsList extends Component {
       : null;
 
     const commentsContent = commentItems
-      ? commentItems.map(comment => {
+      ? commentItems.map((comment) => {
           return (
             <CommentsItem
               item={comment}
@@ -65,9 +65,9 @@ class CommentsList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    comments: state.comments.comments
+    comments: state.comments.comments,
   };
 };
 

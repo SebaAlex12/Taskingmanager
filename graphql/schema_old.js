@@ -82,6 +82,9 @@ module.exports = buildSchema(`
         _id: ID
         userId: String
         userName: String
+        taskCreatedBy: String
+        taskProjectName: String
+        taskTitle: String
         event: String
         createdAt: String
         errors: [Error]
@@ -228,6 +231,9 @@ module.exports = buildSchema(`
         _id: String,
         userId: String
         userName: String
+        taskCreatedBy: String
+        taskProjectName: String
+        taskTitle: String
         event: String
         createdAt: String
     }

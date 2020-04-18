@@ -11,7 +11,6 @@ import Messengers from "../../root/Messengers";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
 import Interview from "../../store/Cameras/components/Interview";
-import UsersHistoryQuickView from "../../store/UsersHistory/components/UsersHistoryQuickView";
 
 // import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
@@ -81,7 +80,6 @@ class Dashboard extends Component {
         <button className="btn btn-default" onClick={this.logoutUserHandler}>
           Logout
         </button>
-        <UsersHistoryQuickView />
         <div className="container">
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/" component={Tasks} />
