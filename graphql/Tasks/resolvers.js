@@ -9,7 +9,7 @@ const User = require("../../models/User");
 const tools = require("../../utils/tools");
 // fetchTasks and fetchTasksByLoggedUserProjects has to be almost the same
 module.exports = {
-  fetchTasks: async function({ taskInput }) {
+  fetchTasks: async function ({ taskInput }) {
     let params = {};
     // console.log("fetch tasks input", taskInput);
 
@@ -25,15 +25,15 @@ module.exports = {
     if (taskInput.createdBy && taskInput.createdBy !== "undefined")
       params.createdBy = taskInput.createdBy;
 
-    let tasks = await Task.find(params).sort({ createdAt: -1 });
+    let tasks = await Task.find(params).sort({ createdAt: "desc" });
 
-    const newTasks = tasks.map(async task => {
+    const newTasks = tasks.map(async (task) => {
       let path = "./client/public/files/tasks/" + task._id;
       if (fs.existsSync(path)) {
         const files = await fsPromises.readdir(path);
         task = {
           ...task._doc,
-          files: files.filter(file => file != "mini")
+          files: files.filter((file) => file != "mini"),
         };
       } else {
         task.files = [];
@@ -43,10 +43,10 @@ module.exports = {
 
     return newTasks;
   },
-  fetchTasksByLoggedUserProjects: async function({ taskInput, projects }) {
+  fetchTasksByLoggedUserProjects: async function ({ taskInput, projects }) {
     let params = {};
     const list = projects.split(",");
-    const pregmatch = list.map(item => new RegExp(item));
+    const pregmatch = list.map((item) => new RegExp(item));
 
     if (taskInput.projectName && taskInput.projectName !== "undefined")
       params.projectName = taskInput.projectName;
@@ -67,20 +67,20 @@ module.exports = {
       .or([
         {
           projectName: {
-            $in: pregmatch
-          }
-        }
+            $in: pregmatch,
+          },
+        },
       ]);
 
     // console.log("tasks", tasks);
 
-    const newTasks = tasks.map(async task => {
+    const newTasks = tasks.map(async (task) => {
       let path = "./client/public/files/tasks/" + task._id;
       if (fs.existsSync(path)) {
         const files = await fsPromises.readdir(path);
         task = {
           ...task._doc,
-          files: files.filter(file => file != "mini")
+          files: files.filter((file) => file != "mini"),
         };
       } else {
         task.files = [];
@@ -90,7 +90,7 @@ module.exports = {
 
     return newTasks;
   },
-  addTask: async function({ taskInput }, req) {
+  addTask: async function ({ taskInput }, req) {
     const task = new Task({
       userId: taskInput.userId,
       createdBy: taskInput.createdBy,
@@ -104,12 +104,12 @@ module.exports = {
       status: taskInput.status,
       createdAt: taskInput.createdAt,
       termAt: taskInput.termAt,
-      mailRemainderData: null
+      mailRemainderData: null,
     });
 
     const taskExists = await Task.findOne({
       title: taskInput.title,
-      projectName: taskInput.projectName
+      projectName: taskInput.projectName,
     });
 
     if (taskExists) {
@@ -126,7 +126,7 @@ module.exports = {
       return { errors: tools.formatErrors(e) };
     }
   },
-  updateTask: async function({ taskInput }, req) {
+  updateTask: async function ({ taskInput }, req) {
     // console.log("resolver input", taskInput);
     const _id = taskInput._id;
     const task = await Task.findOne({ _id });
@@ -156,7 +156,7 @@ module.exports = {
       mailRemainderData:
         taskInput.mailRemainderData.length > 5
           ? taskInput.mailRemainderData
-          : null
+          : null,
     };
     // console.log("resolver", data);
     data.createdAt = task.createdAt;
@@ -170,13 +170,13 @@ module.exports = {
 
         storedTask = {
           ...storedTask._doc,
-          files: files.filter(file => file != "mini")
+          files: files.filter((file) => file != "mini"),
         };
         // console.log("update stored task", storedTask);
       } else {
         storedTask = {
           ...storedTask._doc,
-          files: []
+          files: [],
         };
       }
       // console.log("update stored task", storedTask);
@@ -185,7 +185,7 @@ module.exports = {
       return { errors: tools.formatErrors(e) };
     }
   },
-  sendMailingTask: async function() {
+  sendMailingTask: async function () {
     // moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
 
     try {
@@ -205,17 +205,17 @@ module.exports = {
       // collect every task wich has date from ten last days mail reminder
 
       const tasks = await Task.find({
-        mailRemainderData: { $gte: tenDaysAgo, $lte: yesterday }
+        mailRemainderData: { $gte: tenDaysAgo, $lte: yesterday },
       });
 
       // console.log("tasks", tasks);
 
       if (tasks.length > 0) {
-        tasks.forEach(async task => {
+        tasks.forEach(async (task) => {
           // console.log("task item", task);
           const senderUser = await User.find({ name: task.createdBy });
           const reciverUser = await User.find({
-            name: task.responsiblePerson
+            name: task.responsiblePerson,
           });
           // console.log("sender email: ", senderUser[0].email);
           // console.log("reciver email:", reciverUser[0].email);
@@ -240,7 +240,7 @@ module.exports = {
             sender: task.createdBy,
             subject: "Zadanie do wykonania: " + task.title,
             html,
-            createdBy: task.createdBy
+            createdBy: task.createdBy,
           });
 
           task.mailRemainderData = presentDay;
@@ -257,12 +257,12 @@ module.exports = {
       return { errors: tools.formatErrors(e) };
     }
   },
-  removeTask: async function({ taskId }) {
+  removeTask: async function ({ taskId }) {
     try {
       await Task.deleteOne({ _id: taskId });
     } catch (e) {
       return { errors: tools.formatErrors(e) };
     }
     return { _id: taskId };
-  }
+  },
 };

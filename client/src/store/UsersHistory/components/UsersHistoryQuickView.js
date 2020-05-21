@@ -33,6 +33,9 @@ class UsersHistoryQuickView extends Component {
     let container = "";
     if (usersHistory.length > 0) {
       sortedUsersHistory = sortArray(usersHistory, "createdAt", 1);
+
+      // console.log("history", sortedUsersHistory);
+
       container = sortedUsersHistory.map((userHistory) => {
         const {
           _id,
