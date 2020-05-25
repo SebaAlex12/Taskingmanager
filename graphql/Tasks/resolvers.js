@@ -63,7 +63,7 @@ module.exports = {
     // let tasks = await Task.find(params);
 
     let tasks = await Task.find(params)
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: "desc" })
       .or([
         {
           projectName: {

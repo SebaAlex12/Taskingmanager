@@ -13,6 +13,10 @@ import { updateSettings } from "../store/Settings/actions";
 import { fetchContractors } from "../store/Contractors/actions";
 import { fetchCompanies } from "../store/Companies/actions";
 import { fetchUsersHistory } from "../store/UsersHistory/actions";
+
+import { faComment } from "@fortawesome/free-solid-svg-icons";
+import MessangersWidget from "../store/Messengers/components/MessangersWidget";
+
 import {
   fetchProjects,
   fetchProjectsByLoggedUserProjects,
@@ -22,6 +26,8 @@ import {
   fetchTasksByLoggedUserProjects,
   sendMailingTask,
 } from "../store/Tasks/actions";
+
+import Widget from "../common/Widget";
 
 class Tasks extends Component {
   componentDidMount() {
@@ -131,6 +137,9 @@ class Tasks extends Component {
     // console.log("local storage", insertedCompanyName);
     return (
       <div className="tasks-box">
+        <Widget rightPosition="10px" bottomPosition="0px" faIcon={faComment}>
+          <MessangersWidget />
+        </Widget>
         <div style={{ color: "red", fontWeight: "bold", fontSize: "14px" }}>
           {insertedCompanyName
             ? `Właśnie dodałeś firme o nazwie: "${insertedCompanyName}" dodaj użytkownika o statusie administrator i się na niego zaloguj !!!`

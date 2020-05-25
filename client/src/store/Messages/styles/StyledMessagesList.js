@@ -5,7 +5,7 @@ export const StyledMessagesList = styled.div`
   .messages-box {
     position: fixed;
     bottom: 0px;
-    right: -150px;
+    right: -235px;
     z-index: 1000;
     font-weight: bold;
     background-color: #379037;

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
-// import io from "socket.io-client";
 import { socket } from "../../ini";
 
 import { StyledMessengersForm } from "../styles/StyledMessengersForm";
@@ -11,17 +10,17 @@ class MessengersAddForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: ""
+      message: "",
     };
   }
 
-  onChangeInput = event => {
+  onChangeInput = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  addHandler = event => {
+  addHandler = (event) => {
     event.preventDefault();
     const { message } = this.state;
     const { loggedUser, filteredUsers, addMessenger } = this.props;
@@ -29,7 +28,7 @@ class MessengersAddForm extends Component {
 
     let usersNames = [];
     usersNames.push(loggedUser.name);
-    filteredUsers.forEach(user => {
+    filteredUsers.forEach((user) => {
       usersNames.push(user.name);
     });
 
@@ -39,20 +38,20 @@ class MessengersAddForm extends Component {
       msg: message,
       topic: "masz nową wiadomość",
       type: "msg_add",
-      createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
+      createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
     };
     socket.emit("chat", data);
     addMessenger(data);
     this.setState({
-      message: ""
+      message: "",
     });
   };
 
   render() {
     const { message } = this.state;
-    const { filteredUsers } = this.props;
+    let { filteredUsers } = this.props;
 
-    const filteredUsersContent = filteredUsers.map(user => {
+    const filteredUsersContent = filteredUsers.map((user) => {
       return <span key={user.name}>{user.name}</span>;
     });
     return (
@@ -89,10 +88,10 @@ class MessengersAddForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loggedUser: state.users.logged_user,
-    messengers: state.messengers.messengers
+    messengers: state.messengers.messengers,
   };
 };
 
