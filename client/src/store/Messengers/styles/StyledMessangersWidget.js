@@ -8,6 +8,11 @@ export const StyledMessangersWidget = styled.div`
   .messages {
     overflow-y: auto;
   }
+  .widget-full-size-button {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+  }
   .messages .item {
     display: flex;
     flex-direction: row;

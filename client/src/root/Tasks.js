@@ -137,7 +137,7 @@ class Tasks extends Component {
     // console.log("local storage", insertedCompanyName);
     return (
       <div className="tasks-box">
-        <Widget rightPosition="10px" bottomPosition="0px" faIcon={faComment}>
+        <Widget rightPosition="10px" bottomPosition="30px" faIcon={faComment}>
           <MessangersWidget />
         </Widget>
         <div style={{ color: "red", fontWeight: "bold", fontSize: "14px" }}>

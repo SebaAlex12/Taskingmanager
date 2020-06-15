@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, SmallerButton } from "../themes/basic";
 
@@ -15,7 +15,6 @@ class Widget extends Component {
   render() {
     const {
       name,
-      faIcon,
       leftPosition,
       topPosition,
       rightPosition,
@@ -25,12 +24,13 @@ class Widget extends Component {
 
     const showButton = (
       <Button
+        variant="primary"
         onClick={() =>
           this.setState({ widgetActiveToggle: !widgetActiveToggle })
         }
         className="widget-button"
       >
-        <FontAwesomeIcon icon={faIcon} />
+        <FontAwesomeIcon icon={faQuestionCircle} />
       </Button>
     );
 
@@ -39,7 +39,7 @@ class Widget extends Component {
         onClick={() =>
           this.setState({ widgetActiveToggle: !widgetActiveToggle })
         }
-        className="widget-button"
+        className="close-widget-button"
       >
         <FontAwesomeIcon icon={faTimes} />
       </SmallerButton>
@@ -76,6 +76,10 @@ const StyledWidget = styled.div`
   background-color: #fff;
   border: 1px solid #dcdcdc;
   .widget-button {
+    font-size: 24px;
+    float: right;
+  }
+  .close-widget-button {
     float: right;
   }
 `;
