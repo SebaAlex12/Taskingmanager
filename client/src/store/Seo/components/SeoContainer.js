@@ -1,6 +1,6 @@
 import React from "react";
 
 function SeoContainer() {
-  return <div>Seo give me some money yuuuup</div>;
+  return <div>Search Engine Optimization</div>;
 }
 export default SeoContainer;
