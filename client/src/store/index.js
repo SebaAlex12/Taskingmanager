@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 
+import { calendarsReducer } from "./Calendar/reducers";
 import { contractorsReducer } from "./Contractors/reducers";
 import { companiesReducer } from "./Companies/reducers";
 import { tasksReducer } from "./Tasks/reducers";
@@ -16,6 +17,7 @@ import { messagesReducer } from "./Messages/reducers";
 import { paymentsReducer } from "./Payments/reducers";
 
 export const reducers = combineReducers({
+  calendars: calendarsReducer,
   tasks: tasksReducer,
   settings: settingsReducer,
   contractors: contractorsReducer,

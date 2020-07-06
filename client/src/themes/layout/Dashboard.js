@@ -8,6 +8,8 @@ import { logoutUser } from "../../store/Users/actions";
 import Tasks from "../../root/Tasks";
 import Payments from "../../root/Payments";
 import Messengers from "../../root/Messengers";
+import Seo from "../../root/Seo";
+import Calendar from "../../root/Calendar";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
 import Interview from "../../store/Cameras/components/Interview";
@@ -64,8 +66,14 @@ class Dashboard extends Component {
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>
+        <Link className="btn btn-default" to="/calendar">
+          Kalendarz
+        </Link>
         {loggedUser.status === "Administrator" ? (
           <React.Fragment>
+            <Link className="btn btn-default" to="/seo">
+              SEO
+            </Link>
             <Link className="btn btn-default" to="/payments">
               Płatności
             </Link>
@@ -86,6 +94,8 @@ class Dashboard extends Component {
           <Route exact path="/messenger" component={Messengers} />
           <Route exact path="/mails" component={MailsListContainer} />
           <Route exact path="/cameras" component={Interview} />
+          <Route exact path="/seo" component={Seo} />
+          <Route exact path="/calendar" component={Calendar} />
           {loggedUser.status === "Administrator" ? (
             <Route exact path="/payments" component={Payments} />
           ) : null}

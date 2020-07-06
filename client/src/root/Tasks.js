@@ -13,6 +13,7 @@ import { updateSettings } from "../store/Settings/actions";
 import { fetchContractors } from "../store/Contractors/actions";
 import { fetchCompanies } from "../store/Companies/actions";
 import { fetchUsersHistory } from "../store/UsersHistory/actions";
+import { fetchCalendars } from "../store/Calendar/actions";
 
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import MessangersWidget from "../store/Messengers/components/MessangersWidget";
@@ -39,11 +40,13 @@ class Tasks extends Component {
       fetchUsersHistory,
       fetchProjectsByLoggedUserProjects,
       fetchTasks,
-      loggedUser: { status, name, projects, company },
+      fetchCalendars,
+      loggedUser: { status, name, projects, company, _id },
     } = this.props;
 
     fetchFilters();
     fetchUsersHistory();
+    fetchCalendars(_id);
 
     if (status === "SuperAdministrator") {
       fetchProjects();
@@ -184,6 +187,7 @@ export default connect(mapStateToProps, {
   fetchTasks,
   fetchTasksByLoggedUserProjects,
   fetchUsersHistory,
+  fetchCalendars,
   sendMailingTask,
   updateSettings,
 })(Tasks);

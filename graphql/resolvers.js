@@ -10,4 +10,5 @@ module.exports = {
   ...require("./Mails/resolvers"),
   ...require("./Messengers/resolvers"),
   ...require("./Projects/resolvers"),
+  ...require("./Calendar/resolvers"),
 };

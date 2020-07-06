@@ -12,6 +12,11 @@ import {
   fetchMessagesWatcher,
 } from "./Messages/saga";
 import {
+  fetchCalendarsWatcher,
+  addCalendarWatcher,
+  updateCalendarWatcher,
+} from "./Calendar/saga";
+import {
   fetchContractorsWatcher,
   addContractorWatcher,
   updateContractorWatcher,
@@ -83,6 +88,9 @@ export default function* rootSaga() {
     fork(updateAlertMessagesWatcher),
     fork(removeAlertMessagesWatcher),
     fork(fetchMessagesWatcher),
+    fork(fetchCalendarsWatcher),
+    fork(addCalendarWatcher),
+    fork(updateCalendarWatcher),
     fork(fetchContractorsWatcher),
     fork(addContractorWatcher),
     fork(updateContractorWatcher),

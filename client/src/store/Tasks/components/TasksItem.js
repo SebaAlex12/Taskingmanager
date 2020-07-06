@@ -15,7 +15,7 @@ import FilesItem from "../../Files/components/FilesItem";
 
 import MailsAddForm from "../../Mails/components/MailsAddForm";
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
-import SimpleCalendar from "../../../common/SimpleCalendar";
+import CalendarContainer from "../../Calendar/components/CalendarContainer";
 
 import { Button, WarningButton } from "../../../themes/basic";
 import {
@@ -315,18 +315,20 @@ class TasksItem extends Component {
               termAt={termAt}
               mailRemainderData={mailRemainderData}
             />
-            {/* <Button
+            <Button
               onClick={() => this.showModalCalendar(true)}
               title="kalendarz"
             >
               <FontAwesomeIcon icon={faCalendarAlt} />
-            </Button> */}
+            </Button>
             {showModalCalendarTrigger ? (
-              <ModalDialog
-                title="Kalendarz."
-                showModal={() => this.showModalCalendar(false)}
-              >
-                <SimpleCalendar />
+              <ModalDialog showModal={() => this.showModalCalendar(false)}>
+                <CalendarContainer
+                  eventId={_id}
+                  userId={taskResponsibleUser[0]["_id"]}
+                  eventType="task"
+                  title={title}
+                />
               </ModalDialog>
             ) : null}
             <i

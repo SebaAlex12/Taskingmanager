@@ -7,6 +7,19 @@ module.exports = buildSchema(`
         message: String
     }
 
+    type Calendar {
+        _id: ID
+        eventId: String
+        userId: String
+        eventType: String
+        title: String
+        description: String
+        selectedDate: String
+        status: String
+        createdAt: String
+        errors: [Error]
+    }
+
     type Company {
         _id: ID
         name: String
@@ -156,6 +169,18 @@ module.exports = buildSchema(`
         ftp: String
         panel: String
         errors: [Error]
+    }
+
+    input CalendarInputData {
+        _id: ID
+        eventId: String
+        userId: String
+        eventType: String
+        title: String
+        description: String
+        selectedDate: String
+        status: String
+        createdAt: String     
     }
 
     input CompanyInputData {
@@ -316,6 +341,8 @@ module.exports = buildSchema(`
     }
 
     type RootMutation {
+        addCalendar(calendarInput: CalendarInputData): Calendar!
+        updateCalendar(calendarInput: CalendarInputData): Calendar!
         addCompany(companyInput: CompanyInputData): Company!
         updateCompany(companyInput: CompanyInputData): Company! 
         removeCompany(companyId: String!): Company!
@@ -343,6 +370,7 @@ module.exports = buildSchema(`
 
     type RootQuery {
         loginUser(email: String!, password: String!): UserLoginData!
+        fetchCalendars(loggedUserId: String): [Calendar]!
         fetchCompanies: [Company]!
         fetchContractors: [Contractor]!
         fetchPayments(paymentInput: PaymentInputData): [Payment]!
