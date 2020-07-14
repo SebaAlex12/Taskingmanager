@@ -7,9 +7,9 @@ class PaymentsList extends Component {
   render() {
     const { payments } = this.props;
 
-    const paymentsContainer =
+    const listContainer =
       payments && payments.length > 0
-        ? payments.map(payment => (
+        ? payments.map((payment) => (
             <PaymentsItem key={payment._id} item={payment} />
           ))
         : null;
@@ -32,16 +32,16 @@ class PaymentsList extends Component {
               <th scope="col">Akcje</th>
             </tr>
           </thead>
-          <tbody>{paymentsContainer}</tbody>
+          <tbody>{listContainer}</tbody>
         </table>
       </div>
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loggedUser: state.users.logged_user,
-    payments: state.payments.payments
+    payments: state.payments.payments,
   };
 };
 export default connect(mapStateToProps)(PaymentsList);

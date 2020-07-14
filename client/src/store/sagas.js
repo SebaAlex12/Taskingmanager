@@ -78,6 +78,12 @@ import {
   updatePaymentWatcher,
   removePaymentWatcher,
 } from "./Payments/saga";
+import {
+  fetchPatternsWatcher,
+  addPatternWatcher,
+  updatePatternWatcher,
+  removePatternWatcher,
+} from "./Patterns/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -139,5 +145,9 @@ export default function* rootSaga() {
     fork(addPaymentWatcher),
     fork(updatePaymentWatcher),
     fork(removePaymentWatcher),
+    fork(fetchPatternsWatcher),
+    fork(addPatternWatcher),
+    fork(updatePatternWatcher),
+    fork(removePatternWatcher),
   ]);
 }

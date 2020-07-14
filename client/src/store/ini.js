@@ -5,202 +5,229 @@ export const socket = io();
 export const user_statuses = [
   {
     _id: 1,
-    name: "Administrator"
+    name: "Administrator",
   },
   {
     _id: 2,
-    name: "Menedżer"
+    name: "Menedżer",
   },
   {
     _id: 3,
-    name: "Pracownik"
+    name: "Pracownik",
   },
   {
     _id: 4,
-    name: "Klient"
-  }
+    name: "Klient",
+  },
 ];
 
 export const priorities = [
   {
     _id: 0,
     name: "Pali się",
-    active: true
+    active: true,
   },
   {
     _id: 1,
     name: "Priorytetowo",
-    active: true
+    active: true,
   },
   {
     _id: 2,
     name: "Normalny",
-    active: true
+    active: true,
   },
   {
     _id: 3,
     name: "W wolnym czasie",
-    active: true
+    active: true,
   },
   {
     _id: 4,
     name: "Można wykonać ale nie trzeba",
-    active: true
-  }
+    active: true,
+  },
 ];
 
 export const statuses = [
   {
     _id: 0,
     name: "Do wykonania",
-    active: true
+    active: true,
   },
   {
     _id: 1,
     name: "W trakcie",
-    active: true
+    active: true,
   },
   {
     _id: 2,
     name: "Do akceptacji",
-    active: true
+    active: true,
   },
   {
     _id: 3,
     name: "Wykonane",
-    active: false
+    active: false,
   },
   {
     _id: 4,
     name: "Zawieszone",
-    active: false
-  }
+    active: false,
+  },
 ];
 
 export const years = [
   {
     _id: 0,
     value: "2020",
-    name: "2020"
-  }
+    name: "2020",
+  },
 ];
 export const months = [
   {
     _id: 0,
     value: "01",
-    name: "Styczeń"
+    name: "Styczeń",
   },
   {
     _id: 1,
     value: "02",
-    name: "Luty"
+    name: "Luty",
   },
   {
     _id: 2,
     value: "03",
-    name: "Marzec"
+    name: "Marzec",
   },
   {
     _id: 3,
     value: "04",
-    name: "Kwiecień"
+    name: "Kwiecień",
   },
   {
     _id: 4,
     value: "05",
-    name: "Maj"
+    name: "Maj",
   },
   {
     _id: 5,
     value: "06",
-    name: "Czerwiec"
+    name: "Czerwiec",
   },
   {
     _id: 6,
     value: "07",
-    name: "Lipiec"
+    name: "Lipiec",
   },
   {
     _id: 7,
     value: "08",
-    name: "Sierpień"
+    name: "Sierpień",
   },
   {
     _id: 8,
     value: "09",
-    name: "Wrzesień"
+    name: "Wrzesień",
   },
   {
     _id: 9,
     value: "10",
-    name: "Październik"
+    name: "Październik",
   },
   {
     _id: 10,
     value: "11",
-    name: "Listopad"
+    name: "Listopad",
   },
   {
     _id: 11,
     value: "12",
-    name: "Grudzień"
-  }
+    name: "Grudzień",
+  },
 ];
 export const payment_pattern_statuses = [
   {
     _id: 1,
-    name: "Utworzony"
+    name: "Utworzony",
   },
   {
     _id: 2,
-    name: "Anulowany"
-  }
+    name: "Anulowany",
+  },
 ];
 export const payment_invoice_statuses = [
   {
     _id: 1,
-    name: "Utworzona"
+    name: "Utworzona",
   },
   {
     _id: 2,
-    name: "Zapłacona"
+    name: "Zapłacona",
   },
   {
     _id: 3,
-    name: "Anulowana"
-  }
+    name: "Anulowana",
+  },
 ];
 export const payment_types = [
   {
     _id: 1,
-    name: "Wzór"
+    name: "Wzór",
   },
   {
     _id: 2,
-    name: "Faktura"
-  }
+    name: "Faktura",
+  },
 ];
 export const payment_cycles = [
   {
     _id: 1,
-    name: "Miesięczny"
+    name: "Miesięczny",
   },
   {
     _id: 2,
-    name: "Kwartalny"
+    name: "Kwartalny",
   },
   {
     _id: 3,
-    name: "Roczny"
-  }
+    name: "Roczny",
+  },
 ];
 export const payment_methods = [
   {
     _id: 1,
-    name: "Przelew"
+    name: "Przelew",
   },
   {
     _id: 2,
-    name: "Gotówka"
-  }
+    name: "Gotówka",
+  },
+];
+export const pattern_statuses = [
+  {
+    _id: 0,
+    name: "Do wykonania",
+    active: true,
+  },
+  {
+    _id: 1,
+    name: "W trakcie",
+    active: true,
+  },
+  {
+    _id: 2,
+    name: "Do akceptacji",
+    active: true,
+  },
+  {
+    _id: 3,
+    name: "Wykonane",
+    active: false,
+  },
+  {
+    _id: 4,
+    name: "Zawieszone",
+    active: false,
+  },
 ];

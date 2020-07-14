@@ -77,6 +77,21 @@ module.exports = buildSchema(`
         createdAt: String
     }  
 
+    type Pattern {
+        _id: ID
+        userId: String
+        createdBy: String
+        responsiblePerson: String
+        title: String
+        description: String
+        elements: String
+        type: String
+        status: String
+        finishedAt: String
+        termAt: String
+        createdAt: String
+    }
+
     type User {
         _id: ID
         name: String
@@ -239,6 +254,21 @@ module.exports = buildSchema(`
         createdAt: String
     }
 
+    input PatternInputData{
+        _id: ID
+        userId: String
+        createdBy: String
+        responsiblePerson: String
+        title: String
+        description: String
+        elements: String
+        type: String
+        status: String
+        finishedAt: String
+        termAt: String
+        createdAt: String
+    }
+
     input UserInputData {
         _id: String
         name: String
@@ -351,6 +381,9 @@ module.exports = buildSchema(`
         addPayment(paymentInput: PaymentInputData): Payment!
         updatePayment(paymentInput: PaymentInputData): Payment! 
         removePayment(paymentId: String!): Payment!
+        addPattern(patternInput: PatternInputData): Pattern!
+        updatePattern(patternInput: PatternInputData): Pattern! 
+        removePattern(patternId: String!): Pattern!
         createUser(userInput: UserInputData): User!
         addUserHistory(dataInput: UserHistoryInputData): UserHistory!
         addTask(taskInput: TaskInputData): Task!
@@ -377,6 +410,7 @@ module.exports = buildSchema(`
         fetchNotUsedPatterns(month: String, year: String): [Payment]!
         fetchLastInsertInvoice: Payment
         fetchLastInsertPattern: Payment
+        fetchPatterns: [Pattern]!
         fetchUsers(userInput: UserInputData): [User]!
         fetchUsersByLoggedUserProjects(projects: String): [User]!
         fetchUsersHistory(userId: String): [UserHistory]!

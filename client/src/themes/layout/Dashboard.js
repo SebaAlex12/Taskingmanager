@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { connect, ReactReduxContext } from "react-redux";
+import { connect } from "react-redux";
 import { Route, Link } from "react-router-dom";
 // import io from "socket.io-client";
 import { socket } from "../../store/ini";
@@ -13,6 +13,7 @@ import Calendar from "../../root/Calendar";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
 import Interview from "../../store/Cameras/components/Interview";
+import PatternsContainer from "../../store/Patterns/components/PatternsContainer";
 
 // import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
@@ -66,6 +67,9 @@ class Dashboard extends Component {
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>
+        <Link className="btn btn-default" to="/patterns">
+          Szablony
+        </Link>
         <Link className="btn btn-default" to="/calendar">
           Kalendarz
         </Link>
@@ -91,6 +95,7 @@ class Dashboard extends Component {
         <div className="container">
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/" component={Tasks} />
+          <Route exact path="/patterns" component={PatternsContainer} />
           <Route exact path="/messenger" component={Messengers} />
           <Route exact path="/mails" component={MailsListContainer} />
           <Route exact path="/cameras" component={Interview} />
