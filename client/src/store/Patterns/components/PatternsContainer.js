@@ -20,14 +20,27 @@ class PatternsContainer extends Component {
   }
   render() {
     const { togglePatternsAddForm } = this.state;
-    const { loggedUser } = this.props;
+    const {
+      loggedUser,
+      userId,
+      taskId,
+      responsiblePerson,
+      attachedPattern,
+      disabled,
+    } = this.props;
     const btn_clazz = togglePatternsAddForm ? "flow-box active" : "flow-box";
 
     return (
       <StyledPatternsContainer>
         <div className="patterns-container-box">
           <h1>Szablony - postępowanie według wytycznych</h1>
-          <PatternsList />
+          <PatternsList
+            userId={userId}
+            taskId={taskId}
+            responsiblePerson={responsiblePerson}
+            attachedPattern={attachedPattern}
+            disabled={disabled}
+          />
           {loggedUser.status === "Administrator" ? (
             <div className={btn_clazz}>
               <BiggerButton

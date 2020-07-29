@@ -6,6 +6,9 @@ const PatternSchema = new Schema({
     type: String,
     required: true,
   },
+  taskId: {
+    type: String,
+  },
   createdBy: {
     type: String,
     required: true,

@@ -1,13 +1,17 @@
 import styled from "styled-components";
 
 export const StyledPatternsList = styled.div`
+  .patterns-table-box thead th:last-child {
+    width: 102px;
+  }
   .elements-box {
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
+  }
+  .elements-box .element {
+    float: left;
+    border: 1px solid #dadada;
+    padding: 0px 5px;
+  }
+  .elements-box .element input {
+    margin-right: 3px;
   }
 `;

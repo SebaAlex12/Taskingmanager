@@ -16,7 +16,7 @@ class UsersEditFrom extends Component {
       status: "",
       company: "",
       selectedProjects: [],
-      selectedUsers: []
+      selectedUsers: [],
     };
   }
   componentDidMount() {
@@ -29,50 +29,50 @@ class UsersEditFrom extends Component {
       status: item ? item.status : "",
       company: item ? item.company : "",
       selectedProjects: item ? item.projects.split(",") : [],
-      selectedUsers: item ? item.users.split(",") : []
+      selectedUsers: item ? item.users.split(",") : [],
     });
   }
-  onChangeInput = event => {
+  onChangeInput = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  onChangeSelect = event => {
+  onChangeSelect = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  onChangeUsersMultiCheckbox = event => {
+  onChangeUsersMultiCheckbox = (event) => {
     let { selectedUsers } = this.state;
 
     selectedUsers.includes(event.currentTarget.value)
       ? (selectedUsers = selectedUsers.filter(
-          item => item !== event.currentTarget.value
+          (item) => item !== event.currentTarget.value
         ))
       : selectedUsers.push(event.currentTarget.value);
 
     this.setState({
       ...this.state,
-      selectedUsers: selectedUsers
+      selectedUsers: selectedUsers,
     });
   };
-  onChangeProjectsMultiCheckbox = event => {
+  onChangeProjectsMultiCheckbox = (event) => {
     let { selectedProjects } = this.state;
 
     selectedProjects.includes(event.currentTarget.value)
       ? (selectedProjects = selectedProjects.filter(
-          item => item !== event.currentTarget.value
+          (item) => item !== event.currentTarget.value
         ))
       : selectedProjects.push(event.currentTarget.value);
 
     this.setState({
       ...this.state,
-      selectedProjects: selectedProjects
+      selectedProjects: selectedProjects,
     });
   };
-  updateHandler = event => {
+  updateHandler = (event) => {
     const { updateUser, updateMessages } = this.props;
     const {
       _id,
@@ -82,7 +82,7 @@ class UsersEditFrom extends Component {
       status,
       selectedProjects,
       selectedUsers,
-      company
+      company,
     } = this.state;
 
     const data = {
@@ -93,14 +93,14 @@ class UsersEditFrom extends Component {
       status,
       company,
       projects: selectedProjects,
-      users: selectedUsers
+      users: selectedUsers,
     };
 
     const response = updateUser(data);
     if (response) {
       updateMessages([
         { name: "Użytkownik" },
-        { value: "dane zostały zmienione" }
+        { value: "dane zostały zmienione" },
       ]);
     }
     event.preventDefault();
@@ -113,7 +113,7 @@ class UsersEditFrom extends Component {
       status,
       company,
       selectedProjects,
-      selectedUsers
+      selectedUsers,
     } = this.state;
     const { users, companies, loggedUser } = this.props;
     let { projects } = this.props;
@@ -124,7 +124,7 @@ class UsersEditFrom extends Component {
       if (loggedUser.status !== "Administrator") {
         projects = loggedUser.projects.split(",");
       } else {
-        projects = projects.map(item => item.name);
+        projects = projects.map((item) => item.name);
       }
     }
 
@@ -152,7 +152,7 @@ class UsersEditFrom extends Component {
     // console.log("selected projects", selectedProjects);
     if (projects) {
       let counter = 1;
-      projectContent = projects.map(project => {
+      projectContent = projects.map((project) => {
         return (
           <div className="checkbox-item" key={counter++}>
             <input
@@ -255,7 +255,7 @@ class UsersEditFrom extends Component {
             >
               <option value="">Status</option>
               {user_statuses
-                ? user_statuses.map(stats => {
+                ? user_statuses.map((stats) => {
                     if (loggedUser.status === "Administrator") {
                       return (
                         <option
@@ -291,26 +291,28 @@ class UsersEditFrom extends Component {
             <label>[Przypisz użytkowników]</label>
             {userContent}
           </div> */}
-          <div className="form-group">
-            <input
-              onClick={this.updateHandler}
-              className="btn btn-primary float-right"
-              type="submit"
-              value="zapisz"
-            />
-          </div>
+          {loggedUser.status === "Administrator" ? (
+            <div className="form-group">
+              <input
+                onClick={this.updateHandler}
+                className="btn btn-primary float-right"
+                type="submit"
+                value="zapisz"
+              />
+            </div>
+          ) : null}
         </form>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loggedUser: state.users.logged_user,
     projects: state.projects.projects,
     users: state.users.users,
-    companies: state.companies.companies
+    companies: state.companies.companies,
   };
 };
 

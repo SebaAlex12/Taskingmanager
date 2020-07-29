@@ -208,26 +208,21 @@ export const pattern_statuses = [
   {
     _id: 0,
     name: "Do wykonania",
-    active: true,
   },
   {
     _id: 1,
     name: "W trakcie",
-    active: true,
   },
   {
     _id: 2,
     name: "Do akceptacji",
-    active: true,
   },
   {
     _id: 3,
     name: "Wykonane",
-    active: false,
   },
   {
     _id: 4,
     name: "Zawieszone",
-    active: false,
   },
 ];

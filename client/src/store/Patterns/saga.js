@@ -22,6 +22,7 @@ function* fetchPatternsAsync(action) {
           fetchPatterns{
             _id
             userId,
+            taskId,
             createdBy,
             responsiblePerson,
             title,
@@ -61,6 +62,7 @@ function* addPatternAsync(action) {
   const data = action.data;
   const patternInput = {
     userId: data.userId,
+    taskId: data.taskId,
     createdBy: data.createdBy,
     responsiblePerson: data.responsiblePerson,
     title: data.title,
@@ -72,11 +74,12 @@ function* addPatternAsync(action) {
     termAt: data.termAt,
     createdAt: data.createdAt,
   };
-  // console.log("payent input", patternInput.elements);
+
   const graph = {
     query: `mutation {
       addPattern(patternInput: {
         userId: "${patternInput.userId}",
+        taskId: "${patternInput.taskId}",
         createdBy: "${patternInput.createdBy}",
         responsiblePerson: "${patternInput.responsiblePerson}",
         title: "${patternInput.title}",
@@ -90,6 +93,7 @@ function* addPatternAsync(action) {
     }){
         _id
         userId,
+        taskId,
         createdBy,
         responsiblePerson,
         title,
@@ -142,6 +146,7 @@ function* updatePatternAsync(action) {
   const patternInput = {
     _id: data._id,
     userId: data.userId ? data.userId : "",
+    taskId: data.taskId ? data.taskId : "",
     createdBy: data.createdBy ? data.createdBy : "",
     responsiblePerson: data.responsiblePerson ? data.responsiblePerson : "",
     title: data.title ? data.title : "",
@@ -158,7 +163,8 @@ function* updatePatternAsync(action) {
     query: `mutation {
       updatePattern(patternInput: {
         _id: "${patternInput._id}",  
-        userId: "${patternInput.userId}",     
+        userId: "${patternInput.userId}", 
+        taskId: "${patternInput.taskId}",    
         createdBy: "${patternInput.createdBy}",
         responsiblePerson: "${patternInput.responsiblePerson}",
         title: "${patternInput.title}",
@@ -171,6 +177,7 @@ function* updatePatternAsync(action) {
         createdAt: "${patternInput.createdAt}"}){
         _id
         userId,
+        taskId,
         createdBy,
         responsiblePerson,
         title,

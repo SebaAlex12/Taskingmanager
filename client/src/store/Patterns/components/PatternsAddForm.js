@@ -4,10 +4,9 @@ import moment from "moment";
 
 import { faPlusSquare, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { pattern_statuses } from "../../ini";
 import { addPattern } from "../actions";
 import { StyledPatternsForm } from "../styles/StyledPatternsForm";
-import { SmallerButton, BiggerButton, Button } from "../../../themes/basic";
+import { Button } from "../../../themes/basic";
 
 class PatternsAddForm extends Component {
   constructor(props) {
@@ -18,6 +17,7 @@ class PatternsAddForm extends Component {
     this.state = {
       patternNumber: "",
       userId: loggedUser._id,
+      taskId: "",
       createdBy: loggedUser.name,
       responsiblePerson: "",
       title: "",
@@ -27,6 +27,7 @@ class PatternsAddForm extends Component {
           id: 0,
           text: "",
           statusId: 0,
+          active: null,
         },
       ],
       type: "Wzór",
@@ -52,15 +53,12 @@ class PatternsAddForm extends Component {
   onChangeElementInput = (event) => {
     const { elements } = this.state;
     const newElements = elements;
-    console.log("elements", elements);
+
     newElements[event.currentTarget.name]["text"] = event.currentTarget.value;
-    console.log("new elements", newElements);
     this.setState({
       ...this.state,
       elements: newElements,
     });
-
-    console.log("state", this.state);
   };
   addElement = () => {
     const { elements } = this.state;
@@ -102,6 +100,7 @@ class PatternsAddForm extends Component {
     const { addPattern } = this.props;
     const {
       userId,
+      taskId,
       createdBy,
       responsiblePerson,
       title,
@@ -117,6 +116,7 @@ class PatternsAddForm extends Component {
     console.log("json", jsonElements);
     const data = {
       userId,
+      taskId,
       createdBy,
       responsiblePerson,
       title,
@@ -133,19 +133,7 @@ class PatternsAddForm extends Component {
     const result = addPattern(data);
   };
   render() {
-    const {
-      userId,
-      createdBy,
-      responsiblePerson,
-      title,
-      description,
-      elements,
-      type,
-      status,
-      finishedAt,
-      termAt,
-      createdAt,
-    } = this.state;
+    const { title, description, elements } = this.state;
 
     const formInputElementsContent = elements.map((item) => (
       <div className="form-group" key={item.id}>

@@ -19,8 +19,10 @@ module.exports = {
     return patterns;
   },
   addPattern: async function ({ patternInput }, req) {
+    // console.log("pattern input", patternInput);
     const pattern = new Pattern({
       userId: patternInput.userId,
+      taskId: patternInput.taskId,
       createdBy: patternInput.createdBy,
       responsiblePerson: patternInput.responsiblePerson,
       title: patternInput.title,
@@ -48,6 +50,7 @@ module.exports = {
     const data = {
       _id: patternInput._id,
       userId: patternInput.userId ? patternInput.userId : pattern.userId,
+      taskId: patternInput.taskId ? patternInput.taskId : pattern.taskId,
       createdBy: patternInput.createdBy
         ? patternInput.createdBy
         : pattern.createdBy,

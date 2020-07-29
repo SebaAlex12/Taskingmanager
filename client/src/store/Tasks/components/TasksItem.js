@@ -16,6 +16,7 @@ import FilesItem from "../../Files/components/FilesItem";
 import MailsAddForm from "../../Mails/components/MailsAddForm";
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
 import CalendarContainer from "../../Calendar/components/CalendarContainer";
+import PatternsContainer from "../../Patterns/components/PatternsContainer";
 
 import { Button, WarningButton } from "../../../themes/basic";
 import {
@@ -24,6 +25,7 @@ import {
   faTimes,
   faEdit,
   faPencilAlt,
+  faLayerGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -34,10 +36,12 @@ class TasksItem extends Component {
       toggle: false,
       showModalMailTrigger: false,
       showModalCalendarTrigger: false,
+      showModalPatternTrigger: false,
     };
   }
 
   componentDidMount() {
+    const { patterns } = this.props;
     const {
       _id,
       title,
@@ -53,6 +57,10 @@ class TasksItem extends Component {
       files,
       mailRemainderData,
     } = this.props.item;
+
+    // console.log("_id", _id);
+    // console.log("patterns", patterns);
+
     this.setState({
       _id,
       title,
@@ -67,6 +75,10 @@ class TasksItem extends Component {
       createdAt,
       files,
       mailRemainderData,
+      attachedPattern:
+        patterns.length > 0
+          ? patterns.filter((pattern) => pattern["taskId"] === _id)
+          : [],
     });
   }
 
@@ -210,6 +222,18 @@ class TasksItem extends Component {
     });
   };
 
+  showModalPattern = (result) => {
+    this.setState({
+      ...this.state,
+      showModalPatternTrigger: result,
+    });
+  };
+
+  // patternsFilter = ({ name: value }) => {
+
+  //   console.log("patterns", patterns);
+  // };
+
   render() {
     const {
       _id,
@@ -228,14 +252,19 @@ class TasksItem extends Component {
       mailRemainderData,
       showModalMailTrigger,
       showModalCalendarTrigger,
+      showModalPatternTrigger,
+      attachedPattern,
     } = this.state;
     const { setActiveTaskHandler, active, loggedUser, users } = this.props;
     // console.log("state item", this.state);
+    // const selectedPattern = this.patternsFilter({ name: "sdf" });
 
     const taskCreatorUser = users.filter((user) => user.name === createdBy);
     const taskResponsibleUser = users.filter(
       (user) => user.name === responsiblePerson
     );
+
+    // console.log("attachedPattern", attachedPattern);
 
     // console.log("task creator user", taskCreatorUser);
 
@@ -317,7 +346,7 @@ class TasksItem extends Component {
             />
             <Button
               onClick={() => this.showModalCalendar(true)}
-              title="kalendarz"
+              title="Kalendarz"
             >
               <FontAwesomeIcon icon={faCalendarAlt} />
             </Button>
@@ -328,6 +357,29 @@ class TasksItem extends Component {
                   userId={taskResponsibleUser[0]["_id"]}
                   eventType="task"
                   title={title}
+                />
+              </ModalDialog>
+            ) : null}
+            {createdBy == loggedUser.name &&
+            loggedUser.status == "Administrator" ? (
+              <Button
+                onClick={() => this.showModalPattern(true)}
+                title="Szablony"
+              >
+                <FontAwesomeIcon icon={faLayerGroup} />
+              </Button>
+            ) : null}
+            {showModalPatternTrigger ? (
+              <ModalDialog
+                showModal={() => this.showModalPattern(false)}
+                width="1260px"
+              >
+                <PatternsContainer
+                  // userId={taskResponsibleUser[0]["_id"]}
+                  taskId={_id}
+                  responsiblePerson={responsiblePerson}
+                  attachedPattern={attachedPattern}
+                  disabled={true}
                 />
               </ModalDialog>
             ) : null}
@@ -457,11 +509,15 @@ class TasksItem extends Component {
             {moment(new Date(createdAt)).locale("pl").format("LLLL")}
           </td>
           <td className="details">
-            <Button onClick={setActiveTaskHandler}>
+            <Button onClick={setActiveTaskHandler} title="Edytuj">
               <FontAwesomeIcon icon={faEdit} />
             </Button>
             {loggedUser.name === createdBy ? (
-              <WarningButton warning onClick={this.removeTaskHandler}>
+              <WarningButton
+                warning
+                onClick={this.removeTaskHandler}
+                title="Usuń"
+              >
                 <FontAwesomeIcon icon={faTimes} />
               </WarningButton>
             ) : null}
@@ -518,6 +574,7 @@ const mapStateToProps = (state) => {
   return {
     loggedUser: state.users.logged_user,
     users: state.users.users,
+    patterns: state.patterns.patterns,
   };
 };
 

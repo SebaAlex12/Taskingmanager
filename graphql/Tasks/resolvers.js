@@ -16,6 +16,9 @@ module.exports = {
     if (taskInput.projectName && taskInput.projectName !== "undefined")
       params.projectName = taskInput.projectName;
 
+    if (taskInput.status && taskInput.status !== "undefined")
+      params.status = taskInput.status;
+
     if (
       taskInput.responsiblePerson &&
       taskInput.responsiblePerson !== "undefined"

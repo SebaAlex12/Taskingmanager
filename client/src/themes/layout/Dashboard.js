@@ -10,10 +10,10 @@ import Payments from "../../root/Payments";
 import Messengers from "../../root/Messengers";
 import Seo from "../../root/Seo";
 import Calendar from "../../root/Calendar";
+import Patterns from "../../root/Patterns";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
 import Interview from "../../store/Cameras/components/Interview";
-import PatternsContainer from "../../store/Patterns/components/PatternsContainer";
 
 // import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
@@ -95,7 +95,7 @@ class Dashboard extends Component {
         <div className="container">
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/" component={Tasks} />
-          <Route exact path="/patterns" component={PatternsContainer} />
+          <Route exact path="/patterns" component={Patterns} />
           <Route exact path="/messenger" component={Messengers} />
           <Route exact path="/mails" component={MailsListContainer} />
           <Route exact path="/cameras" component={Interview} />

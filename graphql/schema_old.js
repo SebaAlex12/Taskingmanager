@@ -80,6 +80,7 @@ module.exports = buildSchema(`
     type Pattern {
         _id: ID
         userId: String
+        taskId: String
         createdBy: String
         responsiblePerson: String
         title: String
@@ -257,6 +258,7 @@ module.exports = buildSchema(`
     input PatternInputData{
         _id: ID
         userId: String
+        taskId: String
         createdBy: String
         responsiblePerson: String
         title: String
