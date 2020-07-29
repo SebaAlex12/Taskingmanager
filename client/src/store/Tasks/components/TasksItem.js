@@ -368,7 +368,7 @@ class TasksItem extends Component {
                 title={
                   attachedPattern.length > 0
                     ? "Wyświetl przypisany szablon"
-                    : "Przypisz szablon z listy szablonów"
+                    : "Przypisz szablon z listy"
                 }
                 className={
                   attachedPattern.length > 0
