@@ -17,6 +17,7 @@ import MailsAddForm from "../../Mails/components/MailsAddForm";
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
 import CalendarContainer from "../../Calendar/components/CalendarContainer";
 import PatternsContainer from "../../Patterns/components/PatternsContainer";
+import { StyledTasksItem } from "../styles/StyledTasksItem";
 
 import { Button, WarningButton } from "../../../themes/basic";
 import {
@@ -364,7 +365,16 @@ class TasksItem extends Component {
             loggedUser.status == "Administrator" ? (
               <Button
                 onClick={() => this.showModalPattern(true)}
-                title="Szablony"
+                title={
+                  attachedPattern.length > 0
+                    ? "Wyświetl przypisany szablon"
+                    : "Przypisz szablon z listy szablonów"
+                }
+                className={
+                  attachedPattern.length > 0
+                    ? "task-pattern-button attached"
+                    : "task-pattern-button"
+                }
               >
                 <FontAwesomeIcon icon={faLayerGroup} />
               </Button>

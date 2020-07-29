@@ -284,7 +284,7 @@ class UsersEditFrom extends Component {
             </select>
           </div>
           <div className="form-group form-row multi-checkboxes">
-            <label>[Przypisz projekty]</label>
+            <label>[Przypisane projekty]</label>
             {projectContent}
           </div>
           {/* <div className="form-group form-row multi-checkboxes">

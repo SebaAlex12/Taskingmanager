@@ -207,4 +207,16 @@ export const StyledTaskListContainer = styled.div`
     -moz-transition: All 0.3s ease;
     -o-transition: All 0.3s ease;
   }
+  .task-pattern-button {
+    background-color: #007bff;
+  }
+  .task-pattern-button.attached,
+  .task-pattern-button.attached:hover {
+    background-color: red;
+    color: #000;
+  }
+  .task-pattern-button:hover {
+    background-color: green;
+    color: #fff;
+  }
 `;
