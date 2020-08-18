@@ -32,7 +32,7 @@ class CalendarDailyList extends Component {
               showModalTaskDailyEvents: !showModalTaskDailyEvents,
             })
           }
-          title="lista tasków"
+          title="lista przypisanych wydarzeń"
         >
           <FontAwesomeIcon icon={faTasks} />
           <span>{taskDailyEvents.length}</span>
@@ -50,7 +50,7 @@ class CalendarDailyList extends Component {
               })
             }
           >
-            <CalendarTasksList tasksList={taskDailyEvents} />
+            <CalendarTasksList taskDailyEvents={taskDailyEvents} />
           </ModalDialog>
         ) : null}
       </div>

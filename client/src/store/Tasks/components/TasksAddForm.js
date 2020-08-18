@@ -142,7 +142,7 @@ class TasksAddForm extends Component {
                 type="text"
                 name="description"
                 className="form-control"
-                rows="5"
+                rows="10"
                 placeholder="Opis"
                 required
               />

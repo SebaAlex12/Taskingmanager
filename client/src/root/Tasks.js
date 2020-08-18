@@ -57,7 +57,8 @@ class Tasks extends Component {
       fetchCompanies();
     } else if (status === "Administrator") {
       // console.log("by company");
-      fetchProjects({ company: company });
+      // fetchProjects({ company: company });
+      fetchProjects({});
     } else if (status === "Menedżer") {
       fetchProjectsByLoggedUserProjects(projects);
     } else {

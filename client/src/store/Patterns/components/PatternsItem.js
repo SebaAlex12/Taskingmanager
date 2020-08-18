@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import { connect } from "react-redux";
 
-import { addPattern } from "../actions";
+import { addPattern, updatePattern } from "../actions";
 import { Button } from "../../../themes/basic";
 import {
   faEdit,
@@ -46,10 +46,16 @@ class PatternsItem extends Component {
       disabled,
     } = this.props;
 
+    // console.log("tasks", tasks);
+    // console.log("json", item.elements);
+
+    // console.log("comp did mount", item.elements);
+
     if (tasks.length > 0 && users.length > 0) {
-      const filteredTasks = tasks.filter(
-        (task) => task.responsiblePerson == users[0].name
-      );
+      const person = responsiblePerson ? responsiblePerson : users[0].name;
+      const filteredTasks = this.filteredTasks(tasks, taskId, person);
+      // console.log("responsible person", responsiblePerson);
+      // console.log("filtered tasks", filteredTasks);
       this.setState({
         patternNumber: item._id,
         filteredTasks: filteredTasks,
@@ -62,13 +68,45 @@ class PatternsItem extends Component {
         disabled,
         title: item.title,
         description: item.description,
+        // elements: item.elements,
         elements: JSON.parse(item.elements).map((item) => {
-          item.active = true;
           return item;
         }),
       });
     }
   }
+  filteredTasks = (tasks, taskId = null, responsiblePerson = null) => {
+    let filteredTasks = [];
+    // console.log("task id", taskId);
+    if (taskId) {
+      filteredTasks = tasks.filter((task) => task._id == taskId);
+    } else if (responsiblePerson) {
+      filteredTasks = tasks.filter(
+        (task) => task.responsiblePerson == responsiblePerson
+      );
+    } else {
+      filteredTasks = tasks;
+    }
+    return filteredTasks;
+  };
+  checkIfExistsAttachedPattern = (
+    patterns,
+    taskId = null,
+    responsiblePerson = null
+  ) => {
+    let boolean = false;
+    if (taskId && responsiblePerson) {
+      let filtered = patterns.filter(
+        (pattern) =>
+          pattern.taskId === taskId &&
+          pattern.responsiblePerson === responsiblePerson
+      );
+      if (filtered.length > 0) {
+        boolean = true;
+      }
+    }
+    return boolean;
+  };
   addHandler = (event) => {
     const { addPattern } = this.props;
     const {
@@ -96,20 +134,27 @@ class PatternsItem extends Component {
       description,
       elements,
       type,
-      status: status["name"],
+      status,
       finishedAt,
       termAt,
       createdAt,
     };
     event.preventDefault();
-    console.log("add pattern data", data);
+    // console.log("add pattern data", data);
     const result = addPattern(data);
   };
   onChangeSelectHandler = (event) => {
+    const { updatePattern, attachedPatternCollback } = this.props;
+    const { patternNumber } = this.state;
+
     this.setState({
       ...this.state,
       [event.currentTarget.name]: event.currentTarget.value,
     });
+    if (event.currentTarget.name === "status") {
+      updatePattern({ _id: patternNumber, status: event.currentTarget.value });
+      attachedPatternCollback({ status: event.currentTarget.value });
+    }
   };
   onChangeUserHandler = (event) => {
     const { tasks } = this.props;
@@ -126,9 +171,9 @@ class PatternsItem extends Component {
     }
   };
   switchSelectAll = () => {
-    const { elements } = this.state;
+    const { elements, patternNumber } = this.state;
+    const { updatePattern, attachedPatternCollback } = this.props;
     let newElements = [];
-    // console.log("elements", elements);
 
     if (
       elements[0]["active"] === "undefined" ||
@@ -148,24 +193,30 @@ class PatternsItem extends Component {
       ...this.state,
       elements: newElements,
     });
+
+    const result = updatePattern({ _id: patternNumber, elements: newElements });
+    attachedPatternCollback({ elements: newElements });
   };
   onChangeActiveHandler = (event) => {
-    const { elements } = this.state;
-    // console.log("event", event.target.checked);
-    let newElements = elements.map((item) =>
-      item.id == event.target.name
-        ? (item.active = event.target.checked)
-        : item.active
-    );
+    const { updatePattern, attachedPatternCollback } = this.props;
+    const { elements, patternNumber } = this.state;
+
+    let newElements = elements.map((item) => {
+      item.active =
+        item.id == event.target.name ? event.target.checked : item.active;
+      return item;
+    });
 
     this.setState({
       ...this.state,
       elemenets: newElements,
     });
+    const result = updatePattern({ _id: patternNumber, elements: newElements });
+    attachedPatternCollback({ elements: newElements });
   };
 
   render() {
-    const { item, loggedUser, users } = this.props;
+    const { item, users, patterns } = this.props;
     const {
       toggle,
       elements,
@@ -176,20 +227,38 @@ class PatternsItem extends Component {
     } = this.state;
     // console.log("new elements", elements);
 
+    // console.log("pattern state", this.state);
     // if is disabled it means this is attached pattern to selected task
-    console.log("disabled", disabled);
+    // console.log("disabled", disabled);
+    // console.log("filtered tasks", filteredTasks);
 
     let loadedTasks = [];
-    if (filteredTasks) {
+    if (filteredTasks.length > 0) {
       loadedTasks = filteredTasks.map((task) => {
         return (
           <option key={task._id} value={task._id}>
             {task.title}
           </option>
         );
-        return null;
       });
     }
+
+    let loadedStatuses = [];
+    loadedStatuses = pattern_statuses.map((status) => {
+      return (
+        <option key={status._id} value={status.name}>
+          {status.name}
+        </option>
+      );
+    });
+
+    const assignPattern = this.checkIfExistsAttachedPattern(
+      patterns,
+      taskId,
+      responsiblePerson
+    );
+
+    // console.log("elements", elements);
 
     const elementsContainer =
       elements.length > 0
@@ -212,7 +281,19 @@ class PatternsItem extends Component {
       <React.Fragment>
         <tr>
           <td>{item.title}</td>
-          <td>{item.status}</td>
+          <td>
+            <select
+              className="form-control"
+              onChange={this.onChangeSelectHandler}
+              name="status"
+              disabled={item.type === "Wzór" ? "disabled" : null}
+              // value={status}
+              defaultValue={item.status}
+              required
+            >
+              {loadedStatuses}
+            </select>
+          </td>
           <td>{item.type}</td>
           <td>{item.createdBy}</td>
           <td>
@@ -253,9 +334,11 @@ class PatternsItem extends Component {
           <td>{moment(item.termAt).format("YYYY-MM-DD HH:mm:ss")}</td>
           <td>{moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss")}</td>
           <td>
-            <Button onClick={this.addHandler} title="Przypisz do zadania">
-              <FontAwesomeIcon icon={faPlusSquare} />
-            </Button>
+            {assignPattern === false ? (
+              <Button onClick={this.addHandler} title="Przypisz do zadania">
+                <FontAwesomeIcon icon={faPlusSquare} />
+              </Button>
+            ) : null}
             <Button
               onClick={() => this.setState({ toggle: !toggle })}
               title="Edytuj"
@@ -285,9 +368,11 @@ class PatternsItem extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    loggedUser: state.users.logged_user,
     users: state.users.users,
     tasks: state.tasks.tasks,
+    patterns: state.patterns.patterns,
   };
 };
-export default connect(mapStateToProps, { addPattern })(PatternsItem);
+export default connect(mapStateToProps, { addPattern, updatePattern })(
+  PatternsItem
+);

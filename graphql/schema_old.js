@@ -375,6 +375,7 @@ module.exports = buildSchema(`
     type RootMutation {
         addCalendar(calendarInput: CalendarInputData): Calendar!
         updateCalendar(calendarInput: CalendarInputData): Calendar!
+        removeCalendar(eventId: String!): Calendar!
         addCompany(companyInput: CompanyInputData): Company!
         updateCompany(companyInput: CompanyInputData): Company! 
         removeCompany(companyId: String!): Company!

@@ -12,12 +12,15 @@ class PatternsList extends Component {
       taskId,
       responsiblePerson,
       attachedPattern,
-      disabled,
+      attachedPatternCollback,
     } = this.props;
 
     let listContainer = [];
 
     if (patterns.length > 0) {
+      // jesli przekazany jest id zadania to to zadanie jest przypisane do szablonu i szablon jest blokowany
+      const disabled =
+        typeof taskId !== "undefined" && taskId.length > 0 ? true : false;
       if (
         typeof attachedPattern !== "undefined" &&
         attachedPattern.length > 0
@@ -30,12 +33,24 @@ class PatternsList extends Component {
             taskId={taskId}
             responsiblePerson={responsiblePerson}
             disabled={disabled}
+            attachedPatternCollback={attachedPatternCollback}
           />
         );
       } else {
-        listContainer = patterns.map((item) => (
-          <PatternsItem item={item} key={item._id} disabled={disabled} />
-        ));
+        listContainer = patterns.map((item) => {
+          if (item.type == "Wzór") {
+            return (
+              <PatternsItem
+                item={item}
+                key={item._id}
+                userId={userId}
+                taskId={taskId}
+                responsiblePerson={responsiblePerson}
+                disabled={disabled}
+              />
+            );
+          }
+        });
       }
     }
 

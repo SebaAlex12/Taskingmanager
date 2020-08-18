@@ -15,6 +15,7 @@ import {
   fetchCalendarsWatcher,
   addCalendarWatcher,
   updateCalendarWatcher,
+  removeCalendarWatcher,
 } from "./Calendar/saga";
 import {
   fetchContractorsWatcher,
@@ -97,6 +98,7 @@ export default function* rootSaga() {
     fork(fetchCalendarsWatcher),
     fork(addCalendarWatcher),
     fork(updateCalendarWatcher),
+    fork(removeCalendarWatcher),
     fork(fetchContractorsWatcher),
     fork(addContractorWatcher),
     fork(updateContractorWatcher),

@@ -73,4 +73,12 @@ module.exports = {
       return { errors: tools.formatErrors(e) };
     }
   },
+  removeCalendar: async function ({ eventId }) {
+    try {
+      await Calendar.deleteOne({ _id: eventId });
+    } catch (e) {
+      return { errors: tools.formatErrors(e) };
+    }
+    return { _id: eventId };
+  },
 };

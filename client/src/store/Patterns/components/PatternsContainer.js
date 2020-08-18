@@ -26,7 +26,6 @@ class PatternsContainer extends Component {
       taskId,
       responsiblePerson,
       attachedPattern,
-      disabled,
     } = this.props;
     const btn_clazz = togglePatternsAddForm ? "flow-box active" : "flow-box";
 
@@ -39,7 +38,6 @@ class PatternsContainer extends Component {
             taskId={taskId}
             responsiblePerson={responsiblePerson}
             attachedPattern={attachedPattern}
-            disabled={disabled}
           />
           {loggedUser.status === "Administrator" ? (
             <div className={btn_clazz}>

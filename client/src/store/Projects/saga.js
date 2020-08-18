@@ -34,7 +34,6 @@ function* fetchProjectsAsync(action) {
         }
     `,
     };
-
     const res = yield call(
       [axios, axios.post],
       "/graphql",

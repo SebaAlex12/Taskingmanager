@@ -16,8 +16,8 @@ import FilesItem from "../../Files/components/FilesItem";
 import MailsAddForm from "../../Mails/components/MailsAddForm";
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
 import CalendarContainer from "../../Calendar/components/CalendarContainer";
-import PatternsContainer from "../../Patterns/components/PatternsContainer";
-import { StyledTasksItem } from "../styles/StyledTasksItem";
+import PatternsList from "../../Patterns/components/PatternsList";
+// import { StyledTasksItem } from "../styles/StyledTasksItem";
 
 import { Button, WarningButton } from "../../../themes/basic";
 import {
@@ -230,10 +230,57 @@ class TasksItem extends Component {
     });
   };
 
-  // patternsFilter = ({ name: value }) => {
+  attachedPatternCollback = (pattern) => {
+    const { attachedPattern } = this.state;
 
-  //   console.log("patterns", patterns);
-  // };
+    const newPattern = attachedPattern.map((item) => {
+      if (pattern.status) item.status = pattern.status;
+      if (pattern.elements) item.elements = pattern.elements;
+      return item;
+    });
+
+    console.log("collback pattern", newPattern);
+
+    this.setState({
+      ...this.state,
+      attachedPattern: newPattern,
+    });
+  };
+
+  selectPatternTitle = () => {
+    const { attachedPattern } = this.state;
+    if (attachedPattern.length > 0) {
+      if (attachedPattern[0].status == "Do wykonania")
+        return "Szablon do do wykonania";
+      if (attachedPattern[0].status == "W trakcie") return "Szablon w trakcie";
+      if (attachedPattern[0].status == "Do akceptacji")
+        return "Szablon do akceptacji";
+      if (attachedPattern[0].status == "Wykonane") return "Szablon wykonany";
+      if (attachedPattern[0].status == "Zawieszone")
+        return "Szablon zawieszony";
+    } else {
+      return "Przypisz szablon z listy";
+    }
+    console.log("adwefwefw", attachedPattern);
+  };
+
+  selectPatternClass = () => {
+    const { attachedPattern } = this.state;
+    if (attachedPattern.length > 0) {
+      if (attachedPattern[0].status == "Do wykonania")
+        return "task-pattern-button attached";
+      if (attachedPattern[0].status == "W trakcie")
+        return "task-pattern-button during";
+      if (attachedPattern[0].status == "Do akceptacji")
+        return "task-pattern-button to-accept";
+      if (attachedPattern[0].status == "Wykonane")
+        return "task-pattern-button accepted";
+      if (attachedPattern[0].status == "Zawieszone")
+        return "task-pattern-button suspended";
+    } else {
+      return "task-pattern-button";
+    }
+  };
 
   render() {
     const {
@@ -258,30 +305,21 @@ class TasksItem extends Component {
     } = this.state;
     const { setActiveTaskHandler, active, loggedUser, users } = this.props;
     // console.log("state item", this.state);
-    // const selectedPattern = this.patternsFilter({ name: "sdf" });
 
     const taskCreatorUser = users.filter((user) => user.name === createdBy);
     const taskResponsibleUser = users.filter(
       (user) => user.name === responsiblePerson
     );
+    // console.log("title", title);
+    // console.log("responsible user", taskResponsibleUser);
+    // console.log("responsible person", responsiblePerson);
+    // console.log("attached pattern", attachedPattern);
 
-    // console.log("attachedPattern", attachedPattern);
-
-    // console.log("task creator user", taskCreatorUser);
-
-    // let filesUrls;
-    // filesUrls = [];
     let filesContent;
-    // console.log("files", files);
 
     if (files && files.length > 0) {
-      // console.log("files", files);
-      // let item = 0;
       filesContent = files.map((file) => {
-        // console.log("file", file);
         let imageUrl = `/files/tasks/${_id}/${file}`;
-        // filesUrls.push(imageUrl);
-        // let fileNumber = item++;
         return (
           <FilesItem
             key={file}
@@ -361,20 +399,13 @@ class TasksItem extends Component {
                 />
               </ModalDialog>
             ) : null}
-            {createdBy == loggedUser.name &&
-            loggedUser.status == "Administrator" ? (
+            {createdBy == loggedUser.name ||
+            (typeof attachedPattern !== "undefined" &&
+              attachedPattern.length > 0) ? (
               <Button
                 onClick={() => this.showModalPattern(true)}
-                title={
-                  attachedPattern.length > 0
-                    ? "Wyświetl przypisany szablon"
-                    : "Przypisz szablon z listy"
-                }
-                className={
-                  attachedPattern.length > 0
-                    ? "task-pattern-button attached"
-                    : "task-pattern-button"
-                }
+                title={this.selectPatternTitle()}
+                className={this.selectPatternClass()}
               >
                 <FontAwesomeIcon icon={faLayerGroup} />
               </Button>
@@ -384,12 +415,12 @@ class TasksItem extends Component {
                 showModal={() => this.showModalPattern(false)}
                 width="1260px"
               >
-                <PatternsContainer
-                  // userId={taskResponsibleUser[0]["_id"]}
+                <PatternsList
+                  userId={taskResponsibleUser[0]["_id"]}
                   taskId={_id}
                   responsiblePerson={responsiblePerson}
                   attachedPattern={attachedPattern}
-                  disabled={true}
+                  attachedPatternCollback={this.attachedPatternCollback}
                 />
               </ModalDialog>
             ) : null}

@@ -72,7 +72,7 @@ class Widget extends Component {
 
 const StyledWidget = styled.div`
   position: fixed;
-  z-index: 100;
+  z-index: 1;
   background-color: #fff;
   border: 1px solid #dcdcdc;
   .widget-button {

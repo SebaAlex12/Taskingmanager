@@ -18,6 +18,8 @@ export const StyledModalDialog = styled.div`
     margin-top: 60px;
     background-color: #fff;
     padding: 30px;
+    max-height: 860px;
+    overflow-y: auto;
   }
   .modal-dialog-box .content .title {
     font-size: 18px;

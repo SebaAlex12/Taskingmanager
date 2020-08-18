@@ -3,12 +3,18 @@ const crypt = require("../../utils/crypt");
 const tools = require("../../utils/tools");
 
 module.exports = {
-  fetchProjects: async function({ projectInput }) {
-    let projects = await Project.find(projectInput, null, {
-      sort: { name: 1 }
+  fetchProjects: async function ({ projectInput }) {
+    const data =
+      projectInput.company !== "undefined"
+        ? { company: projectInput.company }
+        : {};
+
+    let projects = await Project.find(data, null, {
+      sort: { name: 1 },
     });
+
     // console.log("projects resolver", projects);
-    projects = projects.map(project => {
+    projects = projects.map((project) => {
       if (project.description && project.description.length > 1) {
         project.description = crypt.decrypt(project.description);
       }
@@ -26,22 +32,22 @@ module.exports = {
     // console.log("resolver list fetch projects", projects);
     return projects;
   },
-  fetchProjectsByLoggedUserProjects: async function({ projects }) {
+  fetchProjectsByLoggedUserProjects: async function ({ projects }) {
     const list = projects.split(",");
     // console.log("resolver list", list);
-    const pregmatch = list.map(item => new RegExp(item));
+    const pregmatch = list.map((item) => new RegExp(item));
     // console.log("pregmatch", pregmatch);
     let prj = await Project.find().or([
       {
         name: {
-          $in: pregmatch
-        }
-      }
+          $in: pregmatch,
+        },
+      },
     ]);
 
     // find(null, null, { sort: { name: 1 } });
     // console.log("projects resolver", prj);
-    prj = prj.map(project => {
+    prj = prj.map((project) => {
       if (project.description && project.description.length > 1) {
         project.description = crypt.decrypt(project.description);
       }
@@ -58,13 +64,13 @@ module.exports = {
     });
     return prj;
   },
-  addProject: async function({ projectInput }, req) {
+  addProject: async function ({ projectInput }, req) {
     const result = await Project.findOne({ name: projectInput.name });
     if (result) {
       throw {
         errors: [
-          { path: "name", message: "Istnieje już projekt o podanej nazwie" }
-        ]
+          { path: "name", message: "Istnieje już projekt o podanej nazwie" },
+        ],
       };
     }
     // console.log("add project");
@@ -86,7 +92,7 @@ module.exports = {
       panel:
         projectInput.panel && projectInput.panel.length > 1
           ? crypt.encrypt(projectInput.panel)
-          : projectInput.panel
+          : projectInput.panel,
     };
 
     const project = new Project(data);
@@ -110,13 +116,13 @@ module.exports = {
         panel:
           storedProject.panel && storedProject.panel.length > 1
             ? crypt.decrypt(storedProject.panel)
-            : storedProject.panel
+            : storedProject.panel,
       };
     } catch (e) {
       return { errors: tools.formatErrors(e) };
     }
   },
-  updateProject: async function({ projectInput }, req) {
+  updateProject: async function ({ projectInput }, req) {
     const _id = projectInput._id;
     const project = await Project.findOne({ _id });
     // console.log("project input", projectInput);
@@ -141,7 +147,7 @@ module.exports = {
       panel:
         projectInput.panel.length > 1
           ? crypt.encrypt(projectInput.panel)
-          : projectInput.panel
+          : projectInput.panel,
     };
     try {
       project.overwrite(data);
@@ -164,12 +170,12 @@ module.exports = {
         panel:
           storedProject.panel && storedProject.panel.length > 1
             ? crypt.decrypt(storedProject.panel)
-            : storedProject.panel
+            : storedProject.panel,
       };
     } catch (e) {
       return { errors: tools.formatErrors(e) };
     }
-  }
+  },
   // removeProject: async function({ projectId }) {
   //   try {
   //     await Project.deleteOne({ _id: projectId });

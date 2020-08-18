@@ -3,6 +3,7 @@ import {
   ADD_CALENDAR_SUCCESS,
   UPDATE_CALENDAR_SUCCESS,
   CALENDARS_ERROR,
+  REMOVE_CALENDAR_SUCCESS,
 } from "./types";
 
 const initialState = {
@@ -35,6 +36,13 @@ export const calendarsReducer = (state = initialState, action) => {
       return {
         ...state,
         errors: action.payload,
+      };
+    case REMOVE_CALENDAR_SUCCESS:
+      return {
+        ...state,
+        calendars: state.calendars.filter(
+          (calendar) => calendar._id !== action.payload._id
+        ),
       };
     default:
       return state;

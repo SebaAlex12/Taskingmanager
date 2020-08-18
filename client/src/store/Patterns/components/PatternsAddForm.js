@@ -112,8 +112,8 @@ class PatternsAddForm extends Component {
       termAt,
       createdAt,
     } = this.state;
-    const jsonElements = JSON.stringify(elements);
-    console.log("json", jsonElements);
+    // const jsonElements = JSON.stringify(elements);
+    // console.log("json", jsonElements);
     const data = {
       userId,
       taskId,

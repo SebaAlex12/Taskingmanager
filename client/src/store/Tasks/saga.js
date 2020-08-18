@@ -13,7 +13,7 @@ import {
   UPDATE_TASK_SUCCESS,
   SENDING_MAILING_TASK,
   SEND_MAILING_TASK_SUCCESS,
-  TASKS_ERROR
+  TASKS_ERROR,
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
@@ -46,7 +46,7 @@ function* fetchTasksAsync(action) {
             files
           }
         }
-    `
+    `,
     };
 
     const res = yield call(
@@ -95,7 +95,7 @@ function* fetchTasksByLoggedUserProjectsAsync(action) {
             files
           }
         }
-    `
+    `,
     };
 
     const res = yield call(
@@ -107,7 +107,7 @@ function* fetchTasksByLoggedUserProjectsAsync(action) {
     // console.log("fetch tasks", res.data.data.fetchTasks);
     yield put({
       type: FETCH_TASKS_SUCCESS,
-      payload: res.data.data.fetchTasksByLoggedUserProjects
+      payload: res.data.data.fetchTasksByLoggedUserProjects,
     });
   } catch (error) {
     yield put({ type: TASKS_ERROR, payload: error });
@@ -137,10 +137,10 @@ function* addTaskAsync(action) {
     mailRemainderData: null,
     responsiblePersonLastComment: data.responsiblePersonLastComment,
     createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
-    termAt: moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
+    termAt: moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format(),
     // finishedAt: data.finishedAt
   };
-console.log(taskInput);
+  console.log(taskInput);
   const graph = {
     query: `mutation {
       addTask(taskInput: {userId: "${taskInput.userId}",
@@ -177,7 +177,7 @@ console.log(taskInput);
           message
         }
       }
-    }`
+    }`,
   };
 
   const taskData = yield call(
@@ -192,13 +192,13 @@ console.log(taskInput);
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
+      payload: { errors: response.errors },
     });
   } else {
     yield put({ type: ADD_TASK_SUCCESS, payload: response });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Zadanie zostało dodane" }] }
+      payload: { success: [{ message: "Zadanie zostało dodane" }] },
     });
   }
 }
@@ -233,7 +233,7 @@ function* updateTaskAsync(action) {
       : "",
     finishedAt: data.finishedAt
       ? moment(data.finishedAt, "YYYY-MM-DD HH:mm:ss").format()
-      : ""
+      : "",
   };
   // console.log("task saga input", taskInput);
   const graph = {
@@ -273,7 +273,7 @@ function* updateTaskAsync(action) {
           message
         }
       }
-    }`
+    }`,
   };
   // console.log(graph);
   const taskData = yield call(
@@ -288,16 +288,16 @@ function* updateTaskAsync(action) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
+      payload: { errors: response.errors },
     });
   } else {
     yield put({
       type: UPDATE_TASK_SUCCESS,
-      payload: response
+      payload: response,
     });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Zadanie zostało zaktualizowane" }] }
+      payload: { success: [{ message: "Zadanie zostało zaktualizowane" }] },
     });
   }
 }
@@ -318,7 +318,7 @@ function* removeTaskAsync(action) {
           message
         }
       }
-    }`
+    }`,
   };
 
   const taskData = yield call(
@@ -327,20 +327,19 @@ function* removeTaskAsync(action) {
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
-  console.log("return data graph", taskData);
   const response = taskData.data.data.removeTask;
 
   if (response.errors) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
+      payload: { errors: response.errors },
     });
   } else {
     yield put({ type: REMOVE_TASK_SUCCESS, payload: response });
     yield put({
       type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Zadanie zostało usunięte" }] }
+      payload: { success: [{ message: "Zadanie zostało usunięte" }] },
     });
   }
 }
@@ -360,7 +359,7 @@ function* sendMailingTaskAsync() {
           message
         }
       }
-    }`
+    }`,
   };
 
   const taskData = yield call(
@@ -376,13 +375,13 @@ function* sendMailingTaskAsync() {
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
       type: SEND_MAILING_TASK_SUCCESS,
-      payload: { errors: response.errors }
+      payload: { errors: response.errors },
     });
   } else {
     yield put({ type: REMOVE_TASK_SUCCESS, payload: response });
     yield put({
       type: SEND_MAILING_TASK_SUCCESS,
-      payload: { success: [{ message: "Mailing rozesłany" }] }
+      payload: { success: [{ message: "Mailing rozesłany" }] },
     });
   }
 }

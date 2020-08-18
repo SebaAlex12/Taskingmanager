@@ -9,6 +9,8 @@ import {
   UPDATING_CALENDAR,
   UPDATE_CALENDAR_SUCCESS,
   CALENDARS_ERROR,
+  REMOVING_CALENDAR,
+  REMOVE_CALENDAR_SUCCESS,
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
@@ -197,4 +199,44 @@ function* updateCalendarAsync(action) {
 
 export function* updateCalendarWatcher() {
   yield takeEvery(UPDATING_CALENDAR, updateCalendarAsync);
+}
+function* removeCalendarAsync(action) {
+  const eventId = action.data;
+  const graph = {
+    query: `mutation {
+      removeCalendar(eventId: "${eventId}"){
+        _id
+        errors{
+          path
+          message
+        }
+      }
+    }`,
+  };
+
+  const eventData = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
+  const response = eventData.data.data.removeEvent;
+
+  if (response.errors) {
+    yield put({ type: CALENDARS_ERROR, payload: response.errors });
+    yield put({
+      type: UPDATE_MESSAGES_SUCCESS,
+      payload: { errors: response.errors },
+    });
+  } else {
+    yield put({ type: REMOVE_CALENDAR_SUCCESS, payload: response });
+    yield put({
+      type: UPDATE_MESSAGES_SUCCESS,
+      payload: { success: [{ message: "Wydarzenie zostało usunięte" }] },
+    });
+  }
+}
+
+export function* removeCalendarWatcher() {
+  yield takeEvery(REMOVING_CALENDAR, removeCalendarAsync);
 }

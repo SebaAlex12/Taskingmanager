@@ -219,4 +219,17 @@ export const StyledTaskListContainer = styled.div`
     background-color: green;
     color: #fff;
   }
+  .task-pattern-button.during {
+    background-color: green;
+    color: #fff;
+  }
+  .task-pattern-button.to-accept {
+    background-color: yellow;
+    color: #000;
+  }
+  .task-pattern-button.accepted,
+  .task-pattern-button.suspended {
+    background-color: grey;
+    color: #fff;
+  }
 `;

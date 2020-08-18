@@ -10,7 +10,15 @@ class Patterns extends Component {
     fetchTasks({ status: "Do wykonania" });
   }
   render() {
-    return <PatternsContainer />;
+    const { tasks } = this.props;
+    const patternContent =
+      tasks.length > 0 ? <PatternsContainer /> : "Tasks list loading...";
+    return patternContent;
   }
 }
-export default connect(null, { fetchTasks })(Patterns);
+const mapStateToProps = (state) => {
+  return {
+    tasks: state.tasks.tasks,
+  };
+};
+export default connect(mapStateToProps, { fetchTasks })(Patterns);
