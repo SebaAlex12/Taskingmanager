@@ -99,8 +99,8 @@ class Dashboard extends Component {
           <Route exact path="/messenger" component={Messengers} />
           <Route exact path="/mails" component={MailsListContainer} />
           <Route exact path="/cameras" component={Interview} />
-          <Route exact path="/seo" component={Seo} />
-          <Route exact path="/calendar" component={Calendar} />
+          {/* <Route exact path="/seo" component={Seo} /> */}
+          {/* <Route exact path="/calendar" component={Calendar} /> */}
           {loggedUser.status === "Administrator" ? (
             <Route exact path="/payments" component={Payments} />
           ) : null}
