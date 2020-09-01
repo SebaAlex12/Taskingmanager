@@ -167,6 +167,10 @@ function* updateCalendarAsync(action) {
         selectedDate,
         status,
         createdAt,
+        errors{
+          path
+          message
+        }
       }
     }`,
   };
@@ -205,7 +209,7 @@ function* removeCalendarAsync(action) {
   const graph = {
     query: `mutation {
       removeCalendar(eventId: "${eventId}"){
-        _id
+        _id,
         errors{
           path
           message
@@ -220,7 +224,7 @@ function* removeCalendarAsync(action) {
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
-  const response = eventData.data.data.removeEvent;
+  const response = eventData.data.data.removeCalendar;
 
   if (response.errors) {
     yield put({ type: CALENDARS_ERROR, payload: response.errors });

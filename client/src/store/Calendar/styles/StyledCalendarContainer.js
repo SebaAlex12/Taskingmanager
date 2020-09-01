@@ -12,7 +12,16 @@ export const StyledCalendarContainer = styled.div`
     border: 1px solid #eaeaea;
   }
   table .day {
-    cursor: pointer;
+    width: 130px;
+    height: 100px;
+  }
+  table .day .number {
+    font-size: 24px;
+  }
+  table .day button.plus {
+    position: absolute;
+    right: 5px;
+    top: 5px;
   }
   table .current-day {
     background-color: #337ab7;

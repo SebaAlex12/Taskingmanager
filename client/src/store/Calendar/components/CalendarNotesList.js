@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import moment from "moment/min/moment-with-locales";
+import { connect } from "react-redux";
 
 import { Button } from "../../../themes/basic";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { removeCalendar } from "../actions";
 
-class CalendarTasksList extends Component {
+class CalendarNotesList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,9 +16,9 @@ class CalendarTasksList extends Component {
     };
   }
   componentDidMount() {
-    const { taskDailyEvents } = this.props;
+    const { noteDailyEvents } = this.props;
     this.setState({
-      DailyEvents: taskDailyEvents,
+      DailyEvents: noteDailyEvents,
     });
   }
   removeEvent = async (id) => {
@@ -29,20 +29,26 @@ class CalendarTasksList extends Component {
     }
   };
   render() {
-    const { tasks } = this.props;
     const { DailyEvents } = this.state;
-
     let listContainer = [];
     if (DailyEvents.length > 0) {
       listContainer = DailyEvents.map((event) => {
-        const task = tasks.filter((item) => item._id === event.eventId);
         return (
           <tr key={event._id}>
-            <td>{task[0].title}</td>
-            <td>{task[0].projectName}</td>
-            <td>{task[0].status}</td>
-            <td>{task[0].priority}</td>
-            <td>{task[0].termAt}</td>
+            <td>{event.title}</td>
+            <td>
+              <textarea cols="60" rows="6" disabled>
+                {event.description}
+              </textarea>
+            </td>
+            <td>
+              {moment(new Date(event.selectedDate))
+                .locale("pl")
+                .format("HH:mm:ss")}
+            </td>
+            <td>
+              {moment(new Date(event.createdAt)).locale("pl").format("LLLL")}
+            </td>
             <td>
               <Button
                 onClick={() => this.removeEvent(event._id)}
@@ -55,11 +61,10 @@ class CalendarTasksList extends Component {
         );
       });
     }
-
     return (
       <div>
         <h2>
-          Lista przypisanych zadań na dzień: <br />
+          Lista przypisanych notatek na dzień: <br />
           {DailyEvents.length > 0
             ? moment(new Date(DailyEvents[0].selectedDate))
                 .locale("pl")
@@ -69,11 +74,10 @@ class CalendarTasksList extends Component {
         <table>
           <thead>
             <tr>
-              <th>Nazwa</th>
-              <th>Projekt</th>
-              <th>Stan</th>
-              <th>Priorytet</th>
-              <th>Termin</th>
+              <th>Tytuł</th>
+              <th>Opis</th>
+              <th>Godzina</th>
+              <th>Utworzone</th>
               <th>Akcje</th>
             </tr>
           </thead>
@@ -83,9 +87,5 @@ class CalendarTasksList extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    tasks: state.tasks.tasks,
-  };
-};
-export default connect(mapStateToProps, { removeCalendar })(CalendarTasksList);
+
+export default connect(null, { removeCalendar })(CalendarNotesList);

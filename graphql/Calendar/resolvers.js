@@ -76,9 +76,9 @@ module.exports = {
   removeCalendar: async function ({ eventId }) {
     try {
       await Calendar.deleteOne({ _id: eventId });
+      return { _id: eventId };
     } catch (e) {
       return { errors: tools.formatErrors(e) };
     }
-    return { _id: eventId };
   },
 };

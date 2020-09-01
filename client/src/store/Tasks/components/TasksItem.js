@@ -390,7 +390,10 @@ class TasksItem extends Component {
               <FontAwesomeIcon icon={faCalendarAlt} />
             </Button>
             {showModalCalendarTrigger ? (
-              <ModalDialog showModal={() => this.showModalCalendar(false)}>
+              <ModalDialog
+                showModal={() => this.showModalCalendar(false)}
+                width="1200px"
+              >
                 <CalendarContainer
                   eventId={_id}
                   userId={taskResponsibleUser[0]["_id"]}

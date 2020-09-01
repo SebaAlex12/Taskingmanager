@@ -226,3 +226,13 @@ export const pattern_statuses = [
     name: "Zawieszone",
   },
 ];
+export const calendarTypes = [
+  {
+    _id: 1,
+    name: "Notatka",
+  },
+  {
+    _id: 2,
+    name: "Zadanie",
+  },
+];

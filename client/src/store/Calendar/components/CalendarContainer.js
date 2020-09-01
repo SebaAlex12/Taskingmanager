@@ -3,17 +3,19 @@ import { connect } from "react-redux";
 // import moment from "moment";
 import moment from "moment/min/moment-with-locales";
 
-import { addCalendar } from "../actions";
 import { StyledCalendarContainer } from "../styles/StyledCalendarContainer";
 import CalendarDailyList from "./CalendarDailyList";
+import CalendarAddForm from "./CalendarAddForm";
 import { fetchCalendars } from "../actions";
 import {
   faArrowAltCircleLeft,
   faArrowAltCircleRight,
   faArrowAltCircleDown,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "../../../themes/basic";
+import { Button, SmallerButton } from "../../../themes/basic";
+import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
 
 class CalendarContainer extends Component {
   constructor(props) {
@@ -28,6 +30,10 @@ class CalendarContainer extends Component {
       weekdays: moment.weekdays(),
       weekdaysShort: moment.weekdaysShort(),
       months: moment.months(),
+      showModalAddCalendar: false,
+      dailyEvents: false,
+      selectedDate: false,
+      eventId: null,
     };
   }
   componentDidMount() {
@@ -187,55 +193,43 @@ class CalendarContainer extends Component {
       </td>
     );
   };
-
-  onDayClick = (day) => {
-    const {
-      eventId,
-      userId,
-      eventType,
-      title,
-      description,
-      addCalendar,
-    } = this.props;
-    // console.log("props", this.props);
-    // console.log("day:", day);
-    // console.log("year:", this.year());
-    // console.log("month:", this.month());
-    // moment(this.year() + "-" + this.month() + "-" + day, "YYYY-MM-DD HH:mm:ss").format(),
-    const data = {
-      eventId: eventId,
-      userId: userId,
-      eventType: eventType,
-      title: title,
-      description: description,
-      selectedDate: moment(
-        this.year() + "-" + this.month() + "-" + day,
-        "YYYY-MMMM-DD"
-      ).format(),
-      status: "enabled",
-    };
-
-    addCalendar(data);
+  closeAddFormModal = () => {
+    this.setState({
+      ...this.state,
+      showModalAddCalendar: false,
+    });
   };
   filterDailyEvents = (day) => {
     const { calendars } = this.props;
-    const createDate = moment(
-      this.year() + "-" + this.month() + "-" + day,
-      "YYYY-MMMM-DD"
-    ).format();
-    // console.log("day to check:", day);
-    // console.log("calendars", calendars);
+    const { dateContext } = this.state;
+
+    const [stateYear, stateMonth] = moment(dateContext)
+      .format("YYYY-MM-DD")
+      .split("-");
+
     const dailyEvents = calendars.filter((item) => {
-      if (createDate == item.selectedDate) {
+      let [selectedYear, selectedMonth, selectedDay] = moment(item.selectedDate)
+        .format("YYYY-MM-DD")
+        .split("-");
+      if (
+        selectedYear == stateYear &&
+        selectedMonth == stateMonth &&
+        selectedDay == day
+      ) {
         return item;
       }
     });
-    // console.log("daily events", dailyEvents);
     return dailyEvents;
   };
 
   render() {
-    const { weekdaysShort } = this.state;
+    const {
+      weekdaysShort,
+      showModalAddCalendar,
+      selectedDate,
+      dailyEvents,
+    } = this.state;
+    const { eventId } = this.props;
     const monthNavElements = this.monthNav();
     const yearNavElements = this.yearNav();
     const arrowsNavElements = this.arrowsNav();
@@ -265,7 +259,22 @@ class CalendarContainer extends Component {
       let dailyEvents = this.filterDailyEvents(day);
       daysInMonth.push(
         <td key={day} className={clazz}>
-          <span onClick={() => this.onDayClick(day)}>{day}</span>
+          <span className="number">{day}</span>
+          <SmallerButton
+            className="plus"
+            onClick={() =>
+              this.setState({
+                showModalAddCalendar: !showModalAddCalendar,
+                selectedDate: moment(
+                  this.year() + "-" + this.month() + "-" + day,
+                  "YYYY-MMMM-DD"
+                ).format(),
+                dailyEvents: dailyEvents,
+              })
+            }
+          >
+            <FontAwesomeIcon icon={faPlus} />
+          </SmallerButton>
           <CalendarDailyList dailyEvents={dailyEvents} />
         </td>
       );
@@ -306,6 +315,23 @@ class CalendarContainer extends Component {
             {trElements}
           </tbody>
         </table>
+        {showModalAddCalendar ? (
+          <ModalDialog
+            showModal={() =>
+              this.setState({
+                showModalAddCalendar: !showModalAddCalendar,
+              })
+            }
+            width="1200px"
+          >
+            <CalendarAddForm
+              selectedDate={selectedDate}
+              dailyEvents={dailyEvents}
+              eventId={eventId}
+              closeAddFormModal={this.closeAddFormModal}
+            />
+          </ModalDialog>
+        ) : null}
       </StyledCalendarContainer>
     );
   }
@@ -318,6 +344,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { addCalendar, fetchCalendars })(
-  CalendarContainer
-);
+export default connect(mapStateToProps, { fetchCalendars })(CalendarContainer);

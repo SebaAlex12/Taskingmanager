@@ -5,6 +5,7 @@ module.exports = {
   fetchUsersHistory: async function ({ dataInput }) {
     const result = await UsersHistory.find(dataInput, null, {
       sort: { createdAt: 1 },
+      limit: 10,
     });
     return result;
   },
