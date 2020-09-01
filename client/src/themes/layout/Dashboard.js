@@ -67,17 +67,17 @@ class Dashboard extends Component {
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>
-        <Link className="btn btn-default" to="/calendar">
+        {/* <Link className="btn btn-default" to="/calendar">
           Kalendarz
-        </Link>
+        </Link> */}
         {loggedUser.status === "Administrator" ? (
           <React.Fragment>
             <Link className="btn btn-default" to="/patterns">
               Szablony
             </Link>
-            <Link className="btn btn-default" to="/seo">
+            {/* <Link className="btn btn-default" to="/seo">
               SEO
-            </Link>
+            </Link> */}
             <Link className="btn btn-default" to="/payments">
               Płatności
             </Link>
