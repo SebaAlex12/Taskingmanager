@@ -163,7 +163,7 @@ export const StyledMessengersContainer = styled.div`
   }
   .mesgs {
     float: left;
-    padding: 30px 15px 0 25px;
+    padding: 20px 15px 0 25px;
     width: 60%;
   }
 

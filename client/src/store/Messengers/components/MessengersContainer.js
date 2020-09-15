@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import MessengersList from "./MessengersList";
 import { StyledMessengersContainer } from "../styles/StyledMessengersContainer";
 import MessengersUsersList from "./MessengersUsersList";
+import MessangersChatRoomContainer from "./MessangersChatRoomContainer";
 import { fetchMessengersByName } from "../actions";
 import { fetchProjectsByLoggedUserProjects } from "../../Projects/actions";
 
@@ -194,6 +195,12 @@ class MessengersContainer extends Component {
       selectedChannelId,
     });
   };
+  filterUsersHandler = (users) => {
+    localStorage.setItem("filteredUsers", JSON.stringify(users));
+    this.setState({
+      filteredUsers: users,
+    });
+  };
   render() {
     const { selectedUsers, selectedChannelId, filteredUsers } = this.state;
     return (
@@ -232,6 +239,12 @@ class MessengersContainer extends Component {
                   filterSelectedUsersHandler={this.filterSelectedUsersHandler}
                 />
               </div>
+              {selectedChannelId == "-5" ? (
+                <MessangersChatRoomContainer
+                  filteredUsers={filteredUsers}
+                  filterUsersHandler={this.filterUsersHandler}
+                />
+              ) : null}
               <MessengersList
                 filteredUsers={filteredUsers}
                 selectedUsers={selectedUsers}
