@@ -18,6 +18,12 @@ import {
   removeCalendarWatcher,
 } from "./Calendar/saga";
 import {
+  fetchCatalogsWatcher,
+  addCatalogWatcher,
+  updateCatalogWatcher,
+  removeCatalogWatcher,
+} from "./Catalogs/saga";
+import {
   fetchContractorsWatcher,
   addContractorWatcher,
   updateContractorWatcher,
@@ -99,6 +105,10 @@ export default function* rootSaga() {
     fork(addCalendarWatcher),
     fork(updateCalendarWatcher),
     fork(removeCalendarWatcher),
+    fork(fetchCatalogsWatcher),
+    fork(addCatalogWatcher),
+    fork(updateCatalogWatcher),
+    fork(removeCatalogWatcher),
     fork(fetchContractorsWatcher),
     fork(addContractorWatcher),
     fork(updateContractorWatcher),

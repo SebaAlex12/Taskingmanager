@@ -21,6 +21,13 @@ export const user_statuses = [
   },
 ];
 
+export const catalog_statuses = [
+  {
+    _id: 1,
+    name: "Atkywny",
+  },
+];
+
 export const priorities = [
   {
     _id: 0,

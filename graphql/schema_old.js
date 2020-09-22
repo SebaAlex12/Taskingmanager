@@ -144,6 +144,17 @@ module.exports = buildSchema(`
         files: [String]
     }
 
+    type Catalog {
+        _id: String
+        title: String
+        description: String
+        url: String
+        rank: String
+        status: String
+        createdAt: String
+        errors: [Error]
+    }
+
     type Comment {
         _id: String
         taskId: String
@@ -317,7 +328,15 @@ module.exports = buildSchema(`
         termAt: String
         mailRemainderData: String
     }
-
+    input CatalogInputData {
+        _id: String
+        title: String
+        description: String
+        url: String
+        rank: String
+        status: String
+        createdAt: String
+    }
     input CommentInputData {
         _id: String
         taskId: String
@@ -379,6 +398,9 @@ module.exports = buildSchema(`
         addCompany(companyInput: CompanyInputData): Company!
         updateCompany(companyInput: CompanyInputData): Company! 
         removeCompany(companyId: String!): Company!
+        addCatalog(catalogInput: CatalogInputData): Catalog!
+        updateCatalog(catalogInput: CatalogInputData): Catalog! 
+        removeCatalog(catalogId: String!): Catalog
         addContractor(contractorInput: ContractorInputData): Contractor!
         updateContractor(contractorInput: ContractorInputData): Contractor! 
         addPayment(paymentInput: PaymentInputData): Payment!
@@ -408,6 +430,7 @@ module.exports = buildSchema(`
         loginUser(email: String!, password: String!): UserLoginData!
         fetchCalendars(loggedUserId: String): [Calendar]!
         fetchCompanies: [Company]!
+        fetchCatalogs: [Catalog]!
         fetchContractors: [Contractor]!
         fetchPayments(paymentInput: PaymentInputData): [Payment]!
         fetchNotUsedPatterns(month: String, year: String): [Payment]!

@@ -1,5 +1,6 @@
 module.exports = {
   ...require("./Users/resolvers"),
+  ...require("./Catalogs/resolvers"),
   ...require("./UsersHistory/resolvers"),
   ...require("./Payments/resolvers"),
   ...require("./Patterns/resolvers"),
