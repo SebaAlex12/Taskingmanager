@@ -8,7 +8,7 @@ import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
 
 import CatalogShortListContainer from "../../Catalogs/components/CatalogShortListContainer";
-import CatalogShortList from "../../Catalogs/components/CatalogShortList";
+import CatalogListContainer from "../../Catalogs/components/CatalogListContainer";
 
 class SeoContainer extends Component {
   constructor(props) {
@@ -33,10 +33,8 @@ class SeoContainer extends Component {
     });
   };
   render() {
-    const { showModalCatalogAddForm } = this.state;
     const { catalogs } = this.props;
-
-    console.log("cat", catalogs);
+    const { showModalCatalogAddForm } = this.state;
 
     const catalogAddFormContent = showModalCatalogAddForm ? (
       <ModalDialog showModal={this.showModal}>
@@ -44,8 +42,23 @@ class SeoContainer extends Component {
       </ModalDialog>
     ) : null;
 
-    const catalogShortListContent =
-      catalogs.length > 0 ? <CatalogShortList catalogs={catalogs} /> : null;
+    let newCatalogs = [];
+
+    if (catalogs.length > 0) {
+      newCatalogs = catalogs.map((catalog) => {
+        if (catalog.websites !== null) {
+          catalog.websites = JSON.parse(catalog.websites);
+        }
+        return catalog;
+      });
+    }
+
+    const catalogListContent =
+      newCatalogs.length > 0 ? (
+        <CatalogListContainer catalogs={newCatalogs} />
+      ) : (
+        <p>Trwa wczytywanie katalogów...</p>
+      );
 
     return (
       <div>
@@ -61,7 +74,7 @@ class SeoContainer extends Component {
           Dodaj katalogi
         </Button>
         {catalogAddFormContent}
-        {catalogShortListContent}
+        {catalogListContent}
       </div>
     );
   }

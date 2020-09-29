@@ -21,12 +21,17 @@ function* fetchCatalogsAsync() {
         query {
           fetchCatalogs{
             _id
-            title,
-            description,
-            url,
-            rank,
-            status,
-            createdAt,
+            url
+            title
+            description
+            login
+            password
+            multicode
+            price
+            websites
+            rank
+            status
+            createdAt
           }
         }
     `,
@@ -38,6 +43,7 @@ function* fetchCatalogsAsync() {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
+
     yield put({
       type: FETCH_CATALOGS_SUCCESS,
       payload: res.data.data.fetchCatalogs,
@@ -54,9 +60,14 @@ function* addCatalogAsync(action) {
   try {
     const data = action.data;
     const catalogInput = {
+      url: data.url,
       title: data.title,
       description: data.description,
-      url: data.url,
+      login: data.login,
+      password: data.password,
+      multicode: data.multicode,
+      price: data.price,
+      websites: JSON.stringify(data.websites),
       rank: data.rank,
       status: data.status,
       createdAt: data.createdAt,
@@ -65,17 +76,27 @@ function* addCatalogAsync(action) {
     const graph = {
       query: `mutation {
       addCatalog(catalogInput: {
+      url: "${catalogInput.url}",
       title: "${catalogInput.title}",
       description: "${catalogInput.description}",
-      url: "${catalogInput.url}",
+      login: "${catalogInput.login}",
+      password: "${catalogInput.password}",
+      multicode: "${catalogInput.multicode}",
+      price: "${catalogInput.price}",
+      websites: """${catalogInput.websites}""",
       rank: "${catalogInput.rank}",
       status: "${catalogInput.status}",
       createdAt: "${catalogInput.createdAt}",
     }){
         _id
+        url,
         title,
         description,
-        url,
+        login,
+        password,
+        multicode,
+        price,
+        websites,
         rank,
         status,
         createdAt,
@@ -128,9 +149,14 @@ function* updateCatalogAsync(action) {
 
   const catalogInput = {
     _id: data._id,
+    url: data.url ? data.url : "",
     title: data.title ? data.title : "",
     description: data.description ? data.description : "",
-    url: data.url ? data.url : "",
+    login: data.login ? data.login : "",
+    password: data.password ? data.password : "",
+    multicode: data.multicode ? data.multicode : "",
+    price: data.price ? data.price : "",
+    websites: data.websites ? JSON.stringify(data.websites) : "",
     rank: data.rank ? data.rank : "",
     status: data.status ? data.status : "",
     createdAt: data.createdAt ? data.createdAt : "",
@@ -140,16 +166,26 @@ function* updateCatalogAsync(action) {
     query: `mutation {
       updateCatalog(catalogInput: {
         _id: "${catalogInput._id}",
+        url: "${catalogInput.url}",
         title: "${catalogInput.title}",
         description: "${catalogInput.description}",
-        url: "${catalogInput.url}",
+        login: "${catalogInput.login}",
+        password: "${catalogInput.password}",
+        multicode: "${catalogInput.multicode}",
+        price: "${catalogInput.price}",
+        websites: """${catalogInput.websites}""",
         rank: "${catalogInput.rank}",
         status: "${catalogInput.status}",
         createdAt: "${catalogInput.createdAt}",}){
             _id
+            url,
             title,
             description,
-            url,
+            login,
+            password,
+            multicode,
+            price,
+            websites,
             rank,
             status,
             createdAt,

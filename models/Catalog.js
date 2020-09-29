@@ -2,15 +2,30 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CatalogSchema = new Schema({
+  url: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
   },
   description: {
     type: String,
   },
-  url: {
+  login: {
     type: String,
-    required: true,
+  },
+  password: {
+    type: String,
+  },
+  multicode: {
+    type: String,
+  },
+  price: {
+    type: String,
+  },
+  websites: {
+    type: String,
   },
   rank: {
     type: String,

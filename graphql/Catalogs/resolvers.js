@@ -4,13 +4,19 @@ const tools = require("../../utils/tools");
 module.exports = {
   fetchCatalogs: async function () {
     const catalogs = await Catalog.find();
+    // console.log("catalogs", catalogs);
     return catalogs;
   },
   addCatalog: async function ({ catalogInput }, req) {
     const catalog = new Catalog({
+      url: catalogInput.url,
       title: catalogInput.title,
       description: catalogInput.description,
-      url: catalogInput.url,
+      login: catalogInput.login,
+      password: catalogInput.password,
+      multicode: catalogInput.multicode,
+      price: catalogInput.price,
+      websites: catalogInput.websites,
       rank: catalogInput.rank,
       status: catalogInput.status,
       createdAt: catalogInput.createdAt,
@@ -29,12 +35,22 @@ module.exports = {
 
     const data = {
       _id: catalogInput._id,
+      url: catalogInput.url !== "" ? catalogInput.url : catalog.url,
       title: catalogInput.title !== "" ? catalogInput.title : catalog.title,
       description:
         catalogInput.description !== ""
           ? catalogInput.description
           : catalog.description,
-      url: catalogInput.url !== "" ? catalogInput.url : catalog.url,
+      login: catalogInput.login !== "" ? catalogInput.login : catalog.login,
+      password:
+        catalogInput.password !== "" ? catalogInput.password : catalog.password,
+      multicode:
+        catalogInput.multicode !== ""
+          ? catalogInput.multicode
+          : catalog.multicode,
+      price: catalogInput.price !== "" ? catalogInput.price : catalog.price,
+      websites:
+        catalogInput.websites !== "" ? catalogInput.websites : catalog.websites,
       rank: catalogInput.rank !== "" ? catalogInput.rank : catalog.rank,
       status: catalogInput.status !== "" ? catalogInput.status : catalog.status,
       createdAt:

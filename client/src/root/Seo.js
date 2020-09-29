@@ -6,7 +6,8 @@ import { fetchProjects } from "../store/Projects/actions";
 import { fetchCatalogs } from "../store/Catalogs/actions";
 
 class Seo extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     const {
       fetchProjects,
       fetchCatalogs,
@@ -14,8 +15,6 @@ class Seo extends Component {
     } = this.props;
     fetchProjects(company);
     fetchCatalogs();
-    console.log("fetch catalogs");
-    // console.log(company);
   }
   render() {
     return <SeoContainer />;

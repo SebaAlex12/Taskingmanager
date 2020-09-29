@@ -146,9 +146,14 @@ module.exports = buildSchema(`
 
     type Catalog {
         _id: String
-        title: String
-        description: String
-        url: String
+        url:  String
+        title:  String
+        description:  String
+        login: String
+        password: String
+        multicode: String
+        price: String
+        websites: String
         rank: String
         status: String
         createdAt: String
@@ -330,9 +335,14 @@ module.exports = buildSchema(`
     }
     input CatalogInputData {
         _id: String
-        title: String
-        description: String
-        url: String
+        url:  String
+        title:  String
+        description:  String
+        login: String
+        password: String
+        multicode: String
+        price: String
+        websites: String
         rank: String
         status: String
         createdAt: String
