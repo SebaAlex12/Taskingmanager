@@ -5,7 +5,7 @@ import moment from "moment";
 import {
   payment_invoice_statuses,
   payment_pattern_statuses,
-  payment_cycles
+  payment_cycles,
 } from "../../ini";
 import { updatePayment, removePayment } from "../actions";
 
@@ -17,7 +17,7 @@ import {
   faFilePdf,
   faTimes,
   faInfo,
-  faPencilAlt
+  faPencilAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -25,7 +25,7 @@ class PaymentsItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showPaymentToPdfModalTrigger: false
+      showPaymentToPdfModalTrigger: false,
     };
   }
   componentDidMount() {
@@ -56,8 +56,8 @@ class PaymentsItem extends Component {
         paymentMethod,
         createdBy,
         termAt,
-        createdAt
-      }
+        createdAt,
+      },
     } = this.props;
     this.setState({
       _id,
@@ -85,60 +85,53 @@ class PaymentsItem extends Component {
       paymentMethod,
       createdBy,
       termAt,
-      createdAt
+      createdAt,
     });
   }
-  showPaymentToPdfModal = result => {
+  showPaymentToPdfModal = (result) => {
     this.setState({
       ...this.state,
-      showPaymentToPdfModalTrigger: result
+      showPaymentToPdfModalTrigger: result,
     });
   };
-  onChangeSelectHandler = event => {
+  onChangeSelectHandler = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
     const { updatePayment } = this.props;
     const { _id } = this.state;
     const data = {
       _id,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     };
-    const response = updatePayment(data);
+    updatePayment(data);
   };
-  onchangeInputHandler = event => {
+  onchangeInputHandler = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
-  removePaymentHandler = event => {
+  removePaymentHandler = (event) => {
     const { removePayment } = this.props;
     const { _id } = this.state;
     const result = window.confirm("Czy napewno chcesz usunąć płatność ?");
     if (result === true) {
-      const response = removePayment(_id);
-      // if (response) {
-      //   updateMessages([
-      //     { name: "Płatność" },
-      //     { value: event.target.name + " płatność została usunięta" }
-      //   ]);
-      // }
+      removePayment(_id);
     }
   };
-  onchangeElementSubmitHandler = element => {
+  onchangeElementSubmitHandler = (element) => {
     const { updatePayment } = this.props;
     const { _id } = this.state;
     const data = {
       _id,
-      ...element
+      ...element,
     };
     const response = updatePayment(data);
   };
   render() {
-    const { item, loggedUser } = this.props;
+    const { item } = this.props;
     const {
       showPaymentToPdfModalTrigger,
-      _id,
       paymentType,
       paymentMonth,
       paymentCycle,
@@ -148,9 +141,8 @@ class PaymentsItem extends Component {
       netValue,
       grossValue,
       status,
-      createdBy,
       termAt,
-      createdAt
+      createdAt,
     } = this.state;
     const statuses =
       paymentType === "Faktura"
@@ -177,7 +169,7 @@ class PaymentsItem extends Component {
               required
             >
               {statuses
-                ? statuses.map(item => {
+                ? statuses.map((item) => {
                     return (
                       <option
                         key={item._id}
@@ -201,7 +193,7 @@ class PaymentsItem extends Component {
                 required
               >
                 {payment_cycles
-                  ? payment_cycles.map(item => {
+                  ? payment_cycles.map((item) => {
                       return (
                         <option
                           key={item._id}
@@ -279,9 +271,9 @@ class PaymentsItem extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    loggedUser: state.users.logged_user
+    loggedUser: state.users.logged_user,
   };
 };
 

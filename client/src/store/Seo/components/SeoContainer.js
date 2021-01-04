@@ -15,17 +15,32 @@ class SeoContainer extends Component {
     super(props);
     this.state = {
       showModalCatalogAddForm: false,
+      sites: [],
     };
   }
   update = async () => {
-    const url = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=964";
+    // const url = "https://blumoseo.pl/pomiary/wyniki.json";
+    // const $json = await axios.get(url, {
+    //   headers: {
+    //     "Access-Control-Allow-Origin": "*",
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // console.log("json", $json);
+  };
+  showSites = async () => {
+    const url = "https://blumoseo.pl/pomiary/wyniki.json";
     const $json = await axios.get(url, {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
       },
     });
-    console.log("json", $json);
+    // console.log("json", $json);
+    //  console.log("stringify", JSON.stringify($json.data));
+    this.setState({
+      sites: $json.data,
+    });
   };
   showModal = () => {
     this.setState({
@@ -34,7 +49,34 @@ class SeoContainer extends Component {
   };
   render() {
     const { catalogs } = this.props;
-    const { showModalCatalogAddForm } = this.state;
+    const { showModalCatalogAddForm, sites } = this.state;
+
+    const sitesContent =
+      sites.length > 0 ? (
+        <table className="table table-striped">
+          <thead></thead>
+          <tbody>
+            {sites.map((site) => {
+              return (
+                <tr>
+                  {Object.keys(site).map((key) => {
+                    console.log("site[key]", site[key]);
+                    console.log("key", key);
+                    return (
+                      <React.Fragment>
+                        <td className={site[key].url}>{site[key].url}</td>
+                        <td className={site[key].ile}>{site[key].ile}</td>
+                      </React.Fragment>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      ) : (
+        "dane nie zaczytane"
+      );
 
     const catalogAddFormContent = showModalCatalogAddForm ? (
       <ModalDialog showModal={this.showModal}>
@@ -46,9 +88,10 @@ class SeoContainer extends Component {
 
     if (catalogs.length > 0) {
       newCatalogs = catalogs.map((catalog) => {
-        if (catalog.websites !== null) {
-          catalog.websites = JSON.parse(catalog.websites);
-        }
+        // console.log("catalog.websites", catalog.websites.length);
+        // if (catalog.websites !== null && !Array.isArray(catalog.websites)) {
+        //   catalog.websites = JSON.parse(catalog.websites);
+        // }
         return catalog;
       });
     }
@@ -62,7 +105,10 @@ class SeoContainer extends Component {
 
     return (
       <div>
+        <div>{sitesContent}</div>
         {/* <button onClick={() => this.update()}>Update</button> */}
+        <Button onClick={this.showSites}>Pokaż wyniki</Button>
+
         <Button
           onClick={() =>
             this.setState({

@@ -77,12 +77,11 @@ class PatternsItem extends Component {
   }
   filteredTasks = (tasks, taskId = null, responsiblePerson = null) => {
     let filteredTasks = [];
-    // console.log("task id", taskId);
     if (taskId) {
-      filteredTasks = tasks.filter((task) => task._id == taskId);
+      filteredTasks = tasks.filter((task) => task._id === taskId);
     } else if (responsiblePerson) {
       filteredTasks = tasks.filter(
-        (task) => task.responsiblePerson == responsiblePerson
+        (task) => task.responsiblePerson === responsiblePerson
       );
     } else {
       filteredTasks = tasks;

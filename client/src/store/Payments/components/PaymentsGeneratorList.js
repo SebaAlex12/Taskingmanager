@@ -18,9 +18,9 @@ class PaymentsGeneratorList extends Component {
     let { month, year, fetchNotUsedPatterns } = this.props;
     const payments = fetchNotUsedPatterns(month, year);
     if (payments.length > 0) {
-      payments.forEach(item => (item.selected = false));
+      payments.forEach((item) => (item.selected = false));
       this.setState({
-        payments
+        payments,
       });
     }
   }
@@ -30,16 +30,15 @@ class PaymentsGeneratorList extends Component {
     let { payments } = this.state;
 
     // console.log("props", this.props);
-    const monthSelected = months.filter(m => m.name === itemMonth);
+    const monthSelected = months.filter((m) => m.name === itemMonth);
     const month = monthSelected[0].value;
 
     let numbers = getNumbers(false, lastInsertInvoice.paymentNumber);
     let invoiceNumber = numbers.invoiceNumber;
     invoiceNumber = invoiceNumber + 1;
-    // console.log("invoice number", invoiceNumber);
 
     // select only selected patterns and change theirs payment numbers and types
-    payments = payments.filter(item => {
+    payments = payments.filter((item) => {
       if (item.selected === true) {
         let numbers = getNumbers(item.paymentNumber, false);
         // console.log("numbers", numbers);
@@ -48,7 +47,7 @@ class PaymentsGeneratorList extends Component {
           "I" + invoiceNumber++,
           "P" + patternNumber,
           "M" + month,
-          "Y" + itemYear
+          "Y" + itemYear,
         ];
         delete item["_id"];
         item.paymentNumber = newPaymentNumber.join("/");
@@ -58,31 +57,27 @@ class PaymentsGeneratorList extends Component {
         return item;
       }
     });
-    console.log("generate", payments);
-    const result = payments.forEach(payment => {
+    payments.forEach((payment) => {
       addPayment(payment);
     });
   };
   itemSelectorHandler = (id, value) => {
     let { payments } = this.state;
-    let element = payments.filter(item => item._id === id);
+    let element = payments.filter((item) => item._id === id);
 
     element[0].selected = value;
 
     this.setState({
       ...this.state,
-      element
+      element,
     });
   };
   render() {
-    const { itemYear, itemMonth } = this.props;
     let { payments } = this.props;
     let content;
 
-    console.log("state", this.state);
-
     if (payments) {
-      content = payments.map(item => (
+      content = payments.map((item) => (
         <PaymentsGeneratorItem
           item={item}
           itemSelectorHandler={this.itemSelectorHandler}
@@ -126,10 +121,10 @@ class PaymentsGeneratorList extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     // payments: state.payments.payments,
-    lastInsertInvoice: state.payments.lastInsertInvoice
+    lastInsertInvoice: state.payments.lastInsertInvoice,
   };
 };
 export default connect(mapStateToProps, { addPayment, fetchNotUsedPatterns })(

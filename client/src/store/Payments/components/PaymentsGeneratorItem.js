@@ -2,27 +2,27 @@ import React, { Component } from "react";
 import moment from "moment";
 
 import { Button } from "../../../themes/basic";
-import { faFilePdf, faInfo } from "@fortawesome/free-solid-svg-icons";
+import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class PaymentsGeneratorItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedItem: false
+      selectedItem: false,
     };
   }
-  onChangeSelectHandler = element => {
+  onChangeSelectHandler = (element) => {
     const {
       itemSelectorHandler,
-      item: { _id }
+      item: { _id },
     } = this.props;
     const { selectedItem } = this.state;
     itemSelectorHandler(_id, !selectedItem);
 
     this.setState({
       ...this.state,
-      ...element
+      ...element,
     });
   };
   render() {
@@ -32,29 +32,14 @@ class PaymentsGeneratorItem extends Component {
         paymentMonth,
         paymentCycle,
         paymentNumber,
-        companyName,
         contractorName,
-        companyAddress,
-        contractorAddress,
-        companyNIP,
-        contractorNIP,
-        companyWebsite,
-        companyPhone,
-        contractorPhone,
-        companyMail,
-        contractorMail,
-        companyBankName,
-        companyBankAcount,
         description,
         netValue,
         grossValue,
         status,
-        paymentMethod,
-        createdBy,
         termAt,
-        createdAt
+        createdAt,
       },
-      item
     } = this.props;
 
     const { selectedItem } = this.state;

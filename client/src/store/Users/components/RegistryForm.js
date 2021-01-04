@@ -16,28 +16,28 @@ class RegistryForm extends Component {
       password: "",
       status: "",
       selectedProjects: [],
-      selectedUsers: []
+      selectedUsers: [],
     };
   }
   componentDidMount() {
     const { loggedUser } = this.props;
     this.setState({
-      company: loggedUser.company
+      company: loggedUser.company,
     });
   }
-  onChangeInput = event => {
+  onChangeInput = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  onChangeSelect = event => {
+  onChangeSelect = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  registerHandler = event => {
+  registerHandler = (event) => {
     event.preventDefault();
     const { registerUser, updateMessages, loggedUser } = this.props;
     // check if someone created new company
@@ -49,7 +49,7 @@ class RegistryForm extends Component {
       password,
       status,
       selectedProjects,
-      selectedUsers
+      selectedUsers,
     } = this.state;
 
     const data = {
@@ -59,7 +59,7 @@ class RegistryForm extends Component {
       status,
       company: companyName ? companyName : loggedUser.company,
       projects: selectedProjects,
-      users: selectedUsers
+      users: selectedUsers,
     };
 
     const response = registerUser(data);
@@ -67,32 +67,32 @@ class RegistryForm extends Component {
       updateMessages([{ name: "Użytkownik" }, { value: "użytkownik dodany" }]);
     }
   };
-  onChangeUsersMultiCheckbox = event => {
+  onChangeUsersMultiCheckbox = (event) => {
     let { selectedUsers } = this.state;
 
     selectedUsers.includes(event.currentTarget.value)
       ? (selectedUsers = selectedUsers.filter(
-          item => item !== event.currentTarget.value
+          (item) => item !== event.currentTarget.value
         ))
       : selectedUsers.push(event.currentTarget.value);
 
     this.setState({
       ...this.state,
-      selectedUsers: selectedUsers
+      selectedUsers: selectedUsers,
     });
   };
-  onChangeProjectsMultiCheckbox = event => {
+  onChangeProjectsMultiCheckbox = (event) => {
     let { selectedProjects } = this.state;
 
     selectedProjects.includes(event.currentTarget.value)
       ? (selectedProjects = selectedProjects.filter(
-          item => item !== event.currentTarget.value
+          (item) => item !== event.currentTarget.value
         ))
       : selectedProjects.push(event.currentTarget.value);
 
     this.setState({
       ...this.state,
-      selectedProjects: selectedProjects
+      selectedProjects: selectedProjects,
     });
   };
   render() {
@@ -100,10 +100,8 @@ class RegistryForm extends Component {
       name,
       email,
       password,
-      status,
-      company,
       selectedProjects,
-      selectedUsers
+      selectedUsers,
     } = this.state;
     const { users, loggedUser } = this.props;
     let { projects } = this.props;
@@ -119,7 +117,7 @@ class RegistryForm extends Component {
       if (loggedUser.status !== "Administrator") {
         projects = loggedUser.projects.split(",");
       } else {
-        projects = projects.map(item => item.name);
+        projects = projects.map((item) => item.name);
       }
     }
 
@@ -150,7 +148,7 @@ class RegistryForm extends Component {
 
     if (projects) {
       let counter = 1;
-      projectContent = projects.map(project => {
+      projectContent = projects.map((project) => {
         return (
           <div className="checkbox-item" key={counter++}>
             <input
@@ -168,7 +166,7 @@ class RegistryForm extends Component {
 
     if (users) {
       let counter = 1;
-      userContent = users.map(user => {
+      userContent = users.map((user) => {
         return (
           <div className="checkbox-item" key={counter++}>
             <input
@@ -230,7 +228,7 @@ class RegistryForm extends Component {
               >
                 <option value="">Status</option>
                 {user_statuses
-                  ? user_statuses.map(status => {
+                  ? user_statuses.map((status) => {
                       if (loggedUser.status !== "Administrator") {
                         if (status.name !== "Administrator") {
                           return (
@@ -291,12 +289,12 @@ class RegistryForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loggedUser: state.users.logged_user,
     projects: state.projects.projects,
     users: state.users.users,
-    companies: state.companies.companies
+    companies: state.companies.companies,
   };
 };
 

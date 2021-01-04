@@ -13,12 +13,12 @@ class ProjectsEditFrom extends Component {
       description: "",
       cms: "",
       ftp: "",
-      panel: ""
+      panel: "",
     };
   }
   componentDidMount() {
     const {
-      item: { _id, name, description, cms, ftp, panel }
+      item: { _id, name, description, cms, ftp, panel },
     } = this.props;
     this.setState({
       _id,
@@ -26,22 +26,22 @@ class ProjectsEditFrom extends Component {
       description,
       cms,
       ftp,
-      panel
+      panel,
     });
   }
-  onChangeInput = event => {
+  onChangeInput = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  onChangeSelect = event => {
+  onChangeSelect = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  updateHandler = event => {
+  updateHandler = (event) => {
     const { updateProject, updateMessages } = this.props;
     const { _id, name, description, cms, ftp, panel } = this.state;
 
@@ -51,23 +51,23 @@ class ProjectsEditFrom extends Component {
       description,
       cms,
       ftp,
-      panel
+      panel,
     };
     const response = updateProject(data);
     if (response) {
       updateMessages([
         { name: "Projekty" },
-        { value: "opis został zmieniony" }
+        { value: "opis został zmieniony" },
       ]);
     }
     event.preventDefault();
   };
-  toggleClassHandler = event => {
+  toggleClassHandler = (event) => {
     event.preventDefault();
     event.target.classList.toggle("active");
   };
   render() {
-    const { name, description, cms, ftp, panel } = this.state;
+    const { name, description } = this.state;
     const { loggedUser } = this.props;
     return (
       <div className="project-update-form-box">
@@ -166,9 +166,9 @@ class ProjectsEditFrom extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    loggedUser: state.users.logged_user
+    loggedUser: state.users.logged_user,
   };
 };
 

@@ -14,26 +14,26 @@ class CompaniesList extends Component {
     this.state = {
       companyFilterName: "",
       toggleCompaniesAddForm: false,
-      toggleCompaniesList: false
+      toggleCompaniesList: false,
     };
   }
-  onChangeInput = event => {
+  onChangeInput = (event) => {
     this.setState({
       ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  removeCompanyHandler = id => {
+  removeCompanyHandler = (id) => {
     const { removeCompany } = this.props;
     removeCompany(id);
   };
-  updateCompanyHandler = data => {
+  updateCompanyHandler = (data) => {
     const { updateCompany } = this.props;
     updateCompany(data);
   };
-  filterItems = items => {
+  filterItems = (items) => {
     const { companyFilterName } = this.state;
-    const filteredItems = items.filter(item => {
+    const filteredItems = items.filter((item) => {
       return item.name.toLowerCase().indexOf(companyFilterName) !== -1;
     });
     if (document.querySelector(".remove-filter")) {
@@ -45,11 +45,11 @@ class CompaniesList extends Component {
     }
     return filteredItems;
   };
-  toggleClassHandler = event => {
+  toggleClassHandler = (event) => {
     event.preventDefault();
     event.target.classList.toggle("active");
     this.setState({
-      companyFilterName: ""
+      companyFilterName: "",
     });
   };
   render() {
@@ -57,7 +57,7 @@ class CompaniesList extends Component {
     const {
       companyFilterName,
       toggleCompaniesAddForm,
-      toggleCompaniesList
+      toggleCompaniesList,
     } = this.state;
 
     let companies =
@@ -67,11 +67,11 @@ class CompaniesList extends Component {
     //   companies = this.filterItems(companies);
     // }
 
-    const companiesContent = companies.map(company => {
+    const companiesContent = companies.map((company) => {
       return <CompaniesItem item={company} key={company._id} />;
     });
     const windowHeight = window.innerHeight - 50;
-    const clazz = "glyphicon glyphicon-filter";
+    // const clazz = "glyphicon glyphicon-filter";
 
     const btn_clazz = toggleCompaniesAddForm ? "flow-box active" : "flow-box";
     const btn_list_clazz = toggleCompaniesList
@@ -87,7 +87,7 @@ class CompaniesList extends Component {
                 variant="primary"
                 onClick={() =>
                   this.setState({
-                    toggleCompaniesAddForm: !toggleCompaniesAddForm
+                    toggleCompaniesAddForm: !toggleCompaniesAddForm,
                   })
                 }
               >
@@ -102,7 +102,7 @@ class CompaniesList extends Component {
                 variant="primary"
                 onClick={() =>
                   this.setState({
-                    toggleCompaniesList: !toggleCompaniesList
+                    toggleCompaniesList: !toggleCompaniesList,
                   })
                 }
               >
@@ -140,14 +140,14 @@ class CompaniesList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     companies: state.companies.companies,
-    loggedUser: state.users.logged_user
+    loggedUser: state.users.logged_user,
   };
 };
 
 export default connect(mapStateToProps, {
   removeCompany,
-  updateCompany
+  updateCompany,
 })(CompaniesList);
