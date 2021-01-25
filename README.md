@@ -1,4 +1,4 @@
-# Tasks Manager
+# Okafix
 react, redux, redux-saga, node, graphql, typescript
 
 Program do zarządzania firmą. Jest to wersja demonstracyjna.
