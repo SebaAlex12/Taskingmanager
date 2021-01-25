@@ -1,5 +1,5 @@
 # Okafix
-react, redux, redux-saga, node, graphql, typescript
+react, redux, mongoDB, node, graphql
 
 Program do zarządzania firmą. Jest to wersja demonstracyjna.
 
