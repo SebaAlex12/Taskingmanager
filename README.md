@@ -1,7 +1,7 @@
 # Tasks Manager
 react, redux, redux-saga, node, graphql, typescript
 
-Program do zarządzania firmą. Jest to wersja demonstracyjna - do oficjalnej wersji brak dostepu ze względów bezpieczeństwa danych.
+Program do zarządzania firmą. Jest to wersja demonstracyjna.
 
 Demo:
 https://okafix.herokuapp.com/
