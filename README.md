@@ -2,4 +2,4 @@
 react, redux, redux-saga, node, graphql, typescript
 
 Demo:
-https://tasking-manager.herokuapp.com/
+https://okafix.herokuapp.com/
