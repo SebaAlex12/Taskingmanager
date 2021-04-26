@@ -126,9 +126,7 @@ class ProjectsItem extends Component {
             <SmallerButton onClick={this.updateFilterHandler}>
               <FontAwesomeIcon title="filtruj po nazwie" icon={faFilter} />
             </SmallerButton>
-            <SmallerButton onClick={this.updateHandler}>
-              <FontAwesomeIcon style={{color:"green"}} title="zapisz projekt" icon={faPen} />
-            </SmallerButton>
+
             {/* <SmallerButton
               onClick={() => this.showModal(true)}
               title="wyślij maila"
@@ -137,20 +135,31 @@ class ProjectsItem extends Component {
             </SmallerButton> */}
             {loggedUser.status === "Administrator" ||
             loggedUser.status === "Menedżer" ? (
-              <SmallerButton
-                title="edytuj"
-                onClick={() =>
-                  this.setState({ toggleEditForm: !toggleEditForm })
-                }
-              >
-                <FontAwesomeIcon icon={faEdit} />
-              </SmallerButton>
+
+                <SmallerButton
+                  title="edytuj"
+                  onClick={() =>
+                    this.setState({ toggleEditForm: !toggleEditForm })
+                  }
+                >
+                  <FontAwesomeIcon icon={faEdit} />
+                </SmallerButton>
+
             ) : null}
-            <SmallerButton
-                  onClick={this.deleteHandler}
-            >
-                <FontAwesomeIcon icon={faTimes} style={{color:"red"}}/>
-            </SmallerButton>
+            {
+              loggedUser.status === "Administrator" && (
+                <React.Fragment>
+                  <SmallerButton onClick={this.updateHandler}>
+                    <FontAwesomeIcon style={{color:"green"}} title="zapisz projekt" icon={faPen} />
+                  </SmallerButton>
+                  <SmallerButton
+                        onClick={this.deleteHandler}
+                  >
+                      <FontAwesomeIcon icon={faTimes} style={{color:"red"}}/>
+                  </SmallerButton>
+                </React.Fragment>
+              )
+            }
           </div>
         </div>
         <div className="edit-form">
