@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import { updateProject, removeProject } from "../actions";
+import { updateMessages } from "../../Messages/actions";
+
 import ProjectsEditForm from "./ProjectsEditForm";
 import { updateFilter } from "../../Filters/actions";
 
@@ -11,7 +14,9 @@ import { SmallerButton } from "../../../themes/basic";
 import {
   faEnvelope,
   faEdit,
-  faFilter
+  faFilter,
+  faTimes,
+  faPen
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -20,7 +25,9 @@ class ProjectsItem extends Component {
     super(props);
     this.state = {
       toggleEditForm: false,
-      showModalTrigger: false
+      toggleEditName: false,
+      showModalTrigger: false,
+      projectName: props.item.name
     };
   }
   updateFilterHandler = () => {
@@ -29,9 +36,40 @@ class ProjectsItem extends Component {
       filters: { statuses, priorities, responsiblePerson },
       updateFilter
     } = this.props;
-    const projectName = item.name;
-    updateFilter({ statuses, priorities, projectName, responsiblePerson });
+    const filterProjectName = item.name;
+    updateFilter({ statuses, priorities, filterProjectName, responsiblePerson });
   };
+  deleteHandler = () => {
+      const { item: { _id, name }, removeProject } = this.props;
+      const result = window.confirm(
+        "Czy napewno chcesz usunąć projekt: " + name
+      );
+      if (result === true) {
+        const response = removeProject(_id);
+        if (response) {
+          updateMessages([
+            { name: "Projekt" },
+            { value: name + " został usunięty" },
+          ]);
+        }
+      }
+  }
+  updateHandler = () => {
+    const { updateProject, item : { _id } } = this.props;
+    const { projectName } = this.state;
+    updateProject({ _id, name: projectName });
+    this.setState({
+      ...this.state,
+      toggleEditName: false
+    })
+  }
+  onChangeHandler = (event) => {
+    console.log("event",event.currentTarget);
+    this.setState({
+      ...this.state,
+      [event.currentTarget.name]: event.currentTarget.value
+    })
+  }
   showModal = result => {
     this.setState({
       ...this.state,
@@ -41,11 +79,11 @@ class ProjectsItem extends Component {
   render() {
     const {
       item,
-      filters: { projectName },
+      filters: { filterProjectName },
       loggedUser,
       users
     } = this.props;
-    const { toggleEditForm, showModalTrigger } = this.state;
+    const { toggleEditForm, toggleEditName, showModalTrigger, projectName } = this.state;
 
     // get users emails assign to this project
     let projectUsersEmails = "";
@@ -66,24 +104,37 @@ class ProjectsItem extends Component {
     // console.log("projects string", projectUsersEmails);
     let clazz_box;
 
-    clazz_box = item.name === projectName ? "item-box selected" : "item-box";
+    clazz_box = item.name === filterProjectName ? "item-box selected" : "item-box";
 
     return (
       <div className={clazz_box}>
         <div className="title">
           <div className="name">
-            <span>{item.name}</span>
+            {
+              toggleEditName ? (
+                <input 
+                type="text" 
+                name="projectName"
+                onChange={(event) => this.onChangeHandler(event)}
+                value={projectName}
+                />
+              ) : <span onClick={() => this.setState({toggleEditName:true})}>{item.name}</span>
+            }
+            
           </div>
           <div className="buttons">
             <SmallerButton onClick={this.updateFilterHandler}>
               <FontAwesomeIcon title="filtruj po nazwie" icon={faFilter} />
             </SmallerButton>
-            <SmallerButton
+            <SmallerButton onClick={this.updateHandler}>
+              <FontAwesomeIcon style={{color:"green"}} title="zapisz projekt" icon={faPen} />
+            </SmallerButton>
+            {/* <SmallerButton
               onClick={() => this.showModal(true)}
               title="wyślij maila"
             >
               <FontAwesomeIcon icon={faEnvelope} />
-            </SmallerButton>
+            </SmallerButton> */}
             {loggedUser.status === "Administrator" ||
             loggedUser.status === "Menedżer" ? (
               <SmallerButton
@@ -95,6 +146,11 @@ class ProjectsItem extends Component {
                 <FontAwesomeIcon icon={faEdit} />
               </SmallerButton>
             ) : null}
+            <SmallerButton
+                  onClick={this.deleteHandler}
+            >
+                <FontAwesomeIcon icon={faTimes} style={{color:"red"}}/>
+            </SmallerButton>
           </div>
         </div>
         <div className="edit-form">
@@ -136,4 +192,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { updateFilter })(ProjectsItem);
+export default connect(mapStateToProps, { updateFilter, updateProject, removeProject })(ProjectsItem);

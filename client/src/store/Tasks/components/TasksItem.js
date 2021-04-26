@@ -261,7 +261,6 @@ class TasksItem extends Component {
     } else {
       return "Przypisz szablon z listy";
     }
-    console.log("adwefwefw", attachedPattern);
   };
 
   selectPatternClass = () => {

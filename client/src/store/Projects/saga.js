@@ -243,11 +243,41 @@ export function* updateProjectWatcher() {
   yield takeEvery(UPDATING_PROJECT, updateProjectAsync);
 }
 
-function* removeProjectAsync(action) {
-  try {
-    yield put({ type: REMOVE_PROJECT_SUCCESS, payload: action.projectId });
-  } catch (error) {
-    yield put({ type: PROJECTS_ERROR, payload: error });
+function* removeProjectAsync(data) {
+  const { projectId } = data;
+  // console.log("saga data", data);
+  const graph = {
+    query: `mutation {
+      removeProject(projectId: "${projectId}"){
+        _id
+        errors{
+          path
+          message
+        }
+      }
+    }`,
+  };
+
+  const projectData = yield call(
+    [axios, axios.post],
+    "/graphql",
+    JSON.stringify(graph),
+    { headers: { "Content-Type": "application/json" } }
+  );
+  const response = projectData.data.data.removeProject;
+
+  if (response.errors) {
+    yield put({ type: PROJECTS_ERROR, payload: response.errors });
+    yield put({
+      type: UPDATE_MESSAGES_SUCCESS,
+      payload: { errors: response.errors },
+    });
+  } else {
+    yield put({ type: REMOVE_PROJECT_SUCCESS, payload: response });
+    yield put({
+      type: UPDATE_MESSAGES_SUCCESS,
+      payload: { success: [{ message: "Projekt został usunięty" }] },
+    });
   }
 }
 

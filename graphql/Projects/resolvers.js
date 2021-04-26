@@ -125,7 +125,6 @@ module.exports = {
   updateProject: async function ({ projectInput }, req) {
     const _id = projectInput._id;
     const project = await Project.findOne({ _id });
-    // console.log("project input", projectInput);
 
     const data = {
       _id: projectInput._id,
@@ -176,13 +175,13 @@ module.exports = {
       return { errors: tools.formatErrors(e) };
     }
   },
-  // removeProject: async function({ projectId }) {
-  //   try {
-  //     await Project.deleteOne({ _id: projectId });
-  //   } catch (err) {
-  //     const error = new Error(err);
-  //     throw error;
-  //   }
-  //   return { _id: projectId };
-  // }
+  removeProject: async function({ projectId }) {
+    try {
+      await Project.deleteOne({ _id: projectId });
+    } catch (err) {
+      const error = new Error(err);
+      throw error;
+    }
+    return { _id: projectId };
+  }
 };

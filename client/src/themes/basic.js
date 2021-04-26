@@ -45,7 +45,7 @@ export const ListBox = styled.div`
   background-color: #fff;
   z-index: 100;
   overflow-y: scroll;
-  width: 300px;
+  width: 335px;
   display: flex;
   flex-direction: column;
   > div:nth-child(1) {
