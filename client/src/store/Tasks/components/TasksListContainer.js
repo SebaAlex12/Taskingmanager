@@ -61,7 +61,7 @@ class TasksListContainer extends Component {
       });
     }
   };
-  switchAllTasks = () => {
+  switchAllTasks = (showAllTasks) => {
     const { activeAllTasks } = this.state;
     const {
       loggedUser,
@@ -71,14 +71,15 @@ class TasksListContainer extends Component {
       filters,
     } = this.props;
 
-    if (!activeAllTasks) {
+    if (showAllTasks) {
+      console.log("show all tasks");
       if (loggedUser.status !== "Administrator") {
         fetchTasksByLoggedUserProjects({
           projectId: 1,
           projects: loggedUser.projects,
         });
       } else {
-        fetchTasks({ projectId: 1 });
+        fetchTasks();
       }
       updateFilter({
         ...filters,
@@ -93,7 +94,7 @@ class TasksListContainer extends Component {
     }
     this.setState({
       ...this.state,
-      activeAllTasks: !activeAllTasks,
+      activeAllTasks: showAllTasks,
     });
   };
   switchTasks = () => {
@@ -279,7 +280,7 @@ class TasksListContainer extends Component {
               </div>
               {loggedUser.status === "Administrator" ||
               loggedUser.status === "Menedżer" ? (
-                <div className={clazz_all_tasks} onClick={this.switchAllTasks}>
+                <div className={clazz_all_tasks} onClick={() => this.switchAllTasks(!activeAllTasks)}>
                   <Button>
                     <FontAwesomeIcon icon={faLayerGroup} />
                     <span>Pokaż wszystkie zadania</span>

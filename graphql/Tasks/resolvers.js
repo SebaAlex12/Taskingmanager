@@ -10,41 +10,47 @@ const tools = require("../../utils/tools");
 // fetchTasks and fetchTasksByLoggedUserProjects has to be almost the same
 module.exports = {
   fetchTasks: async function ({ taskInput }) {
-    let params = {};
-    // console.log("fetch tasks input", taskInput);
 
-    if (taskInput.projectName && taskInput.projectName !== "undefined")
-      params.projectName = taskInput.projectName;
+        let params = {};
 
-    if (taskInput.status && taskInput.status !== "undefined")
-      params.status = taskInput.status;
+        if (taskInput.projectName && taskInput.projectName !== "undefined")
+          params.projectName = taskInput.projectName;
 
-    if (
-      taskInput.responsiblePerson &&
-      taskInput.responsiblePerson !== "undefined"
-    )
-      params.responsiblePerson = taskInput.responsiblePerson;
+        if (taskInput.status && taskInput.status !== "undefined")
+          params.status = taskInput.status;
 
-    if (taskInput.createdBy && taskInput.createdBy !== "undefined")
-      params.createdBy = taskInput.createdBy;
+        if (
+          taskInput.responsiblePerson &&
+          taskInput.responsiblePerson !== "undefined"
+        )
+          params.responsiblePerson = taskInput.responsiblePerson;
 
-    let tasks = await Task.find(params).sort({ createdAt: "desc" });
+        if (taskInput.createdBy && taskInput.createdBy !== "undefined")
+          params.createdBy = taskInput.createdBy;
 
-    const newTasks = tasks.map(async (task) => {
-      let path = "./client/public/files/tasks/" + task._id;
-      if (fs.existsSync(path)) {
-        const files = await fsPromises.readdir(path);
-        task = {
-          ...task._doc,
-          files: files.filter((file) => file != "mini"),
-        };
-      } else {
-        task.files = [];
+    try{
+
+        let tasks = await Task.find(params).sort({ createdAt: "desc" });
+
+        const newTasks = tasks.map(async (task) => {
+          let path = "./client/public/files/tasks/" + task._id;
+          if (fs.existsSync(path)) {
+            const files = await fsPromises.readdir(path);
+            task = {
+              ...task._doc,
+              files: files.filter((file) => file != "mini"),
+            };
+          } else {
+            task.files = [];
+          }
+          return task;
+        });
+
+        return newTasks;
+              
+      }catch(e){
+          return { errors: tools.formatErrors(e) };
       }
-      return task;
-    });
-
-    return newTasks;
   },
   fetchTasksByLoggedUserProjects: async function ({ taskInput, projects }) {
     let params = {};

@@ -15,6 +15,8 @@ import {
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 
+import { formatErrors } from "../../common/tools"
+
 function* fetchProjectsAsync(action) {
   const data = action.data;
   // console.log("saga", data);
@@ -44,8 +46,8 @@ function* fetchProjectsAsync(action) {
       type: FETCH_PROJECTS_SUCCESS,
       payload: res.data.data.fetchProjects,
     });
-  } catch (error) {
-    yield put({ type: PROJECTS_ERROR, payload: error });
+  } catch (e) {
+    yield put({ type: PROJECTS_ERROR, payload: formatErrors(e) });
   }
 }
 

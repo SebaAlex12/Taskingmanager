@@ -19,16 +19,25 @@ import {
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 // import { REMOVING_COMMENTS_RELATIVE_TASK } from "../Comments/types";
 
+// import { formatErrors } from "../../common/tools";
+
 function* fetchTasksAsync(action) {
+  const data = action.data ? action.data : {};
+  const taskInput = {
+    projectName: data.projectName ? data.projectName : "",
+    createdBy: data.createdBy ? data.createdBy : "",
+    responsiblePerson: data.responsiblePerson ? data.responsiblePerson : "",
+    mailReminderData: data.mailReminderData ? data.mailReminderData : ""
+  }
   try {
     const graph = {
       query: `
         query {
           fetchTasks(taskInput:{
-            projectName: "${action.data.projectName}",
-            createdBy: "${action.data.createdBy}", 
-            responsiblePerson: "${action.data.responsiblePerson}",
-            mailRemainderData: "${action.data.mailRemainderData}"}){
+            projectName: "${taskInput.projectName}",
+            createdBy: "${taskInput.createdBy}", 
+            responsiblePerson: "${taskInput.responsiblePerson}",
+            mailRemainderData: "${taskInput.mailRemainderData}"}){
             _id
             createdBy
             projectId
@@ -57,8 +66,8 @@ function* fetchTasksAsync(action) {
     );
     // console.log("fetch tasks", res.data.data.fetchTasks);
     yield put({ type: FETCH_TASKS_SUCCESS, payload: res.data.data.fetchTasks });
-  } catch (error) {
-    yield put({ type: TASKS_ERROR, payload: error });
+  } catch (e) {
+    yield put({ type: TASKS_ERROR, payload: [e.message] });
   }
 }
 

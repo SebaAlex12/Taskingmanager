@@ -19,3 +19,16 @@ export const sortArray = (array, property, direction) => {
   });
   return array;
 };
+
+export const formatErrors = (e) => {
+  let err = [];
+  let i = 0;
+
+  for (var errName in e.errors) {
+    err[i++] = {
+      path: e.errors[errName].path,
+      message: e.errors[errName].message
+    };
+  }
+  return err;
+}
