@@ -56,7 +56,7 @@ export const ListBox = styled.div`
     flex-direction: row;
   }
   .name {
-    width: 170px;
+    width: 175px;
     text-align: left;
   }
   .items {

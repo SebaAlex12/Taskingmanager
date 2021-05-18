@@ -34,6 +34,7 @@ export const StyledModalDialog = styled.div`
   .modal-dialog-box > .content > .description {
     clear: both;
     margin-top: 30px;
+    max-height:350px;
   }
   .modal-dialog-box > .content > .description > iframe {
     width: 100%;

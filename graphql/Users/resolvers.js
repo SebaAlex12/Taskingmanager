@@ -87,14 +87,16 @@ module.exports = {
   },
   loginUser: async function ({ email, password }) {
     if (!email || !password) {
-      return {
-        errors: [
-          {
-            path: "Logowanie użytkownika",
-            message: "Email lub hasło nie zostało wprowadzone",
-          },
-        ],
-      };
+      console.log("resolver errors");
+      throw new Error('Oops!');
+      // return {
+      //   errors: [
+      //     {
+      //       path: "Logowanie użytkownika",
+      //       message: "Email lub hasło nie zostało wprowadzone",
+      //     },
+      //   ],
+      // };
     }
 
     const userData = await User.findOne({ email: email });

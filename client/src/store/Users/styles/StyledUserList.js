@@ -65,7 +65,7 @@ export const StyledUserList = styled.div`
     position: fixed;
     top: 0px;
     left: 155px;
-    z-index: 100;
+    z-index: 10;
   }
   .user-list-flow-box.active > button {
     background-color: green;

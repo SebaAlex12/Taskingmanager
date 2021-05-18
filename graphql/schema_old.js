@@ -388,17 +388,17 @@ module.exports = buildSchema(`
     }
 
     type UserLoginData {
-        _id: ID!
-        name: String!
-        email: String!
-        createdAt: String!
-        password: String!
-        status: String!
+        _id: ID
+        name: String
+        email: String
+        createdAt: String
+        password: String
+        status: String
         company: String
         projects: String
         users: String
         lastActive: String
-        token: String!
+        token: String
     }
 
     type RootMutation {

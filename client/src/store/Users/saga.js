@@ -46,6 +46,9 @@ function* loginUserAsync(action) {
       { headers: { "Content-Type": "application/json" } }
     );
 
+    // console.log("saga res",res);
+    // console.log("saga errors", errors);
+
     localStorage.setItem(
       "jwtTokenAuthorization",
       res.data.data.loginUser.token
@@ -56,6 +59,7 @@ function* loginUserAsync(action) {
       payload: res.data.data.loginUser,
     });
   } catch (error) {
+    // console.log("error saga",error);
     yield put({ type: USER_ERROR, payload: error });
   }
 }

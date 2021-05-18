@@ -10,6 +10,8 @@ import { updateFilter } from "../../Filters/actions";
 import MailsAddForm from "../../Mails/components/MailsAddForm";
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
 
+import TasksShortList from "../../Tasks/components/TasksShortList";
+
 import { SmallerButton } from "../../../themes/basic";
 import {
   faEnvelope,
@@ -23,11 +25,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 class ProjectsItem extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       toggleEditForm: false,
       toggleEditName: false,
       showModalTrigger: false,
-      projectName: props.item.name
+      showModalTasksListTrigger: false,
+      projectName: props.item.name,
+      filteredTasksList: props.tasks.filter(task => task.projectName == props.item.name)
     };
   }
   updateFilterHandler = () => {
@@ -64,7 +69,6 @@ class ProjectsItem extends Component {
     })
   }
   onChangeHandler = (event) => {
-    console.log("event",event.currentTarget);
     this.setState({
       ...this.state,
       [event.currentTarget.name]: event.currentTarget.value
@@ -83,7 +87,14 @@ class ProjectsItem extends Component {
       loggedUser,
       users
     } = this.props;
-    const { toggleEditForm, toggleEditName, showModalTrigger, projectName } = this.state;
+    const { 
+      toggleEditForm, 
+      toggleEditName, 
+      showModalTrigger, 
+      showModalTasksListTrigger,
+      projectName,
+      filteredTasksList
+    } = this.state;
 
     // get users emails assign to this project
     let projectUsersEmails = "";
@@ -109,6 +120,7 @@ class ProjectsItem extends Component {
     return (
       <div className={clazz_box}>
         <div className="title">
+          <span className="task-counter" style={{fontWeight:"bold",marginRight:"4px"}}>{ filteredTasksList.length }</span>
           <div className="name">
             {
               toggleEditName ? (
@@ -149,11 +161,11 @@ class ProjectsItem extends Component {
             {
               loggedUser.status === "Administrator" && (
                 <React.Fragment>
-                  <SmallerButton onClick={this.updateHandler}>
+                  {/* <SmallerButton onClick={this.updateHandler}>
                     <FontAwesomeIcon style={{color:"green"}} title="zapisz projekt" icon={faPen} />
-                  </SmallerButton>
+                  </SmallerButton> */}
                   <SmallerButton
-                        onClick={this.deleteHandler}
+                        onClick={() => this.setState({showModalTasksListTrigger:true})}
                   >
                       <FontAwesomeIcon icon={faTimes} style={{color:"red"}}/>
                   </SmallerButton>
@@ -180,6 +192,18 @@ class ProjectsItem extends Component {
               />
             </ModalDialog>
           ) : null}
+          {
+            showModalTasksListTrigger && (
+              <ModalDialog 
+                  showModal={() => this.setState({showModalTasksListTrigger:false})}
+              >
+                <TasksShortList 
+                    deleteProjectHandler={this.deleteHandler}
+                    tasks={filteredTasksList}
+                />
+              </ModalDialog>
+            )
+          }
           {loggedUser.status === "Administrator" ||
           loggedUser.status === "Menedżer" ||
           loggedUser.status === "Pracownik" ? (
@@ -197,7 +221,8 @@ const mapStateToProps = state => {
   return {
     loggedUser: state.users.logged_user,
     filters: state.filters.filters,
-    users: state.users.users
+    users: state.users.users,
+    tasks: state.tasks.tasks
   };
 };
 
