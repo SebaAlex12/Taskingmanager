@@ -87,16 +87,12 @@ module.exports = {
   },
   loginUser: async function ({ email, password }) {
     if (!email || !password) {
-      console.log("resolver errors");
-      throw new Error('Oops!');
-      // return {
-      //   errors: [
-      //     {
-      //       path: "Logowanie użytkownika",
-      //       message: "Email lub hasło nie zostało wprowadzone",
-      //     },
-      //   ],
-      // };
+      return {
+        errors: [{
+            path: "Logowanie użytkownika",
+            message: "Email lub hasło nie zostało wprowadzone",
+          }],
+      };
     }
 
     const userData = await User.findOne({ email: email });
@@ -106,7 +102,7 @@ module.exports = {
         errors: [
           {
             path: "Logowanie użytkownika",
-            message: "Użytkownik nie istnieje",
+            message: "Użytkownik o podanym adresie email nie istnieje",
           },
         ],
       };

@@ -10,12 +10,6 @@ module.exports = {
       };
     }
     return err;
-    // if (e instanceof Task.sequelize.ValidationError) {
-    //   return e.errors.map(x => {
-    //     _.pick(x, ["path", "message"]);
-    //   });
-    // }
-    // return [{ path: "name", message: "something went wrong" }];
   },
   stringToBoolean: function(val) {
     var a = {

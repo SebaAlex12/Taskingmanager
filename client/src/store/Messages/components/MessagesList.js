@@ -13,10 +13,8 @@ class MessagesList extends Component {
     //   this.socket = io();
     // }
   }
-  componentDidUpdate() {
-    const { messages } = this.props;
+  componentDidUpdate() { 
     this.reloadInfo();
-
     // if (messages.alert) {
     //   this.socket.emit("chat", messages.alert);
     // }
@@ -29,24 +27,23 @@ class MessagesList extends Component {
     }, 10500);
   }
   render() {
-    const {
-      messages: { errors, success }
-    } = this.props;
-    const errorsContent =
-      errors && errors.length > 0
-        ? errors.map((error, index) => (
-            <div className="msg error" key={index}>
-              {/* <div className="title">{error.path}</div> */}
-              <div className="description">{error.message}</div>
+    const { messages, alert_messages } = this.props.messages;
+
+    const alertContent =
+      alert_messages && alert_messages.length > 0
+        ? alert_messages.map((item, index) => (
+            <div className="msg alert" key={index}>
+              <div className="title">{item.path}</div>
+              <div className="description">{item.message}</div>
             </div>
           ))
         : "";
     const successContent =
-      success && success.length > 0
-        ? success.map((scs, index) => (
-            <div className="msg scs" key={index}>
-              {/* <div className="title">{scs.path}</div> */}
-              <div className="description">{scs.message}</div>
+      messages && messages.length > 0
+        ? messages.map((msg, index) => (
+            <div className="msg msg" key={index}>
+              <div className="title">{msg.path}</div>
+              <div className="description">{msg.message}</div>
             </div>
           ))
         : "";
@@ -54,7 +51,7 @@ class MessagesList extends Component {
       <StyledMessagesList>
         <div className="messages-box" id="messages">
           {successContent}
-          {errorsContent}
+          {alertContent}
         </div>
       </StyledMessagesList>
     );
@@ -63,7 +60,7 @@ class MessagesList extends Component {
 
 const mapStateToProps = state => {
   return {
-    messages: state.messages.messages
+    messages: state.messages
   };
 };
 

@@ -18,6 +18,7 @@ import {
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+import { UPDATE_ALERT_MESSAGES_SUCCESS } from "../Messages/types";
 
 function* loginUserAsync(action) {
   try {
@@ -34,32 +35,43 @@ function* loginUserAsync(action) {
             lastActive
             createdAt
             token
+            errors{
+              path
+              message
+            }
           }
         }
       `,
     };
 
-    const res = yield call(
+    const response = yield call(
       [axios, axios.post],
       "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
 
-    // console.log("saga res",res);
-    // console.log("saga errors", errors);
-
-    localStorage.setItem(
-      "jwtTokenAuthorization",
-      res.data.data.loginUser.token
-    );
-
-    yield put({
-      type: FETCH_LOGGED_USER_SUCCESS,
-      payload: res.data.data.loginUser,
-    });
+    if(response){
+      const { token, errors } = response.data.data.loginUser;
+        if(errors){
+          yield put({ type: USER_ERROR, payload: errors });
+          yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+        }else{
+          localStorage.setItem(
+            "jwtTokenAuthorization",
+            token
+          );
+          yield put({
+            type: FETCH_LOGGED_USER_SUCCESS,
+            payload: response.data.data.loginUser,
+          });
+          yield put({
+            type: UPDATE_MESSAGES_SUCCESS,
+            payload: [{ message: "Użytkownik został zalogowany" }],
+          });
+        }
+    }
   } catch (error) {
-    // console.log("error saga",error);
     yield put({ type: USER_ERROR, payload: error });
   }
 }
@@ -69,9 +81,8 @@ export function* loginUserWatcher() {
 }
 
 function* registerUserAsync(action) {
-  // try {
+  try {
   const presentDate = moment(new Date(), "YYYY-MM-DD HH:mm:ss").format();
-  // console.log("action", action);
   const graph = {
     query: `mutation {
       createUser(userInput: {
@@ -109,22 +120,25 @@ function* registerUserAsync(action) {
     { headers: { "Content-Type": "application/json" } }
   );
 
-  const response = res.data.data.createUser;
-  if (response.errors) {
-    yield put({ type: USER_ERROR, payload: response.errors });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors },
-    });
-  } else {
-    yield put({
-      type: REGISTER_USER_SUCCESS,
-      payload: response,
-    });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Użytkownik został dodany" }] },
-    });
+  if(res){
+    const response = res.data.data.createUser;
+    const { errors } = res.data.data.createUser;
+      if(errors){
+          yield put({ type: USER_ERROR, payload: errors });
+          yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+      }else{
+          yield put({
+            type: REGISTER_USER_SUCCESS,
+            payload: response,
+          });
+          yield put({
+            type: UPDATE_MESSAGES_SUCCESS,
+            payload: [{ message: "Użytkownik został dodany" }],
+          });
+      }
+    }
+  } catch (error) {
+    yield put({ type: USER_ERROR, payload: error });
   }
 }
 
@@ -160,6 +174,10 @@ function* fetchUsersAsync(action) {
             users
             lastActive
             createdAt
+            errors{
+              path
+              message
+            }
           }
         }
     `,
@@ -170,7 +188,16 @@ function* fetchUsersAsync(action) {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
-    yield put({ type: FETCH_USERS_SUCCESS, payload: res.data.data.fetchUsers });
+    if(res){
+      const response = res.data.data.fetchUsers;
+      const { errors } = res.data.data.fetchUsers;
+        if(errors){
+            yield put({ type: USER_ERROR, payload: errors });
+            yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+        }else{
+            yield put({ type: FETCH_USERS_SUCCESS, payload: response });
+        }
+    }
   } catch (error) {
     yield put({ type: USER_ERROR, payload: error });
   }
@@ -196,6 +223,10 @@ function* fetchUsersByLoggedUserProjectsAsync(action) {
             users
             lastActive
             createdAt
+            errors{
+              path
+              message
+            }
           }
         }
     `,
@@ -206,10 +237,19 @@ function* fetchUsersByLoggedUserProjectsAsync(action) {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
-    yield put({
-      type: FETCH_USERS_SUCCESS,
-      payload: res.data.data.fetchUsersByLoggedUserProjects,
-    });
+    if(res){
+      const { errors } = res.data.data.fetchUsersByLoggedUserProjects;
+      const response = res.data.data.fetchUsersByLoggedUserProjects;
+        if(errors){
+          yield put({ type: USER_ERROR, payload: errors });
+          yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+        }else{
+          yield put({
+            type: FETCH_USERS_SUCCESS,
+            payload: response,
+          });
+        }
+      }
   } catch (error) {
     yield put({ type: USER_ERROR, payload: error });
   }
@@ -223,69 +263,72 @@ export function* fetchUsersByLoggedUserProjectsWatcher() {
 }
 
 function* updateUserAsync(action) {
-  // try {
-  const data = action.data;
+  try {
+    const data = action.data;
 
-  const userInput = {
-    _id: data._id,
-    name: data.name ? data.name : "",
-    email: data.email ? data.email : "",
-    password: data.password ? data.password : "",
-    status: data.status ? data.status : "",
-    company: data.company ? data.company : "",
-    projects: data.projects ? data.projects : "",
-    users: data.users ? data.users : "",
-    lastActive: data.lastActive ? data.lastActive : "",
-  };
+    const userInput = {
+      _id: data._id,
+      name: data.name ? data.name : "",
+      email: data.email ? data.email : "",
+      password: data.password ? data.password : "",
+      status: data.status ? data.status : "",
+      company: data.company ? data.company : "",
+      projects: data.projects ? data.projects : "",
+      users: data.users ? data.users : "",
+      lastActive: data.lastActive ? data.lastActive : "",
+    };
 
-  const graph = {
-    query: `mutation {
-      updateUser(userInput: {
-      _id: "${userInput._id}",  
-      name: "${userInput.name}",
-      email: "${userInput.email}",
-      password: "${userInput.password}",
-      status: "${userInput.status}",
-      company: "${userInput.company}",
-      projects: "${userInput.projects}",
-      users: "${userInput.users}",
-      lastActive: "${userInput.lastActive}"}){
-        _id
-        name
-        email
-        status
-        company
-        projects
-        users
-        lastActive
-        errors{
-          path
-          message
+    const graph = {
+      query: `mutation {
+        updateUser(userInput: {
+        _id: "${userInput._id}",  
+        name: "${userInput.name}",
+        email: "${userInput.email}",
+        password: "${userInput.password}",
+        status: "${userInput.status}",
+        company: "${userInput.company}",
+        projects: "${userInput.projects}",
+        users: "${userInput.users}",
+        lastActive: "${userInput.lastActive}"}){
+          _id
+          name
+          email
+          status
+          company
+          projects
+          users
+          lastActive
+          errors{
+            path
+            message
+          }
+        }
+      }`,
+    };
+    // console.log(graph);
+    const res = yield call(
+      [axios, axios.post],
+      "/graphql",
+      JSON.stringify(graph),
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    if(res){
+      const { errors } = res.data.data.updateUser;
+      const response = res.data.data.updateUser;
+        if(errors){
+          yield put({ type: USER_ERROR, payload: errors });
+          yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+        }else{
+          yield put({ type: UPDATE_USER_SUCCESS, payload: response });
+          yield put({
+            type: UPDATE_MESSAGES_SUCCESS,
+            payload: [{ message: "Użytkownik został zaktualizowany" }],
+          });
         }
       }
-    }`,
-  };
-  // console.log(graph);
-  const userData = yield call(
-    [axios, axios.post],
-    "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
-  );
-
-  const response = userData.data.data.updateUser;
-  if (response.errors) {
-    yield put({ type: USER_ERROR, payload: response.errors });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors },
-    });
-  } else {
-    yield put({ type: UPDATE_USER_SUCCESS, payload: response });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Użytkownik został zaktualizowany" }] },
-    });
+  } catch (error) {
+    yield put({ type: USER_ERROR, payload: error });
   }
 }
 
@@ -297,6 +340,10 @@ function* logoutUserAsync() {
   try {
     localStorage.removeItem("jwtTokenAuthorization");
     yield put({ type: LOGGED_OUT_SUCCESS, payload: [] });
+    yield put({
+      type: UPDATE_MESSAGES_SUCCESS,
+      payload: { success: [{ message: "Użytkownik został wylogowany" }] },
+    });
   } catch (error) {
     yield put({ type: USER_ERROR, payload: error });
   }

@@ -19,7 +19,7 @@ export const messagesReducer = (state = initialState, action) => {
     case UPDATE_ALERT_MESSAGES_SUCCESS:
       return {
         ...state,
-        alert_messages: [...state.alert_messages, action.payload]
+        alert_messages: action.payload
       };
     case REMOVE_ALERT_MESSAGES_SUCCESS:
       return {

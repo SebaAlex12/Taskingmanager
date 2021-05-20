@@ -9,9 +9,7 @@ import Tasks from "../../root/Tasks";
 import Payments from "../../root/Payments";
 import Messengers from "../../root/Messengers";
 import Seo from "../../root/Seo";
-import Calendar from "../../root/Calendar";
 import Patterns from "../../root/Patterns";
-import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
 import Interview from "../../store/Cameras/components/Interview";
 
@@ -54,7 +52,6 @@ class Dashboard extends Component {
     return (
       <div className="dashboard-box">
         {/* <Preloader /> */}
-        <MessagesAlertList />
         <div className="logged-user">
           Witaj:{" "}
           {loggedUser

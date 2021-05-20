@@ -399,6 +399,7 @@ module.exports = buildSchema(`
         users: String
         lastActive: String
         token: String
+        errors: [Error]
     }
 
     type RootMutation {
@@ -437,7 +438,7 @@ module.exports = buildSchema(`
     }
 
     type RootQuery {
-        loginUser(email: String!, password: String!): UserLoginData!
+        loginUser(email: String, password: String): UserLoginData!
         fetchCalendars(loggedUserId: String): [Calendar]!
         fetchCompanies: [Company]!
         fetchCatalogs: [Catalog]!
