@@ -69,6 +69,7 @@ function* loginUserAsync(action) {
             type: UPDATE_MESSAGES_SUCCESS,
             payload: [{ message: "Użytkownik został zalogowany" }],
           });
+          
         }
     }
   } catch (error) {

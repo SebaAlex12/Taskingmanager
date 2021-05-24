@@ -1,21 +1,25 @@
-import mongoose = require("mongoose");
-import express = require("express");
-import bodyParser = require("body-parser");
-import path = require("path");
+const mongoose = require("mongoose");
+const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
+const axios = require("axios");
 
-import http = require("http");
-import socketIo = require("socket.io");
+const http = require("http");
+const socketIo = require("socket.io");
 
-import graphqlHttp = require("express-graphql");
-import graphqlSchema = require("./graphql/schema_old");
-import graphqlResolver = require("./graphql/resolvers");
+const graphqlHttp = require("express-graphql");
+const graphqlSchema = require("./graphql/schema_old");
+const graphqlResolver = require("./graphql/resolvers");
 
-import { upload, resize } from "./utils/filesManager";
+const { upload, resize } = require("./utils/filesManager");
 
-import fs = require("fs");
-import cors = require("cors");
+// sql data
+const { fetchApiProducts, fetchApiProductById, insertProducts } = require("./imports/index");
 
-const app: express.Application = express();
+const fs = require("fs");
+const cors = require("cors");
+
+const app = express();
 
 app.use(cors());
 
@@ -55,12 +59,12 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
-app.use("/outsider", (req, res) => {
-  console.log("outsider");
-});
+// app.use("/outsider", (req, res) => {
+//   console.log("outsider");
+// });
 
 // Handle the upload file
-app.post("/upload-files/:dest", async (req: any, res) => {
+app.post("/upload-files/:dest", async (req, res) => {
   await upload(req, res, (err) => {
     if (err) {
       console.log("error message:", err);
@@ -87,7 +91,7 @@ app.post("/upload-files/:dest", async (req: any, res) => {
   });
 });
 
-app.post("/delete-files/", bodyParserJson, (req: any, res) => {
+app.post("/delete-files/", bodyParserJson, (req, res) => {
   console.log(req.body.links);
   const links = req.body.links;
   links.forEach(async (link) => {
@@ -121,6 +125,30 @@ app.use(
   })
 );
 
+app.use("/imports", async(request, response) => {
+  const products = await fetchApiProducts();
+  if(products){
+    // console.log("fetch api products", products);
+
+    let counter = 0;
+
+    // console.log("products",products[0]["id"]);
+
+    products.forEach( async(item) => {
+    //   if(counter < 1){
+        // const product = await fetchApiProductById(products[0]["id"]);
+        console.log("item", item);
+        console.log("product",product);
+      //   counter++;
+      //   return;
+      // }
+      // return;
+        // insertProduct(product);
+    })
+  }
+  return response.json({name: "imports are complited"});
+})
+
 const port = process.env.PORT || 5000;
 
 const server = http
@@ -134,7 +162,6 @@ io.on("connection", function (socket) {
   let activeSockets = [];
 
   connections.push(socket);
-  // console.log("socket connections", connections.length);
 
   socket.on("chat", function (msg) {
     io.emit("chat", msg);
@@ -157,10 +184,6 @@ io.on("connection", function (socket) {
       users: [socket.id],
     });
   }
-
-  // console.log("socket", socket.id);
-  //console.log("active sockets", activeSockets);
-  //console.log("existing socket", existingSocket);
 
   socket.on("call-user", (data) => {
     socket.to(data.to).emit("call-made", {

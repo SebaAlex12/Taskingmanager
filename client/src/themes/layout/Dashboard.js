@@ -12,6 +12,8 @@ import Seo from "../../root/Seo";
 import Patterns from "../../root/Patterns";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
 import Interview from "../../store/Cameras/components/Interview";
+import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
+import ImportBasic from "../../store/Import/components/ImportBasic";
 
 // import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
@@ -52,6 +54,7 @@ class Dashboard extends Component {
     return (
       <div className="dashboard-box">
         {/* <Preloader /> */}
+        <MessagesAlertList />
         <div className="logged-user">
           Witaj:{" "}
           {loggedUser
@@ -63,6 +66,9 @@ class Dashboard extends Component {
         </Link>
         <Link className="btn btn-default" to="/tasks">
           Zadania
+        </Link>
+        <Link className="btn btn-default" to="/imports">
+          Importy
         </Link>
         {/* <Link className="btn btn-default" to="/calendar">
           Kalendarz
@@ -97,6 +103,7 @@ class Dashboard extends Component {
           <Route exact path="/mails" component={MailsListContainer} />
           <Route exact path="/cameras" component={Interview} />
           <Route exact path="/seo" component={Seo} />
+          <Route exact path="/imports" component={ImportBasic} />
           {/* <Route exact path="/calendar" component={Calendar} /> */}
           {loggedUser.status === "Administrator" ? (
             <Route exact path="/payments" component={Payments} />

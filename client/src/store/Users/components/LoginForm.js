@@ -29,13 +29,18 @@ class LoginForm extends Component {
     // console.log("fffff");
     return response;
   }
-  loginHandler = (event) => {
+  loginHandler = async(event) => {
     event.preventDefault();
     const { email, password } = this.state;
 
     // const response = await loginUser({ email: email, password: password });
-    let response = false;
-    response = this.checkUser({ email: email, password: password });
+    // let response = false;
+    const response = await this.checkUser({ email: email, password: password });
+
+    // if(response){
+    //   console.log("you are login");
+    // }
+
     // console.log(response);
     // if (response == true) {
     //   this.reload();
