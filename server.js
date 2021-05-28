@@ -13,8 +13,8 @@ const graphqlResolver = require("./graphql/resolvers");
 
 const { upload, resize } = require("./utils/filesManager");
 
-// sql data
-const { fetchApiProducts, fetchApiProductById, insertProducts } = require("./imports/index");
+// imports
+const { getImports } = require("./imports/index");
 
 const fs = require("fs");
 const cors = require("cors");
@@ -125,28 +125,12 @@ app.use(
   })
 );
 
+// imports data from api: http://mega-com.pl/information/index?information=resellerapi to mysql database
 app.use("/imports", async(request, response) => {
-  const products = await fetchApiProducts();
-  if(products){
-    // console.log("fetch api products", products);
-
-    let counter = 0;
-
-    // console.log("products",products[0]["id"]);
-
-    products.forEach( async(item) => {
-    //   if(counter < 1){
-        // const product = await fetchApiProductById(products[0]["id"]);
-        console.log("item", item);
-        console.log("product",product);
-      //   counter++;
-      //   return;
-      // }
-      // return;
-        // insertProduct(product);
-    })
+  const res = await getImports();
+  if(res){
+    return response.json({name: "imports are complited"});
   }
-  return response.json({name: "imports are complited"});
 })
 
 const port = process.env.PORT || 5000;

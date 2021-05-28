@@ -1,41 +1,85 @@
-const axios = require("axios");
-const mysql = require("mysql");
+const { 
+  fetchApiCategories,
+  fetchApiProducts, 
+  fetchApiProductDetailsById,
+  fetchApiProductCharacteristicById,
+  fetchApiProductPricesById, 
+  fetchApiProductCategoriesById,
+  fetchApiProductPhotosById,
+  fetchApiCategoriesById
+} = require("./api");
 
-const mysql_db = require("../config/db_config.js");
-const mysql_connect = mysql.createConnection(mysql_db);
-
-const apiToken = require("../config/keys").importApiToken;
+const { insertProduct } = require("./mysql");
 
 module.exports = {
-    fetchApiProducts: async function(){
-        try{
-            const res = await axios.get(`http://mega-com.pl/api/v1/products?token=${apiToken}`);
-            if(res){
-              return res.data;
-            }
-          }catch(errors){
-            console.log("errors",errors);
+  getImports: async function(){
+    const products = await fetchApiProducts();
+    const categories = await fetchApiCategories();
+    const productsRangeBegin = 10;
+    const productsRangeEnd = 11;
+    const categoriesRangeBegin = 10;
+    const categoriesRangeEnd = 11;
+
+    if(categories){
+      // console.log("categories",categories);
+      let counter = 0;
+      for (const item of categories){
+        if(counter >= categoriesRangeBegin && counter <= categoriesRangeEnd){
+          // console.log("category basic", item);
+
+          //get category details
+          const categoryDetails = await fetchApiCategoriesById(item["id"]);
+          if(categoryDetails){
+            console.log("category details",categoryDetails);
           }
-    },
-    fetchApiProductById: async function(id){
-        try{
-            const res = await axios.get(`http://mega-com.pl/api/v1/products/${id}?token=${apiToken}`);
-            if(res){
-              return res.data;
-            }
-          }catch(errors){
-            console.log("errors",errors);
-          }
-    },
-    insertProduct: async function(product){
-        //  insert products to mysql database
-        mysql_connect.connect(function(err) {
-            if (err) throw err;
-            const sql = "INSERT INTO produkty (id_kategorii, nazwa) VALUES (3, 'Blue Village 1')";
-            mysql_connect.query(sql, function (err, result) {
-                if (err) throw err;
-                console.log("1 record inserted, ID: " + result.insertId);
-            });
-        });
+          console.log("counter",counter);
+        }
+        counter++;
+      }
     }
+  
+    if(products){
+      let counter = 0;
+        for (const item of products) {
+              if(counter >= productsRangeBegin && counter <= productsRangeEnd){
+                // console.log("product basic", item);
+  
+                // get product details
+                const productDetails = await fetchApiProductDetailsById(item["id"]);
+                if(productDetails){
+                  console.log("product details",productDetails);
+                }              
+  
+                // get product characteristic data
+                 const productCharacteristic = await fetchApiProductCharacteristicById(item["id"]);
+                if(productCharacteristic){
+                  console.log("product characteristic",productCharacteristic);
+                }
+  
+                // get product prices data
+                const productPrices = await fetchApiProductPricesById(item["id"]);
+                if(productPrices){
+                  console.log("product prices",productPrices);
+                }
+  
+                //get product categories data
+                const productCategories = await fetchApiProductCategoriesById(item["id"]);
+                if(productCategories){
+                  console.log("product categories",productCategories);
+                }
+  
+                //get product photos data
+                const productPhotos = await fetchApiProductPhotosById(item["id"]);
+                if(productPhotos){
+                  console.log("product photos",productPhotos);
+                }
+
+
+  
+                console.log("counter",counter);
+              }
+              counter++;
+         }
+    }
+  }
 }
