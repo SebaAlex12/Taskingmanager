@@ -8,14 +8,24 @@ mysql_connect.connect(function(err) {
 });
 
 module.exports = {
+    fetchAllProductsIds: async function(){
+        const sql = `SELECT id FROM produkty`;
+        let ids;
+        mysql_connect.query(sql, function (err, result) {
+            if (err) throw err;
+            ids = result.map(item => item.id);
+            return ids;
+        });
+        return ids;
+    },
     insertProduct: async function({id,categoryId,name,description1,description2,price,photo,tags}){
         //  insert product to mysql database
 
         let fileName = name.replace(" ","-");
         fileName = fileName.replace(" ","-");
 
-
             const sql = `INSERT INTO produkty (
+                id,
                 id_kategorii, 
                 nazwa,
                 nazwa_pliku,
@@ -28,6 +38,7 @@ module.exports = {
                 img,
                 tagi
             ) VALUES (
+                ${id},
                 ${categoryId}, 
                 "${name}",
                 "${fileName}",

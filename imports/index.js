@@ -9,16 +9,21 @@ const {
   fetchApiCategoriesById
 } = require("./api");
 
-const { insertProduct, insertCategory } = require("./mysql");
+const { insertProduct, insertCategory, fetchAllProductsIds } = require("./mysql");
 
 module.exports = {
   getImports: async function(){
     const products = await fetchApiProducts();
     const categories = await fetchApiCategories();
-    const productsRangeBegin = 25;
-    const productsRangeEnd = 2680;
+    const productsRangeBegin = 0;
+    const productsRangeEnd = 2;
     const categoriesRangeBegin = 0;
     const categoriesRangeEnd = 0;
+
+    const productsIds = await Promise.all(fetchAllProductsIds());
+    //if(productsIds){
+      console.log("productsIds",productsIds);
+    //}
 
     if(categories){
       // console.log("categories",categories);
@@ -56,7 +61,7 @@ module.exports = {
                 // get product details
                 const productDetails = await fetchApiProductDetailsById(item["id"]);
                 if(productDetails){
-                  // console.log("product details",productDetails);
+                  console.log("product details",productDetails);
                 }              
   
                 // get product characteristic data
@@ -107,7 +112,7 @@ module.exports = {
                     tags: printers
                   }
                   // console.log("data",data);
-                  const response = await insertProduct(data);
+                  // const response = await insertProduct(data);
                 }
   
                 console.log("counter",counter);

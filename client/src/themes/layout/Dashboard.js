@@ -67,9 +67,9 @@ class Dashboard extends Component {
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>
-        <Link className="btn btn-default" to="/imports">
+        {/* <Link className="btn btn-default" to="/imports">
           Importy
-        </Link>
+        </Link> */}
         {/* <Link className="btn btn-default" to="/calendar">
           Kalendarz
         </Link> */}
@@ -103,7 +103,7 @@ class Dashboard extends Component {
           <Route exact path="/mails" component={MailsListContainer} />
           <Route exact path="/cameras" component={Interview} />
           <Route exact path="/seo" component={Seo} />
-          <Route exact path="/imports" component={ImportBasic} />
+          {/* <Route exact path="/imports" component={ImportBasic} /> */}
           {/* <Route exact path="/calendar" component={Calendar} /> */}
           {loggedUser.status === "Administrator" ? (
             <Route exact path="/payments" component={Payments} />
