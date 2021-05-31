@@ -16,7 +16,6 @@ class RegistryForm extends Component {
       password: "",
       status: "",
       selectedProjects: [],
-      selectedUsers: [],
     };
   }
   componentDidMount() {
@@ -49,7 +48,6 @@ class RegistryForm extends Component {
       password,
       status,
       selectedProjects,
-      selectedUsers,
     } = this.state;
 
     const data = {
@@ -59,27 +57,12 @@ class RegistryForm extends Component {
       status,
       company: companyName ? companyName : loggedUser.company,
       projects: selectedProjects,
-      users: selectedUsers,
     };
 
     const response = registerUser(data);
     if (response) {
       updateMessages([{ name: "Użytkownik" }, { value: "użytkownik dodany" }]);
     }
-  };
-  onChangeUsersMultiCheckbox = (event) => {
-    let { selectedUsers } = this.state;
-
-    selectedUsers.includes(event.currentTarget.value)
-      ? (selectedUsers = selectedUsers.filter(
-          (item) => item !== event.currentTarget.value
-        ))
-      : selectedUsers.push(event.currentTarget.value);
-
-    this.setState({
-      ...this.state,
-      selectedUsers: selectedUsers,
-    });
   };
   onChangeProjectsMultiCheckbox = (event) => {
     let { selectedProjects } = this.state;
@@ -101,13 +84,10 @@ class RegistryForm extends Component {
       email,
       password,
       selectedProjects,
-      selectedUsers,
     } = this.state;
-    const { users, loggedUser } = this.props;
+    const { loggedUser } = this.props;
     let { projects } = this.props;
     let projectContent = "";
-    let userContent = "";
-    // console.log("state", this.state);
 
     // check if someone created new company
     const insertedCompanyName = localStorage.getItem("companyName");
@@ -120,31 +100,6 @@ class RegistryForm extends Component {
         projects = projects.map((item) => item.name);
       }
     }
-
-    // filter users compare to selected projects
-    // let users;
-
-    // if (this.state.projects) {
-    //   users = this.props.users.filter(user => {
-    //     if (user.projects !== null) {
-    //       let userProjects = user.projects.split(",");
-    //       let isProject = false;
-    //       userProjects.forEach(project => {
-    //         if (this.state.projects.includes(project)) {
-    //           isProject = true;
-    //         }
-    //       });
-
-    //       if (isProject) {
-    //         return user;
-    //       } else {
-    //         return null;
-    //       }
-    //     } else {
-    //       return null;
-    //     }
-    //   });
-    // }
 
     if (projects) {
       let counter = 1;
@@ -159,24 +114,6 @@ class RegistryForm extends Component {
               checked={selectedProjects.includes(project)}
             />
             <div>{project}</div>
-          </div>
-        );
-      });
-    }
-
-    if (users) {
-      let counter = 1;
-      userContent = users.map((user) => {
-        return (
-          <div className="checkbox-item" key={counter++}>
-            <input
-              type="checkbox"
-              name={user.name}
-              value={user.name}
-              onChange={this.onChangeUsersMultiCheckbox}
-              checked={selectedUsers.includes(user.name)}
-            />
-            <div>{user.name}</div>
           </div>
         );
       });
@@ -248,20 +185,6 @@ class RegistryForm extends Component {
                   : null}
               </select>
             </div>
-
-            {/* <div className="form-group form-row">
-              <select
-                className="form-control"
-                onChange={this.onChangeSelect}
-                name="company"
-                required
-              >
-                <option value="">Przypisz do firmy</option>
-                {companies.map(company => (
-                  <option value={company.name}>{company.name}</option>
-                ))}
-              </select>
-            </div> */}
             <div className="form-group form-row multi-checkboxes">
               {!insertedCompanyName ? (
                 <React.Fragment>
@@ -270,10 +193,6 @@ class RegistryForm extends Component {
                 </React.Fragment>
               ) : null}
             </div>
-            {/* <div className="form-group form-row multi-checkboxes">
-              <label>[Przypisz użytkowników]</label>
-              {userContent}
-            </div> */}
             <div className="form-group">
               <input
                 onClick={this.registerHandler}

@@ -139,8 +139,7 @@ class PatternsItem extends Component {
       createdAt,
     };
     event.preventDefault();
-    // console.log("add pattern data", data);
-    const result = addPattern(data);
+    addPattern(data);
   };
   onChangeSelectHandler = (event) => {
     const { updatePattern, attachedPatternCollback } = this.props;
@@ -159,7 +158,7 @@ class PatternsItem extends Component {
     const { tasks } = this.props;
     if (tasks.length > 0) {
       const newTasks = tasks.filter(
-        (task) => task.responsiblePerson == event.target.value
+        (task) => task.responsiblePerson === event.target.value
       );
       this.setState({
         ...this.state,
@@ -194,7 +193,9 @@ class PatternsItem extends Component {
     });
 
     const result = updatePattern({ _id: patternNumber, elements: newElements });
-    attachedPatternCollback({ elements: newElements });
+    if(result){
+      attachedPatternCollback({ elements: newElements });
+    }
   };
   onChangeActiveHandler = (event) => {
     const { updatePattern, attachedPatternCollback } = this.props;
@@ -202,7 +203,7 @@ class PatternsItem extends Component {
 
     let newElements = elements.map((item) => {
       item.active =
-        item.id == event.target.name ? event.target.checked : item.active;
+        item.id === event.target.name ? event.target.checked : item.active;
       return item;
     });
 
@@ -211,7 +212,9 @@ class PatternsItem extends Component {
       elemenets: newElements,
     });
     const result = updatePattern({ _id: patternNumber, elements: newElements });
-    attachedPatternCollback({ elements: newElements });
+    if(result){
+      attachedPatternCollback({ elements: newElements });
+    }
   };
 
   render() {

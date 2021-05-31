@@ -101,14 +101,14 @@ class CommentsAddForm extends Component {
       // Skip content if not image
       if (items[i].type.indexOf("image") === -1) continue;
       // Retrieve image on clipboard as blob
-      var blob = items[i].getAsFile();
+      let blob = items[i].getAsFile();
 
       // Create an abstract canvas and get context
-      var mycanvas = document.createElement("canvas");
-      var ctx = mycanvas.getContext("2d");
+      let mycanvas = document.createElement("canvas");
+      let ctx = mycanvas.getContext("2d");
 
       // Create an image
-      var img = new Image();
+      let img = new Image();
 
       // Once the image loads, render the img on the canvas
       img.onload = function () {
@@ -125,7 +125,7 @@ class CommentsAddForm extends Component {
       };
 
       // Crossbrowser support for URL
-      var URLObj = window.URL || window.webkitURL;
+      let URLObj = window.URL || window.webkitURL;
 
       // Creates a DOMString containing a URL representing the object given in the parameter
       // namely the original Blob
@@ -133,7 +133,7 @@ class CommentsAddForm extends Component {
     }
   }
   Base64ToImage(base64img, callback) {
-    var img = new Image();
+    let img = new Image();
     img.onload = function () {
       callback(img);
     };

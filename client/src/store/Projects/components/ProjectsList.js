@@ -7,7 +7,6 @@ import { BiggerButton, SmallerButton, ListBox } from "../../../themes/basic";
 import { StyledProjectList } from "../styles/StyledProjectList";
 import {
   faTimes,
-  faFilter,
   faArrowAltCircleDown
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -28,7 +28,7 @@ class CalendarAddForm extends Component {
 
     // check if task event has been attached to selected day already
     if (dailyEvents.length > 0 && eventId) {
-      const event = dailyEvents.filter((item) => item.eventId == eventId);
+      const event = dailyEvents.filter((item) => item.eventId === eventId);
 
       this.setState({
         taskEventBlocked: event.length > 0 ? true : false,
@@ -89,7 +89,7 @@ class CalendarAddForm extends Component {
 
     calendarTypes = calendarTypes.map((type) => {
       type.active = false;
-      if (type._id == event.target.value) {
+      if (type._id === event.target.value) {
         type.active = event.target.checked;
         if (event.target.checked) {
           eventType = type.name;
@@ -124,8 +124,6 @@ class CalendarAddForm extends Component {
   render() {
     const {
       eventType,
-      title,
-      description,
       selectedDate,
       calendarTypes,
       taskEventBlocked,

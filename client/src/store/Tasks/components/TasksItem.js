@@ -250,13 +250,13 @@ class TasksItem extends Component {
   selectPatternTitle = () => {
     const { attachedPattern } = this.state;
     if (attachedPattern.length > 0) {
-      if (attachedPattern[0].status == "Do wykonania")
+      if (attachedPattern[0].status === "Do wykonania")
         return "Szablon do do wykonania";
-      if (attachedPattern[0].status == "W trakcie") return "Szablon w trakcie";
-      if (attachedPattern[0].status == "Do akceptacji")
+      if (attachedPattern[0].status === "W trakcie") return "Szablon w trakcie";
+      if (attachedPattern[0].status === "Do akceptacji")
         return "Szablon do akceptacji";
-      if (attachedPattern[0].status == "Wykonane") return "Szablon wykonany";
-      if (attachedPattern[0].status == "Zawieszone")
+      if (attachedPattern[0].status === "Wykonane") return "Szablon wykonany";
+      if (attachedPattern[0].status === "Zawieszone")
         return "Szablon zawieszony";
     } else {
       return "Przypisz szablon z listy";
@@ -266,15 +266,15 @@ class TasksItem extends Component {
   selectPatternClass = () => {
     const { attachedPattern } = this.state;
     if (attachedPattern.length > 0) {
-      if (attachedPattern[0].status == "Do wykonania")
+      if (attachedPattern[0].status === "Do wykonania")
         return "task-pattern-button attached";
-      if (attachedPattern[0].status == "W trakcie")
+      if (attachedPattern[0].status === "W trakcie")
         return "task-pattern-button during";
-      if (attachedPattern[0].status == "Do akceptacji")
+      if (attachedPattern[0].status === "Do akceptacji")
         return "task-pattern-button to-accept";
-      if (attachedPattern[0].status == "Wykonane")
+      if (attachedPattern[0].status === "Wykonane")
         return "task-pattern-button accepted";
-      if (attachedPattern[0].status == "Zawieszone")
+      if (attachedPattern[0].status === "Zawieszone")
         return "task-pattern-button suspended";
     } else {
       return "task-pattern-button";
@@ -401,7 +401,7 @@ class TasksItem extends Component {
                 />
               </ModalDialog>
             ) : null}
-            {createdBy == loggedUser.name ||
+            {createdBy === loggedUser.name ||
             (typeof attachedPattern !== "undefined" &&
               attachedPattern.length > 0) ? (
               <Button

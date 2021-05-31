@@ -116,9 +116,9 @@ class CalendarContainer extends Component {
     const monthElements = months.map((item) => {
       return (
         <li key={item}>
-          <a href="#" onClick={(e) => this.onChangeMonthHandler(e, item)}>
+          <button onClick={(e) => this.onChangeMonthHandler(e, item)}>
             {item}
-          </a>
+          </button>
         </li>
       );
     });
@@ -140,6 +140,7 @@ class CalendarContainer extends Component {
           <span className="month-editor">{presentMonth}</span>
           <Button
             variant="primary"
+            className="months-button-selector"
             onClick={() =>
               this.setState({
                 showYearPopup: !showYearPopup,
@@ -169,15 +170,15 @@ class CalendarContainer extends Component {
       </td>
     ) : (
       <td colSpan="3">
-        <a
-          href="#"
+        <button
           onDoubleClick={(e) => {
             this.showYearEditor();
           }}
+          title="double click to edit year"
           className="year-editor"
         >
           {presentYear}
-        </a>
+        </button>
       </td>
     );
   };
@@ -212,12 +213,13 @@ class CalendarContainer extends Component {
         .format("YYYY-MM-DD")
         .split("-");
       if (
-        selectedYear == stateYear &&
-        selectedMonth == stateMonth &&
-        selectedDay == day
+        selectedYear === stateYear &&
+        selectedMonth === stateMonth &&
+        selectedDay === day
       ) {
         return item;
       }
+      return true;
     });
     return dailyEvents;
   };
@@ -255,7 +257,7 @@ class CalendarContainer extends Component {
       );
     }
     for (let day = 1; day <= this.daysInMonth(); day++) {
-      let clazz = day == this.currentDay() ? "day current-day" : "day";
+      let clazz = day === this.currentDay() ? "day current-day" : "day";
       let dailyEvents = this.filterDailyEvents(day);
       daysInMonth.push(
         <td key={day} className={clazz}>
@@ -282,7 +284,7 @@ class CalendarContainer extends Component {
 
     const totalSlots = [...blanks, ...daysInMonth];
     totalSlots.forEach((row, i) => {
-      if (i % 7 != 0) {
+      if (i % 7 !== 0) {
         cells.push(row);
       } else {
         let insertRow = cells.slice();

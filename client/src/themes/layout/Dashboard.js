@@ -11,9 +11,11 @@ import Messengers from "../../root/Messengers";
 import Seo from "../../root/Seo";
 import Patterns from "../../root/Patterns";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
+import CalendarContainer from "../../store/Calendar/components/CalendarContainer";
 import Interview from "../../store/Cameras/components/Interview";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
-import ImportBasic from "../../store/Import/components/ImportBasic";
+import Catalogs from "../../root/Catalogs";
+// import ImportBasic from "../../store/Import/components/ImportBasic";
 
 // import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
@@ -70,9 +72,9 @@ class Dashboard extends Component {
         {/* <Link className="btn btn-default" to="/imports">
           Importy
         </Link> */}
-        {/* <Link className="btn btn-default" to="/calendar">
+        <Link className="btn btn-default" to="/calendar">
           Kalendarz
-        </Link> */}
+        </Link>
         {loggedUser.status === "Administrator" ? (
           <React.Fragment>
             <Link className="btn btn-default" to="/patterns">
@@ -83,6 +85,9 @@ class Dashboard extends Component {
             </Link>
             <Link className="btn btn-default" to="/payments">
               Płatności
+            </Link>
+            <Link className="btn btn-default" to="/catalogs">
+              Katalogi
             </Link>
             <Link className="btn btn-default" to="/cameras">
               Kamery
@@ -98,15 +103,18 @@ class Dashboard extends Component {
         <div className="container">
           <Route exact path="/tasks" component={Tasks} />
           <Route exact path="/" component={Tasks} />
-          <Route exact path="/patterns" component={Patterns} />
           <Route exact path="/messenger" component={Messengers} />
           <Route exact path="/mails" component={MailsListContainer} />
-          <Route exact path="/cameras" component={Interview} />
-          <Route exact path="/seo" component={Seo} />
           {/* <Route exact path="/imports" component={ImportBasic} /> */}
-          {/* <Route exact path="/calendar" component={Calendar} /> */}
+          <Route exact path="/calendar" component={CalendarContainer} />
           {loggedUser.status === "Administrator" ? (
-            <Route exact path="/payments" component={Payments} />
+            <React.Fragment>
+                <Route exact path="/patterns" component={Patterns} />
+                <Route exact path="/payments" component={Payments} />
+                <Route exact path="/seo" component={Seo} />
+                <Route exact path="/cameras" component={Interview} />
+                <Route exact path="/catalogs" component={Catalogs} />
+            </React.Fragment>
           ) : null}
         </div>
       </div>

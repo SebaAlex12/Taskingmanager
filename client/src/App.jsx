@@ -12,7 +12,6 @@ import jwt_decode from "jwt-decode";
 import {
   fetchLoggedUser,
   fetchUsers,
-  fetchUsersByLoggedUserProjects,
 } from "./store/Users/actions";
 import LoginForm from "./store/Users/components/LoginForm";
 import { fetchSettings } from "./store/Settings/actions";

@@ -14,9 +14,7 @@ class UsersEditFrom extends Component {
       email: "",
       password: "",
       status: "",
-      company: "",
       selectedProjects: [],
-      selectedUsers: [],
     };
   }
   componentDidMount() {
@@ -27,9 +25,7 @@ class UsersEditFrom extends Component {
       name: item ? item.name : "",
       email: item ? item.email : "",
       status: item ? item.status : "",
-      company: item ? item.company : "",
       selectedProjects: item ? item.projects.split(",") : [],
-      selectedUsers: item ? item.users.split(",") : [],
     });
   }
   onChangeInput = (event) => {
@@ -42,20 +38,6 @@ class UsersEditFrom extends Component {
     this.setState({
       ...this.state,
       [event.currentTarget.name]: event.currentTarget.value,
-    });
-  };
-  onChangeUsersMultiCheckbox = (event) => {
-    let { selectedUsers } = this.state;
-
-    selectedUsers.includes(event.currentTarget.value)
-      ? (selectedUsers = selectedUsers.filter(
-          (item) => item !== event.currentTarget.value
-        ))
-      : selectedUsers.push(event.currentTarget.value);
-
-    this.setState({
-      ...this.state,
-      selectedUsers: selectedUsers,
     });
   };
   onChangeProjectsMultiCheckbox = (event) => {
@@ -82,7 +64,6 @@ class UsersEditFrom extends Component {
       status,
       selectedProjects,
       selectedUsers,
-      company,
     } = this.state;
 
     const data = {
@@ -91,9 +72,7 @@ class UsersEditFrom extends Component {
       email,
       password,
       status,
-      company,
       projects: selectedProjects,
-      users: selectedUsers,
     };
 
     const response = updateUser(data);
@@ -111,11 +90,9 @@ class UsersEditFrom extends Component {
       email,
       password,
       status,
-      company,
       selectedProjects,
-      selectedUsers,
     } = this.state;
-    const { users, companies, loggedUser } = this.props;
+    const { loggedUser } = this.props;
     let { projects } = this.props;
     let projectContent = "";
     let userContent = "";
@@ -128,27 +105,6 @@ class UsersEditFrom extends Component {
       }
     }
 
-    // if (this.state.projects) {
-    //   users = this.props.users.filter(user => {
-    //     if (user.projects !== null) {
-    //       let userProjects = user.projects.split(",");
-    //       let isProject = false;
-    //       userProjects.forEach(project => {
-    //         if (this.state.projects.includes(project)) {
-    //           isProject = true;
-    //         }
-    //       });
-
-    //       if (isProject) {
-    //         return user;
-    //       } else {
-    //         return null;
-    //       }
-    //     } else {
-    //       return null;
-    //     }
-    //   });
-    // }
     // console.log("selected projects", selectedProjects);
     if (projects) {
       let counter = 1;
@@ -167,24 +123,6 @@ class UsersEditFrom extends Component {
         );
       });
     }
-
-    // if (users) {
-    //   let counter = 1;
-    //   userContent = users.map(user => {
-    //     return (
-    //       <div className="checkbox-item" key={counter++}>
-    //         <input
-    //           type="checkbox"
-    //           name={user.name}
-    //           value={user.name}
-    //           onChange={this.onChangeUsersMultiCheckbox}
-    //           checked={selectedUsers.includes(user.name)}
-    //         />
-    //         <div>{user.name}</div>
-    //       </div>
-    //     );
-    //   });
-    // }
 
     return (
       <div
@@ -226,26 +164,6 @@ class UsersEditFrom extends Component {
               required
             />
           </div>
-          {/* <div className="form-group form-row">
-            <select
-              className="form-control"
-              onChange={this.onChangeSelect}
-              name="company"
-              title="Przypisz do firmy"
-              required
-            >
-              <option value="">Przypisz do firmy</option>
-              {companies.map(cmpy => (
-                <option
-                  key={cmpy._id}
-                  value={cmpy.name}
-                  selected={cmpy.name === company ? "selected" : null}
-                >
-                  {cmpy.name}
-                </option>
-              ))}
-            </select>
-          </div> */}
           <div className="form-group form-row">
             <select
               className="form-control"

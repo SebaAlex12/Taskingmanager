@@ -81,7 +81,9 @@ class CatalogListContainer extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    catalogs: state.catalogs.catalogs
+  };
 };
 export default connect(mapStateToProps, { removeCatalog, updateCatalog })(
   CatalogListContainer

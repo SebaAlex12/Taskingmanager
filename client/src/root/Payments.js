@@ -12,20 +12,16 @@ import {
 import { fetchCompanies } from "../store/Companies/actions";
 import { fetchContractors } from "../store/Contractors/actions";
 import CompaniesList from "../store/Companies/components/CompaniesList";
-import ContractorsList from "../store/Contractors/components/ContractorsList";
+// import ContractorsList from "../store/Contractors/components/ContractorsList";
 
 class Payments extends Component {
   componentDidMount() {
     const {
-      fetchCompanies,
-      fetchContractors,
       fetchPayments,
       fetchLastInsertInvoice,
       fetchLastInsertPattern
     } = this.props;
     fetchPayments({ paymentType: "Faktura" });
-    // fetchCompanies();
-    // fetchContractors();
     fetchLastInsertInvoice();
     fetchLastInsertPattern();
   }

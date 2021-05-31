@@ -25,7 +25,7 @@ class CatalogShortList extends Component {
       const response = await removeCatalog(id);
       if (response) {
         this.setState({
-          catalogs: catalogs.filter((item) => item._id != id),
+          catalogs: catalogs.filter((item) => item._id !== id),
         });
       }
     }

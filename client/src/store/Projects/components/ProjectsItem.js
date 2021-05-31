@@ -14,11 +14,9 @@ import TasksShortList from "../../Tasks/components/TasksShortList";
 
 import { SmallerButton } from "../../../themes/basic";
 import {
-  faEnvelope,
   faEdit,
   faFilter,
-  faTimes,
-  faPen
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -32,7 +30,7 @@ class ProjectsItem extends Component {
       showModalTrigger: false,
       showModalTasksListTrigger: false,
       projectName: props.item.name,
-      filteredTasksList: props.tasks.filter(task => task.projectName == props.item.name)
+      filteredTasksList: props.tasks.filter(task => task.projectName === props.item.name)
     };
   }
   updateFilterHandler = () => {

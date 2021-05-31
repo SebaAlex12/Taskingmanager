@@ -126,7 +126,7 @@ class PaymentsItem extends Component {
       _id,
       ...element,
     };
-    const response = updatePayment(data);
+    updatePayment(data);
   };
   render() {
     const { item } = this.props;
