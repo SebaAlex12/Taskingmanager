@@ -5,7 +5,7 @@ const path = require("path");
 const axios = require("axios");
 
 const http = require("http");
-const socketIo = require("socket.io");
+// const socketIo = require("socket.io");
 
 const graphqlHttp = require("express-graphql");
 const graphqlSchema = require("./graphql/schema_old");
@@ -138,61 +138,6 @@ const port = process.env.PORT || 5000;
 const server = http
   .createServer(app)
   .listen(port, () => console.log(`server running on port ${port}`));
-
-const io = socketIo(server);
-let connections = [];
-
-io.on("connection", function (socket) {
-  let activeSockets = [];
-
-  connections.push(socket);
-
-  socket.on("chat", function (msg) {
-    io.emit("chat", msg);
-  });
-
-  const existingSocket = activeSockets.find(
-    (existingSocket) => existingSocket === socket.id
-  );
-
-  if (!existingSocket) {
-    activeSockets.push(socket.id);
-
-    socket.emit("update-user-list", {
-      users: activeSockets.filter(
-        (existingSocket) => existingSocket !== socket.id
-      ),
-    });
-
-    socket.broadcast.emit("update-user-list", {
-      users: [socket.id],
-    });
-  }
-
-  socket.on("call-user", (data) => {
-    socket.to(data.to).emit("call-made", {
-      offer: data.offer,
-      socket: socket.id,
-    });
-  });
-
-  socket.on("make-answer", (data) => {
-    socket.to(data.to).emit("answer-made", {
-      socket: socket.id,
-      answer: data.answer,
-    });
-  });
-  socket.on("disconnect", () => {
-    let dfggd = activeSockets.filter(
-      (existingSocket) => existingSocket !== socket.id
-    );
-    socket.broadcast.emit("remove-user", {
-      socketId: socket.id,
-    });
-    connections.splice(connections.indexOf(socket), 1);
-    console.log("Disconnected: sockets connected", connections.length);
-  });
-});
 
 // serv assets if in production
 if (process.env.NODE_ENV === "production") {

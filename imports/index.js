@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const { 
   fetchApiCategories,
   fetchApiProducts, 
@@ -9,57 +11,89 @@ const {
   fetchApiCategoriesById
 } = require("./api");
 
-const { insertProduct, insertCategory, fetchAllProducts, getProductById } = require("./mysql");
+const { insertProduct, insertCategory, fetchAllProducts, getProductById, getCategoryById } = require("./mysql");
 
 module.exports = {
   getImports: async function(){
-    const products = await fetchApiProducts();
-    const categories = await fetchApiCategories();
-    const productsRangeBegin = 0;
-    const productsRangeEnd = 100;
+
+    const imports = {
+      "categories":false,
+      "products":true
+    };
+
+    let categories = [];
     const categoriesRangeBegin = 0;
-    const categoriesRangeEnd = 0;
+    const categoriesRangeEnd = 150;
 
-    // const dbProducts = await fetchAllProducts();
-    // if(dbProducts){
-    //   console.log("dbProducts",dbProducts);
-    // }
+    let products = [];
+    const productsRangeBegin = 0;
+    const productsRangeEnd = 3000;
 
-    if(categories){
-      // console.log("categories",categories);
-      
+    if(imports["categories"]){
+      categories = await fetchApiCategories();
+      console.log("categories lunching");
+    }
+
+    if(imports["products"]){
+      products = await fetchApiProducts();
+      console.log("products lunching");
+    }
+
+    if(categories.length > 0){
+      let errors = [];
       let counter = 0;
+
       for (const item of categories){
         if(counter >= categoriesRangeBegin && counter <= categoriesRangeEnd){
-          // console.log("category basic", item);
 
-          //get category details
-          const categoryDetails = await fetchApiCategoriesById(item["id"]);
-          if(categoryDetails){
+          let dbCategory = await getCategoryById(item["id"]);
 
-            const data = {
-              id: categoryDetails["id"],
-              parentId: categoryDetails["1"],
-              name: categoryDetails["name"] 
+              if(dbCategory.length === 0){
+
+                console.log("adding category ...");
+
+                //get category details
+                const categoryDetails = await fetchApiCategoriesById(item["id"]);
+                if(categoryDetails){
+
+                  const data = {
+                    id: categoryDetails["id"],
+                    parentId: categoryDetails["1"],
+                    name: categoryDetails["name"] 
+                  }
+
+                  try{
+                        const response = await insertCategory(data);
+                        if(response){
+                          console.log("category hass been added");
+                        }
+                    }catch(error){
+                        console.log("error",error);
+                        errors.push({
+                          id: categoryDetails["id"],
+                          error: error
+                        });
+                    }
+                }
+                console.log("counter",counter);
             }
-            // const response = await insertCategory(data);
-          }
-          console.log("counter",counter);
         }
         counter++;
       }
+
+      // write errors to file
+      fs.writeFileSync('imports/logs/categories.json', JSON.stringify(errors));
       console.log("categories number",categories.length);
     }
   
-    if(products){
-      
+    if(products.length > 0){
+      let errors = [];
       let counter = 0;
 
         for (const item of products) {
               if(counter >= productsRangeBegin && counter <= productsRangeEnd){
 
                 let dbProduct = await getProductById(item["id"]);
-                console.log("dbProduct",dbProduct);
 
                 if(dbProduct.length === 0){
 
@@ -118,16 +152,30 @@ module.exports = {
                               photo: productPhotos[0] ? productPhotos[0]["file"] : "",
                               tags: printers
                             }
-                            // console.log("data",data);
-                            await insertProduct(data);
+
+                            try{
+                                const response = await insertProduct(data);
+                                if(response){
+                                  console.log("product hass been added");
+                                }
+                            }catch(error){
+                                console.log("error",error);
+                                errors.push({
+                                  id: productDetails["id"],
+                                  error: error
+                                });
+                            }
                           }
-            
                           console.log("counter",counter);
                   }
             }
               counter++;
          }
-         console.log("products number",products.length);
+
+         // write errors to file
+          fs.writeFileSync('imports/logs/products.json', JSON.stringify(errors));
+
+          console.log("products number",products.length);
     }
   }
 }

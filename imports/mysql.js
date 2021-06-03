@@ -8,6 +8,8 @@ mysql_connect.connect(function(err) {
     if (err) throw err;
 });
 
+//https://devdotcode.com/interact-with-mysql-database-using-async-await-promises-in-node-js/
+
 module.exports = {
     fetchAllProducts: function(){
         const sql = `SELECT id FROM produkty`;
@@ -64,11 +66,30 @@ module.exports = {
                 "${photo}",
                 "${tags}"
             )`;
-            // console.log("sql",sql);
-            mysql_connect.query(sql, function (err, result) {
-                if (err) throw err;
-                console.log("1 record inserted, ID: " + result.insertId);
+
+            return new Promise((resolve, reject) => {
+                mysql_pool.query(sql, function (error, result) {
+                        // if (err) throw err;
+                        if(error){
+                           console.log("inserted produkt error", error);
+                            return reject(error)
+                        }
+                        console.log("1 record inserted");
+                        return resolve(result)
+                    })
+                }
+            );
+    },
+    getCategoryById: function(id) {
+        const sql = `SELECT id FROM kategorie WHERE id = ${id}`;
+        return new Promise((resolve, reject)=>{
+            mysql_pool.query(sql,  (error, elements)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(elements);
             });
+        });
     },
     insertCategory: function({id,parentId,name}){
              //  insert category to mysql database
@@ -91,10 +112,16 @@ module.exports = {
                         "${name}",
                         "${name}"
                     )`;
-                  //  console.log("sql",sql);
-                mysql_connect.query(sql, function (err, result) {
-                    if (err) throw err;
-                    console.log("1 record inserted, ID: " + result.insertId);
-                });  
-    }
+                return new Promise((resolve, reject) => {
+                    mysql_pool.query(sql, function (error, result) {
+                            // if (err) throw err;
+                            if(error){
+                               console.log("inserted category error", error);
+                                return reject(error)
+                            }
+                            console.log("1 record inserted");
+                            return resolve(result)
+                        })
+                })
+        }
 }
