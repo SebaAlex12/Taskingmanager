@@ -11,14 +11,23 @@ const {
   fetchApiCategoriesById
 } = require("./api");
 
-const { insertProduct, insertCategory, fetchAllProducts, getProductById, getCategoryById } = require("./mysql");
+const { 
+  insertProduct, 
+  insertCategory, 
+  fetchAllProducts,
+  customizeProducts, 
+  getProductById, 
+  getCategoryById 
+} = require("./mysql");
 
 module.exports = {
   getImports: async function(){
 
+    customizeProducts();
+
     const imports = {
       "categories":false,
-      "products":true
+      "products":false
     };
 
     let categories = [];
