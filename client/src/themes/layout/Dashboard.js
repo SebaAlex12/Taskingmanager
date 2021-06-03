@@ -15,7 +15,7 @@ import CalendarContainer from "../../store/Calendar/components/CalendarContainer
 import Interview from "../../store/Cameras/components/Interview";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import Catalogs from "../../root/Catalogs";
-// import ImportBasic from "../../store/Import/components/ImportBasic";
+import ImportBasic from "../../store/Import/components/ImportBasic";
 
 // import Preloader from "../../common/Preloader";
 import { updateMessenger } from "../../store/Messengers/actions";
@@ -69,9 +69,9 @@ class Dashboard extends Component {
         <Link className="btn btn-default" to="/tasks">
           Zadania
         </Link>
-        {/* <Link className="btn btn-default" to="/imports">
+        <Link className="btn btn-default" to="/imports">
           Importy
-        </Link> */}
+        </Link>
         <Link className="btn btn-default" to="/calendar">
           Kalendarz
         </Link>
@@ -105,7 +105,7 @@ class Dashboard extends Component {
           <Route exact path="/" component={Tasks} />
           <Route exact path="/messenger" component={Messengers} />
           <Route exact path="/mails" component={MailsListContainer} />
-          {/* <Route exact path="/imports" component={ImportBasic} /> */}
+          <Route exact path="/imports" component={ImportBasic} />
           <Route exact path="/calendar" component={CalendarContainer} />
           {loggedUser.status === "Administrator" ? (
             <React.Fragment>

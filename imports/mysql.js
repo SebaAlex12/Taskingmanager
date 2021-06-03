@@ -2,23 +2,36 @@ const mysql = require("mysql");
 
 const mysql_db = require("../config/db_config.js");
 const mysql_connect = mysql.createConnection(mysql_db);
+const mysql_pool = mysql.createPool(mysql_db);
 
 mysql_connect.connect(function(err) {
     if (err) throw err;
 });
 
 module.exports = {
-    fetchAllProductsIds: async function(){
+    fetchAllProducts: function(){
         const sql = `SELECT id FROM produkty`;
-        let ids;
-        mysql_connect.query(sql, function (err, result) {
-            if (err) throw err;
-            ids = result.map(item => item.id);
-            return ids;
-        });
-        return ids;
+        return new Promise((resolve, reject) => {
+            mysql_pool.query(sql, (error, elements)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(elements);
+            });
+        })
     },
-    insertProduct: async function({id,categoryId,name,description1,description2,price,photo,tags}){
+    getProductById: function(id) {
+        const sql = `SELECT id FROM produkty WHERE id = ${id}`;
+        return new Promise((resolve, reject)=>{
+            mysql_pool.query(sql,  (error, elements)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(elements);
+            });
+        });
+    },
+    insertProduct: function({id,categoryId,name,description1,description2,price,photo,tags}){
         //  insert product to mysql database
 
         let fileName = name.replace(" ","-");
@@ -57,7 +70,7 @@ module.exports = {
                 console.log("1 record inserted, ID: " + result.insertId);
             });
     },
-    insertCategory: async function({id,parentId,name}){
+    insertCategory: function({id,parentId,name}){
              //  insert category to mysql database
 
             parentId = parentId == 1 || parentId == null ? -1 : parentId;
