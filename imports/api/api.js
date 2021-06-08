@@ -1,6 +1,6 @@
 
 const axios = require("axios");
-const apiToken = require("../config/keys").importApiToken;
+const apiToken = require("../../config/keys").importApiToken;
 
 module.exports = {
     fetchApiCategories: async function(){

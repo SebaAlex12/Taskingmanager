@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 
+// incomming data to database
 const mysql_db = require("../config/db_config.js");
 const mysql_connect = mysql.createConnection(mysql_db);
 const mysql_pool = mysql.createPool(mysql_db);
@@ -90,8 +91,10 @@ function updateProductById(id,params){
     });
     
 }
-function insertProduct({id,categoryId,name,description1,description2,price,photo,tags}){
+function insertProduct(data){
     //  insert product to mysql database
+
+    const {id,categoryId,name,description1,description2,price,photo,tags} = data;
 
     let fileName = name.replace(" ","-");
     fileName = fileName.replace(" ","-");
@@ -124,7 +127,10 @@ function insertProduct({id,categoryId,name,description1,description2,price,photo
             "${tags}"
         )`;
 
+        console.log("sql:",sql);
+
         return new Promise((resolve, reject) => {
+
             mysql_pool.query(sql, function (error, result) {
                     // if (err) throw err;
                     if(error){

@@ -18,12 +18,13 @@ const {
   customizeProducts, 
   getProductById, 
   getCategoryById 
-} = require("./mysql");
+} = require("../mysql_target");
 
 module.exports = {
   getImports: async function(){
 
-    customizeProducts();
+    // fix imported products
+    // customizeProducts();
 
     const imports = {
       "categories":false,
@@ -91,7 +92,7 @@ module.exports = {
       }
 
       // write errors to file
-      fs.writeFileSync('imports/logs/categories.json', JSON.stringify(errors));
+      fs.writeFileSync('imports/api/logs/categories.json', JSON.stringify(errors));
       console.log("categories number",categories.length);
     }
   
@@ -182,7 +183,7 @@ module.exports = {
          }
 
          // write errors to file
-          fs.writeFileSync('imports/logs/products.json', JSON.stringify(errors));
+          fs.writeFileSync('imports/api/logs/products.json', JSON.stringify(errors));
 
           console.log("products number",products.length);
     }

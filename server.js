@@ -13,8 +13,11 @@ const graphqlResolver = require("./graphql/resolvers");
 
 const { upload, resize } = require("./utils/filesManager");
 
-// imports
-const { getImports } = require("./imports/index");
+// imports from api
+// const { getImports } = require("./imports/api/index");
+
+// imports from mysql
+const { getImports } = require("./imports/mysql/index");
 
 const fs = require("fs");
 const cors = require("cors");
