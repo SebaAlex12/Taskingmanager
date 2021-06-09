@@ -22,6 +22,19 @@ function getCategoryById(id) {
         });
     });
 }
+function updateCategoryById(id,params){
+    const sql = `UPDATE kategorie SET nazwa_pliku = ? WHERE id = ${id}`;
+   
+    return new Promise((resolve, reject) => {
+        mysql_pool.query(sql, [params["nazwa_pliku"]], (error, elements)=>{
+            if(error){
+                return reject(error);
+            }
+            return resolve(`Category with id: ${id} has been updated`);
+        })
+    });
+    
+}
 function insertCategory({id,parentId,name}){
          //  insert category to mysql database
 
@@ -143,6 +156,27 @@ function insertProduct(data){
             }
         );
 }
+function customizeCategories(){
+    const sql = "SELECT * FROM kategorie LIMIT 1000";
+    mysql_connect.query(sql, function(err, result){
+        if(err) throw err;
+
+        const categories = result.map(item => ({...item}));
+
+        categories.forEach( category = async(category) => {
+            let newData = { ...category };
+            newData["nazwa_pliku"] = replaceSpecialChars(category["nazwa_pliku"]);
+            // console.log("newData to update", newData);
+
+            try{
+                const response = await updateCategoryById(category.id, newData);
+                console.log(response);
+            }catch(errors){
+                console.log("errors", errors);
+            }
+        })
+    })
+}
 function customizeProducts(){
     const sql = "SELECT id, nazwa_pliku FROM produkty LIMIT 2700";
 
@@ -151,41 +185,36 @@ function customizeProducts(){
 
         const products = result.map(item=> ({...item}));
 
-        products.forEach( product = async(product) => {
-
-            let update = false;
+        products.forEach( category = async(product) => {
             let newData = { ...product };
-
-            if(product["nazwa_pliku"].indexOf(' ') >= 0){
-                console.log("Filename has got white spaces: ", product["nazwa_pliku"]);
-
-                const search = " "; 
-                const replacer = new RegExp(search, 'g');
-
-                newData["nazwa_pliku"] = product["nazwa_pliku"].replace(replacer,"-");
-                update = true;
+            newData["nazwa_pliku"] = replaceSpecialChars(product["nazwa_pliku"]);
+            try{
+                const response = await updateProductById(product.id, newData);
+                console.log(response);
+            }catch(errors){
+                console.log("errors", errors);
             }
-
-            if(update){
-                console.log("newData to update", newData);
-                try{
-                    const response = await updateProductById(product.id, newData);
-                    console.log(response);
-                }catch(errors){
-                    console.log("errors", errors);
-                }
-            }
-        });
+        })
 
     }); 
+}
+
+function replaceSpecialChars(str){
+	return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove accents
+		.replace(/([^\w]+|\s+)/g, '-') // Replace space and other characters by hyphen
+		.replace(/\-\-+/g, '-')	// Replaces multiple hyphens by one hyphen
+		.replace(/(^-+|-+$)/, '') // Remove extra hyphens from beginning or end of the string
+        .toLowerCase();
 }
 
 module.exports = {
     getCategoryById,
     insertCategory,
+    updateCategoryById,
     fetchAllProducts,
     getProductById,
     updateProductById,
     insertProduct,
-    customizeProducts
+    customizeProducts,
+    customizeCategories
 }

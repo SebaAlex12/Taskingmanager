@@ -5,19 +5,24 @@ const {
     insertProduct, 
     insertCategory, 
     fetchAllProducts,
-    customizeProducts, 
+    customizeProducts,
+    customizeCategories, 
     getProductById, 
     getCategoryById 
   } = require("../mysql_target");
-const { isParenthesizedTypeNode } = require("typescript");
 
   module.exports = {
         getImports: async function(){
 
-            const imports = {
+        // change inserted data
+        // const custCat = await customizeCategories();
+        const custProd = await customizeProducts();
+
+
+        const imports = {
                 "categories":false,
                 "products":false
-            };
+        };
 
         if(imports["categories"]){
             const result1 = await fetchMysqlCategories();
