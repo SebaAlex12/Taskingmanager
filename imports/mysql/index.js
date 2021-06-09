@@ -16,12 +16,12 @@ const {
 
         // change inserted data
         // const custCat = await customizeCategories();
-        const custProd = await customizeProducts();
+        // const custProd = await customizeProducts();
 
 
         const imports = {
                 "categories":false,
-                "products":false
+                "products":true
         };
 
         if(imports["categories"]){

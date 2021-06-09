@@ -39,7 +39,7 @@ function insertCategory({id,parentId,name}){
          //  insert category to mysql database
 
         parentId = parentId == 1 || parentId == null ? -1 : parentId;
-        const fileName = name;
+        const fileName = replaceSpecialChars(name);
         const deepNested = parentId == 1 ? -1 : 0;
 
             const sql = `INSERT INTO kategorie (
@@ -108,9 +108,7 @@ function insertProduct(data){
     //  insert product to mysql database
 
     const {id,categoryId,name,description1,description2,price,photo,tags} = data;
-
-    let fileName = name.replace(" ","-");
-    fileName = fileName.replace(" ","-");
+    const fileName = replaceSpecialChars(name);
 
         const sql = `INSERT INTO produkty (
             id,
@@ -130,8 +128,8 @@ function insertProduct(data){
             ${categoryId}, 
             "${name}",
             "${fileName}",
-            "${description1}",
-            "${description2}",
+            "${description1.replace(/['"]+/g, '')}",
+            "${description2.replace(/['"]+/g, '')}",
             ${id},
             1,
             0,
@@ -140,7 +138,7 @@ function insertProduct(data){
             "${tags}"
         )`;
 
-        console.log("sql:",sql);
+        // console.log("sql:",sql);
 
         return new Promise((resolve, reject) => {
 
