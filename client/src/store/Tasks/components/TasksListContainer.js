@@ -272,12 +272,12 @@ class TasksListContainer extends Component {
               <div className="title">
                 {tasks.length > 0 ? `Liczba zadań: ${tasks.length}` : null}
               </div>
-              <div className="refresh-box" onClick={() => this.refreshPage()}>
+              {/* <div className="refresh-box" onClick={() => this.refreshPage()}>
                 <Button>
                   <FontAwesomeIcon icon={faSyncAlt} />
                   <span>Odśwież</span>
                 </Button>
-              </div>
+              </div> */}
               {loggedUser.status === "Administrator" ||
               loggedUser.status === "Menedżer" ? (
                 <div className={clazz_all_tasks} onClick={() => this.switchAllTasks(!activeAllTasks)}>

@@ -239,8 +239,6 @@ class TasksItem extends Component {
       return item;
     });
 
-    console.log("collback pattern", newPattern);
-
     this.setState({
       ...this.state,
       attachedPattern: newPattern,
@@ -309,10 +307,6 @@ class TasksItem extends Component {
     const taskResponsibleUser = users.filter(
       (user) => user.name === responsiblePerson
     );
-    // console.log("title", title);
-    // console.log("responsible user", taskResponsibleUser);
-    // console.log("responsible person", responsiblePerson);
-    // console.log("attached pattern", attachedPattern);
 
     let filesContent;
 
@@ -343,6 +337,63 @@ class TasksItem extends Component {
         selectedStatus[0]["_id"];
     }
 
+    // show modal button and content
+    const showModalCalendarButton = taskResponsibleUser.length > 0 && (
+          <Button
+          onClick={() => this.showModalCalendar(true)}
+          title="Kalendarz"
+        >
+          <FontAwesomeIcon icon={faCalendarAlt} />
+        </Button>
+    );
+
+    const showModalCalendarContent = showModalCalendarTrigger && (
+          <ModalDialog
+            showModal={() => this.showModalCalendar(false)}
+            width="1200px"
+          >
+            <CalendarContainer
+              eventId={_id}
+              projectName={projectName}
+              title={title}
+              description={description}
+              userId={taskResponsibleUser[0]["_id"]}
+              eventType="Zadanie"
+              title={title}
+            />
+          </ModalDialog>
+    )
+
+    // show modal button and content
+
+    const showModalMailButton = taskCreatorUser.length > 0 && (
+      <Button
+      onClick={() => this.showModalMail(true)}
+      title="wyślij maila"
+    >
+      <FontAwesomeIcon icon={faEnvelope} />
+    </Button>
+    );
+
+    const showModalMailContent = showModalMailTrigger && (
+        <ModalDialog
+          title="Wyślij email."
+          showModal={() => this.showModalMail(false)}
+        >
+          <MailsAddForm
+            title={
+              "Wiadomość Crm - " +
+              (projectName ? "projekt: " + projectName + ", " : "") +
+              (title ? "zadanie: " + title + ", " : "") +
+              "autor: " +
+              loggedUser.name
+            }
+            projectName={projectName}
+            to={taskCreatorUser[0].email}
+          />
+        </ModalDialog>
+      )
+
     return (
       <React.Fragment>
         <tr className={clazz}>
@@ -364,7 +415,7 @@ class TasksItem extends Component {
             ) : (
               <div onClick={this.switch}>{title}</div>
             )}
-            <TasksMailReminder
+            {/* <TasksMailReminder
               taskId={_id}
               from={
                 taskCreatorUser.length > 0 ? taskCreatorUser[0].email : null
@@ -381,27 +432,10 @@ class TasksItem extends Component {
               priority={priority}
               termAt={termAt}
               mailRemainderData={mailRemainderData}
-            />
-            <Button
-              onClick={() => this.showModalCalendar(true)}
-              title="Kalendarz"
-            >
-              <FontAwesomeIcon icon={faCalendarAlt} />
-            </Button>
-            {showModalCalendarTrigger ? (
-              <ModalDialog
-                showModal={() => this.showModalCalendar(false)}
-                width="1200px"
-              >
-                <CalendarContainer
-                  eventId={_id}
-                  userId={taskResponsibleUser[0]["_id"]}
-                  eventType="task"
-                  title={title}
-                />
-              </ModalDialog>
-            ) : null}
-            {createdBy === loggedUser.name ||
+            /> */}
+            { showModalCalendarButton }
+            { showModalCalendarContent }
+            {/* {createdBy === loggedUser.name ||
             (typeof attachedPattern !== "undefined" &&
               attachedPattern.length > 0) ? (
               <Button
@@ -411,8 +445,8 @@ class TasksItem extends Component {
               >
                 <FontAwesomeIcon icon={faLayerGroup} />
               </Button>
-            ) : null}
-            {showModalPatternTrigger ? (
+            ) : null} */}
+            {/* {showModalPatternTrigger ? (
               <ModalDialog
                 showModal={() => this.showModalPattern(false)}
                 width="1260px"
@@ -425,7 +459,7 @@ class TasksItem extends Component {
                   attachedPatternCollback={this.attachedPatternCollback}
                 />
               </ModalDialog>
-            ) : null}
+            ) : null} */}
             <i
               className={
                 responsiblePersonLastComment === "true"
@@ -484,30 +518,8 @@ class TasksItem extends Component {
           </td>
           <td className="createdBy">
             <div>{createdBy}</div>
-            <Button
-              onClick={() => this.showModalMail(true)}
-              title="wyślij maila"
-            >
-              <FontAwesomeIcon icon={faEnvelope} />
-            </Button>
-            {showModalMailTrigger ? (
-              <ModalDialog
-                title="Wyślij email."
-                showModal={() => this.showModalMail(false)}
-              >
-                <MailsAddForm
-                  title={
-                    "Wiadomość Crm - " +
-                    (projectName ? "projekt: " + projectName + ", " : "") +
-                    (title ? "zadanie: " + title + ", " : "") +
-                    "autor: " +
-                    loggedUser.name
-                  }
-                  projectName={projectName}
-                  to={taskCreatorUser[0].email}
-                />
-              </ModalDialog>
-            ) : null}
+            { showModalMailButton }
+            { showModalMailContent }
           </td>
           {/* <td className="responsiblePerson">{responsiblePerson}</td> */}
           <td className="responsiblePerson">

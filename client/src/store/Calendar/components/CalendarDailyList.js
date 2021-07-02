@@ -2,21 +2,32 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import ModalDialog from "../../../common/ModalDialog/components/ModalDialog";
+import CalendarProjectsList from "./CalendarProjectsList";
 import CalendarTasksList from "./CalendarTasksList";
 import CalendarNotesList from "./CalendarNotesList";
 
 import { Button } from "../../../themes/basic";
-import { faTasks, faStickyNote } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTasks,
+  faStickyNote,
+  faBalanceScale,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class CalendarDailyList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showModalProjectDailyEvents: false,
       showModalTaskDailyEvents: false,
       showModalNoteDailyEvents: false,
     };
   }
+  closeModalProjectDailyEvents = () => {
+    this.setState({
+      showModalProjectDailyEvents: false,
+    });
+  };
   closeModalTaskDailyEvents = () => {
     this.setState({
       showModalTaskDailyEvents: false,
@@ -29,16 +40,37 @@ class CalendarDailyList extends Component {
   };
   render() {
     const { dailyEvents } = this.props;
-    const { showModalTaskDailyEvents, showModalNoteDailyEvents } = this.state;
+    const {
+      showModalProjectDailyEvents,
+      showModalTaskDailyEvents,
+      showModalNoteDailyEvents,
+    } = this.state;
 
+    const projectDailyEvents = dailyEvents.filter((item) =>
+      item.eventType == "Projekt" ? item : null
+    );
     const taskDailyEvents = dailyEvents.filter((item) =>
       item.eventType == "Zadanie" ? item : null
     );
     const noteDailyEvents = dailyEvents.filter((item) =>
       item.eventType == "Notatka" ? item : null
     );
-    // console.log("from events", dailyEvents);
-    // console.log("events", taskDailyEvents);
+
+    const projectEventContent =
+      projectDailyEvents.length > 0 ? (
+        <Button
+          onClick={() =>
+            this.setState({
+              showModalProjectDailyEvents: !showModalProjectDailyEvents,
+            })
+          }
+          title="lista etapów"
+        >
+          <FontAwesomeIcon icon={faBalanceScale} />
+          <span>{projectDailyEvents.length}</span>
+        </Button>
+      ) : null;
+
     const taskEventContent =
       taskDailyEvents.length > 0 ? (
         <Button
@@ -71,6 +103,22 @@ class CalendarDailyList extends Component {
 
     return (
       <div>
+        {projectEventContent}
+        {showModalProjectDailyEvents ? (
+          <ModalDialog
+            showModal={() =>
+              this.setState({
+                showModalProjectDailyEvents: !showModalProjectDailyEvents,
+              })
+            }
+            width="1200px"
+          >
+            <CalendarProjectsList
+              projectDailyEvents={projectDailyEvents}
+              closeModal={this.closeModalProjectDailyEvents}
+            />
+          </ModalDialog>
+        ) : null}
         {taskEventContent}
         {showModalTaskDailyEvents ? (
           <ModalDialog

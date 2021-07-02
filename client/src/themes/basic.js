@@ -51,13 +51,13 @@ export const ListBox = styled.div`
   > div:nth-child(1) {
     margin-top: 28px;
   }
-  .title {
+  .item-box > .title {
     display: flex;
     flex-direction: row;
+    justify-content:space-between;
   }
-  .name {
-    width: 175px;
-    text-align: left;
+  .item-box > .title > .name{
+    text-align:left;
   }
   .items {
     margin-top: 40px;

@@ -12,9 +12,9 @@ export const StyledCalendarContainer = styled.div`
     border: 1px solid #eaeaea;
   }
   table .day {
+    position: relative;
     width: 130px;
     height: 100px;
-    position:relative;
   }
   table .day .number {
     font-size: 24px;
@@ -31,7 +31,7 @@ export const StyledCalendarContainer = styled.div`
   .month-nav-box {
     position: relative;
   }
-  .month-nav-box .months-button-selector {
+  .month-nav-box button {
     float: right;
   }
   .calendar-header > tr > td {

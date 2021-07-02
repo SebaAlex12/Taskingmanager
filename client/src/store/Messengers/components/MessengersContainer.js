@@ -50,7 +50,7 @@ class MessengersContainer extends Component {
         usersAdminMenegerEmployeeArray,
         usersIndyvidualArray,
       ],
-      filteredUsers: [],
+      filteredUsers: [ props.loggedUser ],
       selectedChannelId: Object.prototype.hasOwnProperty.call(
         localStorage,
         "selectedChannelId"
@@ -70,14 +70,13 @@ class MessengersContainer extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, nextState) {
-    // console.log("next props", nextProps);
-    // console.log("next state", nextState);
+    // console.log("nextState.selectedUsers",nextState.selectedUsers);
     if (nextProps.users.length > 0 && nextState.selectedUsers.length === 5) {
       const { loggedUser, users } = nextProps;
       let selectedUsers = [];
-
       let selectedModifyUsers = [];
-      let filteredUsers = [];
+      let filteredUsers = [ loggedUser ];
+
       if (loggedUser.status === "Klient") {
         const persons = loggedUser.users.split(",");
         selectedModifyUsers = users.filter((user) =>
@@ -90,9 +89,6 @@ class MessengersContainer extends Component {
           user.status !== "Klient" ? user : null
         );
       }
-
-      // set filtered users to default empty
-      filteredUsers = [];
 
       if (Object.prototype.hasOwnProperty.call(localStorage, "filteredUsers")) {
         filteredUsers = JSON.parse(localStorage.getItem("filteredUsers"));
@@ -110,37 +106,6 @@ class MessengersContainer extends Component {
     }
     return false;
   }
-  componentDidUpdate = () => {
-    // if (this.state.filteredUsers.length === 0 && this.props.users.length > 0) {
-    //   const { users, loggedUser } = this.props;
-    //   const { selectedUsers } = this.state;
-    //   let selectedModifyUsers = [];
-    //   let filteredUsers = [];
-    //   if (loggedUser.status === "Klient") {
-    //     const persons = loggedUser.users.split(",");
-    //     selectedModifyUsers = users.filter(user =>
-    //       persons.includes(user.name) ? user : null
-    //     );
-    //     filteredUsers = selectedModifyUsers;
-    //   } else {
-    //     selectedModifyUsers = users;
-    //     filteredUsers = selectedModifyUsers.filter(user =>
-    //       user.status !== "Klient" ? user : null
-    //     );
-    //   }
-    // if (JSON.parse.localStorage.getItem("filteredUsers").length > 0) {
-    //   filteredUsers = JSON.parse(localStorage.getItem("filteredUsers"));
-    // } else {
-    //   localStorage.setItem("filteredUsers", JSON.stringify(filteredUsers));
-    //   filteredUsers = [];
-    // }
-    // set all selected users available by the default
-    // this.setState({
-    //   selectedUsers: selectedModifyUsers.concat(selectedUsers),
-    //   filteredUsers
-    // });
-    // }
-  };
   filterSelectedUsersHandler = (selectedChannelId, checkedUser = null) => {
     const { selectedUsers, filteredUsers } = this.state;
 
@@ -203,6 +168,9 @@ class MessengersContainer extends Component {
   };
   render() {
     const { selectedUsers, selectedChannelId, filteredUsers } = this.state;
+
+    console.log("filteredUsers",filteredUsers);
+
     return (
       <StyledMessengersContainer className="messenger-container-box">
         <div className="container">

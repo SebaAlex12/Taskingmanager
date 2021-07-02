@@ -116,9 +116,9 @@ class CalendarContainer extends Component {
     const monthElements = months.map((item) => {
       return (
         <li key={item}>
-          <button onClick={(e) => this.onChangeMonthHandler(e, item)}>
+          <a href="#" onClick={(e) => this.onChangeMonthHandler(e, item)}>
             {item}
-          </button>
+          </a>
         </li>
       );
     });
@@ -140,7 +140,6 @@ class CalendarContainer extends Component {
           <span className="month-editor">{presentMonth}</span>
           <Button
             variant="primary"
-            className="months-button-selector"
             onClick={() =>
               this.setState({
                 showYearPopup: !showYearPopup,
@@ -170,15 +169,15 @@ class CalendarContainer extends Component {
       </td>
     ) : (
       <td colSpan="3">
-        <button
+        <a
+          href="#"
           onDoubleClick={(e) => {
             this.showYearEditor();
           }}
-          title="double click to edit year"
           className="year-editor"
         >
           {presentYear}
-        </button>
+        </a>
       </td>
     );
   };
@@ -213,13 +212,12 @@ class CalendarContainer extends Component {
         .format("YYYY-MM-DD")
         .split("-");
       if (
-        selectedYear === stateYear &&
-        selectedMonth === stateMonth &&
-        selectedDay === day
+        selectedYear == stateYear &&
+        selectedMonth == stateMonth &&
+        selectedDay == day
       ) {
         return item;
       }
-      return true;
     });
     return dailyEvents;
   };
@@ -231,7 +229,8 @@ class CalendarContainer extends Component {
       selectedDate,
       dailyEvents,
     } = this.state;
-    const { eventId } = this.props;
+    const { eventId, eventType, projectName, title, description } = this.props;
+    
     const monthNavElements = this.monthNav();
     const yearNavElements = this.yearNav();
     const arrowsNavElements = this.arrowsNav();
@@ -257,8 +256,9 @@ class CalendarContainer extends Component {
       );
     }
     for (let day = 1; day <= this.daysInMonth(); day++) {
-      let clazz = day === this.currentDay() ? "day current-day" : "day";
+      let clazz = day == this.currentDay() ? "day current-day" : "day";
       let dailyEvents = this.filterDailyEvents(day);
+
       daysInMonth.push(
         <td key={day} className={clazz}>
           <span className="number">{day}</span>
@@ -330,6 +330,10 @@ class CalendarContainer extends Component {
               selectedDate={selectedDate}
               dailyEvents={dailyEvents}
               eventId={eventId}
+              eventType={eventType}
+              projectName={projectName}
+              title={title}
+              description={description}
               closeAddFormModal={this.closeAddFormModal}
             />
           </ModalDialog>

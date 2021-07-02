@@ -77,12 +77,12 @@ class UsersItem extends Component {
             <SmallerButton onClick={this.updateFilterHandler}>
               <FontAwesomeIcon title="filtruj po nazwie" icon={faFilter} />
             </SmallerButton>
-            <SmallerButton
+            {/* <SmallerButton
               onClick={() => this.showModal(true)}
               title="wyślij maila"
             >
               <FontAwesomeIcon icon={faEnvelope} />
-            </SmallerButton>
+            </SmallerButton> */}
             {loggedUser.status === "Administrator" ||
             loggedUser.status === "Menedżer" ? (
               <SmallerButton

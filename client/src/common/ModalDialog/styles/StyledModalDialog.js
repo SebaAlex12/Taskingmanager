@@ -9,8 +9,8 @@ export const StyledModalDialog = styled.div`
   bottom: 0px;
   z-index: 10001;
   .modal-dialog-box .content {
+    position: relative;
     display: block;
-    min-height: 560px;
     margin-left: auto;
     margin-right: auto;
     color: #000;
@@ -18,7 +18,7 @@ export const StyledModalDialog = styled.div`
     margin-top: 60px;
     background-color: #fff;
     padding: 30px;
-    max-height: 860px;
+    max-height: 1vh;
     overflow-y: auto;
   }
   .modal-dialog-box .content .title {
@@ -27,14 +27,14 @@ export const StyledModalDialog = styled.div`
     float: left;
   }
   .modal-dialog-box .content .close-button {
-    float: right;
     cursor: pointer;
     font-weight: bold;
+    position: absolute;
+    right: 2px;
+    top: 5px;
   }
   .modal-dialog-box > .content > .description {
     clear: both;
-    margin-top: 30px;
-    max-height:350px;
   }
   .modal-dialog-box > .content > .description > iframe {
     width: 100%;

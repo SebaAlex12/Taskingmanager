@@ -11,6 +11,7 @@ class MessengersChannelForm extends Component {
       filterSelectedUsersHandler,
       filteredUsers,
     } = this.props;
+    console.log("filteredUsers",filteredUsers);
     const channelContainer =
       users.length > 0
         ? users.map((user) => {

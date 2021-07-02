@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
 import moment from "moment/min/moment-with-locales";
-import { connect } from "react-redux";
+import styled from "styled-components";
 
 import { Button } from "../../../themes/basic";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -8,65 +9,60 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { removeCalendar } from "../actions";
 
-class CalendarNotesList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      DailyEvents: [],
-    };
-  }
-  componentDidMount() {
-    const { noteDailyEvents } = this.props;
-    this.setState({
-      DailyEvents: noteDailyEvents,
-    });
-  }
-  removeEvent = async (id) => {
-    const { removeCalendar, closeModal } = this.props;
-    const response = await removeCalendar(id);
-    if (response) {
-      closeModal();
-    }
-  };
-  render() {
-    const { DailyEvents } = this.state;
-    let listContainer = [];
-    if (DailyEvents.length > 0) {
-      listContainer = DailyEvents.map((event) => {
-        return (
-          <tr key={event._id}>
-            <td>{event.title}</td>
-            <td>
-              <textarea cols="60" rows="6" disabled>
-                {event.description}
-              </textarea>
-            </td>
-            <td>
-              {moment(new Date(event.selectedDate))
-                .locale("pl")
-                .format("HH:mm:ss")}
-            </td>
-            <td>
-              {moment(new Date(event.createdAt)).locale("pl").format("LLLL")}
-            </td>
-            <td>
-              <Button
-                onClick={() => this.removeEvent(event._id)}
-                title="Usuń wydarzenie"
-              >
-                <FontAwesomeIcon icon={faTimes} />
-              </Button>
-            </td>
-          </tr>
+const CalendarNotesList = (props) => {
+
+    const dispatch = useDispatch();
+    const { noteDailyEvents, closeModal } = props;
+    const removeEvent = async (id) => {
+        const result = window.confirm(
+            "Czy napewno chcesz usunąć wydarzenie ?"
         );
-      });
-    }
+        if (result === true) {
+            const response = await dispatch(removeCalendar(id));
+            if (response) {
+              closeModal();
+            }
+      }
+    };
+
+    const listContainer = noteDailyEvents.length > 0 && (
+        noteDailyEvents.map(dailyEvent => {
+            return(
+                        <tr key={dailyEvent._id}>
+                          <td>{dailyEvent.title}</td>
+                          <td>
+                            <textarea cols="60" rows="6" disabled defaultValue={dailyEvent.description} />
+                          </td>
+                          <td>
+                            {moment(new Date(dailyEvent.selectedDate))
+                              .locale("pl")
+                              .format("HH:mm:ss")}
+                          </td>
+                          <td>
+                            {moment(new Date(dailyEvent.createdAt)).locale("pl").format("LLLL")}
+                          </td>
+                          {/* <td>{dailyEvent.projectName}</td>
+                          <td>{dailyEvent.status}</td>
+                          <td>{dailyEvent.priority}</td>
+                          <td>{dailyEvent.termAt}</td> */}
+                          <td>
+                            <Button
+                              onClick={() => removeEvent(dailyEvent._id)}
+                              title="Usuń wydarzenie"
+                            >
+                              <FontAwesomeIcon icon={faTimes} />
+                            </Button>
+                          </td>
+                        </tr>
+            );
+        })
+    );
     return (
-      <div>
+      <CalendarNotesListStyled>
         <h2>
           Lista przypisanych notatek na dzień: <br />
-          {DailyEvents.length > 0
-            ? moment(new Date(DailyEvents[0].selectedDate))
+          {noteDailyEvents.length > 0
+            ? moment(new Date(noteDailyEvents[0].selectedDate))
                 .locale("pl")
                 .format("LLLL")
             : null}
@@ -78,14 +74,20 @@ class CalendarNotesList extends Component {
               <th>Opis</th>
               <th>Godzina</th>
               <th>Utworzone</th>
+              {/* <th>Projekt</th>
+              <th>Stan</th>
+              <th>Priorytet</th>
+              <th>Termin</th> */}
               <th>Akcje</th>
             </tr>
           </thead>
           <tbody>{listContainer}</tbody>
         </table>
-      </div>
+      </CalendarNotesListStyled>
     );
-  }
 }
 
-export default connect(null, { removeCalendar })(CalendarNotesList);
+export default CalendarNotesList;
+
+const CalendarNotesListStyled = styled.div`
+`;

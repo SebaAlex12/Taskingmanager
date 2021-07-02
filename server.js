@@ -5,7 +5,7 @@ const path = require("path");
 const axios = require("axios");
 
 const http = require("http");
-// const socketIo = require("socket.io");
+const socketIo = require("socket.io");
 
 const graphqlHttp = require("express-graphql");
 const graphqlSchema = require("./graphql/schema_old");
@@ -17,7 +17,7 @@ const { upload, resize } = require("./utils/filesManager");
 // const { getImports } = require("./imports/api/index");
 
 // imports from mysql
-const { getImports } = require("./imports/mysql/index");
+// const { getImports } = require("./imports/mysql/index");
 
 const fs = require("fs");
 const cors = require("cors");
@@ -129,18 +129,74 @@ app.use(
 );
 
 // imports data from api: http://mega-com.pl/information/index?information=resellerapi to mysql database
-app.use("/imports", async(request, response) => {
-  const res = await getImports();
-  if(res){
-    return response.json({name: "imports are complited"});
-  }
-})
+// app.use("/imports", async(request, response) => {
+//   const res = await getImports();
+//   if(res){
+//     return response.json({name: "imports are complited"});
+//   }
+// })
 
 const port = process.env.PORT || 5000;
 
 const server = http
   .createServer(app)
   .listen(port, () => console.log(`server running on port ${port}`));
+
+const io = socketIo(server);
+let connections = [];
+
+io.on("connection", function (socket) {
+    let activeSockets = [];
+  
+    connections.push(socket);
+    // console.log("socket connections", connections.length);
+  
+    socket.on("chat", function (msg) {
+      io.emit("chat", msg);
+    });
+    const existingSocket = activeSockets.find(
+      (existingSocket) => existingSocket === socket.id
+    );
+    if (!existingSocket) {
+      activeSockets.push(socket.id);
+      socket.emit("update-user-list", {
+        users: activeSockets.filter(
+          (existingSocket) => existingSocket !== socket.id
+        ),
+      });
+      socket.broadcast.emit("update-user-list", {
+        users: [socket.id],
+      });
+    }
+  
+    // console.log("socket", socket.id);
+    //console.log("active sockets", activeSockets);
+    //console.log("existing socket", existingSocket);
+  
+    socket.on("call-user", (data) => {
+      socket.to(data.to).emit("call-made", {
+        offer: data.offer,
+        socket: socket.id,
+      });
+    });
+    socket.on("make-answer", (data) => {
+      socket.to(data.to).emit("answer-made", {
+        socket: socket.id,
+        answer: data.answer,
+      });
+    });
+    socket.on("disconnect", () => {
+      let dfggd = activeSockets.filter(
+        (existingSocket) => existingSocket !== socket.id
+      );
+      socket.broadcast.emit("remove-user", {
+        socketId: socket.id,
+      });
+      connections.splice(connections.indexOf(socket), 1);
+      console.log("Disconnected: sockets connected", connections.length);
+    });
+});
+  
 
 // serv assets if in production
 if (process.env.NODE_ENV === "production") {

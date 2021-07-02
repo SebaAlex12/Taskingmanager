@@ -118,8 +118,8 @@ class ProjectsItem extends Component {
     return (
       <div className={clazz_box}>
         <div className="title">
-          <span className="task-counter" style={{fontWeight:"bold",marginRight:"4px"}}>{ filteredTasksList.length }</span>
           <div className="name">
+          <span className="task-counter" style={{fontWeight:"bold",marginRight:"4px"}}>{ filteredTasksList.length }</span>
             {
               toggleEditName ? (
                 <input 

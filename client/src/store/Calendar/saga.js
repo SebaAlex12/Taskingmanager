@@ -174,7 +174,6 @@ function* updateCalendarAsync(action) {
       }
     }`,
   };
-  // console.log(graph);
   const calendarData = yield call(
     [axios, axios.post],
     "/graphql",
