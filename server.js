@@ -17,7 +17,7 @@ const { upload, resize } = require("./utils/filesManager");
 // const { getImports } = require("./imports/api/index");
 
 // imports from mysql
-// const { getImports } = require("./imports/mysql/index");
+const { getImports } = require("./imports/mysql/index");
 
 const fs = require("fs");
 const cors = require("cors");
@@ -129,12 +129,12 @@ app.use(
 );
 
 // imports data from api: http://mega-com.pl/information/index?information=resellerapi to mysql database
-// app.use("/imports", async(request, response) => {
-//   const res = await getImports();
-//   if(res){
-//     return response.json({name: "imports are complited"});
-//   }
-// })
+app.use("/imports", async(request, response) => {
+  const res = await getImports();
+  if(res){
+    return response.json({name: "imports are complited"});
+  }
+})
 
 const port = process.env.PORT || 5000;
 

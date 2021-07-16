@@ -68,8 +68,21 @@ function insertCategory({id,parentId,name}){
                     })
             })
 }
+function insertCategoryProductRelation(catId,prodId){
+    const sql = `INSERT INTO produkty_kategorie (id_kategorii, id_produktu) VALUES (${catId}, ${prodId})`;
+    return new Promise((resolve,reject) => {
+        mysql_pool.query(sql, function(error, result){
+            if(error){
+                console.log("insert category product relation error", error);
+                return reject(error);
+            }
+            console.log("1 record inserted");
+            return resolve(result);
+        })
+    });
+}
 function fetchAllProducts(){
-    const sql = `SELECT id FROM produkty`;
+    const sql = `SELECT * FROM produkty LIMIT 5000`;
     return new Promise((resolve, reject) => {
         mysql_pool.query(sql, (error, elements)=>{
             if(error){
@@ -91,14 +104,12 @@ function getProductById(id) {
     });
 }
 function updateProductById(id,params){
-    const sql = `UPDATE produkty SET nazwa_pliku = ? WHERE id = ${id}`;
-   
+    const sql = `UPDATE produkty SET id_kategorii = ?, nazwa_pliku = ? WHERE id = ${id}`;
     return new Promise((resolve, reject) => {
-        mysql_pool.query(sql, [params["nazwa_pliku"]], (error, elements)=>{
+        mysql_pool.query(sql, [params["id_kategorii"],params["nazwa_pliku"]], (error, elements)=>{
             if(error){
                 return reject(error);
             }
-            // console.log("elements",elements);
             return resolve(`Product with id: ${id} has been updated`);
         })
     });
@@ -187,6 +198,7 @@ function customizeProducts(){
             let newData = { ...product };
             newData["nazwa_pliku"] = replaceSpecialChars(product["nazwa_pliku"]);
             try{
+                // toDO update function has been changed need to be fixed newData has to be an array of all product params
                 const response = await updateProductById(product.id, newData);
                 console.log(response);
             }catch(errors){
@@ -214,5 +226,6 @@ module.exports = {
     updateProductById,
     insertProduct,
     customizeProducts,
-    customizeCategories
+    customizeCategories,
+    insertCategoryProductRelation
 }

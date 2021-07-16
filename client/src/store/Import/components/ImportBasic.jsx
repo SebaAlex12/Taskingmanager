@@ -16,7 +16,7 @@ const ImportBasic = () => {
     return(
         <div>
             <h1>Import</h1>
-            <button onClick={() => showProducts()}>Show products</button>
+            <button onClick={() => showProducts()}>Lunch imports</button>
         </div>
     )
 }

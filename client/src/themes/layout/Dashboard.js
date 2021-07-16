@@ -74,10 +74,11 @@ class Dashboard extends Component {
         </Link>
         {loggedUser.status === "Administrator" ? (
           <React.Fragment>
-            {/* <Link className="btn btn-default" to="/imports">
+            {
+            <Link className="btn btn-default" to="/imports">
               Importy
             </Link>
-            <Link className="btn btn-default" to="/patterns">
+            /*<Link className="btn btn-default" to="/patterns">
               Szablony
             </Link>
             <Link className="btn btn-default" to="/seo">

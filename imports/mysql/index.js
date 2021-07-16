@@ -1,10 +1,12 @@
 
-const { fetchMysqlProducts, fetchMysqlCategories, fetchMysqlCategoriesParentId } = require("./mysql");
+const { fetchMysqlProducts, fetchMysqlCategories, fetchMysqlCategoriesParentId, fetchMysqlProductCategoryId } = require("./mysql");
 
 const { 
     insertProduct, 
     insertCategory, 
+    updateProductById,
     fetchAllProducts,
+    insertCategoryProductRelation,
     customizeProducts,
     customizeCategories, 
     getProductById, 
@@ -21,9 +23,58 @@ const {
 
         const imports = {
                 "categories":false,
-                "products":true
+                "products":false,
+                "products-categories-relations":true
         };
 
+        if(imports["products-categories-relations"]){
+
+            try{
+                const result3 = await fetchAllProducts();
+                if(result3){
+                    result3.forEach(async(product) => {
+                        let categoriesId = await fetchMysqlProductCategoryId(product.id);
+                        categoriesId = categoriesId.map(categoryId => ({...categoryId}));
+                        if(categoriesId){
+                            try{
+                                console.log("categories ids",categoriesId);
+                                console.log("product.id_kategorii",product.id_kategorii);
+                                console.log("category id",categoriesId[0].category_id);
+                                // console.log("product",product);
+
+                                categoriesId.forEach(category = async(category) => {
+
+                                    if(category.category_id == categoriesId[0].category_id){
+                                            const newItem = {
+                                                ...product,
+                                                "id_kategorii":category.category_id
+                                            }
+                                            // console.log("newItem",newItem);
+                                            const result = await updateProductById(product.id,newItem);
+                                            if(result){
+                                                console.log("product has been updated",result);
+                                            }
+                                    }else{
+                                        const result = await insertCategoryProductRelation(category.category_id, product.id);
+                                        if(result){
+                                            console.log("category product relation hass been added", result);
+                                        }
+                                    }
+                                })
+                            }catch(error){
+                                    console.log("error",error);
+                                    errors.push({
+                                    id: product["id"],
+                                    error: error
+                                    });
+                            }
+                        }
+                    })
+            }
+            }catch(error){
+                console.log("fetch products error:",error);
+            }
+        }
         if(imports["categories"]){
             const result1 = await fetchMysqlCategories();
             if(result1){

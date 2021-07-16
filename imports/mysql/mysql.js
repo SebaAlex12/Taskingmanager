@@ -41,8 +41,21 @@ const fetchMysqlCategoriesParentId = async(id) => {
     }) 
 }
 
+const fetchMysqlProductCategoryId = async(productId) => {
+    const sql = `SELECT category_id FROM jos_vm_product_category_xref WHERE product_id = ${productId}`;
+    return new Promise((resolve,reject) => {
+        mysql_pool.query(sql, (error, elements) =>{
+            if(error){
+                return reject(error);
+            }
+            return resolve(elements);
+        })
+    })
+}
+
 module.exports = {
     fetchMysqlProducts,
     fetchMysqlCategories,
-    fetchMysqlCategoriesParentId
+    fetchMysqlCategoriesParentId,
+    fetchMysqlProductCategoryId
 }
