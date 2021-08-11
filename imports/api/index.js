@@ -1,5 +1,7 @@
 const fs = require("fs");
 
+// imports data from api: http://mega-com.pl/information/index?information=resellerapi to mysql database
+
 const { 
   fetchApiCategories,
   fetchApiProducts, 

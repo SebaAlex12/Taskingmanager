@@ -13,11 +13,14 @@ const graphqlResolver = require("./graphql/resolvers");
 
 const { upload, resize } = require("./utils/filesManager");
 
-// imports from api
+// imports from api - dont forget change out_db_config connection
 // const { getImports } = require("./imports/api/index");
 
-// imports from mysql
-const { getImports } = require("./imports/mysql/index");
+// imports from mysql joomla - dont forget change out_db_config connection
+// const { getImports } = require("./imports/mysql_joomla/index");
+
+// imports from mysql wordpress - dont forget change out_db_config connection
+const { getImports } = require("./imports/mysql_wordpress/index");
 
 const fs = require("fs");
 const cors = require("cors");
@@ -128,7 +131,6 @@ app.use(
   })
 );
 
-// imports data from api: http://mega-com.pl/information/index?information=resellerapi to mysql database
 app.use("/imports", async(request, response) => {
   const res = await getImports();
   if(res){
@@ -168,10 +170,6 @@ io.on("connection", function (socket) {
         users: [socket.id],
       });
     }
-  
-    // console.log("socket", socket.id);
-    //console.log("active sockets", activeSockets);
-    //console.log("existing socket", existingSocket);
   
     socket.on("call-user", (data) => {
       socket.to(data.to).emit("call-made", {

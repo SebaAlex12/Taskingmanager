@@ -35,11 +35,11 @@ function updateCategoryById(id,params){
     });
     
 }
-function insertCategory({id,parentId,name}){
+function insertCategory({id,parentId,name,filename = null}){
          //  insert category to mysql database
 
         parentId = parentId == 1 || parentId == null ? -1 : parentId;
-        const fileName = replaceSpecialChars(name);
+        const fileName = filename === null ? replaceSpecialChars(name) : filename;
         const deepNested = parentId == 1 ? -1 : 0;
 
             const sql = `INSERT INTO kategorie (
@@ -47,14 +47,14 @@ function insertCategory({id,parentId,name}){
                 ) VALUES (
                     ${id},
                     ${parentId},
-                    "${name}",
+                    "${name.replace(/['"]+/g, '')}",
                     "${fileName}",
                     1,
                     ${id},
                     ${deepNested},
-                    "${name}",
-                    "${name}",
-                    "${name}"
+                    "${name.replace(/['"]+/g, '')}",
+                    "${name.replace(/['"]+/g, '')}",
+                    "${name.replace(/['"]+/g, '')}"
                 )`;
             return new Promise((resolve, reject) => {
                 mysql_pool.query(sql, function (error, result) {
@@ -82,7 +82,7 @@ function insertCategoryProductRelation(catId,prodId){
     });
 }
 function fetchAllProducts(){
-    const sql = `SELECT * FROM produkty LIMIT 5000`;
+    const sql = `SELECT * FROM produkty LIMIT 10000`;
     return new Promise((resolve, reject) => {
         mysql_pool.query(sql, (error, elements)=>{
             if(error){
@@ -118,8 +118,7 @@ function updateProductById(id,params){
 function insertProduct(data){
     //  insert product to mysql database
 
-    const {id,categoryId,name,description1,description2,price,photo,tags} = data;
-    const fileName = replaceSpecialChars(name);
+    const {id,categoryId,name,description1,description2,price,photo,tags,fileName} = data;
 
         const sql = `INSERT INTO produkty (
             id,
@@ -138,7 +137,7 @@ function insertProduct(data){
             ${id},
             ${categoryId}, 
             "${name}",
-            "${fileName}",
+            "${fileName ? fileName : replaceSpecialChars(name)}",
             "${description1.replace(/['"]+/g, '')}",
             "${description2.replace(/['"]+/g, '')}",
             ${id},
