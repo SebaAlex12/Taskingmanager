@@ -33,8 +33,6 @@ class CatalogItem extends Component {
       ...item,
       [event.target.name]: event.target.value,
     };
-    // console.log("event", event.target.name);
-    // console.log("item", newItem);
     this.setState({
       item: newItem,
     });

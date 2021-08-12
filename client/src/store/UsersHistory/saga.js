@@ -100,7 +100,6 @@ function* addUserHistoryAsync(action) {
     { headers: { "Content-Type": "application/json" } }
   );
   const response = result.data.data.addUserHistory;
-  // console.log("saga", result.data);
   if (response.errors) {
     yield put({ type: USERS_HISTORY_ERROR, payload: response.errors });
     yield put({

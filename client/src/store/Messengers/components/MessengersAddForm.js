@@ -24,7 +24,6 @@ class MessengersAddForm extends Component {
     event.preventDefault();
     const { message } = this.state;
     const { loggedUser, filteredUsers, addMessenger } = this.props;
-    // console.log("add form filtered users", filteredUsers);
 
     let usersNames = [];
     usersNames.push(loggedUser.name);

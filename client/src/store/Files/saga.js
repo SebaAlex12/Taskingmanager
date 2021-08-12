@@ -21,7 +21,6 @@ function* addFileAsync(action) {
   const multifiles = document.getElementById("file-select");
   const files = multifiles.files;
   const formData = new FormData();
-  //   console.log("action", action);
   const dest = "tasks-" + action.data.taskId;
 
   for (let i = 0; i < files.length; i++) {
@@ -35,7 +34,6 @@ function* addFileAsync(action) {
   );
 
   const response = fileData;
-  console.log("saga resolver ", response);
   if (response.errors) {
     yield put({ type: FILES_ERROR, payload: response.errors });
     yield put({

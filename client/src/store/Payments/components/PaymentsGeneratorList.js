@@ -29,7 +29,6 @@ class PaymentsGeneratorList extends Component {
     const { lastInsertInvoice, itemYear, itemMonth, addPayment } = this.props;
     let { payments } = this.state;
 
-    // console.log("props", this.props);
     const monthSelected = months.filter((m) => m.name === itemMonth);
     const month = monthSelected[0].value;
 
@@ -41,7 +40,6 @@ class PaymentsGeneratorList extends Component {
     payments = payments.filter((item) => {
       if (item.selected === true) {
         let numbers = getNumbers(item.paymentNumber, false);
-        // console.log("numbers", numbers);
         let patternNumber = numbers.patternNumber;
         let newPaymentNumber = [
           "I" + invoiceNumber++,

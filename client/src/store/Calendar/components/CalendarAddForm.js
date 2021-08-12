@@ -79,9 +79,6 @@ class CalendarAddForm extends Component {
       status: "enabled",
     };
 
-
-    console.log("add handler",this.state);
-
     addCalendar(data);
     closeAddFormModal();
     event.preventDefault();

@@ -24,7 +24,6 @@ export function* fetchFiltersWatcher() {
 }
 
 function* updateFilterAsync(action) {
-  // console.log(action.data);
   try {
     yield put({ type: UPDATE_FILTER_SUCCESS, payload: action.data });
   } catch (error) {

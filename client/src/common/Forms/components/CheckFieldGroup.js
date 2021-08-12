@@ -9,8 +9,6 @@ export default function CheckFieldGroup({
   isDisabled = false,
   onChangeHandler,
 }) {
-  console.log("check field group", text);
-  console.log("valu", value);
   return (
     <div className="form-check" key={key}>
       <input

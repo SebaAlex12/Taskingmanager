@@ -112,7 +112,6 @@ export function* addCommentWatcher() {
 
 function* removeCommentsByTaskIdAsync(action) {
   const taskId = action.data;
-  // console.log("saga data", data);
   const graph = {
     query: `mutation {
       removeCommentsByTaskId(taskId: "${taskId}"){
@@ -131,7 +130,6 @@ function* removeCommentsByTaskIdAsync(action) {
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
-  console.log("return data graph", commentData);
   const response = commentData.data.data.removeTask;
 
   if (response.errors) {

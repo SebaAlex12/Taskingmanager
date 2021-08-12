@@ -11,8 +11,6 @@ module.exports = {
   },
   fetchNotUsedPatterns: async function({ month, year }) {
     let params = {};
-    console.log("resolver month", month);
-    console.log("resolver year", year);
     // params.paymentType = paymentInput.paymentType;
 
     let payment = await Payment.find(params);
@@ -41,7 +39,6 @@ module.exports = {
     //     ]
     //   };
     // }
-    // console.log("resover", paymentInput);
     const payment = new Payment({
       paymentNumber: paymentInput.paymentNumber,
       paymentMonth: paymentInput.paymentMonth,
@@ -80,7 +77,6 @@ module.exports = {
   updatePayment: async function({ paymentInput }, req) {
     const _id = paymentInput._id;
     const payment = await Payment.findOne({ _id });
-    // console.log("payment input", paymentInput);
 
     const data = {
       _id: paymentInput._id,

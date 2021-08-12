@@ -107,7 +107,6 @@ function* addPatternAsync(action) {
       }
     }`,
   };
-  // console.log("graph", JSON.stringify(graph));
   const patternData = yield call(
     [axios, axios.post],
     "/graphql",
@@ -191,7 +190,6 @@ function* updatePatternAsync(action) {
       }
     }`,
   };
-  // console.log(graph);
   const patternData = yield call(
     [axios, axios.post],
     "/graphql",

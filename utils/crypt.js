@@ -19,7 +19,6 @@ module.exports = {
     return iv.toString("hex") + ":" + encrypted.toString("hex");
   },
   decrypt: function(text) {
-    // console.log("deeecrypted");
     // let textParts = text.split(":");
     // let iv = Buffer.from(textParts.shift(), "hex");
     // let encryptedText = Buffer.from(textParts.join(":"), "hex");

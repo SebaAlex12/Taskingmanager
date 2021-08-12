@@ -72,7 +72,6 @@ function* addMailAsync(action) {
       createdBy: data.createdBy,
       createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
     };
-    // console.log('mailinput',mailInput)
     const graph = {
       query: `mutation {
         addMail(mailInput: {
@@ -109,7 +108,6 @@ function* addMailAsync(action) {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
-    console.log("mail data", mailData.data.data);
     const response = mailData.data.data.addMail;
     if (response.errors) {
       yield put({ type: MAILS_ERRORS, payload: response.errors });

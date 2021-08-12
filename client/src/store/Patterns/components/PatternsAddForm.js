@@ -79,8 +79,6 @@ class PatternsAddForm extends Component {
     const { elements } = this.state;
     const newElements = elements.filter((item) => item.id != id);
 
-    console.log("new elements", newElements);
-
     let newKeysElements = newElements.map((item, index) => {
       return {
         id: index,
@@ -88,8 +86,6 @@ class PatternsAddForm extends Component {
         statusId: item.statusId,
       };
     });
-
-    console.log("new keys elements", newKeysElements);
 
     this.setState({
       ...this.state,
@@ -112,8 +108,6 @@ class PatternsAddForm extends Component {
       termAt,
       createdAt,
     } = this.state;
-    // const jsonElements = JSON.stringify(elements);
-    // console.log("json", jsonElements);
     const data = {
       userId,
       taskId,

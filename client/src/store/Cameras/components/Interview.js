@@ -20,7 +20,6 @@ class Interview extends Component {
       await peerConnection.setLocalDescription(
         new RTCSessionDescription(answer)
       );
-      console.log("call-made");
       socket.emit("make-answer", {
         answer,
         to: data.socket,
@@ -37,7 +36,6 @@ class Interview extends Component {
       }
     });
     socket.on("update-user-list", ({ users }) => {
-      // console.log("users", users);
       this.updateUserList(users);
     });
 
@@ -66,7 +64,6 @@ class Interview extends Component {
     usernameEl.innerHTML = `Socket: ${socketId}`;
 
     userContainerEl.appendChild(usernameEl);
-    // console.log("createUser");
     userContainerEl.addEventListener("click", () => {
       this.unselectUsersFromList();
       userContainerEl.setAttribute(
@@ -82,7 +79,6 @@ class Interview extends Component {
   async callUser(socketId) {
     const offer = await peerConnection.createOffer();
     await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
-    // console.log("call-user");
     socket.emit("call-user", {
       offer,
       to: socketId,

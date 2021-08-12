@@ -25,9 +25,6 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     const { updateMessenger, updateAlertMessages, loggedUser } = this.props;
-
-    // const port = process.env.PORT || 5000;
-    // console.log("port", port);
     // if (!this.socket) {
     // this.socket = io();
     socket.on("chat", function (msg) {

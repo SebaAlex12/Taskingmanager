@@ -107,7 +107,6 @@ function* addCatalogAsync(action) {
       },
     }`,
     };
-    console.log("graph", graph);
     const catalogData = yield call(
       [axios, axios.post],
       "/graphql",
@@ -115,7 +114,6 @@ function* addCatalogAsync(action) {
       { headers: { "Content-Type": "application/json" } }
     );
 
-    console.log("saga res", catalogData);
     const response = catalogData.data.data.addCatalog;
 
     if (response.errors) {
@@ -192,7 +190,6 @@ function* updateCatalogAsync(action) {
       }
     }`,
   };
-  // console.log(graph);
   const catalogData = yield call(
     [axios, axios.post],
     "/graphql",
@@ -227,7 +224,6 @@ export function* updateCatalogWatcher() {
 
 function* removeCatalogAsync(action) {
   const { catalogId } = action;
-  console.log("saga data", action);
   const graph = {
     query: `mutation {
       removeCatalog(catalogId: "${catalogId}"){

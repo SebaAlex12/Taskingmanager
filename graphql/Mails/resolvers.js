@@ -8,9 +8,6 @@ module.exports = {
     return mails;
   },
   addMail: async function({ mailInput }, req) {
-    // console.log("mail input", mailInput);
-    // console.log("attachments", mailInput);
-
     const mail = new Mail({
       from: mailInput.from,
       to: mailInput.to,

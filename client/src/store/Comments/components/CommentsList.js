@@ -37,7 +37,6 @@ class CommentsList extends Component {
     if (direction === "desc") {
       this.sortArray(items, column, -1);
     }
-    // console.log(items);
     return items;
   };
   render() {

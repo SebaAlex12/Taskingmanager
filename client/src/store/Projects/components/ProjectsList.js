@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import axios from "axios";
 
 import TextFieldGroup from "../../../common/Forms/components/TextFieldGroup";
 
@@ -20,11 +21,38 @@ class ProjectsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      allTasks: {},
       projectFilterName: "",
       toggleProjectsAddForm: false,
       toggleProjectsList: false
     };
   }
+  componentDidMount = () => {
+    this.fetchAllTasks();      
+  }
+  fetchAllTasks = async() => {
+    try{
+        let response = await axios.get('/fetchAllTasks');
+        let { data } = response;
+        if(data){
+          this.setState({allTasks:data});
+        }
+    }catch(errors){
+        return errors;
+    }
+  };
+  // fetchAllTasks = () => {
+  //   return axios.get("/fetchAllTasks")
+  //   .then(response => {
+  //     const { data } = response;
+  //     this.setState({allTasks:data});
+  //     // return response.data;
+  //   })
+  //   .catch(errors => {
+  //     console.log("catch errors",errors);
+  //     return errors;
+  //   })
+  // }
   onChangeInput = event => {
     this.setState({
       ...this.state,
@@ -77,6 +105,8 @@ class ProjectsList extends Component {
       toggleProjectsAddForm,
       toggleProjectsList
     } = this.state;
+
+    console.log("state",this.state);
 
     let projects =
       this.state.projects > 0 ? this.state.projects : this.props.projects;

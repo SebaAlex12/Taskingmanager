@@ -42,9 +42,6 @@ class CatalogProjectsAddForm extends Component {
       newItem.websites = [lastInsertWebsite];
     }
 
-    console.log("click item", item);
-    console.log("last insert website", lastInsertWebsite);
-
     const response = await updateItem(newItem);
     if (response) {
       this.setState({ lastInsertWebsite: {} });
@@ -53,9 +50,6 @@ class CatalogProjectsAddForm extends Component {
   render() {
     const { lastInsertWebsite } = this.state;
     const { projects } = this.props;
-
-    console.log("state ", this.state);
-    // console.log("lastInsert",lastInsert);
 
     return (
       <CatalogProjectsAddFormStyled>

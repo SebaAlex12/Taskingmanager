@@ -15,7 +15,6 @@ module.exports = {
         ]
       };
     }
-    // console.log("add contractor");
     const contractor = new Contractor({
       name: contractorInput.name,
       address: contractorInput.address,
@@ -38,7 +37,6 @@ module.exports = {
   updateContractor: async function({ contractorInput }, req) {
     const _id = contractorInput._id;
     const contractor = await Contractor.findOne({ _id });
-    // console.log("contractor input", contractorInput);
 
     const data = {
       _id: contractorInput._id,

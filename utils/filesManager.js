@@ -17,7 +17,6 @@ const storage = multer.diskStorage({
     // cb(null, "./client/public/files/" + req.params.dest.replace("-", "/"));
   },
   filename: function(req, file, cb) {
-    // console.log("file arguments:", file);
     // null as first argument means no error
     cb(null, Date.now() + "-" + file.originalname);
   }

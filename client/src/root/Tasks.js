@@ -56,13 +56,10 @@ class Tasks extends Component {
       fetchContractors();
       fetchCompanies();
     } else if (status === "Administrator") {
-      // console.log("by company");
-      // fetchProjects({ company: company });
       fetchProjects({});
     } else if (status === "Menedżer") {
       fetchProjectsByLoggedUserProjects(projects);
     } else {
-      // console.log("fetchProjectsByLoggedUserProjects", projects);
       fetchProjectsByLoggedUserProjects(projects);
     }
 
@@ -85,8 +82,6 @@ class Tasks extends Component {
         },
       });
     }
-
-    // if (filters) console.log("filters", filters);
   }
   componentDidUpdate(prevProps) {
     const {
@@ -106,8 +101,6 @@ class Tasks extends Component {
       if (difference > 600) {
         sendMailingTask();
         updateSettings({ _id, mailingDate: presentDay });
-        // console.log("sending mailing");
-        // console.log("difference", difference);
       }
     }
 
@@ -115,14 +108,10 @@ class Tasks extends Component {
       projectName !== prevProps.filters.projectName ||
       responsiblePerson !== prevProps.filters.responsiblePerson
     ) {
-      // console.log("prev res person", prevProps.filters.responsiblePerson);
-      // console.log("res pers", responsiblePerson);
 
       if (status === "Administrator") {
         fetchTasks({ projectName, responsiblePerson });
       } else {
-        // fetchTasks({ projectName, responsiblePerson });
-        // console.log("logged user", loggedUser);
         fetchTasksByLoggedUserProjects({
           projectName,
           responsiblePerson,
@@ -136,12 +125,10 @@ class Tasks extends Component {
         },
       });
     }
-    // console.log("this props update", this.props);
   }
   render() {
     const { loggedUser } = this.props;
     const insertedCompanyName = localStorage.getItem("companyName");
-    // console.log("local storage", insertedCompanyName);
     return (
       <div className="tasks-box">
         <Widget rightPosition="10px" bottomPosition="30px" faIcon={faComment}>

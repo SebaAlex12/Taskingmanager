@@ -12,7 +12,6 @@ class MailsListContainer extends Component {
   }
   render() {
     const { mails } = this.props;
-    console.log("mails", mails);
     const mailsListContent =
       mails && mails.length > 0 ? (
         <MailsList items={mails} />

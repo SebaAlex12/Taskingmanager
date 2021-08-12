@@ -5,21 +5,15 @@ module.exports = {
   fetchPatterns: async function () {
     let params = {};
     // params.patternType = patternInput.patternType;
-    // console.log("etch patterns");
     let patterns = await Pattern.find(params);
-    // console.log("patterns", patterns);
     // patterns = patterns.map((item) => {
     //   item.elements = JSON.parse(item.elements);
-    //   console.log("item elements", item.elements);
     //   return item;
     // });
-    // console.log("patterns", patterns);
-    // console.log("parse res", JSON.parse(patterns[0]["elements"]));
 
     return patterns;
   },
   addPattern: async function ({ patternInput }, req) {
-    // console.log("pattern input", patternInput);
     const pattern = new Pattern({
       userId: patternInput.userId,
       taskId: patternInput.taskId,
@@ -45,8 +39,6 @@ module.exports = {
   updatePattern: async function ({ patternInput }, req) {
     const _id = patternInput._id;
     const pattern = await Pattern.findOne({ _id });
-    // console.log("pattern input", patternInput);
-
     const data = {
       _id: patternInput._id,
       userId: patternInput.userId ? patternInput.userId : pattern.userId,

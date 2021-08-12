@@ -64,7 +64,6 @@ function* fetchTasksAsync(action) {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
-    // console.log("fetch tasks", res.data.data.fetchTasks);
     yield put({ type: FETCH_TASKS_SUCCESS, payload: res.data.data.fetchTasks });
   } catch (e) {
     yield put({ type: TASKS_ERROR, payload: [e.message] });
@@ -77,7 +76,6 @@ export function* fetchTasksWatcher() {
 
 function* fetchTasksByLoggedUserProjectsAsync(action) {
   const data = action.data;
-  // console.log("resolver data", action);
   try {
     const graph = {
       query: `
@@ -113,7 +111,6 @@ function* fetchTasksByLoggedUserProjectsAsync(action) {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
-    // console.log("fetch tasks", res.data.data.fetchTasks);
     yield put({
       type: FETCH_TASKS_SUCCESS,
       payload: res.data.data.fetchTasksByLoggedUserProjects,
@@ -149,7 +146,6 @@ function* addTaskAsync(action) {
     termAt: moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format(),
     // finishedAt: data.finishedAt
   };
-  console.log(taskInput);
   const graph = {
     query: `mutation {
       addTask(taskInput: {userId: "${taskInput.userId}",
@@ -218,8 +214,6 @@ export function* addTaskWatcher() {
 
 function* updateTaskAsync(action) {
   const data = action.data;
-  // console.log("isemty", data.responsiblePersonLastComment);
-  // console.log("task saga data", data);
   const taskInput = {
     _id: data._id,
     userId: 1,
@@ -244,7 +238,6 @@ function* updateTaskAsync(action) {
       ? moment(data.finishedAt, "YYYY-MM-DD HH:mm:ss").format()
       : "",
   };
-  // console.log("task saga input", taskInput);
   const graph = {
     query: `mutation {
       updateTask(taskInput: {
@@ -284,14 +277,12 @@ function* updateTaskAsync(action) {
       }
     }`,
   };
-  // console.log(graph);
   const taskData = yield call(
     [axios, axios.post],
     "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
-  // console.log("saga", taskData.data.data.updateTask);
   const response = taskData.data.data.updateTask;
   if (response.errors) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
@@ -317,7 +308,6 @@ export function* updateTaskWatcher() {
 
 function* removeTaskAsync(action) {
   const taskId = action.data;
-  // console.log("saga data", data);
   const graph = {
     query: `mutation {
       removeTask(taskId: "${taskId}"){
@@ -359,7 +349,6 @@ export function* removeTaskWatcher() {
 }
 
 function* sendMailingTaskAsync() {
-  // console.log("saga data", data);
   const graph = {
     query: `mutation {
       sendMailingTask{
@@ -377,7 +366,6 @@ function* sendMailingTaskAsync() {
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
-  // console.log("return data graph", taskData);
   const response = taskData.data.data.sendMailingTask;
 
   if (response.errors) {

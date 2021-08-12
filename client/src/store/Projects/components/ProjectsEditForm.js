@@ -100,6 +100,7 @@ class ProjectsEditFrom extends Component {
               rows="5"
               placeholder="Opis"
               title="Opis"
+              disabled={loggedUser.status === "Administrator" ? false : true}
             />
           </div>
           {/* <div className="form-group">

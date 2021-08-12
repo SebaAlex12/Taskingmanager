@@ -26,7 +26,6 @@ class LoginForm extends Component {
       ...this.state,
       logged: true,
     });
-    // console.log("fffff");
     return response;
   }
   loginHandler = async(event) => {
@@ -40,8 +39,6 @@ class LoginForm extends Component {
     // if(response){
     //   console.log("you are login");
     // }
-
-    // console.log(response);
     // if (response == true) {
     //   this.reload();
     // }
@@ -52,7 +49,6 @@ class LoginForm extends Component {
     });
 
     if (response) {
-      console.log("response", response);
       setTimeout(function () {
         window.location.href = "/";
       }, 4000);

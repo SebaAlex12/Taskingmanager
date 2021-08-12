@@ -6,7 +6,6 @@ import MailsItem from "./MailsItem";
 class MailsList extends Component {
   render() {
     const { items } = this.props;
-    // console.log(items);
     const mailsItemsContent =
       items && items.length > 0
         ? items.map(item => <MailsItem key={item._id} item={item} />)

@@ -13,7 +13,6 @@ const TasksShortList = ({tasks, deleteProjectHandler}) => {
             </ShortTaskItem>
         )
     })
-    console.log("deleteprojecthandler", deleteProjectHandler);
     return(
         <ShortTaskList>
             <h1>Lista tasków {tasks.length}</h1>

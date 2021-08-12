@@ -76,10 +76,7 @@ export function* fetchPaymentsWatcher() {
   yield takeEvery(FETCHING_PAYMENTS, fetchPaymentsAsync);
 }
 
-//fdbsfbfdbdsbfdbdsbdbd
-
 function* fetchNotUsedPatternsAsync(action) {
-  console.log("eferfer", action);
   try {
     const graph = {
       query: `
@@ -115,7 +112,6 @@ function* fetchNotUsedPatternsAsync(action) {
         }
     `
     };
-    console.log("graph", JSON.stringify(graph));
     const res = yield call(
       [axios, axios.post],
       "/graphql",
@@ -135,8 +131,6 @@ function* fetchNotUsedPatternsAsync(action) {
 export function* fetchNotUsedPatternsWatcher() {
   yield takeEvery(FETCHING_NOT_USED_PATTERNS, fetchNotUsedPatternsAsync);
 }
-
-//w rtbrttehtyejtrjty
 
 function* fetchLastInsertInvoiceAsync(action) {
   try {
@@ -181,7 +175,6 @@ function* fetchLastInsertInvoiceAsync(action) {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
-    // console.log("saga", res.data);
     yield put({
       type: FETCH_LAST_INSERT_INVOICE_SUCCESS,
       payload: res.data.data.fetchLastInsertInvoice
@@ -281,7 +274,6 @@ function* addPaymentAsync(action) {
     termAt: data.termAt,
     createdAt: data.createdAt
   };
-  // console.log("payent input", paymentInput);
   const graph = {
     query: `mutation {
       addPayment(paymentInput: {
@@ -339,7 +331,6 @@ function* addPaymentAsync(action) {
       }
     }`
   };
-  // console.log("graph", JSON.stringify(graph));
   const paymentData = yield call(
     [axios, axios.post],
     "/graphql",
@@ -462,7 +453,6 @@ function* updatePaymentAsync(action) {
       }
     }`
   };
-  // console.log(graph);
   const paymentData = yield call(
     [axios, axios.post],
     "/graphql",

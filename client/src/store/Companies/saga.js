@@ -230,7 +230,6 @@ function* updateCompanyAsync(action) {
       }
     }`
   };
-  // console.log(graph);
   const companyData = yield call(
     [axios, axios.post],
     "/graphql",

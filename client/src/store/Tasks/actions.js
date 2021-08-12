@@ -6,7 +6,6 @@ import {
   UPDATING_TASK,
   SENDING_MAILING_TASK
 } from "./types";
-
 export const fetchTasks = data => ({
   type: FETCHING_TASKS,
   data

@@ -19,7 +19,6 @@ import { formatErrors } from "../../common/tools"
 
 function* fetchProjectsAsync(action) {
   const data = action.data;
-  // console.log("saga", data);
   try {
     const graph = {
       query: `
@@ -147,7 +146,6 @@ function* addProjectAsync(action) {
   // }
 
   const response = projectData.data.data.addProject;
-  // console.log("saga resolver ", response);
   if (response.errors) {
     yield put({ type: PROJECTS_ERROR, payload: response.errors });
     yield put({
@@ -208,7 +206,6 @@ function* updateProjectAsync(action) {
       }
     }`,
   };
-  // console.log(graph);
   const projectData = yield call(
     [axios, axios.post],
     "/graphql",
@@ -247,7 +244,6 @@ export function* updateProjectWatcher() {
 
 function* removeProjectAsync(data) {
   const { projectId } = data;
-  // console.log("saga data", data);
   const graph = {
     query: `mutation {
       removeProject(projectId: "${projectId}"){

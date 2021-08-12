@@ -8,7 +8,6 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   fetchUsers: async function ({ userInput }) {
     const users = await User.find(userInput, null, { sort: { name: 1 } });
-    // console.log("fetch users", users);
     return users;
   },
   fetchUsersByLoggedUserProjects: async function ({ projects }) {
@@ -69,7 +68,6 @@ module.exports = {
       lastActive: userInput.lastActive,
       createdAt: userInput.createdAt,
     });
-    // console.log("user", userInput);
 
     try {
       const storedUser = await user.save();
@@ -120,7 +118,6 @@ module.exports = {
         ],
       };
     }
-    // console.log("resolverlogin", userData);
     const token = await jwt.sign(
       {
         _id: userData._id.toString(),
@@ -141,12 +138,9 @@ module.exports = {
       }
     );
 
-    // console.log("user doc", userData._doc);
-
     return { ...userData._doc, _id: userData._id.toString(), token: token };
   },
   updateUser: async function ({ userInput }, req) {
-    // console.log("user input", userInput);
     if (!userInput.name || !userInput.email) {
       return {
         errors: [
@@ -159,7 +153,6 @@ module.exports = {
     }
     const _id = userInput._id;
     const user = await User.findOne({ _id });
-
     const data = {
       name: userInput.name,
       email: userInput.email,
@@ -170,14 +163,11 @@ module.exports = {
       users: userInput.users ? userInput.users : "",
       lastActive: userInput.lastActive ? userInput.lastActive : "",
     };
-    // console.log("pass", userInput.password.length);
     if (userInput.password.length > 0) {
       const salt = bcrypt.genSaltSync(14);
       const hash = bcrypt.hashSync(userInput.password, salt);
       data.password = hash;
     }
-
-    // console.log("data push", data);
 
     try {
       user.overwrite(data);

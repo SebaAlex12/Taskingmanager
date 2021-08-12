@@ -10,7 +10,6 @@ module.exports = {
     return messengers;
   },
   addMessenger: async function({ messengerInput }, req) {
-    // console.log("resolver", messengerInput);
     const messenger = new Messenger({
       from: messengerInput.from,
       to: messengerInput.to,

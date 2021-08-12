@@ -28,10 +28,6 @@ class MessangersChatRoomContainer extends Component {
     const { chatRooms } = this.state;
 
     event.preventDefault();
-
-    // console.log("chat rooms", chatRooms);
-    // console.log("chat rooms length", chatRooms[chatRooms.length - 1]);
-
     const newChatRoom = {
       id: chatRooms.length > 0 ? chatRooms[chatRooms.length - 1].id + 1 : 1,
       name: chatInputName,
@@ -70,17 +66,12 @@ class MessangersChatRoomContainer extends Component {
   selectChatRoom = (room) => {
     const { filterUsersHandler } = this.props;
     filterUsersHandler(room.users);
-    // console.log("room", room);
     this.setState({
       activeRoomId: room.id,
     });
   };
   render() {
     const { chatInputName, chatRooms, activeRoomId } = this.state;
-
-    // console.log("this.state", this.state);
-    // console.log("last", chatRooms.lastIndexOf());
-
     const chatRoomsContent =
       chatRooms.length > 0
         ? chatRooms.map((room, index) => {

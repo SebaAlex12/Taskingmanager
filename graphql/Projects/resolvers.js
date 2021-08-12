@@ -12,8 +12,6 @@ module.exports = {
     let projects = await Project.find(data, null, {
       sort: { name: 1 },
     });
-
-    // console.log("projects resolver", projects);
     projects = projects.map((project) => {
       if (project.description && project.description.length > 1) {
         project.description = crypt.decrypt(project.description);
@@ -29,14 +27,11 @@ module.exports = {
       }
       return project;
     });
-    // console.log("resolver list fetch projects", projects);
     return projects;
   },
   fetchProjectsByLoggedUserProjects: async function ({ projects }) {
     const list = projects.split(",");
-    // console.log("resolver list", list);
     const pregmatch = list.map((item) => new RegExp(item));
-    // console.log("pregmatch", pregmatch);
     let prj = await Project.find().or([
       {
         name: {
@@ -46,7 +41,6 @@ module.exports = {
     ]);
 
     // find(null, null, { sort: { name: 1 } });
-    // console.log("projects resolver", prj);
     prj = prj.map((project) => {
       if (project.description && project.description.length > 1) {
         project.description = crypt.decrypt(project.description);
@@ -73,7 +67,6 @@ module.exports = {
         ],
       };
     }
-    // console.log("add project");
     const data = {
       name: projectInput.name,
       company: projectInput.company,

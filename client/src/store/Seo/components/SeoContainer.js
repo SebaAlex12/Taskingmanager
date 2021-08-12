@@ -26,7 +26,6 @@ class SeoContainer extends Component {
     //     "Content-Type": "application/json",
     //   },
     // });
-    // console.log("json", $json);
   };
   showSites = async () => {
     const url = "https://blumoseo.pl/pomiary/wyniki.json";
@@ -36,8 +35,6 @@ class SeoContainer extends Component {
         "Content-Type": "application/json",
       },
     });
-    // console.log("json", $json);
-    //  console.log("stringify", JSON.stringify($json.data));
     this.setState({
       sites: $json.data,
     });
@@ -60,8 +57,6 @@ class SeoContainer extends Component {
               return (
                 <tr>
                   {Object.keys(site).map((key) => {
-                    console.log("site[key]", site[key]);
-                    console.log("key", key);
                     return (
                       <React.Fragment>
                         <td className={site[key].url}>{site[key].url}</td>
@@ -88,7 +83,6 @@ class SeoContainer extends Component {
 
     if (catalogs.length > 0) {
       newCatalogs = catalogs.map((catalog) => {
-        // console.log("catalog.websites", catalog.websites.length);
         // if (catalog.websites !== null && !Array.isArray(catalog.websites)) {
         //   catalog.websites = JSON.parse(catalog.websites);
         // }

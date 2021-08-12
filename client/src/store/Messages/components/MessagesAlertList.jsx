@@ -36,7 +36,6 @@ class MessagesAlertList extends Component {
         ? alert_messages.map((message, index) => {
             let clazz;
             let priority_clazz;
-            // console.log("message", message);
             switch (message.data.type) {
               case "task_add":
                 clazz = "glyphicon glyphicon-education";

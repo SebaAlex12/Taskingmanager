@@ -129,7 +129,6 @@ class PaymentsAddForm extends Component {
     };
     const { fetchLastInsertInvoice, fetchLastInsertPattern } = this.props;
     event.preventDefault();
-    console.log("add form data", data);
     const result = addPayment(data);
     if (result) {
       fetchLastInsertInvoice();
@@ -166,8 +165,6 @@ class PaymentsAddForm extends Component {
 
     let number = "";
     const monthSelected = months.filter(m => m.name === paymentMonth);
-    // console.log("months", months);
-    // console.log("month selected", monthSelected[0].value);
     if (paymentType === "Wzór" && lastInsertPattern === null) {
       number = "P1/M" + monthSelected[0].value + "/Y" + paymentYear;
     } else if (paymentType === "Faktura" && lastInsertInvoice === null) {

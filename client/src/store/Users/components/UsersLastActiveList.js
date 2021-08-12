@@ -23,7 +23,6 @@ class UsersLastActiveList extends Component {
     let container = "";
     if (users.length > 0) {
       sortedUsers = sortArray(users, "lastActive", -1);
-      // console.log("history", sortedUsers);
       container = sortedUsers.map((user) => {
         return (
           <li key={user._id}>

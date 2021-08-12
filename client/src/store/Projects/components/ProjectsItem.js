@@ -94,10 +94,13 @@ class ProjectsItem extends Component {
       filteredTasksList
     } = this.state;
 
+    // if(allPosts){
+    //   console.log("allPosts",allPosts);
+    // }
+
     // get users emails assign to this project
     let projectUsersEmails = "";
     users.forEach(user => {
-      // console.log("split", user.projects);
       if (user.projects) {
         const projects = user.projects.split(",");
         if (projects.includes(item.name)) {
@@ -110,7 +113,6 @@ class ProjectsItem extends Component {
       }
     });
 
-    // console.log("projects string", projectUsersEmails);
     let clazz_box;
 
     clazz_box = item.name === filterProjectName ? "item-box selected" : "item-box";

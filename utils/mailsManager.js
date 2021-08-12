@@ -4,7 +4,6 @@ const password = require("../config/keys").emailPassword;
 
 module.exports = {
   sendMail: function(data) {
-    // console.log("mail settings", data);
     const { from, to, sender, subject, html, attachments } = data;
     let absolutePathFile = data.absolutePathFile ? data.absolutePathFile : "";
 
@@ -18,7 +17,6 @@ module.exports = {
         pass: password
       }
     };
-    // console.log(data.createdBy);
     let mail = {
       from: from + ":",
       sender: sender,
@@ -29,16 +27,12 @@ module.exports = {
     };
 
     if (absolutePathFile.length > 0) {
-      // console.log("absolute path", absolutePathFile);
-      console.log("push attachment");
       mail.attachments = [
         {
           path: absolutePathFile
         }
       ];
     }
-
-    // console.log("mail", mail);
 
     let transporter = nodemailer.createTransport(transport);
 

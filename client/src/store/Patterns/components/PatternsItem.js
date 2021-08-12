@@ -46,16 +46,9 @@ class PatternsItem extends Component {
       disabled,
     } = this.props;
 
-    // console.log("tasks", tasks);
-    // console.log("json", item.elements);
-
-    // console.log("comp did mount", item.elements);
-
     if (tasks.length > 0 && users.length > 0) {
       const person = responsiblePerson ? responsiblePerson : users[0].name;
       const filteredTasks = this.filteredTasks(tasks, taskId, person);
-      // console.log("responsible person", responsiblePerson);
-      // console.log("filtered tasks", filteredTasks);
       this.setState({
         patternNumber: item._id,
         filteredTasks: filteredTasks,
@@ -227,12 +220,8 @@ class PatternsItem extends Component {
       filteredTasks,
       disabled,
     } = this.state;
-    // console.log("new elements", elements);
 
-    // console.log("pattern state", this.state);
     // if is disabled it means this is attached pattern to selected task
-    // console.log("disabled", disabled);
-    // console.log("filtered tasks", filteredTasks);
 
     let loadedTasks = [];
     if (filteredTasks.length > 0) {
@@ -259,8 +248,6 @@ class PatternsItem extends Component {
       taskId,
       responsiblePerson
     );
-
-    // console.log("elements", elements);
 
     const elementsContainer =
       elements.length > 0

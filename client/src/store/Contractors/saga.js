@@ -148,7 +148,6 @@ function* addContractorAsync(action) {
   );
 
   const response = contractorData.data.data.addContractor;
-  // console.log("saga resolver ", response);
   if (response.errors) {
     yield put({ type: CONTRACTORS_ERROR, payload: response.errors });
     yield put({
@@ -214,7 +213,6 @@ function* updateContractorAsync(action) {
       }
     }`
   };
-  // console.log(graph);
   const contractorData = yield call(
     [axios, axios.post],
     "/graphql",

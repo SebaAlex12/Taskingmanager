@@ -4,7 +4,6 @@ const tools = require("../../utils/tools");
 module.exports = {
   fetchCatalogs: async function () {
     const catalogs = await Catalog.find();
-    // console.log("catalogs", catalogs);
     return catalogs;
   },
   addCatalog: async function ({ catalogInput }, req) {
@@ -31,7 +30,6 @@ module.exports = {
   updateCatalog: async function ({ catalogInput }, req) {
     const _id = catalogInput._id;
     const catalog = await Catalog.findOne({ _id });
-    // console.log("catalog input", catalogInput);
 
     const data = {
       _id: catalogInput._id,

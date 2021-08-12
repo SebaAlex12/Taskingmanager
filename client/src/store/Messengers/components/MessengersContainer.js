@@ -70,7 +70,6 @@ class MessengersContainer extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, nextState) {
-    // console.log("nextState.selectedUsers",nextState.selectedUsers);
     if (nextProps.users.length > 0 && nextState.selectedUsers.length === 5) {
       const { loggedUser, users } = nextProps;
       let selectedUsers = [];
@@ -168,9 +167,6 @@ class MessengersContainer extends Component {
   };
   render() {
     const { selectedUsers, selectedChannelId, filteredUsers } = this.state;
-
-    console.log("filteredUsers",filteredUsers);
-
     return (
       <StyledMessengersContainer className="messenger-container-box">
         <div className="container">

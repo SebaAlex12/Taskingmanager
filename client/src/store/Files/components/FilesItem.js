@@ -4,7 +4,6 @@ import React from "react";
 
 function FilesItem({ imageUrl, lightboxPhotosHandler }) {
   const arr = imageUrl.split("/");
-  // console.log("array", arr);
   const miniLink = [arr[1], arr[2], arr[3], "mini", arr[4]].join("/");
   return (
     <div className="photo-card col-lg-1 phtos-list-item">

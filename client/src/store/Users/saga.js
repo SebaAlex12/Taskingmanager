@@ -306,7 +306,6 @@ function* updateUserAsync(action) {
         }
       }`,
     };
-    // console.log(graph);
     const res = yield call(
       [axios, axios.post],
       "/graphql",

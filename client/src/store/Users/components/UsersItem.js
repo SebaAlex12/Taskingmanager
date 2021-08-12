@@ -8,7 +8,6 @@ import { updateFilter } from "../../Filters/actions";
 
 import { SmallerButton } from "../../../themes/basic";
 import {
-  faEnvelope,
   faEdit,
   faFilter
 } from "@fortawesome/free-solid-svg-icons";

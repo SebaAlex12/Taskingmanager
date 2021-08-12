@@ -24,7 +24,6 @@ class CatalogListContainer extends Component {
     if (direction === "desc") {
       sortArray(catalogs, column, -1);
     }
-    console.log("catalogs", catalogs);
     this.setState({
       catalogs: catalogs,
       // orderColumn: column,

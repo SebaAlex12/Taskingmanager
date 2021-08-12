@@ -10,7 +10,6 @@ class CommentsItem extends Component {
     // const { item } = this.props;
     // this.retriveImageFromBase64(description);
     // let description = this.retriveImageFromBase64(item.description);
-    // console.log("constructor desc", description);
     this.state = {
       toggleDescriptionMore: false,
     };

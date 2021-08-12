@@ -29,7 +29,6 @@ function* fetchSettingsAsync() {
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
-    // console.log("saga", res.data);
     yield put({
       type: FETCH_SETTINGS_SUCCESS,
       payload: res.data.data.fetchSettings
@@ -62,7 +61,6 @@ function* updateSettingAsync(action) {
         }
       }`
   };
-  // console.log(graph);
   const settingsData = yield call(
     [axios, axios.post],
     "/graphql",

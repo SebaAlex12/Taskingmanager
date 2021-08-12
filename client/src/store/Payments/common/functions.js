@@ -12,11 +12,11 @@ export const patternInvoiceNumberGenerator = (
   let number = [];
   let str = "";
 
-  console.log("last insert patt", lastInsertPatternPaymentNumber);
-  console.log("last insert inv", lastInsertInvoicePaymentNumber);
+  // console.log("last insert patt", lastInsertPatternPaymentNumber);
+  // console.log("last insert inv", lastInsertInvoicePaymentNumber);
+  // console.log("pattern", pattern);
+  // console.log("invoice", invoice);
 
-  console.log("pattern", pattern);
-  console.log("invoice", invoice);
   if (invoice) {
     // generate next invoice number
     let newNumber = 1;
@@ -24,7 +24,6 @@ export const patternInvoiceNumberGenerator = (
       let lastInvoiceNumber = lastInsertInvoicePaymentNumber;
       let arr = lastInvoiceNumber.split("/");
       let clearNumber = null;
-      console.log("arr", arr);
       arr.forEach(value => {
         if (value.includes("I")) {
           clearNumber = parseInt(value.replace("I", ""));
@@ -33,7 +32,6 @@ export const patternInvoiceNumberGenerator = (
       newNumber = clearNumber + 1;
     }
     str = "I" + newNumber;
-    console.log("str", str);
     number.push(str);
   }
   if (pattern) {
@@ -43,7 +41,6 @@ export const patternInvoiceNumberGenerator = (
       let lastPatternNumber = lastInsertPatternPaymentNumber;
       let arr = lastPatternNumber.split("/");
       let clearNumber = null;
-      console.log("arr", arr);
       arr.forEach(value => {
         if (value.includes("P")) {
           clearNumber = parseInt(value.replace("P", ""));
@@ -53,7 +50,6 @@ export const patternInvoiceNumberGenerator = (
       newNumber = clearNumber + 1;
     }
     str = "P" + newNumber;
-    console.log("str", str);
     number.push(str);
   }
   if (month.length > 0) {

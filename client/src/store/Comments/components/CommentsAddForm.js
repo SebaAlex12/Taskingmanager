@@ -144,7 +144,6 @@ class CommentsAddForm extends Component {
     window.addEventListener(
       "paste",
       function (e) {
-        // console.log("paste");
         // Handle the event
         obj.retrieveImageFromClipboardAsBase64(e, function (imageDataBase64) {
           // If there's an image, open it in the browser as a new window :)
@@ -157,7 +156,6 @@ class CommentsAddForm extends Component {
               // var log = "w=" + img.width + " h=" + img.height;
               // document.getElementById('log').value = log;
               // var el = document.getElementById("mixTextImagesArea");
-              // console.log("element img", img);
               document.getElementById("mixTextImagesArea").appendChild(img);
             });
           }

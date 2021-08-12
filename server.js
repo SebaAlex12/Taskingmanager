@@ -11,6 +11,8 @@ const graphqlHttp = require("express-graphql");
 const graphqlSchema = require("./graphql/schema_old");
 const graphqlResolver = require("./graphql/resolvers");
 
+const { fetchAllTasks } = require("./Api/Tasks");
+
 const { upload, resize } = require("./utils/filesManager");
 
 // imports from api - dont forget change out_db_config connection
@@ -20,7 +22,7 @@ const { upload, resize } = require("./utils/filesManager");
 // const { getImports } = require("./imports/mysql_joomla/index");
 
 // imports from mysql wordpress - dont forget change out_db_config connection
-const { getImports } = require("./imports/mysql_wordpress/index");
+// const { getImports } = require("./imports/mysql_wordpress/index");
 
 const fs = require("fs");
 const cors = require("cors");
@@ -130,6 +132,11 @@ app.use(
     graphiql: true,
   })
 );
+
+app.use("/fetchAllTasks",async(request, response) => {
+    const allTasks = await fetchAllTasks();
+    return response.json(allTasks);
+});
 
 app.use("/imports", async(request, response) => {
   const res = await getImports();

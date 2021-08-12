@@ -69,7 +69,6 @@ class TasksMailReminder extends Component {
           description: html,
           createdBy
         };
-        // console.log("update task");
         updateTask({
           _id: taskId,
           mailRemainderData: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()

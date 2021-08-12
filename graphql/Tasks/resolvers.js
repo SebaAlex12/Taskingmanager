@@ -81,8 +81,6 @@ module.exports = {
         },
       ]);
 
-    // console.log("tasks", tasks);
-
     const newTasks = tasks.map(async (task) => {
       let path = "./client/public/files/tasks/" + task._id;
       if (fs.existsSync(path)) {
@@ -136,7 +134,6 @@ module.exports = {
     }
   },
   updateTask: async function ({ taskInput }, req) {
-    // console.log("resolver input", taskInput);
     const _id = taskInput._id;
     const task = await Task.findOne({ _id });
     const data = {
@@ -167,12 +164,10 @@ module.exports = {
           ? taskInput.mailRemainderData
           : null,
     };
-    // console.log("resolver", data);
     data.createdAt = task.createdAt;
     try {
       task.overwrite(data);
       let storedTask = await task.save();
-      // console.log("task resolver", storedTask);
       let path = "./client/public/files/tasks/" + storedTask._id;
       if (fs.existsSync(path)) {
         const files = await fsPromises.readdir(path);
@@ -181,22 +176,18 @@ module.exports = {
           ...storedTask._doc,
           files: files.filter((file) => file != "mini"),
         };
-        // console.log("update stored task", storedTask);
       } else {
         storedTask = {
           ...storedTask._doc,
           files: [],
         };
       }
-      // console.log("update stored task", storedTask);
       return { ...storedTask, _id: storedTask._id.toString() };
     } catch (e) {
       return { errors: tools.formatErrors(e) };
     }
   },
   sendMailingTask: async function () {
-    // moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
-
     try {
       const presentDay = moment(new Date(), "YYYY-MM-DD HH:mm:ss").format();
       const yesterday = moment(
@@ -208,26 +199,17 @@ module.exports = {
         "YYYY-MM-DD HH:mm:ss"
       ).format();
 
-      // console.log("yesterday", yesterday);
-      // console.log("fvedaysago", tenDaysAgo);
-
       // collect every task wich has date from ten last days mail reminder
-
       const tasks = await Task.find({
         mailRemainderData: { $gte: tenDaysAgo, $lte: yesterday },
       });
 
-      // console.log("tasks", tasks);
-
       if (tasks.length > 0) {
         tasks.forEach(async (task) => {
-          // console.log("task item", task);
           const senderUser = await User.find({ name: task.createdBy });
           const reciverUser = await User.find({
             name: task.responsiblePerson,
           });
-          // console.log("sender email: ", senderUser[0].email);
-          // console.log("reciver email:", reciverUser[0].email);
           const html =
             "<label style='display:block; font-weight:bold; font-size:14px;padding:10px 0px;'>Przypomnienie o zadaniu:</label><table style='font-size:12px;border:1px solid grey'><tr><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Nazwa</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Projekt</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Priorytet</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Zlecający</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>termin</th><th style='padding:10px 20px;background-color:grey;border:1px solid grey;color:#fff'>Opis</th></tr><tr><td style='padding:10px 20px;border:1px solid grey;'>" +
             task.title +
@@ -242,7 +224,6 @@ module.exports = {
             "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
             task.description +
             "</td></tr></table>";
-          // console.log("task", task._id);
           sendMail({
             from: senderUser[0].email,
             to: reciverUser[0].email,

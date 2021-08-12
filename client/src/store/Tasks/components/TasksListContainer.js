@@ -72,7 +72,6 @@ class TasksListContainer extends Component {
     } = this.props;
 
     if (showAllTasks) {
-      console.log("show all tasks");
       if (loggedUser.status !== "Administrator") {
         fetchTasksByLoggedUserProjects({
           projectId: 1,
@@ -176,16 +175,10 @@ class TasksListContainer extends Component {
         } else {
           return item;
         }
-        // console.log(priorities.includes(item.priority));
-        // console.log(statuses.includes(item.status));
       } else {
         return null;
       }
     });
-
-    // if(filters.ownerToAcceptTasksOnly){
-    //   items =
-    // }
 
     if (orderDirection === "asc") {
       items = sortArray(items, orderColumn);
@@ -193,7 +186,6 @@ class TasksListContainer extends Component {
     if (orderDirection === "desc") {
       items = sortArray(items, orderColumn, -1);
     }
-    // console.log("items after filter", items);
 
     return items;
   };
@@ -228,8 +220,6 @@ class TasksListContainer extends Component {
           ? this.filterItems(tasks, filters)
           : tasks;
     }
-
-    // console.log("tasks", tasks);
 
     if (tasks.length > 0) {
       tasksListContent = tasks
