@@ -23,14 +23,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 class ProjectsItem extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       toggleEditForm: false,
       toggleEditName: false,
       showModalTrigger: false,
       showModalTasksListTrigger: false,
-      projectName: props.item.name,
-      filteredTasksList: props.tasks.filter(task => task.projectName === props.item.name)
+      projectName: props.item.name
     };
   }
   updateFilterHandler = () => {
@@ -78,25 +76,32 @@ class ProjectsItem extends Component {
       showModalTrigger: result
     });
   };
+  shouldComponentUpdate(nextProps,nextState){
+      if(
+        nextProps.projectTasks.length !== this.props.projectTasks.length 
+        || nextState.showModalTasksListTrigger !== this.state.showModalTasksListTrigger
+        || nextState.toggleEditForm !== this.state.toggleEditForm
+        ){
+          return true;
+      }
+      return false;
+  }
   render() {
     const {
+      projectTasks,
       item,
       filters: { filterProjectName },
       loggedUser,
-      users
+      users,
+      deleteTaskHandler
     } = this.props;
     const { 
       toggleEditForm, 
       toggleEditName, 
       showModalTrigger, 
       showModalTasksListTrigger,
-      projectName,
-      filteredTasksList
+      projectName
     } = this.state;
-
-    // if(allPosts){
-    //   console.log("allPosts",allPosts);
-    // }
 
     // get users emails assign to this project
     let projectUsersEmails = "";
@@ -121,7 +126,7 @@ class ProjectsItem extends Component {
       <div className={clazz_box}>
         <div className="title">
           <div className="name">
-          <span className="task-counter" style={{fontWeight:"bold",marginRight:"4px"}}>{ filteredTasksList.length }</span>
+          <span className="task-counter" style={{fontWeight:"bold",marginRight:"4px"}}>{ projectTasks.length }</span>
             {
               toggleEditName ? (
                 <input 
@@ -198,8 +203,10 @@ class ProjectsItem extends Component {
                   showModal={() => this.setState({showModalTasksListTrigger:false})}
               >
                 <TasksShortList 
+                    projectName={item.name}
                     deleteProjectHandler={this.deleteHandler}
-                    tasks={filteredTasksList}
+                    tasks={projectTasks}
+                    deleteTaskHandler={deleteTaskHandler}
                 />
               </ModalDialog>
             )
@@ -221,8 +228,8 @@ const mapStateToProps = state => {
   return {
     loggedUser: state.users.logged_user,
     filters: state.filters.filters,
-    users: state.users.users,
-    tasks: state.tasks.tasks
+    users: state.users.users
+    // tasks: state.tasks.tasks
   };
 };
 

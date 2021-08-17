@@ -12,6 +12,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { removeTask } from "../../Tasks/actions";
+
 import { removeProject, updateProject } from "../actions";
 import { updateFilter } from "../../Filters/actions";
 import ProjectsAddForm from "./ProjectsAddForm";
@@ -95,18 +97,25 @@ class ProjectsList extends Component {
       projectFilterName: ""
     });
   };
+  deleteTaskHandler = taskId => {
+    const { allTasks } = this.state;
+    const { removeTask } = this.props;
+    if(window.confirm(`Czy na pewno chcesz usunać zadanie o id - ${taskId} ?`)){
+        removeTask(taskId);
+        this.setState({allTasks: allTasks.filter(item=>item._id !== taskId)});
+    }
+  }
   render() {
     const {
       loggedUser,
       filters: { projectName }
     } = this.props;
     const {
+      allTasks,
       projectFilterName,
       toggleProjectsAddForm,
       toggleProjectsList
     } = this.state;
-
-    console.log("state",this.state);
 
     let projects =
       this.state.projects > 0 ? this.state.projects : this.props.projects;
@@ -115,9 +124,10 @@ class ProjectsList extends Component {
       projects = this.filterItems(projects);
     }
 
-    const projectsContent = projects.map(project => {
-      return <ProjectsItem item={project} key={project._id} />;
-    });
+    const projectsContent = allTasks && allTasks.length > 0 ? projects.map(project => {
+      const projectTasks = allTasks.filter(task => task.projectName === project.name);
+      return <ProjectsItem item={project} key={project._id} projectTasks={projectTasks} deleteTaskHandler={this.deleteTaskHandler}/>;
+    }) : "project tasks are loading...";
     const windowHeight = window.innerHeight - 50;
     const clazz =
       projectName !== ""
@@ -209,6 +219,7 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
+  removeTask,
   removeProject,
   updateProject,
   updateFilter
