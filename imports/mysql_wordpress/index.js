@@ -121,7 +121,7 @@ module.exports = {
                                     
                             if(termCategoryIds){
                                 termCategoryIds = termCategoryIds.flat(1);
-                                // console.log("xxxxxxxxxxxxxxxxxxxxxxxxx");
+                                console.log("xxxxxxxxxxxxxxxxxxxxxxxxx");
                                 // console.log("product id:",product.id);
                                 // console.log("termCategoryIds",termCategoryIds);
                                 try{
