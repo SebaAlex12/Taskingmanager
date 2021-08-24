@@ -6,7 +6,7 @@ import { sortArray } from "../../../common/tools";
 import { BiggerButton, Button } from "../../../themes/basic";
 import { StyledTaskListContainer } from "../styles/StyledTaskListContainer";
 
-import { setUserActive } from "../../Users/common/UserTools";
+// import { setUserActive } from "../../Users/common/UserTools";
 
 import TasksItem from "./TasksItem";
 import TaskAddForm from "./TasksAddForm";
@@ -43,7 +43,7 @@ class TasksListContainer extends Component {
       tasks,
       // filters: { statuses, priorities, projectName, responsiblePerson }
     } = this.props;
-    setUserActive();
+    // setUserActive();
     this.setState({
       tasks,
       activeTaskId: false,
