@@ -8,8 +8,10 @@ class LoginForm extends Component {
     this.state = {
       email: "",
       password: "",
-      message: "",
+      // message: "",
       logged: false,
+      loading: false,
+      errors: null
     };
   }
   onChangeInput = (event) => {
@@ -18,44 +20,38 @@ class LoginForm extends Component {
       [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-
-  async checkUser(data) {
-    const { loginUser } = this.props;
-    const response = await loginUser(data);
-    this.setState({
-      ...this.state,
-      logged: true,
-    });
-    return response;
+  componentDidUpdate(prevProps){
+    const { loading, errors } = this.props;
+    // check if loading has been changed
+    if(prevProps.loading !== loading){
+      // if loading has been changed to false redirect and check jwt
+      if(loading === false){
+         // setTimeout(function () {
+            window.location.href = "/";
+        //  }, 4000);
+      }
+      // if errors has been changed get errors message
+      if(errors !== null){
+        this.setState({
+          errors: errors,
+          loading: loading
+        });
+      }else{
+        this.setState({
+          loading:loading
+        })
+      }
+    }
   }
-  loginHandler = async(event) => {
+  loginHandler = (event) => {
     event.preventDefault();
     const { email, password } = this.state;
-
-    // const response = await loginUser({ email: email, password: password });
-    // let response = false;
-    const response = await this.checkUser({ email: email, password: password });
-
-    // if(response){
-    //   console.log("you are login");
-    // }
-    // if (response == true) {
-    //   this.reload();
-    // }
-    // const reload = await reload();
-
-    this.setState({
-      message: "Logowanie do systemu...",
-    });
-
-    if (response) {
-      setTimeout(function () {
-        window.location.href = "/";
-      }, 4000);
-    }
+    const { loginUser } = this.props;
+    loginUser({ email: email, password: password });
   };
   render() {
     const { message } = this.state;
+    console.log("state",this.state);
     return (
       <div
         className="login-form-box mb-3 mt-3"
@@ -103,7 +99,10 @@ class LoginForm extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    loading: state.users.loading,
+    errors: state.users.errors
+  };
 };
 
 export default connect(mapStateToProps, { loginUser })(LoginForm);

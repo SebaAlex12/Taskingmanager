@@ -8,10 +8,12 @@ import {
   LOGGING_OUT_USER
 } from "./types";
 
-export const loginUser = data => ({
-  type: LOGGING_USER,
-  data
-});
+export const loginUser = data => {
+  return {
+        type: LOGGING_USER,
+        data
+      }
+}
 
 export const registerUser = data => ({
   type: REGISTERING_USER,
