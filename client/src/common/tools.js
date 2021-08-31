@@ -20,31 +20,18 @@ export const sortArray = (array, property, direction) => {
 export const compareErrors = (firstErrors,secondErrors) => {
   let counter = null;
 
-  console.log("firstErr",firstErrors);
-  console.log("secondErr",secondErrors);
-
       // compare two arrays by the required format
       if(Array.isArray(firstErrors) !== true || Array.isArray(secondErrors) !== true){
-        console.log("one is not array");
           return false;
       }
 
-      // if(firstErrors.length == 0 && secondErrors.length == 0){
-      //   return false;
-      // }
-
       if(firstErrors.length !== secondErrors.length){
-        console.log("first err not length the same");
         return false;
       }else{
         counter = firstErrors.length;
-        
       }
-      console.log("length are the same",counter);
-      for(let i = 0; counter > i; i++){
-        console.log("firstErrors[i].path.length",firstErrors[i].path.length);
-        console.log("secondErrors[i].path.length",secondErrors[i].path);
 
+      for(let i = 0; counter > i; i++){
           if(firstErrors[i].path.length !== secondErrors[i].path.length 
             || firstErrors[i].message.length !== secondErrors[i].message.length){
               return false;

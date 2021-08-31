@@ -4,28 +4,22 @@ import { loginUser } from "../actions";
 
 import { compareErrors } from "../../../common/tools";
 import MessagesAlertInfo from "../../Messages/components/MessagesAlertInfo";
+import LoaderInfo from "../../../common/LoaderInfo";
 
 class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
       loading: false,
       errors: []
     };
   }
-  onChangeInput = (event) => {
-    this.setState({
-      ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value,
-    });
-  };
   componentDidUpdate(prevProps,prevState){
     const { loading, errors } = this.props;
-// console.log("update");
+    console.log("update");
     // check if loading has been changed
     if(prevProps.loading !== loading){
+      console.log("loading");
       // if loading has been changed to false and nothing chanched in errors report redirect and check jwt
       if(loading === false && compareErrors(prevState.errors, errors) === true){
           window.location.href = "/";
@@ -34,8 +28,6 @@ class LoginForm extends Component {
           loading: loading
       })
     }
-    // console.log("errors",errors);
-    // console.log("compare arr",compareErrors(prevState.errors, errors));
     // errors has been changed get errors message
     if(compareErrors(prevState.errors, errors) === false){
       // console.log("setstate");
@@ -46,15 +38,15 @@ class LoginForm extends Component {
   }
   loginHandler = (event) => {
     event.preventDefault();
-    const { email, password } = this.state;
     const { loginUser } = this.props;
-    loginUser({ email: email, password: password });
+    loginUser({ email: this.email.value, password: this.password.value });
   };
   render() {
-    const { errors } = this.state;
-
+    const { loading, errors } = this.state;
+    console.log("render");
     return (
     <React.Fragment>
+      { loading && <LoaderInfo>Trwa ładowanie strony...</LoaderInfo> }
       { errors.length > 0 && <MessagesAlertInfo errors={errors} /> }
       <div
         className="login-form-box mb-3 mt-3"
@@ -69,19 +61,17 @@ class LoginForm extends Component {
           <div className="form-group form-row">
             <label htmlFor="">Email:</label>
             <input
-              onChange={this.onChangeInput}
+              ref={(input) => this.email = input}
               className="form-control"
               type="text"
-              name="email"
             />
           </div>
           <div className="form-group form-row">
             <label htmlFor="">Hasło:</label>
             <input
-              onChange={this.onChangeInput}
+              ref={(input) => this.password = input}
               className="form-control"
               type="password"
-              name="password"
             />
           </div>
           <div className="form-group">
