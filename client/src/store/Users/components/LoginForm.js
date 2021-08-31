@@ -2,16 +2,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { loginUser } from "../actions";
 
+import { compareErrors } from "../../../common/tools";
+import MessagesAlertInfo from "../../Messages/components/MessagesAlertInfo";
+
 class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: "",
-      // message: "",
-      logged: false,
       loading: false,
-      errors: null
+      errors: []
     };
   }
   onChangeInput = (event) => {
@@ -20,27 +21,27 @@ class LoginForm extends Component {
       [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps,prevState){
     const { loading, errors } = this.props;
+// console.log("update");
     // check if loading has been changed
     if(prevProps.loading !== loading){
-      // if loading has been changed to false redirect and check jwt
-      if(loading === false){
-         // setTimeout(function () {
-            window.location.href = "/";
-        //  }, 4000);
+      // if loading has been changed to false and nothing chanched in errors report redirect and check jwt
+      if(loading === false && compareErrors(prevState.errors, errors) === true){
+          window.location.href = "/";
       }
-      // if errors has been changed get errors message
-      if(errors !== null){
-        this.setState({
-          errors: errors,
+      this.setState({
           loading: loading
+      })
+    }
+    // console.log("errors",errors);
+    // console.log("compare arr",compareErrors(prevState.errors, errors));
+    // errors has been changed get errors message
+    if(compareErrors(prevState.errors, errors) === false){
+      // console.log("setstate");
+          this.setState({
+              errors: errors
         });
-      }else{
-        this.setState({
-          loading:loading
-        })
-      }
     }
   }
   loginHandler = (event) => {
@@ -50,9 +51,11 @@ class LoginForm extends Component {
     loginUser({ email: email, password: password });
   };
   render() {
-    const { message } = this.state;
-    console.log("state",this.state);
+    const { errors } = this.state;
+
     return (
+    <React.Fragment>
+      { errors.length > 0 && <MessagesAlertInfo errors={errors} /> }
       <div
         className="login-form-box mb-3 mt-3"
         style={{
@@ -62,9 +65,6 @@ class LoginForm extends Component {
           marginRight: "auto",
         }}
       >
-        <div className="message">
-          <div id="message">{message}</div>
-        </div>
         <form action="post">
           <div className="form-group form-row">
             <label htmlFor="">Email:</label>
@@ -94,6 +94,7 @@ class LoginForm extends Component {
           </div>
         </form>
       </div>
+      </React.Fragment>
     );
   }
 }
@@ -101,7 +102,8 @@ class LoginForm extends Component {
 const mapStateToProps = (state) => {
   return {
     loading: state.users.loading,
-    errors: state.users.errors
+    errors: state.users.errors,
+    users: state.users
   };
 };
 

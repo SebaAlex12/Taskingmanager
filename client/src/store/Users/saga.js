@@ -55,7 +55,7 @@ function* loginUserAsync(action) {
       const { token, errors } = response.data.data.loginUser;
         if(errors){
           yield put({ type: USER_ERROR, payload: errors });
-          yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+          // yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
         }else{
           localStorage.setItem(
             "jwtTokenAuthorization",

@@ -12,7 +12,7 @@ export const loginUser = data => {
   return {
         type: LOGGING_USER,
         data
-      }
+  }
 }
 
 export const registerUser = data => ({
