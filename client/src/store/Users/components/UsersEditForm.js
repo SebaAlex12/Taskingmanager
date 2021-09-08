@@ -54,7 +54,7 @@ class UsersEditFrom extends Component {
     });
   };
   updateHandler = (event) => {
-    const { updateUser, updateMessages } = this.props;
+    const { updateUser, updateMessages, loggedUser } = this.props;
     const {
       _id,
       name,
@@ -71,6 +71,7 @@ class UsersEditFrom extends Component {
       email,
       password,
       status,
+      company: loggedUser.company,
       projects: selectedProjects,
     };
 
