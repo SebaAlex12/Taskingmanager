@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "main": "server.js",
+  "engines": {
+    "node": "12.20.1"
+  },
   "dependencies": {
     "@types/express": "^4.17.0",
     "@types/graphql": "^14.2.3",
