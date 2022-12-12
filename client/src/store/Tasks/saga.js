@@ -17,6 +17,7 @@ import {
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+import { apiUrl } from '../../store/ini';
 // import { REMOVING_COMMENTS_RELATIVE_TASK } from "../Comments/types";
 
 // import { formatErrors } from "../../common/tools";
@@ -60,7 +61,7 @@ function* fetchTasksAsync(action) {
 
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -107,7 +108,7 @@ function* fetchTasksByLoggedUserProjectsAsync(action) {
 
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -187,7 +188,7 @@ function* addTaskAsync(action) {
 
   const taskData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
@@ -279,7 +280,7 @@ function* updateTaskAsync(action) {
   };
   const taskData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
@@ -322,7 +323,7 @@ function* removeTaskAsync(action) {
 
   const taskData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
@@ -362,7 +363,7 @@ function* sendMailingTaskAsync() {
 
   const taskData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );

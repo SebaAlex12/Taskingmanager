@@ -10,6 +10,7 @@ import {
   UPDATE_MESSENGER_SUCCESS,
   MESSENGERS_ERROR
 } from "./types";
+import { apiUrl } from '../../store/ini';
 
 function* fetchMessengersByNameAsync(action) {
   const data = action.data;
@@ -30,7 +31,7 @@ function* fetchMessengersByNameAsync(action) {
     };
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -85,7 +86,7 @@ function* addMessengerAsync(action) {
     };
     const messengerData = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );

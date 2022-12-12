@@ -12,6 +12,7 @@ import {
   REMOVING_CALENDAR,
   REMOVE_CALENDAR_SUCCESS,
 } from "./types";
+import { apiUrl } from '../../store/ini';
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 
@@ -37,7 +38,7 @@ function* fetchCalendarsAsync(action) {
 
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -98,7 +99,7 @@ function* addCalendarAsync(action) {
 
     const calendarData = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -176,7 +177,7 @@ function* updateCalendarAsync(action) {
   };
   const calendarData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
@@ -219,7 +220,7 @@ function* removeCalendarAsync(action) {
 
   const eventData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );

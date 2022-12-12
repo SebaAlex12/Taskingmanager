@@ -5,6 +5,7 @@ import { loginUser } from "../actions";
 import { compareErrors } from "../../../common/tools";
 import MessagesAlertInfo from "../../Messages/components/MessagesAlertInfo";
 import LoaderInfo from "../../../common/LoaderInfo";
+import { baseUrl } from '../../ini';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -22,11 +23,11 @@ class LoginForm extends Component {
       console.log("loading");
       // if loading has been changed to false and nothing chanched in errors report redirect and check jwt
       if(loading === false && compareErrors(prevState.errors, errors) === true){
-          window.location.href = "/";
+          window.location.href = baseUrl + "/";
       }
-      this.setState({
-          loading: loading
-      })
+      // this.setState({
+      //     loading: loading
+      // })
     }
     // errors has been changed get errors message
     if(compareErrors(prevState.errors, errors) === false){

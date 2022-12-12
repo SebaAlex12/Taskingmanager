@@ -19,6 +19,7 @@ import {
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+import { apiUrl } from '../../store/ini';
 
 function* fetchPaymentsAsync(action) {
   try {
@@ -59,7 +60,7 @@ function* fetchPaymentsAsync(action) {
 
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -114,7 +115,7 @@ function* fetchNotUsedPatternsAsync(action) {
     };
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -171,7 +172,7 @@ function* fetchLastInsertInvoiceAsync(action) {
 
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -227,7 +228,7 @@ function* fetchLastInsertPatternAsync(action) {
 
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -333,7 +334,7 @@ function* addPaymentAsync(action) {
   };
   const paymentData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
@@ -455,7 +456,7 @@ function* updatePaymentAsync(action) {
   };
   const paymentData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
@@ -497,7 +498,7 @@ function* removePaymentAsync(action) {
 
   const paymentData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );

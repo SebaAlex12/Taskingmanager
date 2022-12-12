@@ -13,6 +13,7 @@ import {
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+import { apiUrl } from '../../store/ini';
 
 function* fetchCatalogsAsync() {
   try {
@@ -39,7 +40,7 @@ function* fetchCatalogsAsync() {
 
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -109,7 +110,7 @@ function* addCatalogAsync(action) {
     };
     const catalogData = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -192,7 +193,7 @@ function* updateCatalogAsync(action) {
   };
   const catalogData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
@@ -238,7 +239,7 @@ function* removeCatalogAsync(action) {
 
   const catalogData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );

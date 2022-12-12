@@ -14,6 +14,7 @@ import {
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+import { apiUrl } from '../../store/ini';
 
 function* fetchCompaniesAsync() {
   try {
@@ -39,7 +40,7 @@ function* fetchCompaniesAsync() {
 
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -81,7 +82,7 @@ function* fetchCompaniesByLoggedUserCompaniesAsync(action) {
 
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -151,7 +152,7 @@ function* addCompanyAsync(action) {
 
     const companyData = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -232,7 +233,7 @@ function* updateCompanyAsync(action) {
   };
   const companyData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );

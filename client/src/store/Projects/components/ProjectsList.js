@@ -19,6 +19,8 @@ import { updateFilter } from "../../Filters/actions";
 import ProjectsAddForm from "./ProjectsAddForm";
 import ProjectsItem from "./ProjectsItem";
 
+import { apiUrl } from '../../ini';
+
 class ProjectsList extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +36,7 @@ class ProjectsList extends Component {
   }
   fetchAllTasks = async() => {
     try{
-        let response = await axios.get('/fetchAllTasks');
+        let response = await axios.get(apiUrl + '/fetchAllTasks');
         let { data } = response;
         if(data){
           this.setState({allTasks:data});

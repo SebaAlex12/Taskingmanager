@@ -12,6 +12,7 @@ import {
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+import { apiUrl } from '../../store/ini';
 
 function* fetchCommentsAsync(action) {
   const data = action.data;
@@ -33,7 +34,7 @@ function* fetchCommentsAsync(action) {
 
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -83,7 +84,7 @@ function* addCommentAsync(action) {
   };
   const commentData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
@@ -126,7 +127,7 @@ function* removeCommentsByTaskIdAsync(action) {
 
   const commentData = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );

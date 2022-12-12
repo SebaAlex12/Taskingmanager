@@ -12,7 +12,7 @@ import Seo from "../../root/Seo";
 import Patterns from "../../root/Patterns";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
 import CalendarContainer from "../../store/Calendar/components/CalendarContainer";
-import Interview from "../../store/Cameras/components/Interview";
+// import Interview from "../../store/Cameras/components/Interview";
 import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import Catalogs from "../../root/Catalogs";
 import ImportBasic from "../../store/Import/components/ImportBasic";
@@ -27,15 +27,15 @@ class Dashboard extends Component {
     const { updateMessenger, updateAlertMessages, loggedUser } = this.props;
     // if (!this.socket) {
     // this.socket = io();
-    socket.on("chat", function (msg) {
-      let users = msg.to.split(",");
-      if (users.includes(loggedUser.name)) {
-        updateMessenger(msg);
-        if (msg.from !== loggedUser.name) {
-          updateAlertMessages({ type: "messenger", data: msg });
-        }
-      }
-    });
+    // socket.on("chat", function (msg) {
+    //   let users = msg.to.split(",");
+    //   if (users.includes(loggedUser.name)) {
+    //     updateMessenger(msg);
+    //     if (msg.from !== loggedUser.name) {
+    //       updateAlertMessages({ type: "messenger", data: msg });
+    //     }
+    //   }
+    // });
     // }
   }
   logoutUserHandler = async () => {
@@ -110,7 +110,7 @@ class Dashboard extends Component {
                 <Route exact path="/patterns" component={Patterns} />
                 <Route exact path="/payments" component={Payments} />
                 <Route exact path="/seo" component={Seo} />
-                <Route exact path="/cameras" component={Interview} />
+                {/* <Route exact path="/cameras" component={Interview} /> */}
                 <Route exact path="/catalogs" component={Catalogs} />
             </React.Fragment>
           ) : null}
