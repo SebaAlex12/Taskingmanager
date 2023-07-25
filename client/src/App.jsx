@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import moment from "moment";
 
@@ -21,53 +21,62 @@ import MessagesList from "./store/Messages/components/MessagesList";
 
 import { StyledResponsive } from "./StyledResponsive";
 
-if (localStorage.jwtTokenAuthorization) {
-  const {
-    _id,
-    name,
-    email,
-    status,
-    company,
-    projects,
-    users,
-    lastActive,
-    createdAt,
-    tokenCreatedAt,
-    logged,
-  } = jwt_decode(localStorage.jwtTokenAuthorization);
-
-  const expiredMinutes = 560;
-
-  const difference = moment(new Date()).diff(tokenCreatedAt, "minutes");
-
-  if (difference < expiredMinutes) {
-    store.dispatch(
-      fetchLoggedUser({
-        _id,
-        name,
-        email,
-        status,
-        company,
-        projects,
-        users,
-        createdAt,
-        lastActive,
-        tokenCreatedAt,
-        logged,
-      })
-    );
-    if (status === "SuperAdministrator") {
-      store.dispatch(fetchUsers());
-    } else {
-      store.dispatch(fetchUsers({ company: company }));
-    }
-    store.dispatch(fetchSettings());
-  } else {
-    localStorage.removeItem("jwtTokenAuthorization");
-  }
-}
-
 function App() {
+
+  const [ isLogged, setIsLogged ] = useState(false);
+  const [ isRedirect, setIsRedirect ] = useState(true);
+
+  // if(!isRedirect){
+  //   setIsRedirect(false);
+  //   window.location.href = '/login';
+  // }
+
+  if (localStorage.jwtTokenAuthorization) {
+    const {
+      _id,
+      name,
+      email,
+      status,
+      company,
+      projects,
+      users,
+      lastActive,
+      createdAt,
+      tokenCreatedAt,
+      logged,
+    } = jwt_decode(localStorage.jwtTokenAuthorization);
+  
+    const expiredMinutes = 560;
+  
+    const difference = moment(new Date()).diff(tokenCreatedAt, "minutes");
+  
+    if (difference < expiredMinutes) {
+      store.dispatch(
+        fetchLoggedUser({
+          _id,
+          name,
+          email,
+          status,
+          company,
+          projects,
+          users,
+          createdAt,
+          lastActive,
+          tokenCreatedAt,
+          logged,
+        })
+      );
+      if (status === "SuperAdministrator") {
+        store.dispatch(fetchUsers());
+      } else {
+        store.dispatch(fetchUsers({ company: company }));
+      }
+      store.dispatch(fetchSettings());
+    } else {
+      localStorage.removeItem("jwtTokenAuthorization");
+    }
+  }
+console.log('app component');
   return (
     <Provider store={store}>
       <ThemeProvider theme={{ mode: "light" }}>
