@@ -19,6 +19,7 @@ import {
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 import { UPDATE_ALERT_MESSAGES_SUCCESS } from "../Messages/types";
+import { apiUrl } from '../../store/ini';
 
 function* loginUserAsync(action) {
   try {
@@ -46,7 +47,7 @@ function* loginUserAsync(action) {
 
     const response = yield call(
       [axios, axios.post],
-      "/graphql",
+      apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -116,7 +117,7 @@ function* registerUserAsync(action) {
 
   const res = yield call(
     [axios, axios.post],
-    "/graphql",
+    apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
@@ -185,7 +186,7 @@ function* fetchUsersAsync(action) {
     };
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+      apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -234,7 +235,7 @@ function* fetchUsersByLoggedUserProjectsAsync(action) {
     };
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+      apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -308,7 +309,7 @@ function* updateUserAsync(action) {
     };
     const res = yield call(
       [axios, axios.post],
-      "/graphql",
+      apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );

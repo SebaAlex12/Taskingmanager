@@ -2,6 +2,9 @@
 
 // export const socket = io();
 
+export const apiUrl = process.env.NODE_ENV === 'development' ? '' : '/api';
+export const baseUrl = process.env.NODE_ENV === 'development' ? '' : '/taskmanager_crm';
+
 export const user_statuses = [
   {
     _id: 1,

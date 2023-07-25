@@ -4,6 +4,7 @@ import { loginUser } from "../actions";
 
 import MessagesAlertInfo from "../../Messages/components/MessagesAlertInfo";
 import LoaderInfo from "../../../common/LoaderInfo";
+import { baseUrl } from '../../ini';
 
 const LoginForm = () => {
 console.log('loghin form');

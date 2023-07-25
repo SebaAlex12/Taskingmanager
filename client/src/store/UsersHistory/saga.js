@@ -9,6 +9,7 @@ import {
 } from "./types";
 
 import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+import { apiUrl } from '../../store/ini';
 
 function* fetchUsersHistoryAsync(action) {
   const dataInput = {
@@ -38,7 +39,7 @@ function* fetchUsersHistoryAsync(action) {
     };
     const result = yield call(
       [axios, axios.post],
-      "/graphql",
+       apiUrl + "/graphql",
       JSON.stringify(graph),
       { headers: { "Content-Type": "application/json" } }
     );
@@ -95,7 +96,7 @@ function* addUserHistoryAsync(action) {
 
   const result = yield call(
     [axios, axios.post],
-    "/graphql",
+     apiUrl + "/graphql",
     JSON.stringify(graph),
     { headers: { "Content-Type": "application/json" } }
   );
