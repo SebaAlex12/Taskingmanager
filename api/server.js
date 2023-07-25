@@ -2,16 +2,15 @@ const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const axios = require("axios");
 
 const http = require("http");
 const socketIo = require("socket.io");
 
-const graphqlHttp = require("express-graphql");
+const graphql = require("express-graphql");
 const graphqlSchema = require("./graphql/schema_old");
 const graphqlResolver = require("./graphql/resolvers");
 
-const { fetchAllTasks } = require("./Api/Tasks");
+// const { fetchAllTasks } = require("./Api/Tasks");
 
 const { upload, resize } = require("./utils/filesManager");
 
@@ -126,17 +125,17 @@ app.post("/delete-files/", bodyParserJson, (req, res) => {
 
 app.use(
   "/graphql",
-  graphqlHttp({
+  graphql.graphqlHTTP({
     schema: graphqlSchema,
     rootValue: graphqlResolver,
     graphiql: true,
   })
 );
 
-app.use("/fetchAllTasks",async(request, response) => {
-    const allTasks = await fetchAllTasks();
-    return response.json(allTasks);
-});
+// app.use("/fetchAllTasks",async(request, response) => {
+//     const allTasks = await fetchAllTasks();
+//     return response.json(allTasks);
+// });
 
 app.use("/imports", async(request, response) => {
   const res = await getImports();

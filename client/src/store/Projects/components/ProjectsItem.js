@@ -140,9 +140,9 @@ class ProjectsItem extends Component {
             
           </div>
           <div className="buttons">
-            <SmallerButton onClick={this.updateFilterHandler}>
+            {/* <SmallerButton onClick={this.updateFilterHandler}>
               <FontAwesomeIcon title="filtruj po nazwie" icon={faFilter} />
-            </SmallerButton>
+            </SmallerButton> */}
 
             {/* <SmallerButton
               onClick={() => this.showModal(true)}
@@ -163,20 +163,20 @@ class ProjectsItem extends Component {
                 </SmallerButton>
 
             ) : null}
-            {
+            {/* {
               loggedUser.status === "Administrator" && (
-                <React.Fragment>
+                <React.Fragment> */}
                   {/* <SmallerButton onClick={this.updateHandler}>
                     <FontAwesomeIcon style={{color:"green"}} title="zapisz projekt" icon={faPen} />
                   </SmallerButton> */}
-                  <SmallerButton
+                  {/* <SmallerButton
                         onClick={() => this.setState({showModalTasksListTrigger:true})}
                   >
                       <FontAwesomeIcon icon={faTimes} style={{color:"red"}}/>
                   </SmallerButton>
                 </React.Fragment>
               )
-            }
+            } */}
           </div>
         </div>
         <div className="edit-form">

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment/min/moment-with-locales";
 
-import ReactHtmlParser from "react-html-parser";
+// import ReactHtmlParser from "react-html-parser";
 
 class CommentsItem extends Component {
   constructor(props) {
@@ -80,11 +80,13 @@ class CommentsItem extends Component {
           </div>
           {toggleDescriptionMore ? (
             <div className="description">
-              {ReactHtmlParser(item.description)}
+              {/* {ReactHtmlParser(item.description)} */}
+              {item.description}
             </div>
           ) : (
             <div className="short-description">
-              {ReactHtmlParser(item.description)}
+              {/* {ReactHtmlParser(item.description)} */}
+              {item.description}
             </div>
           )}
         </div>

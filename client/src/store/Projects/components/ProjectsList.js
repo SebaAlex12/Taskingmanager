@@ -124,8 +124,9 @@ class ProjectsList extends Component {
       projects = this.filterItems(projects);
     }
 
-    const projectsContent = allTasks && allTasks.length > 0 ? projects.map(project => {
-      const projectTasks = allTasks.filter(task => task.projectName === project.name);
+    const projectsContent = projects.length > 0 ? projects.map(project => {
+      // const projectTasks = allTasks.filter(task => task.projectName === project.name);
+      const projectTasks = [];
       return <ProjectsItem item={project} key={project._id} projectTasks={projectTasks} deleteTaskHandler={this.deleteTaskHandler}/>;
     }) : "project tasks are loading...";
     const windowHeight = window.innerHeight - 50;
@@ -142,23 +143,6 @@ class ProjectsList extends Component {
     return (
       <StyledProjectList>
         <div className="projects-box">
-          {loggedUser.status === "Administrator" ? (
-            <div className={btn_clazz}>
-              <BiggerButton
-                variant="primary"
-                title="Rozwiń formularz"
-                onClick={() =>
-                  this.setState({
-                    toggleProjectsAddForm: !toggleProjectsAddForm
-                  })
-                }
-              >
-                <FontAwesomeIcon icon={faArrowAltCircleDown} />
-                <span>Dodaj projekt</span>
-              </BiggerButton>
-              {toggleProjectsAddForm ? <ProjectsAddForm /> : null}
-            </div>
-          ) : null}
           <div className={btn_list_clazz}>
             <BiggerButton
               variant="primary"

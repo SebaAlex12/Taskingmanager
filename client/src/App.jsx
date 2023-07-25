@@ -4,7 +4,7 @@ import moment from "moment";
 
 import store from "./store/store";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
 import jwt_decode from "jwt-decode";
@@ -71,21 +71,14 @@ function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={{ mode: "light" }}>
-        <Router>
-          <StyledResponsive>
-            <div className="App">
-              <MessagesList />
-              {!localStorage.jwtTokenAuthorization ||
-              localStorage.jwtTokenAuthorization === undefined ? (
-                <div className="login-box">
-                  <LoginForm />
-                </div>
-              ) : (
-                <Dashboard />
-              )}
-            </div>
-          </StyledResponsive>
-        </Router>
+            <StyledResponsive>
+                  <BrowserRouter>
+                        <Routes className="App" >
+                            <Route path="/dashboard/*" element={<Dashboard />} />
+                            <Route path="/login" element={<LoginForm />} />
+                        </Routes>
+                    </BrowserRouter>
+            </StyledResponsive>
       </ThemeProvider>
     </Provider>
   );

@@ -1,41 +1,37 @@
 import styled from "styled-components";
-import theme from "styled-theming";
 import { PropTypes } from "prop-types";
 
-const backgroundColor = theme.variants("mode", "variant", {
-  default: { light: "gray", dark: "darkgray" },
-  primary: { light: "#007bff", dark: "#004da0" },
-  success: { light: "green", dark: "darkgreen" },
-  warning: { light: "red", dark: "darkred" }
-});
-
-const backgroundColorHover = theme.variants("mode", "variant", {
-  default: { light: "green", dark: "darkgreen" },
-  primary: { light: "#0069d9", dark: "#004da0" },
-  success: { light: "#28a745", dark: "#186a2b" },
-  warning: { light: "#dc3545", dark: "#9b2631" }
-});
-
-const fontColor = theme.variants("mode", "variant", {
-  default: { light: "#fff", dark: "#fff" },
-  primary: { light: "#fff", dark: "#fff" },
-  success: { light: "#fff", dark: "#fff" },
-  warning: { light: "#fff", dark: "#fff" }
-});
-
-const fontColorHover = theme.variants("mode", "variant", {
-  default: { light: "#fff", dark: "#fff" },
-  primary: { light: "#fff", dark: "#fff" },
-  success: { light: "#fff", dark: "#fff" },
-  warning: { light: "#fff", dark: "#fff" }
-});
-
-const borderColor = theme.variants("mode", "variant", {
-  default: { light: "gray", dark: "darkgray" },
-  primary: { light: "#0069d9", dark: "#004da0" },
-  success: { light: "#28a745", dark: "#186a2b" },
-  warning: { light: "#dc3545", dark: "#9b2631" }
-});
+export const DashboardBox = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  .content-box{
+    width:1600px;
+    display:flex;
+    flex-direction: column;
+  }
+  .right-buttons-box{
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    display: flex;
+  }
+  .center-buttons-box{
+    display:flex;
+    justify-content:center;
+  }
+  .right-buttons-box > button{
+    display:flex;
+    justify-content:right;
+  }
+  .right-buttons-box .item{
+    position:relative;
+  }
+  .right-buttons-box .item > div{
+    position:fixed;
+    right:0px;
+  }
+`;
 
 export const ListBox = styled.div`
   position: fixed;
@@ -97,14 +93,14 @@ export const ListBox = styled.div`
 
 export const Button = styled.button`
   background-color: ${props =>
-    props.active ? backgroundColorHover : backgroundColor};
-  color: ${fontColor};
+    props.active ? '#000' : '#000'};
+  color: #fff;
   &:focus {
     outline: none;
   }
   &:hover {
-    background-color: ${backgroundColorHover};
-    color: ${fontColorHover};
+    background-color: ${'#000'};
+    color: #fff;
   }
   span {
     display: inline-block;
@@ -112,7 +108,7 @@ export const Button = styled.button`
   }
   border-width: 1px;
   border-style: solid;
-  border-color: ${borderColor};
+  border-color: grey;
   padding: 4px 8px;
   border-radius: 5px;
   margin: 5px;
@@ -131,7 +127,7 @@ export const SmallerButton = styled(Button)`
 
 export const DisabledButton = styled(Button)`
   background-color: ${props => (props.active ? "red" : "orange")};
-  color: ${fontColor};
+  color: #fff;
 `;
 
 export const WarningButton = styled(Button)`

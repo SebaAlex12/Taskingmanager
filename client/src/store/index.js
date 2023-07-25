@@ -15,7 +15,6 @@ import { filesReducer } from "./Files/reducers";
 import { filtersReducer } from "./Filters/reducers";
 import { messengersReducer } from "./Messengers/reducers";
 import { messagesReducer } from "./Messages/reducers";
-import { paymentsReducer } from "./Payments/reducers";
 import { patternsReducer } from "./Patterns/reducers";
 
 export const reducers = combineReducers({
@@ -34,6 +33,5 @@ export const reducers = combineReducers({
   filters: filtersReducer,
   messengers: messengersReducer,
   messages: messagesReducer,
-  payments: paymentsReducer,
   patterns: patternsReducer,
 });

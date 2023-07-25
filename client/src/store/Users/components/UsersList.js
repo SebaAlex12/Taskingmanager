@@ -104,28 +104,10 @@ class UsersList extends Component {
       <StyledUserList>
         <div className="users-box">
           <UsersLastActiveList />
-          {loggedUser.status === "Administrator" ||
+          {/* {loggedUser.status === "Administrator" ||
           loggedUser.status === "Menedżer" ? (
             <UsersHistoryQuickView />
-          ) : null}
-          {loggedUser.status === "Administrator" ||
-          loggedUser.status === "Menedżer" ? (
-            <div className={btn_clazz}>
-              <BiggerButton
-                variant="primary"
-                title="Rozwiń formularz"
-                onClick={() =>
-                  this.setState({
-                    toggleRegistryForm: !toggleRegistryForm,
-                  })
-                }
-              >
-                <FontAwesomeIcon icon={faArrowAltCircleDown} />
-                <span>Dodaj użytkownika</span>
-              </BiggerButton>
-              {toggleRegistryForm ? <RegistryForm /> : null}
-            </div>
-          ) : null}
+          ) : null} */}
           <div className={btn_list_clazz}>
             {!insertedCompanyName ? (
               <React.Fragment>
