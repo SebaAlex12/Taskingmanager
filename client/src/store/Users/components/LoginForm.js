@@ -7,7 +7,6 @@ import LoaderInfo from "../../../common/LoaderInfo";
 import { baseUrl } from '../../ini';
 
 const LoginForm = () => {
-console.log('loghin form');
   const dispatch = useDispatch();
   let { logged_user } = useSelector(state => state.users);
 

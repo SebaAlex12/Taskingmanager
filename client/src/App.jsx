@@ -76,15 +76,14 @@ function App() {
       localStorage.removeItem("jwtTokenAuthorization");
     }
   }
-console.log('app component');
   return (
     <Provider store={store}>
       <ThemeProvider theme={{ mode: "light" }}>
             <StyledResponsive>
-                  <BrowserRouter>
+                  <BrowserRouter basename='/'>
                         <Routes className="App" >
                             <Route path="/dashboard/*" element={<Dashboard />} />
-                            <Route path="/login" element={<LoginForm />} />
+                            <Route path="/" element={<LoginForm />} />
                         </Routes>
                     </BrowserRouter>
             </StyledResponsive>
