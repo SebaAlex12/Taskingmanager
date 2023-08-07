@@ -9,6 +9,8 @@ import { ThemeProvider } from "styled-components";
 
 import jwt_decode from "jwt-decode";
 
+import { baseUrl } from './store/ini';
+
 import {
   fetchLoggedUser,
   fetchUsers,
@@ -25,6 +27,8 @@ function App() {
 
   const [ isLogged, setIsLogged ] = useState(false);
   const [ isRedirect, setIsRedirect ] = useState(true);
+
+  console.log('App jsx');
 
   // if(!isRedirect){
   //   setIsRedirect(false);
@@ -80,7 +84,7 @@ function App() {
     <Provider store={store}>
       <ThemeProvider theme={{ mode: "light" }}>
             <StyledResponsive>
-                  <BrowserRouter basename='/'>
+                  <BrowserRouter basename={ baseUrl }>
                         <Routes className="App" >
                             <Route path="/dashboard/*" element={<Dashboard />} />
                             <Route path="/" element={<LoginForm />} />
