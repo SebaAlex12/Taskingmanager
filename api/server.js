@@ -156,8 +156,6 @@ app.use(
 //   }
 // })
 
-console.log('lssteeeen');
-
 const port = process.env.PORT || 5000;
 
 const server = http
