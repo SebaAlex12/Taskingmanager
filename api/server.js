@@ -32,6 +32,8 @@ const basePath = process.env.BASEPATH || '/';
 
 app.use(cors());
 
+const basePath = process.env.BASEPATH || '/';
+
 // app.use("/", (req, res, next) => {
 // res.header("Access-Control-Allow-Origin", "*");
 // res.header(
@@ -67,6 +69,8 @@ mongoose
   .connect(db)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
+
+
 
 // app.use("/outsider", (req, res) => {
 //    console.log("outsider");

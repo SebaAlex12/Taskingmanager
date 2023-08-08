@@ -26,6 +26,7 @@ import { updateAlertMessages } from "../../store/Messages/actions";
 const Dashboard = () => {
   const logoutUserHandler = () => {
   }
+  console.log('Dashboard');
   return(
       <DashboardBox>
         <div className="content-box">
