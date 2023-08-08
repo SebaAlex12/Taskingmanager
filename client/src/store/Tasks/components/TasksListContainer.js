@@ -127,9 +127,7 @@ const TasksListContainer = () => {
                           <th scope="col">Opis</th>
                         </tr>
                       </thead>
-                      <tbody>
                         <TasksList tasks={tasks} />
-                      </tbody>
               </table>
           </div>
       </StyledTaskListContainer>

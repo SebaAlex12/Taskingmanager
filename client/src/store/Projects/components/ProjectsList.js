@@ -32,7 +32,7 @@ class ProjectsList extends Component {
     };
   }
   componentDidMount = () => {
-    this.fetchAllTasks();      
+    // this.fetchAllTasks();      
   }
   fetchAllTasks = async() => {
     try{

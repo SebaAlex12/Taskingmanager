@@ -16,9 +16,9 @@ const TasksList = (props) => {
       active={task._id === activeTaskId ? true : false}
       setActiveTaskHandler={() => setActiveTaskHandler(task._id)}
     />
-  ) : "loading...";
+  ) : <tr><td>loading...</td></tr>;
 
-    return tasksListContent;
+    return (<tbody>{tasksListContent}</tbody>);
 }
 
 export default TasksList;

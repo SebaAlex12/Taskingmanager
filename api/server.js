@@ -32,8 +32,6 @@ const basePath = process.env.BASEPATH || '/';
 
 app.use(cors());
 
-const basePath = process.env.BASEPATH || '/';
-
 // app.use("/", (req, res, next) => {
 // res.header("Access-Control-Allow-Origin", "*");
 // res.header(

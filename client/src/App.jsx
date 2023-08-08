@@ -28,8 +28,6 @@ function App() {
   const [ isLogged, setIsLogged ] = useState(false);
   const [ isRedirect, setIsRedirect ] = useState(true);
 
-  console.log('App jsx');
-
   // if(!isRedirect){
   //   setIsRedirect(false);
   //   window.location.href = '/login';
