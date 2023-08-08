@@ -28,6 +28,8 @@ const cors = require("cors");
 
 const app = express();
 
+const basePath = process.env.BASEPATH || '/';
+
 app.use(cors());
 
 // app.use("/", (req, res, next) => {
@@ -70,7 +72,7 @@ mongoose
 //    console.log("outsider");
 // });
 
-app.use("/outsider", (req, res) => {
+app.use(basePath + "outsider", (req, res) => {
 
   let example = {
     up_time: Math.floor(process.uptime())
@@ -83,7 +85,7 @@ app.use("/outsider", (req, res) => {
  });
 
 // Handle the upload file
-app.post("/upload-files/:dest", async (req, res) => {
+app.post(basePath + "upload-files/:dest", async (req, res) => {
   await upload(req, res, (err) => {
     if (err) {
       console.log("error message:", err);
@@ -110,7 +112,7 @@ app.post("/upload-files/:dest", async (req, res) => {
   });
 });
 
-app.post("/delete-files/", bodyParserJson, (req, res) => {
+app.post(basePath + "delete-files/", bodyParserJson, (req, res) => {
   console.log(req.body.links);
   const links = req.body.links;
   links.forEach(async (link) => {
@@ -136,7 +138,7 @@ app.post("/delete-files/", bodyParserJson, (req, res) => {
 });
 
 app.use(
-  "/graphql",
+  basePath + "graphql",
   graphql.graphqlHTTP({
     schema: graphqlSchema,
     rootValue: graphqlResolver,

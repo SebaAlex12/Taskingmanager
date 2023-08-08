@@ -6,7 +6,7 @@
 // export const baseUrl = process.env.NODE_ENV === 'development' ? '' : '/taskmanager_crm';
 
 export const apiUrl = process.env.NODE_ENV === 'development' ? '' : '/olimpijka_api';
-export const baseUrl = process.env.NODE_ENV === 'development' ? '' : '/olimpijka_crm/client';
+export const baseUrl = process.env.NODE_ENV === 'development' ? '' : '';
 
 export const user_statuses = [
   {
