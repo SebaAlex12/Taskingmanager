@@ -10,6 +10,7 @@ const TasksListContainer = () => {
   const loggedUser = useSelector(state=>state.users.logged_user);
   const [filteredTasks,setFilteredTasks] = useState([]);
   const [isFiltered,setIsFiltered] = useState(false);
+  // const isFiltered = false;
 
   useEffect(() => {
         setFilteredTasks(tasks);
@@ -21,8 +22,12 @@ const TasksListContainer = () => {
         if (!isFiltered) {
             setFilteredTasks(tasks);
         } else {
-            setFilteredTasks(tasks.map(task => task.name == loggedUser.name));
+          const filtrTasks = tasks.map(task => task.name == loggedUser.name);
+          // console.log(filtrTasks);
+            setFilteredTasks(filtrTasks);
         }
+        setIsFiltered(!isFiltered);
+        console.log('filtered tasks ',filteredTasks);
   }
 
     return(
