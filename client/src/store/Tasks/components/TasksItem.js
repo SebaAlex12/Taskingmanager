@@ -33,6 +33,7 @@ const TaskItem = (props) => {
     const { setActiveTaskHandler, active } = props;
     const loggedUser = useSelector(state => state.users.logged_user);
     const users = useSelector(state => state.users.users);
+    const dispatch = useDispatch();
 
     const onChangeHandler = (event) => {
         event.preventDefault();
@@ -59,20 +60,21 @@ const TaskItem = (props) => {
       }
     };
 
-    const onChangeSelectHandler = async(event) => {
-      this.setState({
-        [event.target.name]: event.target.value,
-      });
+    const onChangeSelectHandler = (event) => {
+      // this.setState({
+      //   [event.target.name]: event.target.value,
+      // });
       // const { updateTask, updateMessages, loggedUser } = this.props;
       // const { _id, responsiblePerson, title, priority } = this.state;
       const data = {
         _id,
         [event.target.name]: event.target.value,
       };
-      const response = await updateTask(data);
+      const response = dispatch(updateTask(data));
 
       if(response){
         console.log('changes has been done');
+        console.log('response',response);
       }
   
       // const alertData =
