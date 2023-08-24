@@ -186,6 +186,8 @@ function* addTaskAsync(action) {
     }`,
   };
 
+  console.log('added data',graph);
+
   const taskData = yield call(
     [axios, axios.post],
      apiUrl + "/graphql",
@@ -278,7 +280,6 @@ function* updateTaskAsync(action) {
       }
     }`,
   };
-  console.log('graph',graph);
   const taskData = yield call(
     [axios, axios.post],
      apiUrl + "/graphql",

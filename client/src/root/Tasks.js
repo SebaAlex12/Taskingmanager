@@ -31,17 +31,17 @@ import UsersList from './../store/Users/components/UsersList';
 const Tasks = () => {
 
   const dispatch = useDispatch();
+  const tasks = dispatch(fetchTasks());
 
   useEffect(() => {
-      dispatch(fetchTasks());
       dispatch(fetchProjects({company:'Blumoseo'}));
-  },[dispatch]);
-
+  },[]);
+  console.log('tasks effect',tasks);
   return(
     <React.Fragment>
       <ProjectsList />
       <UsersList />
-      <TasksListContainer />
+      <TasksListContainer/>
       <RightButtonsBox />
     </React.Fragment>
   )

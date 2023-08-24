@@ -1,15 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 
 import TasksList from './TasksList';
 import { StyledTaskListContainer } from "../styles/StyledTaskListContainer";
 
 const TasksListContainer = () => {
-  const tasks = useSelector(state => state.tasks.tasks);
+  
+  const tasks = useSelector(state=>state.tasks.tasks);
+  const loggedUser = useSelector(state=>state.users.logged_user);
+  const [filteredTasks,setFilteredTasks] = useState([]);
+  const [isFiltered,setIsFiltered] = useState(false);
+
   useEffect(() => {
-    },[]);
+        setFilteredTasks(tasks);
+  },[tasks]);
+
+  console.log('filteredTasks',filteredTasks);
+
+  const switchTasks = () => {
+        if (!isFiltered) {
+            setFilteredTasks(tasks);
+        } else {
+            setFilteredTasks(tasks.map(task => task.name == loggedUser.name));
+        }
+  }
+
     return(
       <StyledTaskListContainer>
+        <form className="task-switcher">
+                 <label htmlFor="">Zadania utworzone przeze mnie:</label>
+                 <label className="switch">
+                   <input
+                     className="switch-input"
+                     type="checkbox"
+                     onClick={switchTasks}
+                   />
+                   <span
+                     className="switch-label"
+                     data-on="Ukryj"
+                     data-off="Pokaż"
+                   ></span>
+                   <span className="switch-handle"></span>
+                 </label>
+          </form>
           <div className="task-items-box">
                 <table className="table table-striped">
                       <thead>
@@ -127,7 +160,7 @@ const TasksListContainer = () => {
                           <th scope="col">Opis</th>
                         </tr>
                       </thead>
-                        <TasksList tasks={tasks} />
+                        <TasksList tasks={filteredTasks} />
               </table>
           </div>
       </StyledTaskListContainer>

@@ -6,7 +6,7 @@ import moment from "moment/min/moment-with-locales";
 import { priorities, statuses } from "../../ini";
 import CommentsAddForm from "../../Comments/components/CommentsAddForm";
 import CommentsList from "../../Comments/components/CommentsList";
-import { updateTask } from './../actions';
+import { updateTask, removeTask } from './../actions';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, WarningButton } from "../../../themes/basic";
@@ -31,68 +31,25 @@ const TaskItem = (props) => {
       createdAt,
     } = props.item;
     const { setActiveTaskHandler, active } = props;
+    const dispatch = useDispatch();
     const loggedUser = useSelector(state => state.users.logged_user);
     const users = useSelector(state => state.users.users);
-    const dispatch = useDispatch();
 
-    const onChangeHandler = (event) => {
-        event.preventDefault();
-        this.setState({
-          [event.target.name]: event.target.value,
-        });
-      };
-
-    const removeTaskHandler = (event) => {
-      const { removeTask } = this.props;
-      const { _id, title } = this.state;
-
-      const result = window.confirm(
-        "Czy napewno chcesz usunąć zadanie: " + title
-      );
+    const removeTaskHandler = () => {
+      const result = window.confirm(`Czy napewno chcesz usunąć zadanie: ${title}`);
       if (result === true) {
-        const response = removeTask(_id);
-        // if (response) {
-        //   updateMessages([
-        //     { name: "Zadanie" },
-        //     { value: event.target.name + " został usunięty" },
-        //   ]);
-        // }
+        const response = dispatch(removeTask(_id));
+        if(response) window.confirm(`Zadanie: zostało usunięte`);
       }
     };
 
     const onChangeSelectHandler = (event) => {
-      // this.setState({
-      //   [event.target.name]: event.target.value,
-      // });
-      // const { updateTask, updateMessages, loggedUser } = this.props;
-      // const { _id, responsiblePerson, title, priority } = this.state;
       const data = {
         _id,
         [event.target.name]: event.target.value,
       };
       const response = dispatch(updateTask(data));
-
-      if(response){
-        console.log('changes has been done');
-        console.log('response',response);
-      }
-  
-      // const alertData =
-      //   event.target.value === "Do wykonania"
-      //     ? {
-      //         from: loggedUser.name,
-      //         to: responsiblePerson,
-      //         msg: title,
-      //         topic: "zadanie do wykonania: " + title,
-      //         priority: priority,
-      //         type: "task_change",
-      //         createAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
-      //       }
-      //     : false;
-  
-      // if (response) {
-      //   updateMessages({ alert: alertData });
-      // }
+      if(response) window.confirm(`${[event.target.name]} został zmieniony`);
     };
 
     return(
@@ -114,6 +71,7 @@ const TaskItem = (props) => {
               className="form-control"
               onChange={onChangeSelectHandler}
               name="status"
+              defaultValue={status}
               required
             >
               {statuses
@@ -122,7 +80,7 @@ const TaskItem = (props) => {
                       <option
                         key={item._id}
                         value={item.name}
-                        selected={item.name === status ? "selected" : null}
+                        // selected={item.name === status ? "selected" : null}
                       >
                         {item.name}
                       </option>
@@ -137,6 +95,7 @@ const TaskItem = (props) => {
               onChange={onChangeSelectHandler}
               name="priority"
               disabled={loggedUser.name !== createdBy ? "disabled" : null}
+              defaultValue={priority}
               required
             >
               {priorities
@@ -145,7 +104,7 @@ const TaskItem = (props) => {
                       <option
                         key={item._id}
                         value={item.name}
-                        selected={item.name === priority ? "selected" : null}
+                        // selected={item.name === priority ? "selected" : null}
                       >
                         {item.name}
                       </option>
@@ -224,7 +183,7 @@ const TaskItem = (props) => {
                   </Button>
                   <textarea
                     className="form-control"
-                    onChange={onChangeHandler}
+                    onChange={onChangeSelectHandler}
                     name="description"
                     value={description}
                     cols="40"

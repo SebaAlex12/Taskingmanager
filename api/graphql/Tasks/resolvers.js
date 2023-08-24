@@ -114,17 +114,17 @@ module.exports = {
       mailRemainderData: null,
     });
 
-    const taskExists = await Task.findOne({
-      title: taskInput.title,
-      projectName: taskInput.projectName,
-    });
+    // const taskExists = await Task.findOne({
+    //   title: taskInput.title,
+    //   projectName: taskInput.projectName,
+    // });
 
-    if (taskExists) {
+    // if (taskExists) {
       // const e = new Error(
       //   "Task with this title and project name already exists"
       // );
-      return { errors: "Task with this title and project name already exists" };
-    }
+      // return { errors: "Task with this title and project name already exists" };
+    // }
 
     try {
       const storedTask = await task.save();
