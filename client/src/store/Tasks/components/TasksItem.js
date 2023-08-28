@@ -30,12 +30,18 @@ const TaskItem = (props) => {
       termAt,
       createdAt,
     } = props.item;
-    const { setActiveTaskHandler, active } = props;
+
     const dispatch = useDispatch();
     const loggedUser = useSelector(state => state.users.logged_user);
     const users = useSelector(state => state.users.users);
+    const [ isActive, setIsActive ] = useState(false);
+    const [ text, setText ] = useState(description);
 
-    const removeTaskHandler = () => {
+    const setActiveTask = () => {
+        setIsActive(prevState => !prevState);
+    }
+
+    const removeTask = () => {
       const result = window.confirm(`Czy napewno chcesz usunąć zadanie: ${title}`);
       if (result === true) {
         const response = dispatch(removeTask(_id));
@@ -43,7 +49,7 @@ const TaskItem = (props) => {
       }
     };
 
-    const onChangeSelectHandler = (event) => {
+    const onChangeSelect = (event) => {
       const data = {
         _id,
         [event.target.name]: event.target.value,
@@ -51,6 +57,19 @@ const TaskItem = (props) => {
       const response = dispatch(updateTask(data));
       if(response) window.confirm(`${[event.target.name]} został zmieniony`);
     };
+
+    const onChangeTextarea = (event) => {
+      setText(event.target.value);
+    }
+
+    const onClickSubmitDescription = () => {
+      const data = {
+        _id,
+        description: text,
+      };
+      const response = dispatch(updateTask(data)); 
+      if(response) window.confirm(`opis został zmieniony`);    
+    }
 
     return(
       <React.Fragment>
@@ -69,7 +88,7 @@ const TaskItem = (props) => {
           <td className="status">
             <select
               className="form-control"
-              onChange={onChangeSelectHandler}
+              onChange={onChangeSelect}
               name="status"
               defaultValue={status}
               required
@@ -92,7 +111,7 @@ const TaskItem = (props) => {
           <td className="priority">
             <select
               className="form-control"
-              onChange={onChangeSelectHandler}
+              onChange={onChangeSelect}
               name="priority"
               disabled={loggedUser.name !== createdBy ? "disabled" : null}
               defaultValue={priority}
@@ -119,7 +138,7 @@ const TaskItem = (props) => {
           <td className="responsiblePerson">
             <select
               className="form-control"
-              onChange={onChangeSelectHandler}
+              onChange={onChangeSelect}
               name="responsiblePerson"
               disabled={loggedUser.name !== createdBy ? "disabled" : null}
               value={responsiblePerson}
@@ -153,7 +172,7 @@ const TaskItem = (props) => {
           </td>
           <td className="details">
             <Button 
-              onClick={setActiveTaskHandler} 
+              onClick={setActiveTask} 
               title="Edytuj"
               >
               <FontAwesomeIcon icon={faEdit} />
@@ -161,7 +180,7 @@ const TaskItem = (props) => {
             {loggedUser.name === createdBy ? (
               <WarningButton
                 warning
-                onClick={removeTaskHandler}
+                onClick={removeTask}
                 title="Usuń"
               >
                 <FontAwesomeIcon icon={faTimes} />
@@ -169,23 +188,23 @@ const TaskItem = (props) => {
             ) : null}
           </td>
         </tr>
-        {active ? (
+        {isActive ? (
           <React.Fragment>
             <tr>
               <td colSpan="9">
                 <div className="desc-box">
                   <Button
                     className="edit"
-                    // onClick={this.onClickDescriptionHandler}
+                    onClick={onClickSubmitDescription}
                     title="zapisz zmiany"
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </Button>
                   <textarea
                     className="form-control"
-                    onChange={onChangeSelectHandler}
-                    name="description"
-                    value={description}
+                    onChange={onChangeTextarea}
+                    name="text"
+                    value={text}
                     cols="40"
                     rows="10"
                   ></textarea>
@@ -298,7 +317,7 @@ export default TaskItem;
 //     this.setState({ toggle: !toggle });
 //   };
 
-//   onClickDescriptionHandler = () => {
+//   onClickDescription = () => {
 //     const { updateTask, updateMessages } = this.props;
 //     const { _id, description } = this.state;
 //     const data = {
@@ -311,7 +330,7 @@ export default TaskItem;
 //     }
 //   };
 
-//   onKeyUpHandler = (event) => {
+//   onKeyUp = (event) => {
 //     if (event.keyCode === 13) {
 //       const { updateTask } = this.props;
 //       const {
@@ -440,7 +459,7 @@ export default TaskItem;
 //       showModalPatternTrigger,
 //       attachedPattern,
 //     } = this.state;
-//     const { setActiveTaskHandler, active, loggedUser, users } = this.props;
+//     const { setActiveTask, active, loggedUser, users } = this.props;
 
 //     const taskCreatorUser = users.filter((user) => user.name === createdBy);
 //     const taskResponsibleUser = users.filter(
@@ -456,7 +475,7 @@ export default TaskItem;
 //           <FilesItem
 //             key={file}
 //             imageUrl={imageUrl}
-//             // lightboxPhotosHandler={() => this.lightboxPhotosHandler(fileNumber)}
+//             // lightboxPhotos={() => this.lightboxPhotos(fileNumber)}
 //           />
 //         );
 //       });
