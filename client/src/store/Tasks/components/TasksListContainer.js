@@ -10,24 +10,17 @@ const TasksListContainer = () => {
   const loggedUser = useSelector(state=>state.users.logged_user);
   const [filteredTasks,setFilteredTasks] = useState([]);
   const [isFiltered,setIsFiltered] = useState(false);
-  // const isFiltered = false;
 
   useEffect(() => {
-        setFilteredTasks(tasks.filter(task => task.responsiblePerson == loggedUser.name));
-        console.log('use effect on tasks');
-  },[tasks]);
-
-  console.log('filteredTasks',filteredTasks);
+        setFilteredTasks(tasks.filter(task => task.responsiblePerson === loggedUser.name));
+  },[tasks,loggedUser]);
 
   const switchTasks = () => {
         if (isFiltered) {
-            setFilteredTasks(tasks.filter(task => task.responsiblePerson == loggedUser.name));
+            setFilteredTasks(tasks.filter(task => task.responsiblePerson === loggedUser.name));
         } else {
-          console.log('logge user',loggedUser);
-          const filtrTasks = tasks.filter(task => task.createdBy == loggedUser.name);
-          console.log('filtrTasks',filtrTasks);
+            const filtrTasks = tasks.filter(task => task.createdBy === loggedUser.name);
             setFilteredTasks(filtrTasks);
-            console.log('after set');
         }
         setIsFiltered(!isFiltered);
   }
