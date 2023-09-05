@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 
 const http = require("http");
-// const socketIo = require("socket.io");
+const socketIo = require("socket.io");
 
 const graphql = require("express-graphql");
 const graphqlSchema = require("./graphql/schema_old");
@@ -166,55 +166,61 @@ const server = http
   .createServer(app)
   .listen(port, () => console.log(`server running on port ${port}`));
 
-// const io = socketIo(server);
-// let connections = [];
+const io = socketIo(server);
+let connections = [];
 
-// io.on("connection", function (socket) {
-//     let activeSockets = [];
+io.on("connection", function (socket) {
+    let activeSockets = [];
   
-//     connections.push(socket);
+    connections.push(socket);
+    // console.log('socked lunched');
   
-//     socket.on("chat", function (msg) {
-//       io.emit("chat", msg);
-//     });
-//     const existingSocket = activeSockets.find(
-//       (existingSocket) => existingSocket === socket.id
-//     );
-//     if (!existingSocket) {
-//       activeSockets.push(socket.id);
-//       socket.emit("update-user-list", {
-//         users: activeSockets.filter(
-//           (existingSocket) => existingSocket !== socket.id
-//         ),
-//       });
-//       socket.broadcast.emit("update-user-list", {
-//         users: [socket.id],
-//       });
-//     }
+    socket.on("chat", function (msg) {
+      // console.log('chat lunched',msg);
+      // console.log('activeSockets',activeSockets);
+      io.emit("chat", msg);
+    });
+    const existingSocket = activeSockets.find(
+      (existingSocket) => existingSocket === socket.id
+    );
+    if (!existingSocket) {
+      activeSockets.push(socket.id);
+      socket.emit("update-user-list", {
+        users: activeSockets.filter(
+          (existingSocket) => existingSocket !== socket.id
+        ),
+      });
+      socket.broadcast.emit("update-user-list", {
+        users: [socket.id],
+      });
+    }
   
-//     socket.on("call-user", (data) => {
-//       socket.to(data.to).emit("call-made", {
-//         offer: data.offer,
-//         socket: socket.id,
-//       });
-//     });
-//     socket.on("make-answer", (data) => {
-//       socket.to(data.to).emit("answer-made", {
-//         socket: socket.id,
-//         answer: data.answer,
-//       });
-//     });
-//     socket.on("disconnect", () => {
-//       let dfggd = activeSockets.filter(
-//         (existingSocket) => existingSocket !== socket.id
-//       );
-//       socket.broadcast.emit("remove-user", {
-//         socketId: socket.id,
-//       });
-//       connections.splice(connections.indexOf(socket), 1);
-//       console.log("Disconnected: sockets connected", connections.length);
-//     });
-// });
+    socket.on("call-user", (data) => {
+      socket.to(data.to).emit("call-made", {
+        offer: data.offer,
+        socket: socket.id,
+      });
+    });
+    socket.on("make-answer", (data) => {
+      socket.to(data.to).emit("answer-made", {
+        socket: socket.id,
+        answer: data.answer,
+      });
+    });
+    socket.on("disconnect", () => {
+      let dfggd = activeSockets.filter(
+        (existingSocket) => existingSocket !== socket.id
+      );
+      socket.broadcast.emit("remove-user", {
+        socketId: socket.id,
+      });
+      connections.splice(connections.indexOf(socket), 1);
+      console.log("Disconnected: sockets connected", connections.length);
+    });
+
+    // console.log('activeSockets',activeSockets);
+    // console.log('connections',connections);
+});
   
 
 // serv assets if in production

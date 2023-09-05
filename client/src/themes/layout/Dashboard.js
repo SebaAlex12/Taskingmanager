@@ -31,11 +31,11 @@ const Dashboard = () => {
         <div className="content-box">
             {/* <MessagesAlertList /> */}
             <div className="center-buttons-box">
-            {/* <Link className="btn btn-default" to="/messenger">
-              Komunikator
-            </Link> */}
             <Link className="btn btn-default" to="/dashboard/tasks">
               Zadania
+            </Link>
+            <Link className="btn btn-default" to="/dashboard/messenger">
+              Komunikator
             </Link>
             {/* <Link className="btn btn-default" to="/calendar">
               Kalendarz
@@ -47,6 +47,7 @@ const Dashboard = () => {
         {/* <BrowserRouter className="container"> */}
         <Routes>
           <Route path="/tasks" element={<Tasks />} />
+          <Route path="/messenger" element={<Messengers />} />
           {/* <Route exact path="/" component={Tasks} />
           <Route exact path="/messenger" component={Messengers} />
           <Route exact path="/mails" component={MailsListContainer} />

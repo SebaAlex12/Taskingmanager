@@ -1,7 +1,7 @@
+import { socket } from "../../ini";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
-// import { socket } from "../../ini";
 
 import { StyledMessengersForm } from "../styles/StyledMessengersForm";
 import { addMessenger } from "../actions";
@@ -39,7 +39,10 @@ class MessengersAddForm extends Component {
       type: "msg_add",
       createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
     };
-    // socket.emit("chat", data);
+    socket.emit("chat", data);
+
+    console.log('added message',data);
+
     addMessenger(data);
     this.setState({
       message: "",

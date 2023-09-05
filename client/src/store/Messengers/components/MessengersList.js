@@ -20,6 +20,8 @@ class MessengersList extends Component {
     } = this.props;
     let n = 0;
 
+    console.log('messengers',messengers);
+
     const messengersReverse = mapReverse(messengers, function (i) {
       return i;
     });

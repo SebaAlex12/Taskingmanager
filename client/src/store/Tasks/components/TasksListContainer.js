@@ -28,7 +28,6 @@ const TasksListContainer = () => {
     return(
       <StyledTaskListContainer>
         <form className="task-switcher">
-                 <label htmlFor="">Zadania utworzone przeze mnie:</label>
                  <label className="switch">
                    <input
                      className="switch-input"
@@ -42,6 +41,7 @@ const TasksListContainer = () => {
                    ></span>
                    <span className="switch-handle"></span>
                  </label>
+                 <label htmlFor=""> - zadania utworzone przeze mnie</label>
           </form>
           <div className="task-items-box">
                 <table className="table table-striped">

@@ -95,6 +95,7 @@ export const StyledTaskListContainer = styled.div`
     padding-top: 5px;
     display: flex;
     justify-content: center;
+    align-items:center;
   }
   .task-switcher > label:first-child {
     margin-top: 7px;
