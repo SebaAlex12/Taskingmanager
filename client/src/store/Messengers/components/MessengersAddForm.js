@@ -41,8 +41,6 @@ class MessengersAddForm extends Component {
     };
     socket.emit("chat", data);
 
-    console.log('added message',data);
-
     addMessenger(data);
     this.setState({
       message: "",

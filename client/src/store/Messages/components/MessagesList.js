@@ -1,19 +1,7 @@
 import React, { useEffect } from "react";
-import { socket } from '../../ini';
 
 import { StyledMessagesList } from "../styles/StyledMessagesList";
 // import { updateMessages } from "../actions";
-
-socket.on('chat', function(msg) {
-    console.log('chat message iv got it',msg);
-});
-
-
-// io.on('connection', (socket) => {
-//   socket.on('chat message', (msg) => {
-//     console.log('message: ' + msg);
-//   });
-// });
 
 const MessagesList = () => {
   const { messages, alert_messages } = this.props.messages;

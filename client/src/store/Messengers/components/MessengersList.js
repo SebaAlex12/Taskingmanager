@@ -1,33 +1,38 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-
+import React, { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import MessengersItem from "./MessengersItem";
 // import { Button } from "../../../themes/basic";
+
 import MessengersAddForm from "./MessengersAddForm";
 import MessengersChannelForm from "./MessengersChannelForm";
 import MessengersQuickUsersListForm from "./MessengersQuickUsersListForm";
 import { StyledMessengerList } from "../styles/StyledMessengerList";
 import { mapReverse } from "../../../common/tools";
 
-class MessengersList extends Component {
-  render() {
-    const {
-      messengers,
+const MessengersList = (props) => {
+
+      const {
       filteredUsers,
       selectedUsers,
       selectedChannelId,
       filterSelectedUsersHandler,
-    } = this.props;
-    let n = 0;
+    } = props;
 
-    console.log('messengers',messengers);
+    const [ messengers, setMessengers ] = useState([]);
+
+    const mess = useSelector(state => state.messengers.messengers);
+    
+    useEffect(() => {
+        setMessengers(mess);
+    },[mess]);
 
     const messengersReverse = mapReverse(messengers, function (i) {
       return i;
     });
 
+    let n = 0;
+
     const messengersContent = messengersReverse.map((messenger) => {
-      // return <div>{messanger.msg}</div>;
       return (
         <MessengersItem
           item={messenger}
@@ -37,7 +42,8 @@ class MessengersList extends Component {
         />
       );
     });
-    return (
+
+  return (
       <StyledMessengerList>
         <div className="mesgs">
           <div className="type_msg">
@@ -59,16 +65,8 @@ class MessengersList extends Component {
             <div className="messengers-list-box">{messengersContent}</div>
           </div>
         </div>
-      </StyledMessengerList>
-    );
-  }
+      </StyledMessengerList>    
+  )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    users: state.users.users,
-    messengers: state.messengers.messengers,
-  };
-};
-
-export default connect(mapStateToProps, {})(MessengersList);
+export default MessengersList;

@@ -20,6 +20,9 @@ class MessengersQuickUsersListForm extends Component {
   };
   render() {
     const { selectedUsers, selectedChannelId } = this.props;
+
+    // console.log('selectedUsers',selectedUsers);
+
     const selectedUsersReverse = mapReverse(selectedUsers, function(i) {
       return i;
     });
