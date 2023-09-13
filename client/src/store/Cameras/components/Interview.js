@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { socket } from "../../ini";
+// import { socket } from "../../ini";
 import { StyledInterview } from "../styles/StyledInterview";
 
 const { RTCPeerConnection, RTCSessionDescription } = window;

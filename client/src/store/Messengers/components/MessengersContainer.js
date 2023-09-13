@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { socket } from '../../ini';
+// import { socket } from '../../ini';
 
 import MessengersList from "./MessengersList";
 import { StyledMessengersContainer } from "../styles/StyledMessengersContainer";
@@ -51,10 +51,10 @@ const MessengersContainer = () => {
     const [ filteredUsers, setFilteredUsers ] = useState();
     const [ selectedChannelId, setSelectedChannelId ] = useState();
 
-    socket.on('chat', function(msg) {
-        console.log('chat message iv got it',msg);
-        dispatch(fetchMessengersByName({ name: logged_user.name }));
-    });
+    // socket.on('chat', function(msg) {
+    //     console.log('chat message iv got it',msg);
+    //     dispatch(fetchMessengersByName({ name: logged_user.name }));
+    // });
 
     useEffect(() => {
 
