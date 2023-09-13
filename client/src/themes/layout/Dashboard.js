@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Routes, Route, BrowserRouter, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Routes, Route, Link } from "react-router-dom";
 // import io from "socket.io-client";
 // import { socket } from "../../store/ini";
 
@@ -24,8 +24,20 @@ import { updateAlertMessages } from "../../store/Messages/actions";
 
 
 const Dashboard = () => {
-  const logoutUserHandler = () => {
+
+  const { logged_user } = useSelector(state => state.users);
+
+  if(!logged_user){
+    window.location.href = "/";    
   }
+
+  const logoutUserHandler = () => {
+      logoutUser();
+      localStorage.removeItem("jwtTokenAuthorization");
+//     localStorage.removeItem("companyName");
+      window.location.href = "/";
+  }
+
   return(
       <DashboardBox>
         <div className="content-box">

@@ -41,10 +41,10 @@ const MessengersContainer = () => {
     };
 
     const dispatch = useDispatch();
-    const loggedUser = useSelector(state => state.users.logged_user);
+    const logged_user = useSelector(state => state.users.logged_user);
     const users = useSelector(state => state.users);
 
-    console.log('loading component',loggedUser);
+    console.log('loading logged user',logged_user);
     
 
     const [ selectedUsers, setSelectedUsers ] = useState();
@@ -53,12 +53,12 @@ const MessengersContainer = () => {
 
     socket.on('chat', function(msg) {
         console.log('chat message iv got it',msg);
-        dispatch(fetchMessengersByName({ name: loggedUser.name }));
+        dispatch(fetchMessengersByName({ name: logged_user.name }));
     });
 
     useEffect(() => {
 
-      dispatch(fetchMessengersByName({ name: loggedUser.name }));
+      dispatch(fetchMessengersByName({ name: logged_user.name }));
 
       setSelectedUsers([
         usersEmployeeArray,
@@ -81,7 +81,7 @@ const MessengersContainer = () => {
           "selectedChannelId"
         )
           ? JSON.parse(localStorage.getItem("selectedChannelId"))
-          : null
+          : "-1"
       );
 
     },[]);

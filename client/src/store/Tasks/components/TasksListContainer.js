@@ -12,7 +12,9 @@ const TasksListContainer = () => {
   const [isFiltered,setIsFiltered] = useState(false);
 
   useEffect(() => {
-        setFilteredTasks(tasks.filter(task => task.responsiblePerson === loggedUser.name));
+      if(loggedUser){
+          setFilteredTasks(tasks.filter(task => task.responsiblePerson === loggedUser.name));
+      }
   },[tasks,loggedUser]);
 
   const switchTasks = () => {

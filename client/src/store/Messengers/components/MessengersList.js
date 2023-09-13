@@ -21,6 +21,8 @@ const MessengersList = (props) => {
     const [ messengers, setMessengers ] = useState([]);
 
     const mess = useSelector(state => state.messengers.messengers);
+
+    console.log('mess',mess);
     
     useEffect(() => {
         setMessengers(mess);

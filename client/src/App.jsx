@@ -28,6 +28,8 @@ function App() {
   const [ isLogged, setIsLogged ] = useState(false);
   const [ isRedirect, setIsRedirect ] = useState(true);
 
+  console.log('app has been lunched');
+
   // if(!isRedirect){
   //   setIsRedirect(false);
   //   window.location.href = '/login';
@@ -76,6 +78,7 @@ function App() {
       store.dispatch(fetchSettings());
     } else {
       localStorage.removeItem("jwtTokenAuthorization");
+      window.location.href = '/';
     }
   }
   return (

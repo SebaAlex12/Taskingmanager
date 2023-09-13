@@ -11,6 +11,9 @@ const LoginForm = () => {
   let { logged_user } = useSelector(state => state.users);
 
   if(logged_user){
+
+    console.log('logged user',)
+
     window.location.href = "/dashboard";
   }
 

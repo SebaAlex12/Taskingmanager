@@ -2,15 +2,11 @@ import io from "socket.io-client";
 export const socket = io();
 // const { io } = require("socket.io-client");
 
-
-// export const apiUrl = process.env.NODE_ENV === 'development' ? '' : '/api';
-// export const baseUrl = process.env.NODE_ENV === 'development' ? '' : '/taskmanager_crm';
+export const apiUrl = process.env.NODE_ENV === 'development' ? '' : '/api';
+export const baseUrl = process.env.NODE_ENV === 'development' ? '' : '/taskmanager_crm';
 
 // export const apiUrl = process.env.NODE_ENV === 'development' ? '' : '/olimpijka_api';
-// export const baseUrl = process.env.NODE_ENV === 'development' ? '/' : '/olimpijka_crm/client';
-
-export const apiUrl = process.env.NODE_ENV === 'development' ? '' : '/olimpijka_api';
-export const baseUrl = process.env.NODE_ENV === 'development' ? '' : '';
+// export const baseUrl = process.env.NODE_ENV === 'development' ? '' : '';
 
 export const user_statuses = [
   {
