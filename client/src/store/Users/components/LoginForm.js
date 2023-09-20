@@ -6,6 +6,9 @@ import MessagesAlertInfo from "../../Messages/components/MessagesAlertInfo";
 import LoaderInfo from "../../../common/LoaderInfo";
 import { baseUrl } from '../../ini';
 
+import RequestTest from '../../../common/RequestTest';
+
+
 const LoginForm = () => {
   const dispatch = useDispatch();
   let { logged_user } = useSelector(state => state.users);
@@ -14,7 +17,7 @@ const LoginForm = () => {
 
     console.log('logged user',)
 
-    window.location.href = "/dashboard";
+  //  window.location.href = "/dashboard";
   }
 
   const loading = false;
@@ -30,6 +33,7 @@ const LoginForm = () => {
 
   return(
         <React.Fragment>
+          <RequestTest />
           { loading === true ? <LoaderInfo>Trwa ładowanie strony...</LoaderInfo> : null }
           { errors.length > 0 ? <MessagesAlertInfo errors={errors} /> : null }
           <div

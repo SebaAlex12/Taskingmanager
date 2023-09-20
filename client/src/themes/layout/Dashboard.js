@@ -22,7 +22,6 @@ import { DashboardBox } from './../basic';
 import { updateMessenger } from "../../store/Messengers/actions";
 import { updateAlertMessages } from "../../store/Messages/actions";
 
-
 const Dashboard = () => {
 
   const { logged_user } = useSelector(state => state.users);
