@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
-const path = require("path");
+// const path = require("path");
+const winston = require('winston');
 
 const http = require("http");
 // const socketIo = require("socket.io");
@@ -31,6 +32,22 @@ const app = express();
 const basePath = process.env.BASEPATH || '/';
 
 app.use(cors());
+
+
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
+
+logger.log({
+  level: 'info',
+  message: 'Hello distributed log files new message!'
+});
+
+logger.info('Hello again distributed logs');
+
 
 // app.use("/", (req, res, next) => {
 // res.header("Access-Control-Allow-Origin", "*");
