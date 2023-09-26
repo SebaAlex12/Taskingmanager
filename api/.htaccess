@@ -1,0 +1,18 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/blumo/domains/pozycjonowaniestron.hekko24.pl/public_html/crm/api"
+PassengerBaseURI "/api"
+PassengerNodejs "/home/blumo/nodevenv/domains/pozycjonowaniestron.hekko24.pl/public_html/crm/api/18/bin/node"
+PassengerAppType node
+PassengerStartupFile server.js
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION BEGIN
+<IfModule Litespeed>
+SetEnv EMAIL_ADDRESS janeczekkowalewicz@gmail.com
+SetEnv EMAIL_PASSWORD TopDigi12!
+SetEnv MONGO_URI mongodb+srv://Janeczek:NtGjneYVDbie5g8@cluster0-lryvy.mongodb.net/tasks?retryWrites=true&w=majority
+SetEnv SECRET_OR_KEY secret
+SetEnv SECRET_OR_KEY_DECRYPT c8c78895fd91da17cca9cf0d28e742c6077fb5a89ef5cdc23d9c37c96c5fb7f321d7f52c06e73c46633783d9535e2aa5cc07f2ad1803d73614c4e6882026bfd9
+SetEnv SECRET_OR_KEY_OK secretOk
+SetEnv BASEPATH /api/
+</IfModule>
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION END
