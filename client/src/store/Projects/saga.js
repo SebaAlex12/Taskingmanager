@@ -36,12 +36,17 @@ function* fetchProjectsAsync(action) {
         }
     `,
     };
+    // const res = yield call(
+    //   [axios, axios.post],
+    //    apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const res = yield call(
-      [axios, axios.post],
-       apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
     yield put({
       type: FETCH_PROJECTS_SUCCESS,
       payload: res.data.data.fetchProjects,
@@ -74,12 +79,17 @@ function* fetchProjectsByLoggedUserProjectsAsync(action) {
     `,
     };
 
+    // const res = yield call(
+    //   [axios, axios.post],
+    //    apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const res = yield call(
-      [axios, axios.post],
-       apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
     yield put({
       type: FETCH_PROJECTS_SUCCESS,
       payload: res.data.data.fetchProjectsByLoggedUserProjects,
@@ -132,12 +142,17 @@ function* addProjectAsync(action) {
     }`,
   };
 
+  // const projectData = yield call(
+  //   [axios, axios.post],
+  //    apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
+
   const projectData = yield call(
-    [axios, axios.post],
-     apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
+
   //   yield put({
   //     type: ADD_PROJECT_SUCCESS,
   //     payload: projectData.data.data.addProject
@@ -207,12 +222,17 @@ function* updateProjectAsync(action) {
       }
     }`,
   };
+  // const projectData = yield call(
+  //   [axios, axios.post],
+  //    apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
+
   const projectData = yield call(
-    [axios, axios.post],
-     apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
+
   //   yield put({
   //     type: UPDATE_PROJECT_SUCCESS,
   //     payload: projectData.data.data.updateProject
@@ -257,12 +277,17 @@ function* removeProjectAsync(data) {
     }`,
   };
 
+  // const projectData = yield call(
+  //   [axios, axios.post],
+  //    apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
+
   const projectData = yield call(
-    [axios, axios.post],
-     apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
+
   const response = projectData.data.data.removeProject;
 
   if (response.errors) {

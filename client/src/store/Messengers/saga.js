@@ -29,12 +29,17 @@ function* fetchMessengersByNameAsync(action) {
       }
   `
     };
+    // const res = yield call(
+    //   [axios, axios.post],
+    //    apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const res = yield call(
-      [axios, axios.post],
-       apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
     yield put({
       type: FETCH_MESSENGERS_BY_NAME_SUCCESS,
       payload: res.data.data.fetchMessengersByName
@@ -84,12 +89,17 @@ function* addMessengerAsync(action) {
       }
     }`
     };
+    // const messengerData = yield call(
+    //   [axios, axios.post],
+    //    apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const messengerData = yield call(
-      [axios, axios.post],
-       apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
     const response = messengerData.data.data.addMessenger;
     if (response.errors) {
       yield put({ type: MESSENGERS_ERROR, payload: response.errors });

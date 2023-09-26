@@ -32,12 +32,17 @@ function* fetchCommentsAsync(action) {
     `
     };
 
+    // const res = yield call(
+    //   [axios, axios.post],
+    //    apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const res = yield call(
-      [axios, axios.post],
-       apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
     yield put({
       type: FETCH_COMMENTS_SUCCESS,
       payload: res.data.data.fetchComments
@@ -82,12 +87,17 @@ function* addCommentAsync(action) {
       }
     }`
   };
+  // const commentData = yield call(
+  //   [axios, axios.post],
+  //    apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
+
   const commentData = yield call(
-    [axios, axios.post],
-     apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
+
   const response = commentData.data.data.addComment;
   if (response.errors) {
     yield put({ type: COMMENTS_ERROR, payload: response.errors });
@@ -125,12 +135,17 @@ function* removeCommentsByTaskIdAsync(action) {
     }`
   };
 
+  // const commentData = yield call(
+  //   [axios, axios.post],
+  //    apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
+
   const commentData = yield call(
-    [axios, axios.post],
-     apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
+
   const response = commentData.data.data.removeTask;
 
   if (response.errors) {

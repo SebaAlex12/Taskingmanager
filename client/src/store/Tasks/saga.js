@@ -59,12 +59,17 @@ function* fetchTasksAsync(action) {
     `,
     };
 
+    // const res = yield call(
+    //   [axios, axios.post],
+    //    apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const res = yield call(
-      [axios, axios.post],
-       apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
     yield put({ type: FETCH_TASKS_SUCCESS, payload: res.data.data.fetchTasks });
   } catch (e) {
     yield put({ type: TASKS_ERROR, payload: [e.message] });
@@ -106,12 +111,17 @@ function* fetchTasksByLoggedUserProjectsAsync(action) {
     `,
     };
 
+    // const res = yield call(
+    //   [axios, axios.post],
+    //    apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const res = yield call(
-      [axios, axios.post],
-       apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
     yield put({
       type: FETCH_TASKS_SUCCESS,
       payload: res.data.data.fetchTasksByLoggedUserProjects,
@@ -186,14 +196,17 @@ function* addTaskAsync(action) {
     }`,
   };
 
-  console.log('added data',graph);
+  // const taskData = yield call(
+  //   [axios, axios.post],
+  //    apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
 
   const taskData = yield call(
-    [axios, axios.post],
-     apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
+
   const response = taskData.data.data.addTask;
 
   if (response.errors) {
@@ -280,12 +293,17 @@ function* updateTaskAsync(action) {
       }
     }`,
   };
+  // const taskData = yield call(
+  //   [axios, axios.post],
+  //    apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
+
   const taskData = yield call(
-    [axios, axios.post],
-     apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
+
   const response = taskData.data.data.updateTask;
   if (response.errors) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
@@ -323,12 +341,17 @@ function* removeTaskAsync(action) {
     }`,
   };
 
+  // const taskData = yield call(
+  //   [axios, axios.post],
+  //    apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
+
   const taskData = yield call(
-    [axios, axios.post],
-     apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
+
   const response = taskData.data.data.removeTask;
 
   if (response.errors) {
@@ -363,12 +386,17 @@ function* sendMailingTaskAsync() {
     }`,
   };
 
+  // const taskData = yield call(
+  //   [axios, axios.post],
+  //    apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
+
   const taskData = yield call(
-    [axios, axios.post],
-     apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
+
   const response = taskData.data.data.sendMailingTask;
 
   if (response.errors) {

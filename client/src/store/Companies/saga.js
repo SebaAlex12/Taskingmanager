@@ -38,12 +38,17 @@ function* fetchCompaniesAsync() {
     `
     };
 
+    // const res = yield call(
+    //   [axios, axios.post],
+    //    apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const res = yield call(
-      [axios, axios.post],
-       apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
     yield put({
       type: FETCH_COMPANIES_SUCCESS,
       payload: res.data.data.fetchCompanies
@@ -80,12 +85,17 @@ function* fetchCompaniesByLoggedUserCompaniesAsync(action) {
     `
     };
 
+    // const res = yield call(
+    //   [axios, axios.post],
+    //    apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const res = yield call(
-      [axios, axios.post],
-       apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
     yield put({
       type: FETCH_COMPANIES_SUCCESS,
       payload: res.data.data.fetchCompaniesByLoggedUserCompanies
@@ -150,11 +160,15 @@ function* addCompanyAsync(action) {
     }`
     };
 
+    // const companyData = yield call(
+    //   [axios, axios.post],
+    //    apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const companyData = yield call(
-      [axios, axios.post],
-       apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
 
     const response = companyData.data.data.addCompany;
@@ -231,11 +245,15 @@ function* updateCompanyAsync(action) {
       }
     }`
   };
+  // const companyData = yield call(
+  //   [axios, axios.post],
+  //    apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
+
   const companyData = yield call(
-    [axios, axios.post],
-     apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
 
   const response = companyData.data.data.updateCompany;

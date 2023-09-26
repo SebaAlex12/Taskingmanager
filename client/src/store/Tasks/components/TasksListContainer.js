@@ -13,13 +13,13 @@ const TasksListContainer = () => {
 
   useEffect(() => {
       if(loggedUser){
-          setFilteredTasks(tasks.filter(task => task.responsiblePerson === loggedUser.name));
+          setFilteredTasks(tasks.filter(task => task.responsiblePerson === loggedUser.name && (task.status == "Do wykonania" || task.status == "W trakcie")));
       }
   },[tasks,loggedUser]);
 
   const switchTasks = () => {
         if (isFiltered) {
-            setFilteredTasks(tasks.filter(task => task.responsiblePerson === loggedUser.name));
+            setFilteredTasks(tasks.filter(task => task.responsiblePerson === loggedUser.name && (task.status == "Do wykonania" || task.status == "W trakcie")));
         } else {
             const filtrTasks = tasks.filter(task => task.createdBy === loggedUser.name);
             setFilteredTasks(filtrTasks);

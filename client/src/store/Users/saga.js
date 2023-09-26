@@ -44,14 +44,18 @@ function* loginUserAsync(action) {
         }
       `,
     };
-console.log('login user async',graph);
+
+    // const response = yield call(
+    //   [axios, axios.post],
+    //   apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const response = yield call(
-      [axios, axios.post],
-      apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
-    console.log('lunch login user');
+
     if(response){
       console.log('lunch response user');
       const { token, errors } = response.data.data.loginUser;
@@ -117,11 +121,15 @@ function* registerUserAsync(action) {
     }`,
   };
 
+  // const res = yield call(
+  //   [axios, axios.post],
+  //   apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
+
   const res = yield call(
-    [axios, axios.post],
-    apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
 
   if(res){
@@ -188,8 +196,8 @@ function* fetchUsersAsync(action) {
     `,
     };
 
-    console.log('graph',graph);
-    console.log('api address',apiUrl + "/graphql");
+    // console.log('graph',graph);
+    // console.log('api address',apiUrl + "/graphql");
 
     const res = yield call(
       [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
@@ -199,7 +207,7 @@ function* fetchUsersAsync(action) {
 
     // const res = yield axios.post('http://crm.pozycjonowaniestron.hekko24.pl/api/graphql/',JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } });
 
-    console.log('after yield');
+    // console.log('after yield');
 
     if(res){
       const response = res.data.data.fetchUsers;
@@ -244,12 +252,17 @@ function* fetchUsersByLoggedUserProjectsAsync(action) {
         }
     `,
     };
+    // const res = yield call(
+    //   [axios, axios.post],
+    //   apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const res = yield call(
-      [axios, axios.post],
-      apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
     if(res){
       const { errors } = res.data.data.fetchUsersByLoggedUserProjects;
       const response = res.data.data.fetchUsersByLoggedUserProjects;
@@ -318,11 +331,15 @@ function* updateUserAsync(action) {
         }
       }`,
     };
+    // const res = yield call(
+    //   [axios, axios.post],
+    //   apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const res = yield call(
-      [axios, axios.post],
-      apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
 
     if(res){

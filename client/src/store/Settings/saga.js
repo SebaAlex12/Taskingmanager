@@ -24,12 +24,17 @@ function* fetchSettingsAsync() {
     `
     };
 
+    // const res = yield call(
+    //   [axios, axios.post],
+    //    apiUrl + "/graphql",
+    //   JSON.stringify(graph),
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+
     const res = yield call(
-      [axios, axios.post],
-       apiUrl + "/graphql",
-      JSON.stringify(graph),
-      { headers: { "Content-Type": "application/json" } }
+      [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
     yield put({
       type: FETCH_SETTINGS_SUCCESS,
       payload: res.data.data.fetchSettings
@@ -62,12 +67,17 @@ function* updateSettingAsync(action) {
         }
       }`
   };
+  // const settingsData = yield call(
+  //   [axios, axios.post],
+  //    apiUrl + "/graphql",
+  //   JSON.stringify(graph),
+  //   { headers: { "Content-Type": "application/json" } }
+  // );
+
   const settingsData = yield call(
-    [axios, axios.post],
-     apiUrl + "/graphql",
-    JSON.stringify(graph),
-    { headers: { "Content-Type": "application/json" } }
+    [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
+
   const response = settingsData.data.data.updateSettings;
   if (response.errors) {
     yield put({ type: SETTINGS_ERROR, payload: response.errors });

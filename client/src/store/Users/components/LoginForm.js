@@ -17,7 +17,7 @@ const LoginForm = () => {
 
     console.log('logged user',)
 
-  //  window.location.href = "/dashboard";
+   window.location.href = "/dashboard";
   }
 
   const loading = false;
@@ -33,7 +33,7 @@ const LoginForm = () => {
 
   return(
         <React.Fragment>
-          <RequestTest />
+          {/* <RequestTest /> */}
           { loading === true ? <LoaderInfo>Trwa ładowanie strony...</LoaderInfo> : null }
           { errors.length > 0 ? <MessagesAlertInfo errors={errors} /> : null }
           <div
