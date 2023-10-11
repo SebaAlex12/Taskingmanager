@@ -14,13 +14,13 @@ const TasksListContainer = () => {
 
   useEffect(() => {
       if(loggedUser){
-          setFilteredTasks(sortItems(tasks.filter(task => task.responsiblePerson === loggedUser.name && (task.status == "Do wykonania" || task.status == "W trakcie")),'status','asc'));
+          setFilteredTasks(sortItems(tasks.filter(task => task.responsiblePerson === loggedUser.name && (task.status === "Do wykonania" || task.status === "W trakcie")),'status','asc'));
       }
   },[tasks,loggedUser]);
 
   const switchTasks = () => {
         if (isFiltered) {
-            setFilteredTasks(tasks.filter(task => task.responsiblePerson === loggedUser.name && (task.status == "Do wykonania" || task.status == "W trakcie")));
+            setFilteredTasks(sortItems(tasks.filter(task => task.responsiblePerson === loggedUser.name && (task.status === "Do wykonania" || task.status === "W trakcie")),'status','asc'));
         } else {
             const filtrTasks = tasks.filter(task => task.createdBy === loggedUser.name);
             setFilteredTasks(filtrTasks);
@@ -28,14 +28,11 @@ const TasksListContainer = () => {
         setIsFiltered(!isFiltered);
   }
 
-  console.log('rerender...');
+  // console.log('rerender...');
 
   const orderTasks = (column, direction) => {
     const newOrder = sortItems(filteredTasks, column, direction);
-    console.log('new order', newOrder);
-    console.log('filtered tasks',filteredTasks);
-    setFilteredTasks(newOrder);
-    setIsFiltered(isFiltered);
+    setFilteredTasks([...newOrder]);
   }
 
 

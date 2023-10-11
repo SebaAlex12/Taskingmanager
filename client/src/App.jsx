@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import moment from "moment";
 
@@ -19,21 +19,10 @@ import LoginForm from "./store/Users/components/LoginForm";
 import { fetchSettings } from "./store/Settings/actions";
 
 import Dashboard from "./themes/layout/Dashboard";
-import MessagesList from "./store/Messages/components/MessagesList";
 
 import { StyledResponsive } from "./StyledResponsive";
 
 function App() {
-
-  const [ isLogged, setIsLogged ] = useState(false);
-  const [ isRedirect, setIsRedirect ] = useState(true);
-
-  console.log('app has been lunched');
-
-  // if(!isRedirect){
-  //   setIsRedirect(false);
-  //   window.location.href = '/login';
-  // }
 
   if (localStorage.jwtTokenAuthorization) {
     const {

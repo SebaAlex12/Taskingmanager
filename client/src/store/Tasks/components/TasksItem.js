@@ -141,7 +141,7 @@ const TaskItem = (props) => {
               onChange={onChangeSelect}
               name="responsiblePerson"
               disabled={loggedUser.name !== createdBy ? "disabled" : null}
-              value={responsiblePerson}
+              // value={responsiblePerson}
               defaultValue={responsiblePerson}
               required
             >

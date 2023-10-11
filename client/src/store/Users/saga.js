@@ -171,7 +171,6 @@ export function* fetchLoggedUserWatcher() {
 }
 
 function* fetchUsersAsync(action) {
-  console.log('fetching users');
   const data = action.data;
   try {
     const graph = {

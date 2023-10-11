@@ -25,7 +25,6 @@ export const sortItems = (items, column, direction) => {
   if (direction === "desc") {
     sortedItems = sortArray(items, column, -1);
   }
-  console.log('sorted array',sortedItems);
   return sortedItems;
 };
 export const compareErrors = (firstErrors,secondErrors) => {
