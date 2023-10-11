@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 
+import { sortItems } from '../../../common/tools';
 import TasksList from './TasksList';
 import { StyledTaskListContainer } from "../styles/StyledTaskListContainer";
 
@@ -13,7 +14,7 @@ const TasksListContainer = () => {
 
   useEffect(() => {
       if(loggedUser){
-          setFilteredTasks(tasks.filter(task => task.responsiblePerson === loggedUser.name && (task.status == "Do wykonania" || task.status == "W trakcie")));
+          setFilteredTasks(sortItems(tasks.filter(task => task.responsiblePerson === loggedUser.name && (task.status == "Do wykonania" || task.status == "W trakcie")),'status','asc'));
       }
   },[tasks,loggedUser]);
 
@@ -26,6 +27,18 @@ const TasksListContainer = () => {
         }
         setIsFiltered(!isFiltered);
   }
+
+  console.log('rerender...');
+
+  const orderTasks = (column, direction) => {
+    const newOrder = sortItems(filteredTasks, column, direction);
+    console.log('new order', newOrder);
+    console.log('filtered tasks',filteredTasks);
+    setFilteredTasks(newOrder);
+    setIsFiltered(isFiltered);
+  }
+
+
 
     return(
       <StyledTaskListContainer>
@@ -52,11 +65,11 @@ const TasksListContainer = () => {
                           <th scope="col">
                             Nazwa
                             <i
-                              onClick={() => this.sortItems(tasks, "title", "asc")}
+                              onClick={() => orderTasks("title", "asc")}
                               className="glyphicon glyphicon-sort-by-alphabet"
                             ></i>
                             <i
-                              onClick={() => this.sortItems(tasks, "title", "desc")}
+                              onClick={() => orderTasks("title", "desc")}
                               className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
                             ></i>
                           </th>
@@ -64,13 +77,13 @@ const TasksListContainer = () => {
                             Projekt
                             <i
                               onClick={() =>
-                                this.sortItems(tasks, "projectName", "asc")
+                                orderTasks("projectName", "asc")
                               }
                               className="glyphicon glyphicon-sort-by-alphabet"
                             ></i>
                             <i
                               onClick={() =>
-                                this.sortItems(tasks, "projectName", "desc")
+                                orderTasks("projectName", "desc")
                               }
                               className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
                             ></i>
@@ -78,84 +91,66 @@ const TasksListContainer = () => {
                           <th scope="col">
                             Stan
                             <i
-                              onClick={() => this.sortItems(tasks, "status", "asc")}
+                              onClick={() => orderTasks("status", "asc")}
                               className="glyphicon glyphicon-sort-by-alphabet"
                             ></i>
                             <i
-                              onClick={() =>
-                                this.sortItems(tasks, "status", "desc")
-                              }
+                              onClick={() => orderTasks("status", "desc")}
                               className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
                             ></i>
                           </th>
                           <th scope="col">
                             Priorytet
                             <i
-                              onClick={() =>
-                                this.sortItems(tasks, "priority", "asc")
-                              }
+                              onClick={() => orderTasks("priority", "asc")}
                               className="glyphicon glyphicon-sort-by-alphabet"
                             ></i>
                             <i
-                              onClick={() =>
-                                this.sortItems(tasks, "priority", "desc")
-                              }
+                              onClick={() => orderTasks("priority", "desc")}
                               className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
                             ></i>
                           </th>
                           <th scope="col">
                             Zlecający
                             <i
-                              onClick={() =>
-                                this.sortItems(tasks, "createdBy", "asc")
-                              }
+                              onClick={() => orderTasks("createdBy", "asc")}
                               className="glyphicon glyphicon-sort-by-alphabet"
                             ></i>
                             <i
-                              onClick={() =>
-                                this.sortItems(tasks, "createdBy", "desc")
-                              }
+                              onClick={() => orderTasks("createdBy", "desc")}
                               className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
                             ></i>
                           </th>
                           <th scope="col">
                             Wykonawca
                             <i
-                              onClick={() =>
-                                this.sortItems(tasks, "responsiblePerson", "asc")
-                              }
+                              onClick={() => orderTasks("responsiblePerson", "asc")}
                               className="glyphicon glyphicon-sort-by-alphabet"
                             ></i>
                             <i
-                              onClick={() =>
-                                this.sortItems(tasks, "responsiblePerson", "desc")
-                              }
+                              onClick={() => orderTasks("responsiblePerson", "desc")}
                               className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
                             ></i>
                           </th>
                           <th scope="col">
                             Termin
                             <i
-                              onClick={() => this.sortItems(tasks, "term", "asc")}
+                              onClick={() => orderTasks("term", "asc")}
                               className="glyphicon glyphicon-sort-by-alphabet"
                             ></i>
                             <i
-                              onClick={() => this.sortItems(tasks, "term", "desc")}
+                              onClick={() => orderTasks("term", "desc")}
                               className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
                             ></i>
                           </th>
                           <th scope="col">
                             Utworzono
                             <i
-                              onClick={() =>
-                                this.sortItems(tasks, "createdAt", "asc")
-                              }
+                              onClick={() => orderTasks("createdAt", "asc")}
                               className="glyphicon glyphicon-sort-by-alphabet"
                             ></i>
                             <i
-                              onClick={() =>
-                                this.sortItems(tasks, "createdAt", "desc")
-                              }
+                              onClick={() => orderTasks("createdAt", "desc")}
                               className="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
                             ></i>
                           </th>

@@ -1,41 +1,32 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../actions";
 
 import MessagesAlertInfo from "../../Messages/components/MessagesAlertInfo";
 import LoaderInfo from "../../../common/LoaderInfo";
-import { baseUrl } from '../../ini';
-
-import RequestTest from '../../../common/RequestTest';
-
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   let { logged_user } = useSelector(state => state.users);
+  const { errors } = useSelector(state => state.users);
+  const [ isLogging, setIsLogging ] = useState(false);
 
   if(logged_user){
-
-    console.log('logged user',)
-
-   window.location.href = "/dashboard";
+      window.location.href = "/dashboard";
   }
-
-  const loading = false;
-  const errors = [];
 
   const email = useRef();
   const password = useRef();
 
   const loginHandler = (event) => {
       event.preventDefault();
+      setIsLogging(true);
       dispatch(loginUser({ email: email.current.value, password: password.current.value }));
+      setIsLogging(false);
   }
 
   return(
         <React.Fragment>
-          {/* <RequestTest /> */}
-          { loading === true ? <LoaderInfo>Trwa ładowanie strony...</LoaderInfo> : null }
-          { errors.length > 0 ? <MessagesAlertInfo errors={errors} /> : null }
           <div
             className="login-form-box mb-3 mt-3"
             style={{
@@ -45,6 +36,8 @@ const LoginForm = () => {
               marginRight: "auto",
             }}
           >
+              { isLogging === true && <LoaderInfo>Trwa logowanie do systemu..." </LoaderInfo>}
+              { errors.length > 0 ? <MessagesAlertInfo errors={errors} /> : null }
             <form action="post">
               <div className="form-group form-row">
                 <label htmlFor="">Email:</label>

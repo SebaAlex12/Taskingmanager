@@ -17,6 +17,17 @@ export const sortArray = (array, property, direction) => {
   });
   return array;
 };
+export const sortItems = (items, column, direction) => { 
+  let sortedItems = [];
+  if (direction === "asc") {
+    sortedItems = sortArray(items, column);
+  }
+  if (direction === "desc") {
+    sortedItems = sortArray(items, column, -1);
+  }
+  console.log('sorted array',sortedItems);
+  return sortedItems;
+};
 export const compareErrors = (firstErrors,secondErrors) => {
   let counter = null;
 
