@@ -203,11 +203,17 @@ function* addTaskAsync(action) {
   //   { headers: { "Content-Type": "application/json" } }
   // );
 
+  console.log('add task saga before xhr');
+
   const taskData = yield call(
     [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
 
+    console.log('add task saga after xhr');
+
   const response = taskData.data.data.addTask;
+
+  console.log('response',response);
 
   if (response.errors) {
     yield put({ type: TASKS_ERROR, payload: response.errors });

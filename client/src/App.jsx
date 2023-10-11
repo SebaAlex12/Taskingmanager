@@ -16,7 +16,6 @@ import {
   fetchUsers,
 } from "./store/Users/actions";
 import LoginForm from "./store/Users/components/LoginForm";
-import { fetchSettings } from "./store/Settings/actions";
 
 import Dashboard from "./themes/layout/Dashboard";
 
@@ -64,7 +63,6 @@ function App() {
       } else {
         store.dispatch(fetchUsers({ company: company }));
       }
-      store.dispatch(fetchSettings());
     } else {
       localStorage.removeItem("jwtTokenAuthorization");
       window.location.href = '/';
