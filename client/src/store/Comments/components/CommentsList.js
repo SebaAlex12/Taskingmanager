@@ -21,7 +21,6 @@ const CommentsList = ({taskId, responsiblePerson}) => {
 
     const commentsContent = comments
       ? comments.map((comment) => {
-        console.log('comment',comment);
           return (
             <CommentsItem
               item={comment}

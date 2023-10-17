@@ -80,15 +80,15 @@ class TasksAddForm extends Component {
       updateMessages({ alert: alertData });
     }
 
-    addUserHistory({
-      userId: loggedUser._id,
-      userName: loggedUser.name,
-      taskCreatedBy: loggedUser.name,
-      taskProjectName: projectName,
-      taskTitle: title,
-      event: "dodane nowe zadanie",
-      createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
-    });
+    // addUserHistory({
+    //   userId: loggedUser._id,
+    //   userName: loggedUser.name,
+    //   taskCreatedBy: loggedUser.name,
+    //   taskProjectName: projectName,
+    //   taskTitle: title,
+    //   event: "dodane nowe zadanie",
+    //   createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
+    // });
   };
   render() {
     const { projects } = this.props;

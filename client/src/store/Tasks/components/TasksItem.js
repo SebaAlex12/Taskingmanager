@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const TaskItem = (props) => {
+  console.log('task item rendered...');
     const {
       _id,
       title,
@@ -228,4 +229,4 @@ const TaskItem = (props) => {
     )
 }
 
-export default TaskItem;
+export default React.memo(TaskItem);
