@@ -3,21 +3,32 @@ import { useSelector, useDispatch } from 'react-redux';
 
 
 import { StyledCommentList } from "../styles/StyledCommentList";
-import { fetchComments } from './../actions';
+// import { fetchComments } from './../actions';
 import CommentsItem from "./CommentsItem";
 
 const CommentsList = ({taskId, responsiblePerson}) => {
     const [ comments, setComments] = useState(false);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const data = useSelector(state => state.comments.comments);
+    console.log('comments list render...');
+    
+    // useEffect(() => {
+    //   console.log('comments array',data);
+    //     setComments(data);
+    // },[data])
     
     useEffect(() => {
-        setComments(data)
-    },[data])
-    
-    useEffect(() => {
-      dispatch(fetchComments({taskId}));
-    },[])
+      // dispatch(fetchComments({taskId}));
+      console.log('useeffecs start',data);
+      console.log('taskId',taskId);
+
+      if(data[0]){
+          if(data[0].taskId === taskId){
+            console.log('set comments');
+            setComments(data);
+          }
+      }
+    },[]);
 
     const commentsContent = comments
       ? comments.map((comment) => {

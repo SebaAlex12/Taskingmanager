@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 // import moment from "moment";
 import moment from "moment/min/moment-with-locales";
 
 import { priorities, statuses } from "../../ini";
+import { fetchComments } from '../../Comments/actions';
 import CommentsAddForm from "../../Comments/components/CommentsAddForm";
 import CommentsList from "../../Comments/components/CommentsList";
 import { updateTask, removeTask } from './../actions';
@@ -35,11 +36,28 @@ const TaskItem = (props) => {
     const dispatch = useDispatch();
     const loggedUser = useSelector(state => state.users.logged_user);
     const users = useSelector(state => state.users.users);
+    // const selectedComments = useSelector(state=> state.comments.comments);
+
     const [ isActive, setIsActive ] = useState(false);
     const [ text, setText ] = useState(description);
+    // const [ comments, setComments ] = useState([]);
+
+    // useEffect(() => {
+    //   console.log('comments init');
+    //   console.log('selected comments',selectedComments);
+    //     if(selectedComments.taskId === _id){
+    //         setComments(selectedComments);
+    //     }
+    // },[]);
+    // useEffect(() => {
+    //     console.log('selected comments has been changed');
+    // },[selectedComments]);
 
     const setActive = () => {
         setIsActive(prevState => !prevState);
+        if(isActive === false){
+            dispatch(fetchComments({taskId:_id}));
+        }
     }
 
     const remove = () => {
