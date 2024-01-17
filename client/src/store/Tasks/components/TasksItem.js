@@ -18,7 +18,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const TaskItem = (props) => {
-  console.log('task item rendered...');
     const {
       _id,
       title,

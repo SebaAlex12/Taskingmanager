@@ -4,28 +4,40 @@ import { useSelector } from 'react-redux';
 import { sortItems } from '../../../common/tools';
 import TasksList from './TasksList';
 import { StyledTaskListContainer } from "../styles/StyledTaskListContainer";
+import TasksPriorityForm from "./TasksPriorityForm";
 
 const TasksListContainer = () => {
   
   const tasks = useSelector(state=>state.tasks.tasks);
   const loggedUser = useSelector(state=>state.users.logged_user);
   const [filteredTasks,setFilteredTasks] = useState([]);
-  const [isFiltered,setIsFiltered] = useState(false);
+  const [status,setStatus] = useState('Do wykonania');
+  const [isResponsiblePerson,setIsResponsiblePerson] = useState(true)
 
   useEffect(() => {
-      if(loggedUser){
-          setFilteredTasks(sortItems(tasks.filter(task => task.responsiblePerson === loggedUser.name && (task.status === "Do wykonania" || task.status === "W trakcie")),'createdAt','desc'));
-      }
+    setFilteredTasks(
+        sortItems(
+          tasks.filter(
+            task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name) 
+            && (task.status === status)),
+            'createdAt',
+            'desc'
+            )
+        );
   },[tasks,loggedUser]);
 
   const switchTasks = () => {
-        if (isFiltered) {
-            setFilteredTasks(sortItems(tasks.filter(task => task.responsiblePerson === loggedUser.name && (task.status === "Do wykonania" || task.status === "W trakcie")),'createdAt','desc'));
-        } else {
-            const filtrTasks = tasks.filter(task => task.createdBy === loggedUser.name);
-            setFilteredTasks(filtrTasks);
-        }
-        setIsFiltered(!isFiltered);
+    const reversIsResponsiblePerson = !isResponsiblePerson;
+      setFilteredTasks(
+        sortItems(
+          tasks.filter(
+            task => (reversIsResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name) 
+            && (task.status === status)),
+            'createdAt',
+            'desc'
+            )
+        );
+        setIsResponsiblePerson(reversIsResponsiblePerson);
   }
 
   // console.log('rerender...');
@@ -33,12 +45,31 @@ const TasksListContainer = () => {
   const orderTasks = (column, direction) => {
     const newOrder = sortItems(filteredTasks, column, direction);
     setFilteredTasks([...newOrder]);
+    // console.log('order tasks');
+    // setFilteredTasks(prevTasks => sortItems(prevTasks, column, direction));
   }
 
-
+  const priorityFilterHandler = (event) => {
+      if(event.target.value !== "Wszystkie"){
+        console.log('status',event.target.value);
+          setFilteredTasks(
+            tasks.filter(
+              task => (task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name))
+              && (task.status === event.target.value)
+              )
+          );
+      }else{
+        setFilteredTasks(
+          tasks.filter(
+              task => (task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name))
+            )
+        );
+      }
+  }
 
     return(
       <StyledTaskListContainer>
+        <TasksPriorityForm priorityFilter={priorityFilterHandler} status={status} />
         <form className="task-switcher">
                  <label className="switch">
                    <input

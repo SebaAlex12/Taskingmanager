@@ -61,6 +61,7 @@ module.exports = {
   addProject: async function ({ projectInput }, req) {
     const result = await Project.findOne({ name: projectInput.name });
     if (result) {
+      console.log("Istnieje już projekt o podanej nazwie");
       throw {
         errors: [
           { path: "name", message: "Istnieje już projekt o podanej nazwie" },
@@ -87,7 +88,6 @@ module.exports = {
           ? crypt.encrypt(projectInput.panel)
           : projectInput.panel,
     };
-
     const project = new Project(data);
     try {
       const storedProject = await project.save();
