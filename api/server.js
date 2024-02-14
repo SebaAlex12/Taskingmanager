@@ -34,19 +34,19 @@ const basePath = process.env.BASEPATH || '/';
 app.use(cors());
 
 
-const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: 'combined.log' })
-  ]
-});
+// const logger = winston.createLogger({
+//   transports: [
+//     new winston.transports.Console(),
+//     new winston.transports.File({ filename: 'combined.log' })
+//   ]
+// });
 
-logger.log({
-  level: 'info',
-  message: 'Hello distributed log files new message!'
-});
+// logger.log({
+//   level: 'info',
+//   message: 'Hello distributed log files new message!'
+// });
 
-logger.info('Hello again distributed logs');
+// logger.info('Hello again distributed logs');
 
 
 // app.use("/", (req, res, next) => {
