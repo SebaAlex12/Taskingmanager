@@ -40,31 +40,26 @@ const TasksListContainer = () => {
         setIsResponsiblePerson(reversIsResponsiblePerson);
   }
 
-  // console.log('rerender...');
-
   const orderTasks = (column, direction) => {
     const newOrder = sortItems(filteredTasks, column, direction);
     setFilteredTasks([...newOrder]);
-    // console.log('order tasks');
-    // setFilteredTasks(prevTasks => sortItems(prevTasks, column, direction));
   }
 
   const priorityFilterHandler = (event) => {
       if(event.target.value !== "Wszystkie"){
-        console.log('status',event.target.value);
           setFilteredTasks(
             tasks.filter(
-              task => (task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name))
-              && (task.status === event.target.value)
-              )
+              task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name) && (task.status === event.target.value))
           );
       }else{
+        console.log('status wszystkie',event.target.value);
         setFilteredTasks(
           tasks.filter(
-              task => (task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name))
+              task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name)
             )
         );
       }
+      setStatus(event.target.value);
   }
 
     return(
@@ -84,7 +79,7 @@ const TasksListContainer = () => {
                    ></span>
                    <span className="switch-handle"></span>
                  </label>
-                 <label htmlFor=""> - zadania utworzone przeze mnie</label>
+                 <label htmlFor=""> - { isResponsiblePerson ? '[Zadania które mam wykonać]':'[Zadania utworzone przeze mnie]' }</label>
           </form>
           <div className="task-items-box">
                 <table className="table table-striped">

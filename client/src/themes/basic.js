@@ -10,6 +10,12 @@ export const DashboardBox = styled.div`
     display:flex;
     flex-direction: column;
   }
+  .content-box .user-name{
+    display:flex;
+    justify-content:center;
+    font-weight:bold;
+    margin:5px;
+  }
   .right-buttons-box{
     position: fixed;
     right: 0px;

@@ -41,6 +41,7 @@ const Dashboard = () => {
       <DashboardBox>
         <div className="content-box">
             {/* <MessagesAlertList /> */}
+            <div className="user-name">Zalogowany użytkownik: { logged_user && logged_user.name }</div>
             <div className="center-buttons-box">
             <Link className="btn btn-default" to="/dashboard/tasks">
               Zadania

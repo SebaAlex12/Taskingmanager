@@ -88,7 +88,6 @@ const TaskItem = (props) => {
       const response = dispatch(updateTask(data)); 
       if(response) window.confirm(`opis został zmieniony`);    
     }
-
     return(
       <React.Fragment>
         <tr>
@@ -195,15 +194,17 @@ const TaskItem = (props) => {
               >
               <FontAwesomeIcon icon={faEdit} />
             </Button>
-            {loggedUser.name === createdBy ? (
-              <WarningButton
-                warning
-                onClick={remove}
-                title="Usuń"
-              >
-                <FontAwesomeIcon icon={faTimes} />
-              </WarningButton>
-            ) : null}
+            {
+              loggedUser.name === createdBy && (
+                <WarningButton
+                  warning
+                  onClick={remove}
+                  title="Usuń"
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </WarningButton>
+              )
+            }
           </td>
         </tr>
         {isActive ? (
