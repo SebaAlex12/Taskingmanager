@@ -8,9 +8,10 @@ const TasksPriorityForm = ({priorityFilter,status}) => {
             <form action="">
                 <div className={classes['form-group']}>
                     <label htmlFor="">Filtruj:</label>
-                    <select name="" id="" className='form-control' onChange={priorityFilter} defaultValue={status}>
+                    <select name="" id="" className='form-control' onChange={priorityFilter} value={status}>
                         <option value="Wszystkie">Wszystkie</option>
                         <option value="Do wykonania">Do wykonania</option>
+                        <option value="W trakcie">W trakcie</option>
                         <option value="Do akceptacji">Do akceptacji</option>
                         <option value="Wykonane">Wykonane</option>
                     </select>

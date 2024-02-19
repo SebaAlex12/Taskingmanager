@@ -12,9 +12,12 @@ const TasksListContainer = () => {
   const loggedUser = useSelector(state=>state.users.logged_user);
   const [filteredTasks,setFilteredTasks] = useState([]);
   const [status,setStatus] = useState('Do wykonania');
-  const [isResponsiblePerson,setIsResponsiblePerson] = useState(true)
+  const [isResponsiblePerson,setIsResponsiblePerson] = useState(true);
+
+  console.log('tasks list container render...');
 
   useEffect(() => {
+    console.log('tasks or logged user render...');
     setFilteredTasks(
         sortItems(
           tasks.filter(
@@ -27,12 +30,13 @@ const TasksListContainer = () => {
   },[tasks,loggedUser]);
 
   const switchTasks = () => {
+    setStatus('Do wykonania');
     const reversIsResponsiblePerson = !isResponsiblePerson;
       setFilteredTasks(
         sortItems(
           tasks.filter(
             task => (reversIsResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name) 
-            && (task.status === status)),
+            && (task.status === 'Do wykonania')),
             'createdAt',
             'desc'
             )
@@ -49,15 +53,22 @@ const TasksListContainer = () => {
       if(event.target.value !== "Wszystkie"){
           setFilteredTasks(
             tasks.filter(
-              task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name) && (task.status === event.target.value))
-          );
+              task => {
+                    if(isResponsiblePerson === true){
+                        if(task.responsiblePerson === loggedUser.name && task.status === event.target.value){
+                            return task;
+                        }
+                    }else{
+                        if(task.createdBy === loggedUser.name && task.status === event.target.value){
+                            return task;
+                        }
+                    }
+                })
+            )
       }else{
         console.log('status wszystkie',event.target.value);
         setFilteredTasks(
-          tasks.filter(
-              task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name)
-            )
-        );
+          tasks.filter( task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name)));
       }
       setStatus(event.target.value);
   }
