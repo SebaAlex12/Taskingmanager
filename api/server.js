@@ -29,10 +29,23 @@ const cors = require("cors");
 
 const app = express();
 
+// Body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+const bodyParserJson = bodyParser.json({ limit: "50mb" });
+const bodyParserUrlencoded = bodyParser.urlencoded({
+  limit: "50mb",
+  extended: true,
+  parameterLimit: 50000,
+});
+
 const basePath = process.env.BASEPATH || '/';
 
 app.use(cors());
 
+const reports = require("./routes/reports");
+app.use(basePath + "reports",reports);
 
 // const logger = winston.createLogger({
 //   transports: [
@@ -67,12 +80,7 @@ app.use(cors());
 //   next();
 // });
 
-const bodyParserJson = bodyParser.json({ limit: "50mb" });
-const bodyParserUrlencoded = bodyParser.urlencoded({
-  limit: "50mb",
-  extended: true,
-  parameterLimit: 50000,
-});
+
 
 // DB config
 

@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import TaskAddForm from './../store/Tasks/components/TasksAddForm';
 import ProjectsAddForm from './../store/Projects/components/ProjectsAddForm';
 import RegistryForm from './../store/Users/components/RegistryForm';
+import ReportsListContainer from './../store/Reports/components/ReportsListContainer';
+import ModalBox from './../common/ModalBox';
 
 import { BiggerButton } from './../themes/basic';
 
@@ -17,9 +19,22 @@ const RightButtonsBox = () => {
     const [ toggleTasksAddForm, setToggleTasksAddForm ] = useState(false);
     const [ toggleProjectAddForm, setToggleProjectAddForm ] = useState(false);
     const [ toggleUserAddForm, setToggleUserAddForm ] = useState(false);
+    const [ toggleReportsListContainer, setToggleReportsListContainer ] = useState(false);
+
+    console.log('right button render...');
 
     return (
         <div className="right-buttons-box">
+            <div className="item">
+                <BiggerButton
+                        variant="primary"
+                        title="Rozwiń formularz"
+                        onClick={() => setToggleReportsListContainer(prevState => !prevState)}
+                >
+                    Raporty
+                </BiggerButton>
+                { toggleReportsListContainer && <ModalBox title="Modal Title" closeHandler={() => setToggleReportsListContainer(false)}><ReportsListContainer /></ModalBox> }
+            </div>
             <div className='item'>
                 <BiggerButton
                         variant="primary"
