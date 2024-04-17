@@ -33,13 +33,20 @@ module.exports = {
 
         let tasks = await Task.find(params).sort({ createdAt: "desc" });
 
+        // let comments = await Comment.find({});
+        // console.log('comments',comments);
+
         const newTasks = tasks.map(async (task) => {
           let path = "./client/public/files/tasks/" + task._id;
 
+          let commentParams = {};
+          commentParams.taskId = task._id;
 
-          let comments = await Comment.find({TaskId:task._id});
-          console.log('comments',comments);
-          task.comments = comments;
+          let comments = await Comment.find(commentParams);
+       //   console.log('comments',comments);
+          task.comments = comments.length > 0 ? comments.map(comment => comment.description ) : [];
+          task.dupa = '1';
+
 
           if (fs.existsSync(path)) {
             const files = await fsPromises.readdir(path);
@@ -50,6 +57,9 @@ module.exports = {
           } else {
             task.files = [];
           }
+
+          console.log('task node',task);
+          
           return task;
         });
 

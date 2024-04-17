@@ -141,6 +141,7 @@ module.exports = buildSchema(`
         termAt: String
         mailRemainderData: String
         errors: [Error]
+        comments: [String]
         files: [String]
     }
 

@@ -53,6 +53,7 @@ function* fetchTasksAsync(action) {
             finishedAt
             termAt
             mailRemainderData
+            comments
             files
           }
         }
