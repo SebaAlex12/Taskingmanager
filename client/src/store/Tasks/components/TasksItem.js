@@ -35,7 +35,6 @@ const TaskItem = (props) => {
     const dispatch = useDispatch();
     const loggedUser = useSelector(state => state.users.logged_user);
     const users = useSelector(state => state.users.users);
-    // const selectedComments = useSelector(state=> state.comments.comments);
 
     const [ isActive, setIsActive ] = useState(false);
     const [ text, setText ] = useState(description);

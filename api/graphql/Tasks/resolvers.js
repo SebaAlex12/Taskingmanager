@@ -5,6 +5,7 @@ const fsPromises = fs.promises;
 
 const { sendMail } = require("../../utils/mailsManager");
 const Task = require("../../models/Task");
+const Comment = require("../../models/Comment");
 const User = require("../../models/User");
 const tools = require("../../utils/tools");
 // fetchTasks and fetchTasksByLoggedUserProjects has to be almost the same
@@ -34,6 +35,12 @@ module.exports = {
 
         const newTasks = tasks.map(async (task) => {
           let path = "./client/public/files/tasks/" + task._id;
+
+
+          let comments = await Comment.find({TaskId:task._id});
+          console.log('comments',comments);
+          task.comments = comments;
+
           if (fs.existsSync(path)) {
             const files = await fsPromises.readdir(path);
             task = {

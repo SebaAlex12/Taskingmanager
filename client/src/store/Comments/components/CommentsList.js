@@ -8,9 +8,15 @@ import CommentsItem from "./CommentsItem";
 
 const CommentsList = ({taskId, responsiblePerson}) => {
     const [ comments, setComments] = useState(false);
-    // const dispatch = useDispatch();
-    const data = useSelector(state => state.comments.comments);
+
     console.log('comments list render...');
+
+    // const dispatch = useDispatch();
+    // const data = useSelector(state => state.comments.comments);
+    const selectedComments = useSelector(state=> state.comments.comments);
+    console.log('selectedComments',selectedComments);
+
+
     
     // useEffect(() => {
     //   console.log('comments array',data);
@@ -19,19 +25,17 @@ const CommentsList = ({taskId, responsiblePerson}) => {
     
     useEffect(() => {
       // dispatch(fetchComments({taskId}));
-      console.log('useeffecs start',data);
-      console.log('taskId',taskId);
 
-      if(data[0]){
-          if(data[0].taskId === taskId){
-            console.log('set comments');
-            setComments(data);
-          }
+      if(selectedComments.length > 0){
+          // if(data[0].taskId === taskId){
+            setComments(selectedComments);
+          // }
       }
-    },[]);
+      console.log('use effect comments');
+    },[comments]);
 
-    const commentsContent = comments
-      ? comments.map((comment) => {
+    const commentsContent = selectedComments.length > 0
+      ? selectedComments.map((comment) => {
           return (
             <CommentsItem
               item={comment}
