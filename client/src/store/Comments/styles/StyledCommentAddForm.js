@@ -2,10 +2,9 @@ import styled from "styled-components";
 
 export const StyledCommentAddForm = styled.div`
   .comment-add-form-box {
-    float: right;
   }
   .comment-add-form-box textarea {
-    width: 420px;
+    width:33%;
     height: 210px;
   }
   .comment-add-form-box input[type="submit"] {

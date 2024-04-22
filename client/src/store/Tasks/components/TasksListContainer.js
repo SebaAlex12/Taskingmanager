@@ -14,10 +14,7 @@ const TasksListContainer = () => {
   const [status,setStatus] = useState('Do wykonania');
   const [isResponsiblePerson,setIsResponsiblePerson] = useState(true);
 
-  console.log('tasks list container render...');
-
   useEffect(() => {
-    console.log('tasks or logged user render...');
     setFilteredTasks(
         sortItems(
           tasks.filter(
@@ -66,7 +63,6 @@ const TasksListContainer = () => {
                 })
             )
       }else{
-        console.log('status wszystkie',event.target.value);
         setFilteredTasks(
           tasks.filter( task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name)));
       }

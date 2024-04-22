@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-// import moment from "moment";
 import moment from "moment/min/moment-with-locales";
 
 import { priorities, statuses } from "../../ini";
-import { fetchComments } from '../../Comments/actions';
 import CommentsAddForm from "../../Comments/components/CommentsAddForm";
 import CommentsList from "../../Comments/components/CommentsList";
 import { updateTask, removeTask } from './../actions';
@@ -30,32 +28,19 @@ const TaskItem = (props) => {
       createdBy,
       termAt,
       createdAt,
+      comments,
     } = props.item;
 
     const dispatch = useDispatch();
     const loggedUser = useSelector(state => state.users.logged_user);
     const users = useSelector(state => state.users.users);
 
+    const descriptionRef = useRef();
     const [ isActive, setIsActive ] = useState(false);
-    const [ text, setText ] = useState(description);
-    // const [ comments, setComments ] = useState([]);
-
-    // useEffect(() => {
-    //   console.log('comments init');
-    //   console.log('selected comments',selectedComments);
-    //     if(selectedComments.taskId === _id){
-    //         setComments(selectedComments);
-    //     }
-    // },[]);
-    // useEffect(() => {
-    //     console.log('selected comments has been changed');
-    // },[selectedComments]);
+    const [ commentsTask, setCommentsTask ] = useState(comments); 
 
     const setActive = () => {
         setIsActive(prevState => !prevState);
-        if(isActive === false){
-            dispatch(fetchComments({taskId:_id}));
-        }
     }
 
     const remove = () => {
@@ -66,6 +51,10 @@ const TaskItem = (props) => {
       }
     };
 
+    const addComment = (data) => {
+        setCommentsTask(prevState => [...prevState,data]);
+    }
+
     const onChangeSelect = (event) => {
       const data = {
         _id,
@@ -75,14 +64,10 @@ const TaskItem = (props) => {
       if(response) window.confirm(`${[event.target.name]} został zmieniony`);
     };
 
-    const onChangeTextarea = (event) => {
-      setText(event.target.value);
-    }
-
     const onClickSubmitDescription = () => {
       const data = {
         _id,
-        description: text,
+        description: descriptionRef.current.value,
       };
       const response = dispatch(updateTask(data)); 
       if(response) window.confirm(`opis został zmieniony`);    
@@ -157,7 +142,6 @@ const TaskItem = (props) => {
               onChange={onChangeSelect}
               name="responsiblePerson"
               disabled={loggedUser.name !== createdBy ? "disabled" : null}
-              // value={responsiblePerson}
               defaultValue={responsiblePerson}
               required
             >
@@ -220,15 +204,14 @@ const TaskItem = (props) => {
                   </Button>
                   <textarea
                     className="form-control"
-                    onChange={onChangeTextarea}
-                    name="text"
-                    value={text}
+                    ref={descriptionRef}
+                    defaultValue={description}
                     cols="40"
                     rows="10"
                   ></textarea>
                 </div>
                 <CommentsList
-                  taskId={_id}
+                  comments={commentsTask}
                   responsiblePerson={responsiblePerson}
                 />
                 <CommentsAddForm
@@ -237,6 +220,7 @@ const TaskItem = (props) => {
                   taskTitle={title}
                   taskCreatedBy={createdBy}
                   responsiblePerson={responsiblePerson}
+                  addCommentHandler={addComment}
                 />
               </td>
             </tr>

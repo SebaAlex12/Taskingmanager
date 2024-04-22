@@ -83,6 +83,7 @@ export const StyledTaskListContainer = styled.div`
   .task-items-box table > tbody .desc-box {
     float: left;
     position: relative;
+    width: 33.3%;
   }
   .task-items-box table > tbody .desc-box .edit {
     position: absolute;

@@ -21,8 +21,6 @@ const RightButtonsBox = () => {
     const [ toggleUserAddForm, setToggleUserAddForm ] = useState(false);
     const [ toggleReportsListContainer, setToggleReportsListContainer ] = useState(false);
 
-    console.log('right button render...');
-
     return (
         <div className="right-buttons-box">
             <div className="item">

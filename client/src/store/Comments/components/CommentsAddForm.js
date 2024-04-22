@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
+// import moment from "moment";
 
 import { addComment } from "../actions";
-import { updateTask } from "../../Tasks/actions";
-import { addUserHistory } from "../../UsersHistory/actions";
+// import { addUserHistory } from "../../UsersHistory/actions";
 
 import { StyledCommentAddForm } from "../styles/StyledCommentAddForm";
 
 const CommentsAddForm = (props) => {
 
-  const { taskId } = props;
+  const { taskId, addCommentHandler } = props;
 
   const dispatch = useDispatch();
   const [ description, setDescription ] = useState('');
@@ -22,7 +21,6 @@ const CommentsAddForm = (props) => {
 
   const submitComment = (event) => {
     event.preventDefault();  
-    console.log('description',description);
 
     const data = {
       taskId: taskId,
@@ -32,6 +30,7 @@ const CommentsAddForm = (props) => {
     };
 
     dispatch(addComment(data));
+    addCommentHandler(data);
 
     // addUserHistory({
     //   userId: loggedUser._id,

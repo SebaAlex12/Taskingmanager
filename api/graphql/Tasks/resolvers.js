@@ -31,13 +31,14 @@ module.exports = {
 
     try{
 
-        let tasks = await Task.find(params).sort({ createdAt: "desc" }).limit(13);
+        let tasks = await Task.find(params).sort({ createdAt: "desc" });
 
         if(tasks.length > 0){
 
           const newTasksPromises = tasks.map(async(task) => {
               const comments = await Comment.find({ taskId: task._id });
                 let newTask = {
+                  _id: task._id,
                   userId: task.userId,
                   createdBy: task.createdBy,
                   projectId: task.projectId,

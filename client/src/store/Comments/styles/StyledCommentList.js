@@ -4,9 +4,10 @@ export const StyledCommentList = styled.div`
   .comments-list-box {
     float: left;
     padding: 0px 15px;
-    width: 450px;
+    width: 33.3%;
     height: 210px;
     overflow-y: scroll;
+    padding-right:5px;
   }
   .comments-list-box li {
     background-color: #fff;
@@ -30,7 +31,7 @@ export const StyledCommentList = styled.div`
   .comments-list-box li .details {
     float: right;
   }
-  .comments-list-box li .content-box {
+  .comments-list-box li .comment-item-box {
     clear: both;
   }
   .comments-list-box li .creator-name {
