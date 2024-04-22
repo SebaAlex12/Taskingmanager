@@ -124,6 +124,16 @@ module.exports = buildSchema(`
         mailingDate: String
     }
 
+    type Comment {
+        _id: String
+        taskId: String
+        userId: String
+        createdBy: String
+        description: String
+        createdAt: String
+        errors: [Error]
+    }
+
     type Task {
         _id: ID
         userId: String
@@ -141,7 +151,7 @@ module.exports = buildSchema(`
         termAt: String
         mailRemainderData: String
         errors: [Error]
-        comments: [String]
+        comments: [Comment]
         files: [String]
     }
 
@@ -157,16 +167,6 @@ module.exports = buildSchema(`
         websites: String
         rank: String
         status: String
-        createdAt: String
-        errors: [Error]
-    }
-
-    type Comment {
-        _id: String
-        taskId: String
-        userId: String
-        createdBy: String
-        description: String
         createdAt: String
         errors: [Error]
     }

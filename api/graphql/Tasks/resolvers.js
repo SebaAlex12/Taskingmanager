@@ -31,39 +31,40 @@ module.exports = {
 
     try{
 
-        let tasks = await Task.find(params).sort({ createdAt: "desc" });
+        let tasks = await Task.find(params).sort({ createdAt: "desc" }).limit(13);
 
-        // let comments = await Comment.find({});
-        // console.log('comments',comments);
+        if(tasks.length > 0){
 
-        const newTasks = tasks.map(async (task) => {
-          let path = "./client/public/files/tasks/" + task._id;
+          const newTasksPromises = tasks.map(async(task) => {
+              const comments = await Comment.find({ taskId: task._id });
+                let newTask = {
+                  userId: task.userId,
+                  createdBy: task.createdBy,
+                  projectId: task.projectId,
+                  projectName: task.projectName,
+                  responsiblePerson: task.responsiblePerson,
+                  title: task.title,
+                  description: task.description,
+                  priority: task.priority,
+                  responsiblePersonLastComment: task.responsiblePersonLastComment,
+                  createdAt: task.createdAt,
+                  finishedAt: task.finishedAt,
+                  termAt: task.termAt,
+                  status: task.status,
+                  errors: task.errors,
+                  comments: comments.length > 0 ? comments : []
+                }; 
+                return newTask;
+          });
 
-          let commentParams = {};
-          commentParams.taskId = task._id;
+          const newTasks = await Promise.all(newTasksPromises).then((results) => {
+              return results;
+          }).catch((error) => {
+              console.log('error',error);
+          });
 
-          let comments = await Comment.find(commentParams);
-       //   console.log('comments',comments);
-          task.comments = comments.length > 0 ? comments.map(comment => comment.description ) : [];
-          task.dupa = '1';
-
-
-          if (fs.existsSync(path)) {
-            const files = await fsPromises.readdir(path);
-            task = {
-              ...task._doc,
-              files: files.filter((file) => file != "mini"),
-            };
-          } else {
-            task.files = [];
-          }
-
-          console.log('task node',task);
-          
-          return task;
-        });
-
-        return newTasks;
+          return newTasks;
+        }
               
       }catch(e){
           return { errors: tools.formatErrors(e) };

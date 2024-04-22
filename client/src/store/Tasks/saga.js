@@ -53,7 +53,14 @@ function* fetchTasksAsync(action) {
             finishedAt
             termAt
             mailRemainderData
-            comments
+            comments{
+                _id
+                taskId
+                userId
+                createdBy
+                description
+                createdAt
+            }
             files
           }
         }
@@ -70,6 +77,8 @@ function* fetchTasksAsync(action) {
     const res = yield call(
       [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
     );
+
+    console.log('res.data.data.fetchTasks',res.data.data.fetchTasks);
 
     yield put({ type: FETCH_TASKS_SUCCESS, payload: res.data.data.fetchTasks });
   } catch (e) {
@@ -106,6 +115,7 @@ function* fetchTasksByLoggedUserProjectsAsync(action) {
             finishedAt
             mailRemainderData
             termAt
+            comments
             files
           }
         }
@@ -188,6 +198,7 @@ function* addTaskAsync(action) {
         finishedAt
         termAt
         mailRemainderData
+        comments
         files
         errors{
           path
@@ -292,6 +303,7 @@ function* updateTaskAsync(action) {
         finishedAt
         termAt
         mailRemainderData
+        comments
         files
         errors{
           path
