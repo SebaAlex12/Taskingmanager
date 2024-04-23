@@ -9,8 +9,6 @@ import ModalBox from './../common/ModalBox';
 import { BiggerButton } from './../themes/basic';
 
 import {
-    faSyncAlt,
-    faLayerGroup,
     faArrowAltCircleDown,
   } from "@fortawesome/free-solid-svg-icons";
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

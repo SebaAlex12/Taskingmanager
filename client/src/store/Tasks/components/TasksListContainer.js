@@ -24,7 +24,7 @@ const TasksListContainer = () => {
             'desc'
             )
         );
-  },[tasks,loggedUser]);
+  },[tasks,loggedUser,isResponsiblePerson,status]);
 
   const switchTasks = () => {
     setStatus('Do wykonania');
@@ -60,6 +60,7 @@ const TasksListContainer = () => {
                             return task;
                         }
                     }
+                    return task;
                 })
             )
       }else{
