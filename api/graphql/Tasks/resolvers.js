@@ -8,30 +8,17 @@ const Task = require("../../models/Task");
 const Comment = require("../../models/Comment");
 const User = require("../../models/User");
 const tools = require("../../utils/tools");
-// fetchTasks and fetchTasksByLoggedUserProjects has to be almost the same
+
 module.exports = {
   fetchTasks: async function ({ taskInput }) {
 
-        let params = {};
-
-        if (taskInput.projectName && taskInput.projectName !== "undefined")
-          params.projectName = taskInput.projectName;
-
-        if (taskInput.status && taskInput.status !== "undefined")
-          params.status = taskInput.status;
-
-        if (
-          taskInput.responsiblePerson &&
-          taskInput.responsiblePerson !== "undefined"
-        )
-          params.responsiblePerson = taskInput.responsiblePerson;
-
-        if (taskInput.createdBy && taskInput.createdBy !== "undefined")
-          params.createdBy = taskInput.createdBy;
+        let params = [
+            { "responsiblePerson":taskInput.responsiblePerson},{"createdBy":taskInput.createdBy}
+          ];
 
     try{
 
-        let tasks = await Task.find(params).sort({ createdAt: "desc" });
+        let tasks = await Task.find().or(params).sort({ createdAt: "desc" });
 
         if(tasks.length > 0){
 

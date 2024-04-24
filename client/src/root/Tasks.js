@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 
 import { fetchTasks } from './../store/Tasks/actions';
 import { fetchProjects } from './../store/Projects/actions';
@@ -12,11 +12,12 @@ import UsersList from './../store/Users/components/UsersList';
 const Tasks = () => {
 
   const dispatch = useDispatch();
+  const loggedUserName = useSelector(state => state.users.logged_user.name);
 
   useEffect(() => {
       dispatch(fetchProjects({company:'Blumoseo'}));
-      dispatch(fetchTasks());
-  },[dispatch]);
+      dispatch(fetchTasks({responsiblePerson:loggedUserName,createdBy:loggedUserName}));
+  },[dispatch,loggedUserName]);
 
   return(
     <React.Fragment>
