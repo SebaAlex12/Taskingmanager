@@ -13,10 +13,10 @@ const ReportsSchema = new Schema({
     type: String
   },
   Marian: {
-    type: Boolean
+    type: Number
   },
   Piotrek: {
-    type: Boolean
+    type: Number
   }
 });
 

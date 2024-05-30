@@ -1,17 +1,25 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ReportsAddForm from './ReportsAddForm';
+
+import { addReport, fetchReports } from '../actions';
+
+// import axios from 'axios';
+
 const ReportsListContainer = () => {
 
     // const [ reports, setReports ] = useState([]);
     const [ message, setMessage ] = useState(null);
     const loggedUser = useSelector(state => state.users.logged_user);
+    const reports = useSelector(state => state.reports.reports);
+    const dispatch = useDispatch();
 
     console.log('report list render...');
 
     const submitHandler = async (event,report) => {
         event.preventDefault();
         if(report.date && report.description && report.Marian && report.Piotrek){
+
             const data = {
                 userId: loggedUser._id,
                 date: report.date,
@@ -19,27 +27,27 @@ const ReportsListContainer = () => {
                 Marian: report.Marian,
                 Piotrek: report.Piotrek
             }
-            const jsonData = JSON.stringify(data);
 
-            console.log('jsonData',jsonData);
+            dispatch(addReport(data));
 
-            const response = await fetch(
-                'http://localhost:5000/reports/',
-                { 
-                    method: "POST", 
-                    headers:{ "Content-Type": "application/json", body: data } 
-                }
-            );
+            // try{
+            //     const response = await fetch(
+            //         'http://localhost:5000/reports/',
+            //         { 
+            //             method: "POST", 
+            //             headers:{ "Content-Type": "application/json" },
+            //             body: JSON.stringify(data)
+            //         }
+            //     );
+            //     if(response.ok){
+            //         const data = await response;
+            //         console.log('data reports', data);
+            //         setMessage("Element listy został dodany");
+            //     }
+            // }catch(error){
+            //     console.log('error',error);
+            // }
 
-            if(response){
-                console.log('response',response);
-                const data = await response;
-                console.log('data', data);
-            }
-
-            // console.log('data',data);
-        }else{
-            setMessage('Rekord nie został dodany');
         }
     }
     return(

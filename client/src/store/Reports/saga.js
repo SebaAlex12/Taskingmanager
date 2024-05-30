@@ -1,5 +1,4 @@
 import axios from "axios";
-import moment from "moment";
 import { call, put, takeEvery } from "redux-saga/effects";
 import {
   FETCHING_REPORTS,
@@ -14,3 +13,47 @@ import {
   REPORTS_ERROR,
 } from "./types";
 
+// import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+import { apiUrl } from '../../store/ini';
+
+function* fetchReportsAsync() {
+  try {
+    const res = yield call(
+      [axios, axios.get],apiUrl+"reports/",{ headers: { "Content-Type": "application/json" } }
+    );
+    console.log('res saga',res);
+    yield put({
+      type: FETCH_REPORTS_SUCCESS,
+      payload: res.data,
+    });
+  } catch (e) {
+    yield put({ type: REPORTS_ERROR, payload: e });
+  }
+}
+
+export function* fetchReportsWatcher() {
+  yield takeEvery(FETCHING_REPORTS, fetchReportsAsync);
+}
+
+function* addReportAsync(action) {
+  const data = action.data;
+  try{
+      const reqData = {
+        userId: data.userId,
+        date: data.date,
+        description: data.description,
+        Marian: data.Marian,
+        Piotrek: data.Piotrek
+      }
+      const res = yield call(
+        [axios, axios.post],apiUrl+"reports/",JSON.stringify(reqData),{ headers: { "Content-Type": "application/json" } }
+      );
+      yield put({ type: ADD_REPORT_SUCCESS, payload: res.data })
+  }catch(e){
+    yield put({ type: REPORTS_ERROR, payload: e });
+  }
+}
+
+export function* addReportWatcher() {
+  yield takeEvery(ADDING_REPORT, addReportAsync);
+}

@@ -61,14 +61,6 @@ router.get(
 router.post(
   "/",
   (req, res) => {
-    // const { errors, isValid } = validateTeamInput(req.body);
-
-    // if (!isValid) {
-      // If any errors, send 400 with errors object
-    //   return res.status(400).json(errors);
-    // }
-    console.log('req.body',req.body);
-
     const newReport = new Report({
         userId: req.body.userId,
         date: req.body.date,
@@ -76,11 +68,10 @@ router.post(
         Marian: req.body.Marian,
         Piotrek: req.body.Piotrek
     });
-
     newReport
       .save()
       .then(report => res.json(report))
-      .catch(err => res.status(400).json({ reportnotadd: "reportnotadd" }));
+      .catch(error => console.log('error',error))
   }
 );
 

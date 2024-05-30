@@ -3,6 +3,7 @@ import { useDispatch,useSelector } from 'react-redux';
 
 import { fetchTasks } from './../store/Tasks/actions';
 import { fetchProjects } from './../store/Projects/actions';
+import { fetchReports } from './../store/Reports/actions';
 
 import RightButtonsBox from "./RightButtonsBox";
 import TasksListContainer from "../store/Tasks/components/TasksListContainer";
@@ -17,6 +18,7 @@ const Tasks = () => {
   useEffect(() => {
       dispatch(fetchProjects({company:'Blumoseo'}));
       dispatch(fetchTasks({responsiblePerson:loggedUserName,createdBy:loggedUserName}));
+      dispatch(fetchReports());
   },[dispatch,loggedUserName]);
 
   return(

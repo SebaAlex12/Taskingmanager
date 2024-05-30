@@ -91,6 +91,10 @@ import {
   updatePatternWatcher,
   removePatternWatcher,
 } from "./Patterns/saga";
+import {
+  fetchReportsWatcher,
+  addReportWatcher
+} from "./Reports/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -161,5 +165,7 @@ export default function* rootSaga() {
     fork(addPatternWatcher),
     fork(updatePatternWatcher),
     fork(removePatternWatcher),
+    fork(fetchReportsWatcher),
+    fork(addReportWatcher)
   ]);
 }
