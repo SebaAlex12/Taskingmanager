@@ -5,6 +5,7 @@ const ReportsItem = ({item, deleteHandler}) => {
         <td rel="description">{item.description}</td>
         <td rel="number">{item.Marian}</td>
         <td rel="number">{item.Piotrek}</td>
+        <td rel="edit"><button >edytuj</button></td>
         <td rel="delete"><button onClick={() => deleteHandler(item._id)}>usuń</button></td>
     </tr>
 }

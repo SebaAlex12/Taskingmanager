@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { useSelector } from 'react-redux';
 import TaskAddForm from './../store/Tasks/components/TasksAddForm';
 import ProjectsAddForm from './../store/Projects/components/ProjectsAddForm';
 import RegistryForm from './../store/Users/components/RegistryForm';
@@ -14,6 +14,7 @@ import {
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const RightButtonsBox = () => {
+    const loggedUser = useSelector(state=>state.users.logged_user);
     const [ toggleTasksAddForm, setToggleTasksAddForm ] = useState(false);
     const [ toggleProjectAddForm, setToggleProjectAddForm ] = useState(false);
     const [ toggleUserAddForm, setToggleUserAddForm ] = useState(false);
@@ -21,16 +22,20 @@ const RightButtonsBox = () => {
 
     return (
         <div className="right-buttons-box">
-            <div className="item">
-                <BiggerButton
-                        variant="primary"
-                        title="Rozwiń formularz"
-                        onClick={() => setToggleReportsListContainer(prevState => !prevState)}
-                >
-                    Raporty
-                </BiggerButton>
-                { toggleReportsListContainer && <ModalBox closeHandler={() => setToggleReportsListContainer(false)}><ReportsListContainer /></ModalBox> }
-            </div>
+            {
+                loggedUser.name === "Franek" || loggedUser.name === "Piotrek" || loggedUser.name =="Marian" ? (
+                    <div className="item">
+                        <BiggerButton
+                                variant="primary"
+                                title="Rozwiń formularz"
+                                onClick={() => setToggleReportsListContainer(prevState => !prevState)}
+                        >
+                            Raporty
+                        </BiggerButton>
+                        { toggleReportsListContainer && <ModalBox closeHandler={() => setToggleReportsListContainer(false)}><ReportsListContainer /></ModalBox> }
+                    </div>
+                ) : ''
+            }
             <div className='item'>
                 <BiggerButton
                         variant="primary"

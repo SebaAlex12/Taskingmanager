@@ -4,8 +4,8 @@ import styles from '../styles/basic.module.css';
 const ReportsAddForm = ({ submitHandler }) => {
     const date = useRef();
     const description = useRef();
-    const Marian = useRef(0);
-    const Piotrek = useRef(0);
+    const Marian = useRef();
+    const Piotrek = useRef();
 
     return (
         <div className={styles['reports-add-form-box']}>
@@ -24,13 +24,13 @@ const ReportsAddForm = ({ submitHandler }) => {
                 </div>
                 <div className={styles['reports-add-form-group']}>
                     <div className={styles['reports-add-form-control']}>
-                        <label htmlFor="">Marian l/g: </label>
-                        <input type="number" min="0" ref={Marian} defaultValue={0} required/>
+                        <label htmlFor="">Marian godz: </label>
+                        <input type="number" min="0" ref={Marian} defaultValue={9} required/>
                     </div>
                 </div>
                 <div className={styles['reports-add-form-group']}>
                     <div className={styles['reports-add-form-control']}>
-                        <label htmlFor="">Piotrek l/g: </label>
+                        <label htmlFor="">Piotrek godz: </label>
                         <input type="number" min="0" ref={Piotrek} defaultValue={0} required/>
                     </div>
                 </div>

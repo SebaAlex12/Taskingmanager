@@ -1,3 +1,13 @@
+.message{
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 0px 20px;
+    background-color: #3978e3;
+    width: 90%;
+    text-align: center;
+}
+
 .form-box{
 
 }
@@ -29,6 +39,12 @@
 }
 
 /*  indyvidual styles */
+.reports-list-container-box header{
+    display:flex;
+    gap:5px;
+    margin-top:5px;
+}
+
 .reports-add-form-box{
 }
 .reports-add-form{
@@ -72,7 +88,7 @@
     text-align:center;
 }
 .report-items-box td[rel="description"]{
-    width:640px;
+    width: 550px;
     border:1px solid grey;
 }
 .report-items-box th{
