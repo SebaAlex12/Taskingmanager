@@ -1,0 +1,83 @@
+.form-box{
+
+}
+.form{
+
+}
+.form-group{
+    & label{
+        font-size:16px;
+        font-weight:600;
+    }
+    & input{
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+}
+.form-control{
+
+}
+
+.table{
+    width:100%
+}
+.tr{
+}
+.tr th,
+.tr td{
+    padding:5px 0px;
+}
+
+/*  indyvidual styles */
+.reports-add-form-box{
+}
+.reports-add-form{
+    display: flex;
+    justify-content: space-between;
+}
+.reports-add-form-group{
+
+}
+.reports-add-form-control{
+    display: flex;
+    flex-direction: column;
+}
+.reports-add-form-box textarea{
+    width:500px;
+    height:26px;
+}
+.reports-add-form-box input[type="number"]{
+    width:40px;
+}
+.reports-add-form-button{
+    display: flex;
+    align-items: center;
+}
+.reports-add-form-box button{
+    background-color:#000;
+    color:#fff;
+    border:none;
+    padding:5px 10px;
+}
+.reports-summary{
+    display: flex;
+    justify-content: end;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+
+.report-items-box td[rel="number"]{
+    width:40px;
+    text-align:center;
+}
+.report-items-box td[rel="description"]{
+    width:640px;
+    border:1px solid grey;
+}
+.report-items-box th{
+    padding:2px 2px;
+}
+.report-items-box td{
+    padding:2px 2px;
+}

@@ -93,7 +93,8 @@ import {
 } from "./Patterns/saga";
 import {
   fetchReportsWatcher,
-  addReportWatcher
+  addReportWatcher,
+  removeReportWatcher
 } from "./Reports/saga";
 
 export default function* rootSaga() {
@@ -166,6 +167,7 @@ export default function* rootSaga() {
     fork(updatePatternWatcher),
     fork(removePatternWatcher),
     fork(fetchReportsWatcher),
-    fork(addReportWatcher)
+    fork(addReportWatcher),
+    fork(removeReportWatcher)
   ]);
 }

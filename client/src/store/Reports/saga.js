@@ -21,7 +21,6 @@ function* fetchReportsAsync() {
     const res = yield call(
       [axios, axios.get],apiUrl+"reports/",{ headers: { "Content-Type": "application/json" } }
     );
-    console.log('res saga',res);
     yield put({
       type: FETCH_REPORTS_SUCCESS,
       payload: res.data,
@@ -56,4 +55,23 @@ function* addReportAsync(action) {
 
 export function* addReportWatcher() {
   yield takeEvery(ADDING_REPORT, addReportAsync);
+}
+
+function* removeReportAsync(action){
+  const id = action.id;
+  console.log('delete saga item',id);
+
+  try{
+    const res = yield call(
+      [axios, axios.post],apiUrl+"reports/delete/",JSON.stringify({reportId:id}),{ headers: { "Content-Type": "application/json" } }
+    );
+    yield put({ type: REMOVE_REPORT_SUCCESS, payload: res.data })
+  }catch(e){
+    yield put({ type: REPORTS_ERROR, payload: e });
+  }
+
+}
+
+export function* removeReportWatcher() {
+  yield takeEvery(REMOVING_REPORT,removeReportAsync);
 }

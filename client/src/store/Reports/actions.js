@@ -16,7 +16,7 @@ import {
     type: UPDATING_REPORT,
     data
   });
-  export const removeReport = data => ({
+  export const removeReport = id => ({
     type: REMOVING_REPORT,
-    data
+    id
   });

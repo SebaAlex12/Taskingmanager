@@ -29,7 +29,7 @@ const RightButtonsBox = () => {
                 >
                     Raporty
                 </BiggerButton>
-                { toggleReportsListContainer && <ModalBox title="Modal Title" closeHandler={() => setToggleReportsListContainer(false)}><ReportsListContainer /></ModalBox> }
+                { toggleReportsListContainer && <ModalBox closeHandler={() => setToggleReportsListContainer(false)}><ReportsListContainer /></ModalBox> }
             </div>
             <div className='item'>
                 <BiggerButton
