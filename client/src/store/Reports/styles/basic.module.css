@@ -39,6 +39,9 @@
 }
 
 /*  indyvidual styles */
+.reports-list-container-box{
+    width:960px;
+}
 .reports-list-container-box header{
     display:flex;
     gap:5px;
@@ -47,6 +50,7 @@
 
 .reports-add-form-box{
 }
+
 .reports-add-form{
     display: flex;
     justify-content: space-between;
@@ -96,4 +100,23 @@
 }
 .report-items-box td{
     padding:2px 2px;
+}
+
+.reports-edit-form-box{
+    width:460px;
+}
+.reports-edit-form-box label{
+    width:120px;
+}
+.reports-edit-form-box input,
+.reports-edit-form-box textarea{
+    width:250px;
+}
+.reports-edit-form-group{
+    display:flex;
+    flex-direction:column;
+}
+.reports-edit-form-button{
+    display:flex;
+    justify-content: end;
 }
