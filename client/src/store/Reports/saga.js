@@ -57,6 +57,29 @@ export function* addReportWatcher() {
   yield takeEvery(ADDING_REPORT, addReportAsync);
 }
 
+function* updateReportAsync(action){
+    const data = action.data;
+    try{
+      const reqData = {
+          _id: data._id,
+          date: data.date,
+          description: data.description,
+          Marian: data.Marian,
+          Piotrek: data.Piotrek
+      }
+      const res = yield call(
+        [axios, axios.post],apiUrl+"reports/update",JSON.stringify(reqData),{ headers: { "Content-Type": "application/json" } }
+      );
+      yield put({ type: UPDATE_REPORT_SUCCESS, payload: res.data })
+    }catch(e){
+      yield put({ type: REPORTS_ERROR, payload: e })
+    }
+}
+
+export function* updateReportWatcher(){
+  yield takeEvery(UPDATING_REPORT,updateReportAsync);
+}
+
 function* removeReportAsync(action){
   const id = action.id;
   console.log('delete saga item',id);

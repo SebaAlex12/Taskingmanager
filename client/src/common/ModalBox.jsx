@@ -1,9 +1,10 @@
 import { createPortal } from 'react-dom';
 import styles from './modalbox.module.css';
 
-const ModalBox = ({ title, children, closeHandler }) => {
+const ModalBox = ({ modalLevel, title, children, closeHandler }) => {
 
     // console.log('modal box render...');
+    const level = modalLevel ? modalLevel : 1;
 
     const close = () => {
         closeHandler();
@@ -24,7 +25,7 @@ const ModalBox = ({ title, children, closeHandler }) => {
                 </div>
             </div>
         </div>, 
-        document.getElementById('modal')
+        document.getElementById(`modal_level_${level}`)
     );
 };
 

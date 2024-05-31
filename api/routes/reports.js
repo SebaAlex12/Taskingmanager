@@ -57,6 +57,34 @@ router.post(
   }
 );
 
+// @route POST api/reports/update
+// @desc update report
+// @access Private
+
+router.post(
+  "/update",
+  async(req, res) => {
+
+    const filter = { _id: req.body._id };
+
+    const update = {
+        date: req.body.date,
+        description: req.body.description,
+        Marian: req.body.Marian,
+        Piotrek: req.body.Piotrek
+    };
+
+    try{
+        const report = await Report.findOneAndUpdate(filter, update, { includeResultMetadata: true});
+        const newReportFromBase = await Report.findById(req.body._id);
+        return res.json(newReportFromBase);
+    }catch(error){
+        console.log('error',error);
+    }
+
+  }
+);
+
 // @route DELETE api/reports/delete
 // @desc delete report id
 // @access Private
