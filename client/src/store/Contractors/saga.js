@@ -13,7 +13,7 @@ import {
   CONTRACTORS_ERROR
 } from "./types";
 
-import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+// import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 import { apiUrl } from '../../store/ini';
 
 function* fetchContractorsAsync() {
@@ -151,19 +151,19 @@ function* addContractorAsync(action) {
   const response = contractorData.data.data.addContractor;
   if (response.errors) {
     yield put({ type: CONTRACTORS_ERROR, payload: response.errors });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { errors: response.errors }
+    // });
   } else {
     yield put({
       type: ADD_CONTRACTOR_SUCCESS,
       payload: response
     });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Kontrahent został dodany" }] }
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { success: [{ message: "Kontrahent został dodany" }] }
+    // });
   }
 }
 
@@ -224,21 +224,21 @@ function* updateContractorAsync(action) {
   const response = contractorData.data.data.updateContractor;
   if (response.errors) {
     yield put({ type: CONTRACTORS_ERROR, payload: response.errors });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { errors: response.errors }
+    // });
   } else {
     yield put({
       type: UPDATE_CONTRACTOR_SUCCESS,
       payload: response
     });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: {
-        success: [{ message: "Dane kotahenta zostały zaktualizowane" }]
-      }
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: {
+    //     success: [{ message: "Dane kotahenta zostały zaktualizowane" }]
+    //   }
+    // });
   }
 }
 

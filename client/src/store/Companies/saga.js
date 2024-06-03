@@ -13,7 +13,7 @@ import {
   COMPANIES_ERROR
 } from "./types";
 
-import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+// import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 import { apiUrl } from '../../store/ini';
 
 function* fetchCompaniesAsync() {
@@ -175,20 +175,20 @@ function* addCompanyAsync(action) {
 
     if (response.errors) {
       yield put({ type: COMPANIES_ERROR, payload: response.errors });
-      yield put({
-        type: UPDATE_MESSAGES_SUCCESS,
-        payload: { errors: response.errors }
-      });
+      // yield put({
+      //   type: UPDATE_MESSAGES_SUCCESS,
+      //   payload: { errors: response.errors }
+      // });
     } else {
       localStorage.setItem("companyName", response.name);
       yield put({
         type: ADD_COMPANY_SUCCESS,
         payload: response
       });
-      yield put({
-        type: UPDATE_MESSAGES_SUCCESS,
-        payload: { success: [{ message: "Firma została dodana" }] }
-      });
+      // yield put({
+      //   type: UPDATE_MESSAGES_SUCCESS,
+      //   payload: { success: [{ message: "Firma została dodana" }] }
+      // });
     }
   } catch (error) {
     yield put({ type: COMPANIES_ERROR, payload: error });
@@ -259,19 +259,19 @@ function* updateCompanyAsync(action) {
   const response = companyData.data.data.updateCompany;
   if (response.errors) {
     yield put({ type: COMPANIES_ERROR, payload: response.errors });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { errors: response.errors }
+    // });
   } else {
     yield put({
       type: UPDATE_COMPANY_SUCCESS,
       payload: response
     });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Dane firmy zostały zaktualizowane" }] }
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { success: [{ message: "Dane firmy zostały zaktualizowane" }] }
+    // });
   }
 }
 

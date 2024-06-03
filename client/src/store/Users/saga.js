@@ -17,8 +17,8 @@ import {
   USER_ERROR,
 } from "./types";
 
-import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
-import { UPDATE_ALERT_MESSAGES_SUCCESS } from "../Messages/types";
+// import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+// import { UPDATE_ALERT_MESSAGES_SUCCESS } from "../Messages/types";
 import { apiUrl } from '../../store/ini';
 
 function* loginUserAsync(action) {
@@ -72,10 +72,10 @@ function* loginUserAsync(action) {
             type: FETCH_LOGGED_USER_SUCCESS,
             payload: response.data.data.loginUser,
           });
-          yield put({
-            type: UPDATE_MESSAGES_SUCCESS,
-            payload: [{ message: "Użytkownik został zalogowany" }],
-          });
+          // yield put({
+          //   type: UPDATE_MESSAGES_SUCCESS,
+          //   payload: [{ message: "Użytkownik został zalogowany" }],
+          // });
           
         }
     }
@@ -137,16 +137,16 @@ function* registerUserAsync(action) {
     const { errors } = res.data.data.createUser;
       if(errors){
           yield put({ type: USER_ERROR, payload: errors });
-          yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+          // yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
       }else{
           yield put({
             type: REGISTER_USER_SUCCESS,
             payload: response,
           });
-          yield put({
-            type: UPDATE_MESSAGES_SUCCESS,
-            payload: [{ message: "Użytkownik został dodany" }],
-          });
+          // yield put({
+          //   type: UPDATE_MESSAGES_SUCCESS,
+          //   payload: [{ message: "Użytkownik został dodany" }],
+          // });
       }
     }
   } catch (error) {
@@ -213,7 +213,7 @@ function* fetchUsersAsync(action) {
       const { errors } = res.data.data.fetchUsers;
         if(errors){
             yield put({ type: USER_ERROR, payload: errors });
-            yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+            // yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
         }else{
             yield put({ type: FETCH_USERS_SUCCESS, payload: response });
         }
@@ -267,7 +267,7 @@ function* fetchUsersByLoggedUserProjectsAsync(action) {
       const response = res.data.data.fetchUsersByLoggedUserProjects;
         if(errors){
           yield put({ type: USER_ERROR, payload: errors });
-          yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+          // yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
         }else{
           yield put({
             type: FETCH_USERS_SUCCESS,
@@ -346,13 +346,13 @@ function* updateUserAsync(action) {
       const response = res.data.data.updateUser;
         if(errors){
           yield put({ type: USER_ERROR, payload: errors });
-          yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+          // yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
         }else{
           yield put({ type: UPDATE_USER_SUCCESS, payload: response });
-          yield put({
-            type: UPDATE_MESSAGES_SUCCESS,
-            payload: [{ message: "Użytkownik został zaktualizowany" }],
-          });
+          // yield put({
+          //   type: UPDATE_MESSAGES_SUCCESS,
+          //   payload: [{ message: "Użytkownik został zaktualizowany" }],
+          // });
         }
       }
   } catch (error) {
@@ -368,10 +368,10 @@ function* logoutUserAsync() {
   try {
     localStorage.removeItem("jwtTokenAuthorization");
     yield put({ type: LOGGED_OUT_SUCCESS, payload: [] });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Użytkownik został wylogowany" }] },
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { success: [{ message: "Użytkownik został wylogowany" }] },
+    // });
   } catch (error) {
     yield put({ type: USER_ERROR, payload: error });
   }

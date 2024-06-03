@@ -13,7 +13,7 @@ import {
   PROJECTS_ERROR,
 } from "./types";
 
-import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+// import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 import { apiUrl } from '../../store/ini';
 
 import { formatErrors } from "../../common/tools"
@@ -164,19 +164,19 @@ function* addProjectAsync(action) {
   const response = projectData.data.data.addProject;
   if (response.errors) {
     yield put({ type: PROJECTS_ERROR, payload: response.errors });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors },
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { errors: response.errors },
+    // });
   } else {
     yield put({
       type: ADD_PROJECT_SUCCESS,
       payload: response,
     });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Projekt został dodany" }] },
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { success: [{ message: "Projekt został dodany" }] },
+    // });
   }
 }
 
@@ -243,19 +243,19 @@ function* updateProjectAsync(action) {
   const response = projectData.data.data.updateProject;
   if (response.errors) {
     yield put({ type: PROJECTS_ERROR, payload: response.errors });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors },
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { errors: response.errors },
+    // });
   } else {
     yield put({
       type: UPDATE_PROJECT_SUCCESS,
       payload: response,
     });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Projekt został zaktualizowany" }] },
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { success: [{ message: "Projekt został zaktualizowany" }] },
+    // });
   }
 }
 
@@ -292,16 +292,16 @@ function* removeProjectAsync(data) {
 
   if (response.errors) {
     yield put({ type: PROJECTS_ERROR, payload: response.errors });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors },
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { errors: response.errors },
+    // });
   } else {
     yield put({ type: REMOVE_PROJECT_SUCCESS, payload: response });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Projekt został usunięty" }] },
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { success: [{ message: "Projekt został usunięty" }] },
+    // });
   }
 }
 

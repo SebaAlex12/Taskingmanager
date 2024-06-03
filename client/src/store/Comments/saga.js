@@ -11,7 +11,7 @@ import {
   REMOVE_COMMENTS_RELATIVE_TASK_SUCCESS
 } from "./types";
 
-import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+import { UPDATE_MESSAGES } from "../Messages/types";
 import { apiUrl } from '../../store/ini';
 
 function* fetchCommentsAsync(action) {
@@ -101,19 +101,19 @@ function* addCommentAsync(action) {
   const response = commentData.data.data.addComment;
   if (response.errors) {
     yield put({ type: COMMENTS_ERROR, payload: response.errors });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { errors: response.errors }
+    // });
   } else {
     yield put({
       type: ADD_COMMENT_SUCCESS,
       payload: response
     });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Komentarz został dodany" }] }
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { success: [{ message: "Komentarz został dodany" }] }
+    // });
   }
 }
 
@@ -150,19 +150,19 @@ function* removeCommentsByTaskIdAsync(action) {
 
   if (response.errors) {
     yield put({ type: COMMENTS_ERROR, payload: response.errors });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { errors: response.errors }
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { errors: response.errors }
+    // });
   } else {
     yield put({
       type: REMOVE_COMMENTS_RELATIVE_TASK_SUCCESS,
       payload: response
     });
-    yield put({
-      type: UPDATE_MESSAGES_SUCCESS,
-      payload: { success: [{ message: "Komentarze zostały usunięte" }] }
-    });
+    // yield put({
+    //   type: UPDATE_MESSAGES_SUCCESS,
+    //   payload: { success: [{ message: "Komentarze zostały usunięte" }] }
+    // });
   }
 }
 

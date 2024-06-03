@@ -15,14 +15,7 @@
 
 }
 .form-group{
-    & label{
-        font-size:16px;
-        font-weight:600;
-    }
-    & input{
-        padding: 5px 10px;
-        font-size: 10px;
-    }
+
 }
 .form-control{
 
@@ -81,7 +74,7 @@
 }
 .reports-summary{
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     margin-top: 5px;
     font-weight: 500;
 }
@@ -118,5 +111,5 @@
 }
 .reports-edit-form-button{
     display:flex;
-    justify-content: end;
+    justify-content: flex-end;
 }

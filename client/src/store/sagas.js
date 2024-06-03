@@ -11,18 +11,18 @@ import {
   removeAlertMessagesWatcher,
   fetchMessagesWatcher,
 } from "./Messages/saga";
-import {
-  fetchCalendarsWatcher,
-  addCalendarWatcher,
-  updateCalendarWatcher,
-  removeCalendarWatcher,
-} from "./Calendar/saga";
-import {
-  fetchCatalogsWatcher,
-  addCatalogWatcher,
-  updateCatalogWatcher,
-  removeCatalogWatcher,
-} from "./Catalogs/saga";
+// import {
+//   fetchCalendarsWatcher,
+//   addCalendarWatcher,
+//   updateCalendarWatcher,
+//   removeCalendarWatcher,
+// } from "./Calendar/saga";
+// import {
+//   fetchCatalogsWatcher,
+//   addCatalogWatcher,
+//   updateCatalogWatcher,
+//   removeCatalogWatcher,
+// } from "./Catalogs/saga";
 import {
   fetchContractorsWatcher,
   addContractorWatcher,
@@ -49,8 +49,8 @@ import {
   addCommentWatcher,
   removeCommentsByTaskIdWatcher,
 } from "./Comments/saga";
-import { addMailWatcher, fetchMailsWatcher } from "./Mails/saga";
-import { fetchSettingsWatcher, updateSettingWatcher } from "./Settings/saga";
+// import { addMailWatcher, fetchMailsWatcher } from "./Mails/saga";
+// import { fetchSettingsWatcher, updateSettingWatcher } from "./Settings/saga";
 import {
   loginUserWatcher,
   registerUserWatcher,
@@ -60,10 +60,10 @@ import {
   fetchUsersByLoggedUserProjectsWatcher,
   logoutUserWatcher,
 } from "./Users/saga";
-import {
-  fetchUsersHistoryWatcher,
-  addUserHistoryWatcher,
-} from "./UsersHistory/saga";
+// import {
+//   fetchUsersHistoryWatcher,
+//   addUserHistoryWatcher,
+// } from "./UsersHistory/saga";
 import {
   fetchProjectsWatcher,
   fetchProjectsByLoggedUserProjectsWatcher,
@@ -71,11 +71,11 @@ import {
   updateProjectWatcher,
   removeProjectWatcher,
 } from "./Projects/saga";
-import {
-  fetchFilesWatcher,
-  addFileWatcher,
-  removeFileWatcher,
-} from "./Files/saga";
+// import {
+//   fetchFilesWatcher,
+//   addFileWatcher,
+//   removeFileWatcher,
+// } from "./Files/saga";
 // import {
 //   fetchPaymentsWatcher,
 //   fetchNotUsedPatternsWatcher,
@@ -85,12 +85,12 @@ import {
 //   updatePaymentWatcher,
 //   removePaymentWatcher,
 // } from "./Payments/saga";
-import {
-  fetchPatternsWatcher,
-  addPatternWatcher,
-  updatePatternWatcher,
-  removePatternWatcher,
-} from "./Patterns/saga";
+// import {
+//   fetchPatternsWatcher,
+//   addPatternWatcher,
+//   updatePatternWatcher,
+//   removePatternWatcher,
+// } from "./Patterns/saga";
 import {
   fetchReportsWatcher,
   addReportWatcher,
@@ -100,21 +100,18 @@ import {
 
 export default function* rootSaga() {
   yield all([
-    fork(fetchSettingsWatcher),
-    fork(updateSettingWatcher),
-    fork(addMessengerWatcher),
-    fork(updateMessagesWatcher),
-    fork(updateAlertMessagesWatcher),
-    fork(removeAlertMessagesWatcher),
-    fork(fetchMessagesWatcher),
-    fork(fetchCalendarsWatcher),
-    fork(addCalendarWatcher),
-    fork(updateCalendarWatcher),
-    fork(removeCalendarWatcher),
-    fork(fetchCatalogsWatcher),
-    fork(addCatalogWatcher),
-    fork(updateCatalogWatcher),
-    fork(removeCatalogWatcher),
+    // fork(updateMessagesWatcher),
+    // fork(updateAlertMessagesWatcher),
+    // fork(removeAlertMessagesWatcher),
+    // fork(fetchMessagesWatcher),
+    // fork(fetchCalendarsWatcher),
+    // fork(addCalendarWatcher),
+    // fork(updateCalendarWatcher),
+    // fork(removeCalendarWatcher),
+    // fork(fetchCatalogsWatcher),
+    // fork(addCatalogWatcher),
+    // fork(updateCatalogWatcher),
+    // fork(removeCatalogWatcher),
     fork(fetchContractorsWatcher),
     fork(addContractorWatcher),
     fork(updateContractorWatcher),
@@ -137,13 +134,13 @@ export default function* rootSaga() {
     fork(addTaskWatcher),
     fork(fetchCommentsWatcher),
     fork(addCommentWatcher),
-    fork(addMailWatcher),
-    fork(fetchMailsWatcher),
+    // fork(addMailWatcher),
+    // fork(fetchMailsWatcher),
     fork(removeCommentsByTaskIdWatcher),
     fork(updateTaskWatcher),
     fork(removeTaskWatcher),
-    fork(fetchUsersHistoryWatcher),
-    fork(addUserHistoryWatcher),
+    // fork(fetchUsersHistoryWatcher),
+    // fork(addUserHistoryWatcher),
     fork(fetchProjectsWatcher),
     fork(fetchProjectsByLoggedUserProjectsWatcher),
     fork(addProjectWatcher),
@@ -153,9 +150,9 @@ export default function* rootSaga() {
     fork(updateFilterWatcher),
     fork(fetchMessengersByNameWatcher),
     fork(updateMessengerWatcher),
-    fork(fetchFilesWatcher),
-    fork(addFileWatcher),
-    fork(removeFileWatcher),
+    // fork(fetchFilesWatcher),
+    // fork(addFileWatcher),
+    // fork(removeFileWatcher),
     // fork(fetchPaymentsWatcher),
     // fork(fetchNotUsedPatternsWatcher),
     // fork(fetchLastInsertInvoiceWatcher),
@@ -163,10 +160,10 @@ export default function* rootSaga() {
     // fork(addPaymentWatcher),
     // fork(updatePaymentWatcher),
     // fork(removePaymentWatcher),
-    fork(fetchPatternsWatcher),
-    fork(addPatternWatcher),
-    fork(updatePatternWatcher),
-    fork(removePatternWatcher),
+    // fork(fetchPatternsWatcher),
+    // fork(addPatternWatcher),
+    // fork(updatePatternWatcher),
+    // fork(removePatternWatcher),
     fork(fetchReportsWatcher),
     fork(addReportWatcher),
     fork(removeReportWatcher),

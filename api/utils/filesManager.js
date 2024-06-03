@@ -1,6 +1,6 @@
 const multer = require("multer");
 const fs = require("fs");
-const sharp = require("sharp");
+// const sharp = require("sharp");
 
 // Set storage engine
 const storage = multer.diskStorage({
@@ -51,7 +51,8 @@ module.exports = {
   }).array("files"),
   resize: function(path, format, width, height) {
     const readStream = fs.createReadStream(path);
-    let transform = sharp();
+    // let transform = sharp(); 
+    let transform;
 
     if (format) {
       transform = transform.toFormat(format);
