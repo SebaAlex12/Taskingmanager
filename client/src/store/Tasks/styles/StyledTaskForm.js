@@ -10,4 +10,10 @@ export const StyledTaskForm = styled.div`
     border: 1px solid lightgrey;
     width: 480px;
   }
+  .task-add-form-box input.notValid{
+    border:1px solid red;
+  }
+  .task-add-form-box .notValid{
+    color:red;
+  }
 `;

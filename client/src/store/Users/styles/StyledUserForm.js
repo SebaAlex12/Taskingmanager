@@ -9,4 +9,12 @@ export const StyledUserForm = styled.div`
     border-radius: 5px;
     border: 1px solid lightgrey;
   }
+  .registry-form-box .multi-checkboxes{
+    height:300px;
+    overflow-y:auto;
+  }
+  .registry-form-box .multi-checkboxes .checkbox-item{
+    display:flex;
+    gap:5px;
+  }
 `;

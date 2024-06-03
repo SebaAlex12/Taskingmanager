@@ -1,10 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { priorities, statuses } from "../../ini";
 import { addTask } from "../actions";
 
 import { StyledTaskForm } from "../styles/StyledTaskForm";
+
+const isValid = (string, params) => {
+  const { notEmpty } = params;
+  let validation = {
+    status: true,
+    message: ''
+  }
+
+  if(notEmpty){
+      if(string.trim().length === 0){
+            validation = {
+                status: false,
+                message: 'Pole nie może być puste'
+            }
+      } 
+  }
+  return validation;
+}
 
 const TasksAddForm = () => {
 
@@ -15,7 +33,17 @@ const TasksAddForm = () => {
   const [ projectName, setProjectName ] = useState("");
   const [ responsiblePerson, setResponsiblePerson ] = useState("");
   const [ status, setStatus] = useState("");
-  const [ message, setMessage ] = useState("");
+  const [ validation, setValidation ] = useState({status:true,message:""});
+
+  /* form validation */
+
+  const [ titleIsValid, setTitleIsValid ] = useState({status:true,message:""});
+  const [ descriptionIsValid, setDescriptionIsValid ] = useState({status:true,message:""});
+  const [ priorityIsValid, setPriorityIsValid ] = useState({status:true,message:""});
+  // const [ termAtIsValid, setTermAtIsValid ] = useState({status:true,message:""});
+  const [ projectNameIsValid, setProjectNameIsValid ] = useState({status:true,message:""});
+  const [ responsiblePersonIsValid, setResponsiblePersonIsValid ] = useState({status:true,message:""});
+  const [ statusIsValid, setStatusIsValid ] = useState({status:true,message:""});
 
   const users = useSelector(state => state.users.users);
   const projects = useSelector(state => state.projects.projects);
@@ -27,47 +55,66 @@ const TasksAddForm = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setTimeout(() => {
-        setMessage("");
-    },5000);
-  },[message]);
-
   const addHandler = (event) => {
 
     event.preventDefault();
-    
-    const data = {
-      userId: loggedUser._id,
-      createdBy: loggedUser.name,
-      projectId: "1",
-      projectName,
-      responsiblePerson,
-      title,
-      description,
-      responsiblePersonLastComment:false,
-      priority,
-      status,
-      termAt,
-    };
 
-    dispatch(addTask(data));
+    const checkTitleIsValid = isValid(title, {notEmpty:true});
+    const checkDescriptionIsValid = isValid(description, {notEmpty:true});
+    const checkPriorityIsValid = isValid(priority, {notEmpty:true});
+    const checkProjectNameIsValid = isValid(projectName, {notEmpty:true});
+    const checkResponsiblePersonIsValid = isValid(responsiblePerson, {notEmpty:true});
+    const checkStatusIsValid = isValid(status, {notEmpty:true});
 
-    setTitle("");
-    setDescription("");
-    setPriority("");
-    setTermAt("");
-    setProjectName("");
-    setResponsiblePerson("");
-    setStatus("");
-    // setMessage("Zadanie zostało dodane");
+    setTitleIsValid(checkTitleIsValid);
+    setDescriptionIsValid(checkDescriptionIsValid);
+    setPriorityIsValid(checkPriorityIsValid);
+    // setTermAtIsValid(isValid(termAt, {notEmpty:true}));
+    setProjectNameIsValid(checkProjectNameIsValid);
+    setResponsiblePersonIsValid(checkResponsiblePersonIsValid);
+    setStatusIsValid(checkStatusIsValid);
+
+    if(checkTitleIsValid.status === false || 
+      checkDescriptionIsValid.status === false || 
+      checkPriorityIsValid.status === false || 
+      checkProjectNameIsValid.status === false || 
+      checkResponsiblePersonIsValid.status === false || 
+      checkStatusIsValid.status === false ){
+            setValidation({status:false,message:"Formularz niepoprawnie wypełniony"});
+    }else{
+          const data = {
+            userId: loggedUser._id,
+            createdBy: loggedUser.name,
+            projectId: "1",
+            projectName,
+            responsiblePerson,
+            title,
+            description,
+            responsiblePersonLastComment:false,
+            priority,
+            status,
+            termAt,
+          };
+      
+          dispatch(addTask(data));
+      
+          setTitle("");
+          setDescription("");
+          setPriority("");
+          setTermAt("");
+          setProjectName("");
+          setResponsiblePerson("");
+          setStatus("");
+
+          setValidation({status:true,message:""});
+    }
 
   };
 
   return (
           <StyledTaskForm>
             <div className="task-add-form-box">
-              { message.length > 0 && <div className="message">{ message }</div> }
+              { validation.status === false && <div className="message notValid">{ validation.message }</div> }
               <form action="">
                 <div className="form-group">
                   <input
@@ -75,10 +122,11 @@ const TasksAddForm = () => {
                     type="text"
                     name="title"
                     value={title}
-                    className="form-control"
+                    className={`form-control ${ titleIsValid.status === false ? "notValid" : "" }`}
                     placeholder="Tytuł"
                     required
                   />
+                  { !titleIsValid.status && (<i className="notValid">{ titleIsValid.message }</i>)}
                 </div>
                 <div className="form-group">
                   <textarea
@@ -86,15 +134,16 @@ const TasksAddForm = () => {
                     type="text"
                     name="description"
                     value={description}
-                    className="form-control"
+                    className={`form-control ${ descriptionIsValid.status === false ? "notValid" : "" }`}
                     rows="10"
                     placeholder="Opis"
                     required
                   />
+                  { !descriptionIsValid.status && (<i className="notValid">{ descriptionIsValid.message }</i>)}
                 </div>
                 <div className="form-group">
                   <select
-                    className="form-control"
+                    className={`form-control ${ priorityIsValid.status === false ? "notValid" : "" }`}
                     onChange={(event) => setPriority(event.target.value)}
                     name="priority"
                     value={priority}
@@ -115,6 +164,7 @@ const TasksAddForm = () => {
                         })
                       : null}
                   </select>
+                  { !priorityIsValid.status && (<i className="notValid">{ priorityIsValid.message }</i>)}
                 </div>
                 <div className="form-group">
                   <input
@@ -129,7 +179,7 @@ const TasksAddForm = () => {
                 </div>
                 <div className="form-group">
                   <select
-                    className="form-control"
+                    className={`form-control ${ projectNameIsValid.status === false ? "notValid" : "" }`}
                     onChange={(event) => setProjectName(event.target.value)}
                     name="projectName"
                     required
@@ -145,10 +195,11 @@ const TasksAddForm = () => {
                       )
                     }
                   </select>
+                  { !projectNameIsValid.status && (<i className="notValid">{ projectNameIsValid.message }</i>)}
                 </div>
                 <div className="form-group">
                   <select
-                    className="form-control"
+                    className={`form-control ${ responsiblePersonIsValid.status === false ? "notValid" : "" }`}
                     onChange={(event) => setResponsiblePerson(event.target.value)}
                     name="responsiblePerson"
                     required
@@ -162,10 +213,11 @@ const TasksAddForm = () => {
                           ))
                     }
                   </select>
+                  { !responsiblePersonIsValid.status && (<i className="notValid">{ responsiblePersonIsValid.message }</i>)}
                 </div>
                 <div className="form-group">
                   <select
-                    className="form-control"
+                    className={`form-control ${ statusIsValid.status === false ? "notValid" : "" }`}
                     onChange={(event) => setStatus(event.target.value)}
                     name="status"
                     value={status}
@@ -185,6 +237,7 @@ const TasksAddForm = () => {
                         })
                       : null}
                   </select>
+                  { !statusIsValid.status && (<i className="notValid">{ statusIsValid.message }</i>)}
                 </div>
                 <div className="form-group">
                   <input

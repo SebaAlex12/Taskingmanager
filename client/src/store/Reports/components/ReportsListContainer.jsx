@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { addReport, removeReport } from '../actions';
@@ -13,15 +13,15 @@ import styles from '../styles/basic.module.css';
 const salary = [
     {
         date:'2023-05-31',
-        Marian: 30,
-        Piotrek: 30
+        Marian: 32,
+        Piotrek: 32
     }
 ];
 
 const presentMonth = () => {
-    const date = new Date;
+    const date = new Date();
     const month = date.getMonth() + 1;
-    return month;
+    return parseInt(month);
 }
 
 const ReportsListContainer = () => {
@@ -42,26 +42,31 @@ const ReportsListContainer = () => {
         },5000);
     },[message]);
     
-    useEffect(() => {
-        // setReports(reportsList);
-        const selected = Reportselector();
-        setFilteredReports(selected);
-    },[reportsList]);
+    // useEffect(() => {
+    //     // setReports(reportsList);
+    //     const selected = Reportselector();
+    //     setFilteredReports(selected);
+    // },[reportsList]);
+
+    const Reportselector = useCallback(() => {
+        const selected = reportsList.filter(row => {
+            const d = new Date(row.date);
+            const m = d.getMonth() + 1;
+            // console.log('month',month);
+            // console.log('m',m);
+            if(m === month){
+                return row;  
+            }else{
+                return false;
+            }
+        });
+        return selected ;
+    },[month,reportsList]);
 
     useEffect(()=>{
         const selected = Reportselector(reportsList);
         setFilteredReports(selected);
-    },[month]);
-
-    const Reportselector = () => {
-        const selected = reportsList.filter(row => {
-            const d = new Date(row.date);
-            const m = d.getMonth() + 1;
-
-            if(m == month) return row;
-        });
-        return selected ;
-    }
+    },[month,reportsList,Reportselector]);
 
     const submitHandler = (event,report) => {
         event.preventDefault();
@@ -87,7 +92,7 @@ const ReportsListContainer = () => {
     }
 
     const changeMonthHandler = (event) => {
-        setMonth(event.target.value);
+        setMonth(parseInt(event.target.value));
     }
 
     const list = filteredReports.length > 0 && filteredReports.map((report,index)=>{

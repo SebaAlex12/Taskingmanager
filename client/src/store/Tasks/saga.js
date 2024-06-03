@@ -16,7 +16,7 @@ import {
   TASKS_ERROR,
 } from "./types";
 
-import { UPDATE_MESSAGE, UPDATE_ALERT_MESSAGE, CLEAR_MESSAGES } from "../Messages/types";
+import { UPDATE_MESSAGE, UPDATE_ALERT_MESSAGE } from "../Messages/types";
 import { apiUrl } from '../../store/ini';
 // import { REMOVING_COMMENTS_RELATIVE_TASK } from "../Comments/types";
 
@@ -237,7 +237,7 @@ function* addTaskAsync(action) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
       type: UPDATE_ALERT_MESSAGE,
-      payload: response.errors,
+      payload: response.errors[0].message,
     });
   } else {
     yield put({ type: ADD_TASK_SUCCESS, payload: response });
@@ -391,7 +391,7 @@ function* removeTaskAsync(action) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
       type: UPDATE_ALERT_MESSAGE,
-      payload: { errors: response.errors },
+      payload: response.errors[0].message,
     });
   } else {
     yield put({ type: REMOVE_TASK_SUCCESS, payload: response });
