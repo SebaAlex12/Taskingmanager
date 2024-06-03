@@ -150,9 +150,9 @@ module.exports = buildSchema(`
         finishedAt: String
         termAt: String
         mailRemainderData: String
-        errors: [Error]
         comments: [Comment]
         files: [String]
+        errors: [Error]
     }
 
     type Catalog {

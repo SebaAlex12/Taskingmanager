@@ -47,8 +47,8 @@ module.exports = {
 
           const newTasks = await Promise.all(newTasksPromises).then((results) => {
               return results;
-          }).catch((error) => {
-              console.log('error',error);
+          }).catch((e) => {
+              return { errors: [{path: 'Tasks fetch', message : 'Błąd serwera - status 500' }] }
           });
 
           return newTasks;
@@ -136,7 +136,7 @@ module.exports = {
       const storedTask = await task.save();
       return { ...storedTask._doc, _id: storedTask._id.toString() };
     } catch (e) {
-      return { errors: tools.formatErrors(e) };
+      return { errors: [{path: 'Tasks add', message : 'Błąd serwera - status 500' }] };
     }
   },
   updateTask: async function ({ taskInput }, req) {
@@ -190,7 +190,8 @@ module.exports = {
       }
       return { ...storedTask, _id: storedTask._id.toString() };
     } catch (e) {
-      return { errors: tools.formatErrors(e) };
+      // console.log('resolver error', e.message);
+      return { errors: [{path: 'Tasks update', message : 'Błąd serwera - status 500' }] };
     }
   },
   sendMailingTask: async function () {
@@ -257,7 +258,7 @@ module.exports = {
     try {
       await Task.deleteOne({ _id: taskId });
     } catch (e) {
-      return { errors: tools.formatErrors(e) };
+      return { errors: [{path: 'Tasks remove', message : 'Błąd serwera - status 500' }] };
     }
     return { _id: taskId };
   },

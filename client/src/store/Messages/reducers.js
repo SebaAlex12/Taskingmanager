@@ -1,30 +1,33 @@
 import {
-  UPDATE_MESSAGES,
-  UPDATE_ALERT_MESSAGES,
+  UPDATE_MESSAGE,
+  UPDATE_ALERT_MESSAGE,
   CLEAR_MESSAGES
 } from "./types";
 
 const initialState = {
-  messages: [],
-  alert_messages: []
+  message: "",
+  alert_message: ""
 };
 
 export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_MESSAGES:
+    case UPDATE_MESSAGE:
+      console.log('upd message reducer...',action.payload);
       return {
         ...state,
-        messages: action.payload
+        message: action.payload,
+        alert_message: ""
       };
-    case UPDATE_ALERT_MESSAGES:
+    case UPDATE_ALERT_MESSAGE:
       return {
         ...state,
-        alert_messages: action.payload
+        alert_message: action.payload,
+        message: ""
       };
     case CLEAR_MESSAGES:
       return {
-        messages: [],
-        alert_messages: []
+        message: "",
+        alert_message: ""
       };
     default:
       return state;

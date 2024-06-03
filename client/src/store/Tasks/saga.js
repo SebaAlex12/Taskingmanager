@@ -16,7 +16,7 @@ import {
   TASKS_ERROR,
 } from "./types";
 
-import { UPDATE_MESSAGES, UPDATE_ALERT_MESSAGES, CLEAR_MESSAGES } from "../Messages/types";
+import { UPDATE_MESSAGE, UPDATE_ALERT_MESSAGE, CLEAR_MESSAGES } from "../Messages/types";
 import { apiUrl } from '../../store/ini';
 // import { REMOVING_COMMENTS_RELATIVE_TASK } from "../Comments/types";
 
@@ -236,14 +236,14 @@ function* addTaskAsync(action) {
   if (response.errors) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_ALERT_MESSAGES,
-      payload: { errors: response.errors },
+      type: UPDATE_ALERT_MESSAGE,
+      payload: response.errors,
     });
   } else {
     yield put({ type: ADD_TASK_SUCCESS, payload: response });
     yield put({
-      type: UPDATE_MESSAGES,
-      payload: { success: [{ message: "Zadanie zostało dodane" }] },
+      type: UPDATE_MESSAGE,
+      payload: "Zadanie zostało dodane",
     });
   }
 }
@@ -337,11 +337,12 @@ function* updateTaskAsync(action) {
   );
 
   const response = taskData.data.data.updateTask;
+
   if (response.errors) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_MESSAGES,
-      payload: { errors: response.errors },
+      type: UPDATE_ALERT_MESSAGE,
+      payload: response.errors[0].message,
     });
   } else {
     yield put({
@@ -349,8 +350,8 @@ function* updateTaskAsync(action) {
       payload: response,
     });
     yield put({
-      type: UPDATE_MESSAGES,
-      payload: { success: [{ message: "Zadanie zostało zaktualizowane" }] },
+      type: UPDATE_MESSAGE,
+      payload: "Zadanie zostało zaktualizowane",
     });
   }
 }
@@ -389,14 +390,14 @@ function* removeTaskAsync(action) {
   if (response.errors) {
     yield put({ type: TASKS_ERROR, payload: response.errors });
     yield put({
-      type: UPDATE_ALERT_MESSAGES,
+      type: UPDATE_ALERT_MESSAGE,
       payload: { errors: response.errors },
     });
   } else {
     yield put({ type: REMOVE_TASK_SUCCESS, payload: response });
     yield put({
-      type: UPDATE_MESSAGES,
-      payload: { success: [{ message: "Zadanie zostało usunięte" }] },
+      type: UPDATE_MESSAGE,
+      payload: "Zadanie zostało usunięte",
     });
   }
 }

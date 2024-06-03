@@ -13,14 +13,15 @@ import Patterns from "../../root/Patterns";
 import MailsListContainer from "../../store/Mails/components/MailsListContainer";
 import CalendarContainer from "../../store/Calendar/components/CalendarContainer";
 // import Interview from "../../store/Cameras/components/Interview";
-import MessagesAlertList from "../../store/Messages/components/MessagesAlertList";
 import Catalogs from "../../root/Catalogs";
 import ImportBasic from "../../store/Import/components/ImportBasic";
 import { DashboardBox } from './../basic';
 
+import MessageInfo from '../../store/Messages/components/MessageInfo';
+
 // import Preloader from "../../common/Preloader";
-import { updateMessenger } from "../../store/Messengers/actions";
-import { updateAlertMessages } from "../../store/Messages/actions";
+// import { updateMessenger } from "../../store/Messengers/actions";
+// import { updateAlertMessages } from "../../store/Messages/actions";
 
 const Dashboard = () => {
 
@@ -40,7 +41,7 @@ const Dashboard = () => {
   return(
       <DashboardBox>
         <div className="content-box">
-            {/* <MessagesAlertList /> */}
+            <MessageInfo />
             <div className="user-name">Zalogowany użytkownik: { logged_user && logged_user.name }</div>
             <div className="center-buttons-box">
             <Link className="btn btn-default" to="/dashboard/tasks">
