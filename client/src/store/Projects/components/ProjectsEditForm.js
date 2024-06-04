@@ -45,6 +45,8 @@ class ProjectsEditFrom extends Component {
     const { updateProject, updateMessages } = this.props;
     const { _id, name, description, cms, ftp, panel } = this.state;
 
+    event.preventDefault();
+
     const data = {
       _id,
       name,
@@ -60,7 +62,7 @@ class ProjectsEditFrom extends Component {
         { value: "opis został zmieniony" },
       ]);
     }
-    event.preventDefault();
+    
   };
   toggleClassHandler = (event) => {
     event.preventDefault();

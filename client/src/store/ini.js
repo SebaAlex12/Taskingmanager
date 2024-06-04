@@ -2,11 +2,8 @@
 // export const socket = io();
 // const { io } = require("socket.io-client");
 
-export const apiUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:5000/' : 'http://crm.pozycjonowaniestron.hekko24.pl/api/';
-export const baseUrl = process.env.NODE_ENV === 'development' ? '' : '';
-
-// export const apiUrl = process.env.NODE_ENV === 'development' ? '' : '/olimpijka_api';
-// export const baseUrl = process.env.NODE_ENV === 'development' ? '' : '';
+export const apiUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_PATH : 'http://localhost:5000/';
+export const baseUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BASE_URL : '';
 
 export const user_statuses = [
   {
