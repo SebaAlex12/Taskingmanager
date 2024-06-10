@@ -16,7 +16,7 @@ router.get(
   "/",
   (req, res) => {
     Report.find()
-      .sort({ date: -1 })
+      .sort({ date: 1 })
       .then(reports => res.json(reports))
       .catch(err => res.status(404).json({ message: `No reports found` }));
   }
