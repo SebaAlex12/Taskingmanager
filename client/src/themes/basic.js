@@ -5,6 +5,14 @@ export const DashboardBox = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  
+  input.notValid{
+    border:1px solid red;
+  }
+  .notValid{
+    color:red;
+  }
+  
   .content-box{
     width:1600px;
     display:flex;

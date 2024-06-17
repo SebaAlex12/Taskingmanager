@@ -3,28 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { priorities, statuses } from "../../ini";
 import { addTask } from "../actions";
+import { isValid } from "../../../common/Forms/Validation";
 
 import { StyledTaskForm } from "../styles/StyledTaskForm";
 
-const isValid = (string, params) => {
-  const { notEmpty } = params;
-  let validation = {
-    status: true,
-    message: ''
-  }
+const initialIsValid = {status:true,message:""};
 
-  if(notEmpty){
-      if(string.trim().length === 0){
-            validation = {
-                status: false,
-                message: 'Pole nie może być puste'
-            }
-      } 
-  }
-  return validation;
-}
-
-const TasksAddForm = () => {
+const TasksAddForm = ({ closeFormAction }) => {
 
   const [ title, setTitle ] = useState("");
   const [ description, setDescription ] = useState("");
@@ -33,17 +18,17 @@ const TasksAddForm = () => {
   const [ projectName, setProjectName ] = useState("");
   const [ responsiblePerson, setResponsiblePerson ] = useState("");
   const [ status, setStatus] = useState("");
-  const [ validation, setValidation ] = useState({status:true,message:""});
+  const [ validation, setValidation ] = useState(initialIsValid);
 
   /* form validation */
 
-  const [ titleIsValid, setTitleIsValid ] = useState({status:true,message:""});
-  const [ descriptionIsValid, setDescriptionIsValid ] = useState({status:true,message:""});
-  const [ priorityIsValid, setPriorityIsValid ] = useState({status:true,message:""});
-  // const [ termAtIsValid, setTermAtIsValid ] = useState({status:true,message:""});
-  const [ projectNameIsValid, setProjectNameIsValid ] = useState({status:true,message:""});
-  const [ responsiblePersonIsValid, setResponsiblePersonIsValid ] = useState({status:true,message:""});
-  const [ statusIsValid, setStatusIsValid ] = useState({status:true,message:""});
+  const [ titleIsValid, setTitleIsValid ] = useState(initialIsValid);
+  const [ descriptionIsValid, setDescriptionIsValid ] = useState(initialIsValid);
+  const [ priorityIsValid, setPriorityIsValid ] = useState(initialIsValid);
+  // const [ termAtIsValid, setTermAtIsValid ] = useState(initialIsValid);
+  const [ projectNameIsValid, setProjectNameIsValid ] = useState(initialIsValid);
+  const [ responsiblePersonIsValid, setResponsiblePersonIsValid ] = useState(initialIsValid);
+  const [ statusIsValid, setStatusIsValid ] = useState(initialIsValid);
 
   const users = useSelector(state => state.users.users);
   const projects = useSelector(state => state.projects.projects);
@@ -107,6 +92,7 @@ const TasksAddForm = () => {
           setStatus("");
 
           setValidation({status:true,message:""});
+          closeFormAction();
     }
 
   };

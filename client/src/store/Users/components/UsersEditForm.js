@@ -15,6 +15,7 @@ class UsersEditFrom extends Component {
       password: "",
       status: "",
       selectedProjects: [],
+      message: ""
     };
   }
   componentDidMount() {
@@ -55,6 +56,7 @@ class UsersEditFrom extends Component {
   };
   updateHandler = (event) => {
     const { updateUser, updateMessages, loggedUser } = this.props;
+    event.preventDefault();
     const {
       _id,
       name,
@@ -76,13 +78,16 @@ class UsersEditFrom extends Component {
     };
 
     const response = updateUser(data);
-    if (response) {
-      updateMessages([
-        { name: "Użytkownik" },
-        { value: "dane zostały zmienione" },
-      ]);
+    if(response){
+      this.setState({...this.state,message:"Dane użytkownika zostały zmienione"})
     }
-    event.preventDefault();
+    // if (response) {
+    //   updateMessages([
+    //     { name: "Użytkownik" },
+    //     { value: "dane zostały zmienione" },
+    //   ]);
+    // }
+    
   };
   render() {
     const {
@@ -127,6 +132,7 @@ class UsersEditFrom extends Component {
         className="user-update-form-box mt-3 mb-3"
         style={{ backgroundColor: "#fff", padding: "5px" }}
       >
+        { this.state.message && <div style={{color:"red"}} className="message">{ this.state.message }</div>}
         <form action="post">
           <div className="form-group form-row">
             <input
@@ -159,7 +165,7 @@ class UsersEditFrom extends Component {
               name="password"
               value={password}
               placeholder="Hasło"
-              required
+              // required
             />
           </div>
           <div className="form-group form-row">
@@ -210,7 +216,7 @@ class UsersEditFrom extends Component {
           {loggedUser.status === "Administrator" ? (
             <div className="form-group">
               <input
-                onClick={this.updateHandler}
+                onClick={(event) => this.updateHandler(event)}
                 className="btn btn-primary float-right"
                 type="submit"
                 value="zapisz"

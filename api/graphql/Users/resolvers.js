@@ -7,8 +7,14 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
   fetchUsers: async function ({ userInput }) {
-    const users = await User.find(userInput, null, { sort: { name: 1 } });
-    return users;
+    // console.log('userInput',userInput);
+    // console.log('fetch users api');
+    try{
+      const users = await User.find(userInput, null, { sort: { name: 1 } });
+      return users;
+    }catch(error){
+      console.log('users error',error);
+    }
   },
   fetchUsersByLoggedUserProjects: async function ({ projects }) {
     const list = projects.split(",");
@@ -158,7 +164,7 @@ module.exports = {
       email: userInput.email,
       password: user.password,
       status: userInput.status,
-      company: userInput.company ? userInput.company : "",
+      company: userInput.company ? userInput.company : "Blumoseo",
       projects: userInput.projects ? userInput.projects : "",
       users: userInput.users ? userInput.users : "",
       lastActive: userInput.lastActive ? userInput.lastActive : "",

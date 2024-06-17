@@ -8,5 +8,6 @@ export const StyledProjectForm = styled.div`
     transition: all 0.3s ease-in-out 0s;
     border-radius: 5px;
     border: 1px solid lightgrey;
+    min-width:315px;
   }
 `;

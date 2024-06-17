@@ -67,7 +67,7 @@ const RightButtonsBox = () => {
                     <FontAwesomeIcon icon={faArrowAltCircleDown} />
                     <span>Dodaj zadanie</span>
                 </BiggerButton>
-                {toggleTasksAddForm ? <TaskAddForm /> : null}
+                {toggleTasksAddForm ? <TaskAddForm closeFormAction={() => setToggleTasksAddForm(false)} /> : null}
             </div>
       </div>
     )

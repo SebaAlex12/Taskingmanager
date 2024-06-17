@@ -1,75 +1,77 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { addProject } from "../actions";
+import { updateUser } from '../../Users/actions';
+
+import { isValid } from "../../../common/Forms/Validation";
 import { StyledProjectForm } from "../styles/StyledProjectForm";
 
-class ProjectsAddForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      description: "",
-      cms: "",
-      ftp: "",
-      panel: ""
-    };
-  }
-  componentDidMount() {
-    const { loggedUser } = this.props;
-    this.setState({
-      company: loggedUser.company
-    });
-  }
-  onChangeInput = event => {
-    this.setState({
-      ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
-    });
-  };
-  onChangeSelect = event => {
-    this.setState({
-      ...this.state,
-      [event.currentTarget.name]: event.currentTarget.value
-    });
-  };
-  addHandler = event => {
-    const { addProject, loggedUser } = this.props;
-    const { name, description, cms, ftp, panel } = this.state;
+const initialIsValid = {status:true,message:""};
 
-    const data = {
-      name,
-      company: loggedUser.company,
-      description,
-      cms,
-      ftp,
-      panel
-    };
+const ProjectsAddForm = () => {
 
+  const [ name, setName ] = useState("");
+  const [ description, setDescription ] = useState("");
+
+  const [ nameIsValid, setNameIsValid ] = useState(initialIsValid);
+  const [ validation, setValidation ] = useState(initialIsValid); 
+
+  const dispatch = useDispatch();
+  const loggedUser = useSelector(state=>state.users.logged_user);
+
+  const addHandler = (event) => {
     event.preventDefault();
-    addProject(data);
-  };
-  render() {
-    return (
-      <StyledProjectForm>
+
+    const checkNameIsValid = isValid(name, {notEmpty:true});
+
+    setNameIsValid(checkNameIsValid);
+
+    if(checkNameIsValid.status === false){
+        setValidation({status:false,message:"Formularz niepoprawnie wypełniony"});
+    }else{
+        dispatch(addProject({ name, company: loggedUser.company, description}));
+
+        const loggedUserProjects = [ ...loggedUser.projects.split(','), name];
+    
+        dispatch(updateUser({
+          _id: loggedUser._id,
+          name: loggedUser.name,
+          email: loggedUser.email,
+          status: loggedUser.status,
+          projects: loggedUserProjects.join(','),
+        }));
+
+        setName("");
+
+        setValidation({status:true,message:""});
+    }
+  }
+
+  return (
+    <StyledProjectForm>
         <div className="project-add-form-box">
+        { validation.status === false && <div className="message notValid">{ validation.message }</div> }
           <form action="">
             <div className="form-group">
               <input
-                onChange={this.onChangeInput}
+                onChange={(event) => setName(event.target.value)}
                 type="text"
                 name="name"
+                value={ name }
                 className="form-control"
                 placeholder="Nazwa"
                 title="Nazwa domeny"
                 required
               />
+              { !nameIsValid.status && (<i className="notValid">{ nameIsValid.message }</i>)}
             </div>
             <div className="form-group">
               <textarea
-                onChange={this.onChangeInput}
+                onChange={(event) => setDescription(event.target.value)}
                 type="text"
                 name="description"
+                value={ description }
                 className="form-control"
                 rows="5"
                 placeholder="Opis"
@@ -77,39 +79,9 @@ class ProjectsAddForm extends Component {
                 required
               />
             </div>
-            {/* <div className="form-group">
-              <input
-                onChange={this.onChangeInput}
-                type="text"
-                name="cms"
-                className="form-control"
-                placeholder="Cms hasło"
-                title="Cms hasło"
-              />
-            </div>
             <div className="form-group">
               <input
-                onChange={this.onChangeInput}
-                type="text"
-                name="ftp"
-                className="form-control"
-                placeholder="Ftp hasło"
-                title="Ftp hasło"
-              />
-            </div>
-            <div className="form-group">
-              <input
-                onChange={this.onChangeInput}
-                type="text"
-                name="panel"
-                className="form-control"
-                placeholder="Panel hasło"
-                title="Panel hasło"
-              />
-            </div> */}
-            <div className="form-group">
-              <input
-                onClick={this.addHandler}
+                onClick={addHandler}
                 className="btn btn-primary float-right"
                 type="submit"
                 value="dodaj"
@@ -118,14 +90,8 @@ class ProjectsAddForm extends Component {
           </form>
         </div>
       </StyledProjectForm>
-    );
-  }
+  )
+
 }
 
-const mapStateToProps = state => {
-  return {
-    loggedUser: state.users.logged_user
-  };
-};
-
-export default connect(mapStateToProps, { addProject })(ProjectsAddForm);
+export default ProjectsAddForm;
