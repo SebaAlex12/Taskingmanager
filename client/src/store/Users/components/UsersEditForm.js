@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import { updateUser } from "../actions";
 import { user_statuses } from "../../ini";
 
-import { updateMessages } from "../../Messages/actions";
-
 class UsersEditFrom extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +13,6 @@ class UsersEditFrom extends Component {
       password: "",
       status: "",
       selectedProjects: [],
-      message: ""
     };
   }
   componentDidMount() {
@@ -55,7 +52,7 @@ class UsersEditFrom extends Component {
     });
   };
   updateHandler = (event) => {
-    const { updateUser, updateMessages, loggedUser } = this.props;
+    const { updateUser, loggedUser } = this.props;
     event.preventDefault();
     const {
       _id,
@@ -78,15 +75,6 @@ class UsersEditFrom extends Component {
     };
 
     const response = updateUser(data);
-    if(response){
-      this.setState({...this.state,message:"Dane użytkownika zostały zmienione"})
-    }
-    // if (response) {
-    //   updateMessages([
-    //     { name: "Użytkownik" },
-    //     { value: "dane zostały zmienione" },
-    //   ]);
-    // }
     
   };
   render() {
@@ -132,7 +120,6 @@ class UsersEditFrom extends Component {
         className="user-update-form-box mt-3 mb-3"
         style={{ backgroundColor: "#fff", padding: "5px" }}
       >
-        { this.state.message && <div style={{color:"red"}} className="message">{ this.state.message }</div>}
         <form action="post">
           <div className="form-group form-row">
             <input
@@ -238,6 +225,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { updateUser, updateMessages })(
+export default connect(mapStateToProps, { updateUser })(
   UsersEditFrom
 );

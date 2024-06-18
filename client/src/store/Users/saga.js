@@ -17,7 +17,7 @@ import {
   USER_ERROR,
 } from "./types";
 
-// import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
+import { UPDATE_MESSAGE, UPDATE_ALERT_MESSAGE } from "../Messages/types";
 // import { UPDATE_ALERT_MESSAGES_SUCCESS } from "../Messages/types";
 import { apiUrl } from '../../store/ini';
 
@@ -346,13 +346,16 @@ function* updateUserAsync(action) {
       const response = res.data.data.updateUser;
         if(errors){
           yield put({ type: USER_ERROR, payload: errors });
-          // yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+          yield put({
+            type: UPDATE_ALERT_MESSAGE,
+            payload: response.errors[0].message,
+          });
         }else{
           yield put({ type: UPDATE_USER_SUCCESS, payload: response });
-          // yield put({
-          //   type: UPDATE_MESSAGES_SUCCESS,
-          //   payload: [{ message: "Użytkownik został zaktualizowany" }],
-          // });
+          yield put({
+            type: UPDATE_MESSAGE,
+            payload: "Dane żytkownika zostały zmodifikowane",
+          });
         }
       }
   } catch (error) {
