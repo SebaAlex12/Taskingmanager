@@ -9,7 +9,7 @@ import { StyledProjectForm } from "../styles/StyledProjectForm";
 
 const initialIsValid = {status:true,message:""};
 
-const ProjectsAddForm = () => {
+const ProjectsAddForm = ({ closeFormAction }) => {
 
   const [ name, setName ] = useState("");
   const [ description, setDescription ] = useState("");
@@ -43,8 +43,11 @@ const ProjectsAddForm = () => {
         }));
 
         setName("");
-
+        setDescription("");
         setValidation({status:true,message:""});
+        
+        closeFormAction();
+
     }
   }
 

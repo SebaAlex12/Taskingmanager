@@ -13,6 +13,7 @@ import {
   PROJECTS_ERROR,
 } from "./types";
 
+import { UPDATE_MESSAGE, UPDATE_ALERT_MESSAGE } from "../Messages/types";
 // import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 import { apiUrl } from '../../store/ini';
 
@@ -107,7 +108,7 @@ export function* fetchProjectsByLoggedUserProjectsWatcher() {
 }
 
 function* addProjectAsync(action) {
-  // try {
+  try {
   const data = action.data;
   const projectInput = {
     name: data.name,
@@ -162,21 +163,25 @@ function* addProjectAsync(action) {
   // }
 
   const response = projectData.data.data.addProject;
+
   if (response.errors) {
     yield put({ type: PROJECTS_ERROR, payload: response.errors });
-    // yield put({
-    //   type: UPDATE_MESSAGES_SUCCESS,
-    //   payload: { errors: response.errors },
-    // });
+    yield put({
+      type: UPDATE_ALERT_MESSAGE,
+      payload: response.errors[0].message,
+    });
   } else {
     yield put({
       type: ADD_PROJECT_SUCCESS,
       payload: response,
     });
-    // yield put({
-    //   type: UPDATE_MESSAGES_SUCCESS,
-    //   payload: { success: [{ message: "Projekt został dodany" }] },
-    // });
+    yield put({
+      type: UPDATE_MESSAGE,
+      payload: "Projekt został dodany",
+    });
+    }
+  }catch(error){
+    yield put({ type: PROJECTS_ERROR, payload: error });
   }
 }
 
@@ -185,7 +190,7 @@ export function* addProjectWatcher() {
 }
 
 function* updateProjectAsync(action) {
-  // try {
+  try {
   const data = action.data;
 
   const projectInput = {
@@ -252,10 +257,13 @@ function* updateProjectAsync(action) {
       type: UPDATE_PROJECT_SUCCESS,
       payload: response,
     });
-    // yield put({
-    //   type: UPDATE_MESSAGES_SUCCESS,
-    //   payload: { success: [{ message: "Projekt został zaktualizowany" }] },
-    // });
+    yield put({
+      type: UPDATE_MESSAGE,
+      payload: "Projekt został zmodyfikowany",
+    });
+    }
+  }catch(error){
+    yield put({ type: PROJECTS_ERROR, payload: error });
   }
 }
 

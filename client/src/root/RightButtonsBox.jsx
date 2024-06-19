@@ -56,7 +56,7 @@ const RightButtonsBox = () => {
                 <FontAwesomeIcon icon={faArrowAltCircleDown} />
                 <span>Dodaj projekt</span>
             </BiggerButton>
-              {toggleProjectAddForm ? <ProjectsAddForm /> : null}
+              {toggleProjectAddForm ? <ProjectsAddForm closeFormAction={() => setToggleProjectAddForm(false)}/> : null}
             </div>
             <div className='item'>
                 <BiggerButton
