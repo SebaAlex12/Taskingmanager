@@ -9,9 +9,6 @@ const MessageInfo = () => {
   const [ isAlert, setIsAlert ] = useState(false);
   const messages = useSelector(state => state.messages);
 
-  console.log('messages render...',);
-  console.log('message',messages.message);
-
   useEffect(() => {
 
     setIsAlert(false);

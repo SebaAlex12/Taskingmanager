@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+import jwt_decode from 'jwt-decode';
+
 import { addProject } from "../actions";
-import { updateUser } from '../../Users/actions';
+import { updateUser, fetchLoggedUser } from '../../Users/actions';
 
 import { isValid } from "../../../common/Forms/Validation";
 import { StyledProjectForm } from "../styles/StyledProjectForm";
@@ -32,15 +34,43 @@ const ProjectsAddForm = ({ closeFormAction }) => {
     }else{
         dispatch(addProject({ name, company: loggedUser.company, description}));
 
-        const loggedUserProjects = [ ...loggedUser.projects.split(','), name];
+
+        if(loggedUser.status === "Administrator"){
+
+          console.log("Logged user is administratot add new project to administrator");
+
+          const loggedUserProjects = [ ...loggedUser.projects.split(','), name];
     
-        dispatch(updateUser({
-          _id: loggedUser._id,
-          name: loggedUser.name,
-          email: loggedUser.email,
-          status: loggedUser.status,
-          projects: loggedUserProjects.join(','),
-        }));
+          dispatch(updateUser({
+            _id: loggedUser._id,
+            name: loggedUser.name,
+            email: loggedUser.email,
+            status: loggedUser.status,
+            projects: loggedUserProjects.join(','),
+          }));
+
+          const {
+            lastActive,
+            createdAt,
+            tokenCreatedAt,
+            logged,
+          } = jwt_decode(localStorage.jwtTokenAuthorization);
+
+          dispatch(fetchLoggedUser({
+            _id: loggedUser._id,
+            name: loggedUser.name,
+            email: loggedUser.email,
+            status: loggedUser.status,
+            company: "Blumoseo",
+            projects: loggedUserProjects.join(','),
+            users:"",
+            createdAt,
+            lastActive,
+            tokenCreatedAt,
+            logged,
+          }))
+
+        }
 
         setName("");
         setDescription("");
