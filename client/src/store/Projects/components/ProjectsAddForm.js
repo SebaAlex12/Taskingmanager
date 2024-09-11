@@ -37,8 +37,6 @@ const ProjectsAddForm = ({ closeFormAction }) => {
 
         if(loggedUser.status === "Administrator"){
 
-          console.log("Logged user is administratot add new project to administrator");
-
           const loggedUserProjects = [ ...loggedUser.projects.split(','), name];
     
           dispatch(updateUser({
@@ -68,6 +66,7 @@ const ProjectsAddForm = ({ closeFormAction }) => {
             lastActive,
             tokenCreatedAt,
             logged,
+            generateToken:true
           }))
 
         }

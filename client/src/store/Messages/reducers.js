@@ -12,7 +12,6 @@ const initialState = {
 export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_MESSAGE:
-      console.log('upd message reducer...',action.payload);
       return {
         ...state,
         message: action.payload,

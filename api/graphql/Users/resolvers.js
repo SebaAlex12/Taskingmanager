@@ -5,6 +5,30 @@ const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const generateUserToken = (userData) => {
+        const token = jwt.sign(
+          {
+            _id: userData._id.toString(),
+            name: userData.name,
+            email: userData.email,
+            status: userData.status,
+            company: userData.company ? userData.company : "",
+            projects: userData.projects ? userData.projects : "",
+            users: userData.users ? userData.users : "",
+            lastActive: userData.lastActive ? userData.lastActive : "",
+            createdAt: userData.createdAt,
+            tokenCreatedAt: new Date(),
+            logged: true,
+          },
+          require("../../config/keys").secretOrKeyOk,
+          {
+            expiresIn: "1h",
+          }
+        );
+
+        return token;      
+};
+
 module.exports = {
   fetchUsers: async function ({ userInput }) {
     // console.log('userInput',userInput);
@@ -124,27 +148,29 @@ module.exports = {
         ],
       };
     }
-    const token = await jwt.sign(
-      {
-        _id: userData._id.toString(),
-        name: userData.name,
-        email: userData.email,
-        status: userData.status,
-        company: userData.company ? userData.company : "",
-        projects: userData.projects ? userData.projects : "",
-        users: userData.users ? userData.users : "",
-        lastActive: userData.lastActive ? userData.lastActive : "",
-        createdAt: userData.createdAt,
-        tokenCreatedAt: new Date(),
-        logged: true,
-      },
-      require("../../config/keys").secretOrKeyOk,
-      {
-        expiresIn: "1h",
-      }
-    );
-
-    return { ...userData._doc, _id: userData._id.toString(), token: token };
+    if(userData){
+        const token = generateUserToken(userData);
+        return { ...userData._doc, _id: userData._id.toString(), token: token };
+    }
+    // const token = await jwt.sign(
+    //   {
+    //     _id: userData._id.toString(),
+    //     name: userData.name,
+    //     email: userData.email,
+    //     status: userData.status,
+    //     company: userData.company ? userData.company : "",
+    //     projects: userData.projects ? userData.projects : "",
+    //     users: userData.users ? userData.users : "",
+    //     lastActive: userData.lastActive ? userData.lastActive : "",
+    //     createdAt: userData.createdAt,
+    //     tokenCreatedAt: new Date(),
+    //     logged: true,
+    //   },
+    //   require("../../config/keys").secretOrKeyOk,
+    //   {
+    //     expiresIn: "1h",
+    //   }
+    // );
   },
   updateUser: async function ({ userInput }, req) {
     if (!userInput.name || !userInput.email) {
@@ -178,7 +204,9 @@ module.exports = {
     try {
       user.overwrite(data);
       const storedUser = await user.save();
-      return { ...storedUser._doc, _id: storedUser._id.toString() };
+      const token = userInput.generateToken ? generateUserToken(userData) : null;
+      
+      return { ...storedUser._doc, _id: storedUser._id.toString(), token: token };
     } catch (e) {
       return {
         errors: [

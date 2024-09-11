@@ -351,6 +351,15 @@ function* updateUserAsync(action) {
             payload: response.errors[0].message,
           });
         }else{
+          console.log('response',response);
+          if(response.token){
+            console.log('set new token');
+              localStorage.setItem(
+                "jwtTokenAuthorization",
+                response.token
+              );
+          }
+
           yield put({ type: UPDATE_USER_SUCCESS, payload: response });
           yield put({
             type: UPDATE_MESSAGE,
