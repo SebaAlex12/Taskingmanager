@@ -57,10 +57,8 @@ function* loginUserAsync(action) {
     );
 
     if(response){
-      console.log('lunch response user');
       const { token, errors } = response.data.data.loginUser;
         if(errors){
-          console.log('lunch errors user',errors);
           yield put({ type: USER_ERROR, payload: errors });
           // yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
         }else{
@@ -195,7 +193,6 @@ function* fetchUsersAsync(action) {
     `,
     };
 
-    // console.log('graph',graph);
     // console.log('api address',apiUrl + "/graphql");
 
     const res = yield call(
@@ -205,8 +202,6 @@ function* fetchUsersAsync(action) {
     // const res = yield axios.post(apiUrl + "/graphql",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } });
 
     // const res = yield axios.post('http://crm.pozycjonowaniestron.hekko24.pl/api/graphql/',JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } });
-
-    // console.log('after yield');
 
     if(res){
       const response = res.data.data.fetchUsers;
@@ -351,9 +346,7 @@ function* updateUserAsync(action) {
             payload: response.errors[0].message,
           });
         }else{
-          console.log('response',response);
           if(response.token){
-            console.log('set new token');
               localStorage.setItem(
                 "jwtTokenAuthorization",
                 response.token

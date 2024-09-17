@@ -13,11 +13,11 @@ const TasksAddForm = ({ closeFormAction }) => {
 
   const [ title, setTitle ] = useState("");
   const [ description, setDescription ] = useState("");
-  const [ priority, setPriority ] = useState("");
+  const [ priority, setPriority ] = useState("Normalny");
   const [ termAt, setTermAt ] = useState("");
   const [ projectName, setProjectName ] = useState("");
   const [ responsiblePerson, setResponsiblePerson ] = useState("");
-  const [ status, setStatus] = useState("");
+  const [ status, setStatus] = useState("Do wykonania");
   const [ validation, setValidation ] = useState(initialIsValid);
 
   /* form validation */
