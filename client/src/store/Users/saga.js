@@ -296,6 +296,7 @@ function* updateUserAsync(action) {
       projects: data.projects ? data.projects : "",
       users: data.users ? data.users : "",
       lastActive: data.lastActive ? data.lastActive : "",
+      generateToken: data.generateToken ? data.generateToken : false
     };
 
     const graph = {
@@ -309,7 +310,8 @@ function* updateUserAsync(action) {
         company: "${userInput.company}",
         projects: "${userInput.projects}",
         users: "${userInput.users}",
-        lastActive: "${userInput.lastActive}"}){
+        lastActive: "${userInput.lastActive}",
+        generateToken: "${userInput.generateToken}"}){
           _id
           name
           email
@@ -318,6 +320,7 @@ function* updateUserAsync(action) {
           projects
           users
           lastActive
+          generateToken
           errors{
             path
             message
@@ -346,6 +349,7 @@ function* updateUserAsync(action) {
             payload: response.errors[0].message,
           });
         }else{
+          console.log('response',response);
           if(response.token){
               localStorage.setItem(
                 "jwtTokenAuthorization",

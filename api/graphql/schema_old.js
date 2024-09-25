@@ -104,6 +104,7 @@ module.exports = buildSchema(`
         users: String
         lastActive: String
         createdAt: String
+        generateToken: String
         errors: [Error]
     }
 
@@ -299,6 +300,7 @@ module.exports = buildSchema(`
         users: String
         lastActive: String
         createdAt: String
+        generateToken: String
     }
 
     input UserHistoryInputData {

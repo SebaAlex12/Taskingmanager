@@ -45,29 +45,30 @@ const ProjectsAddForm = ({ closeFormAction }) => {
             email: loggedUser.email,
             status: loggedUser.status,
             projects: loggedUserProjects.join(','),
+            generateToken:true
           }));
 
-          const {
-            lastActive,
-            createdAt,
-            tokenCreatedAt,
-            logged,
-          } = jwt_decode(localStorage.jwtTokenAuthorization);
+          // const {
+          //   lastActive,
+          //   createdAt,
+          //   tokenCreatedAt,
+          //   logged,
+          // } = jwt_decode(localStorage.jwtTokenAuthorization);
 
-          dispatch(fetchLoggedUser({
-            _id: loggedUser._id,
-            name: loggedUser.name,
-            email: loggedUser.email,
-            status: loggedUser.status,
-            company: "Blumoseo",
-            projects: loggedUserProjects.join(','),
-            users:"",
-            createdAt,
-            lastActive,
-            tokenCreatedAt,
-            logged,
-            generateToken:true
-          }))
+          // dispatch(fetchLoggedUser({
+          //   _id: loggedUser._id,
+          //   name: loggedUser.name,
+          //   email: loggedUser.email,
+          //   status: loggedUser.status,
+          //   company: "Blumoseo",
+          //   projects: loggedUserProjects.join(','),
+          //   users:"",
+          //   createdAt,
+          //   lastActive,
+          //   tokenCreatedAt,
+          //   logged,
+          //   generateToken:true
+          // }))
 
         }
 
