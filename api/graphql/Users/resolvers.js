@@ -173,6 +173,7 @@ module.exports = {
     // );
   },
   updateUser: async function ({ userInput }, req) {
+
     if (!userInput.name || !userInput.email) {
       return {
         errors: [
@@ -204,9 +205,13 @@ module.exports = {
     try {
       user.overwrite(data);
       const storedUser = await user.save();
-      const token = userInput.generateToken ? generateUserToken(userData) : null;
-      
-      return { ...storedUser._doc, _id: storedUser._id.toString(), token: token };
+      let token = null;
+      if(userInput.generateToken === 'true'){
+          token = generateUserToken(storedUser);
+          console.log('token',token);
+      }
+
+      return { ...storedUser._doc, _id: storedUser._id.toString(), generateToken: token };
     } catch (e) {
       return {
         errors: [

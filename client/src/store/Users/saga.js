@@ -328,6 +328,8 @@ function* updateUserAsync(action) {
         }
       }`,
     };
+
+    // console.log('graph',graph);
     // const res = yield call(
     //   [axios, axios.post],
     //   apiUrl + "/graphql",
