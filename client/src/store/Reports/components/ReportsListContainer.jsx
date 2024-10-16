@@ -13,7 +13,7 @@ import styles from '../styles/basic.module.css';
 const salary = [
     {
         date:'2023-05-31',
-        Marian: 32,
+        Marian: 34,
         Piotrek: 32
     }
 ];
