@@ -3,7 +3,7 @@
 // const { io } = require("socket.io-client");
 
 export const apiUrl = process.env.NODE_ENV === 'production' ? '': 'http://localhost:5000/';
-//export const baseUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BASE_URL : '';
+// export const baseUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BASE_URL : '';
 
 export const user_statuses = [
   {
