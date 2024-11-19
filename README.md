@@ -1,4 +1,2 @@
 Program do zarządzania firmą. Jest to wersja demonstracyjna. react, redux, mongoDB, node, graphql
-node latest version 19.2.0
-windows 7 latest version node
-13.14.0
+node version 20.5.0
