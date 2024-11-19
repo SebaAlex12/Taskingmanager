@@ -4,8 +4,8 @@
   "private": true,
   "main": "server.js",
   "engines": {
-    "node": "19.2.0",
-    "npm": "8.19.3"
+    "node": "20.5.0",
+    "npm": "9.8.0"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
