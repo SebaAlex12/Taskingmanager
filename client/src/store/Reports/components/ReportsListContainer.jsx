@@ -14,7 +14,7 @@ const salary = [
     {
         date:'2023-05-31',
         Marian: 34,
-        Piotrek: 32
+        Piotrek: 34
     }
 ];
 
