@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { updateProject } from '../actions';
 
 import ProjectsItem from "./ProjectsItem";
 import TextFieldGroup from "../../../common/Forms/components/TextFieldGroup";
@@ -7,41 +9,56 @@ import TextFieldGroup from "../../../common/Forms/components/TextFieldGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StyledProjectList } from "../styles/StyledProjectList";
 import { BiggerButton, SmallerButton, ListBox } from "../../../themes/basic";
-import { faTimes, faArrowAltCircleDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowAltCircleDown, faLightbulb } from "@fortawesome/free-solid-svg-icons";
 
 const ProjectsList = () => {
-  
-  const projects = useSelector((state) => state.projects.projects);
 
   const [ toggleProjectsList, setToggleProjectsList ] = useState(false);
   const [ filteredProjects, setFilteredProjects ] = useState([]);
+  const [ toggleVisibleProjectsList, setToggleVisibleProjectsList ] = useState(true);
+
+  const dispatch = useDispatch();
+
+  const projects = useSelector((state) => {
+    const projectsList = toggleVisibleProjectsList === true ? state.projects.projects.filter(project => project.visible === 'on') : state.projects.projects;
+    return projectsList;
+  });
 
   useEffect(() => {
       setFilteredProjects(projects);
-  },[toggleProjectsList]);
+  },[toggleProjectsList,toggleVisibleProjectsList]);
 
   const btn_list_clazz = toggleProjectsList ? "project-list-flow-box active" : "project-list-flow-box";
 
   const filterProjectsHandler = (name) => {
 
     const filtered =  projects.filter(item => {
-        console.log('name item',item.name.toLowerCase());
         if(item.name.toLowerCase().includes(name.toLowerCase()) === true){
             return item;
         }
       });
 
-      setFilteredProjects(filtered)
+      setFilteredProjects(filtered);
+  }
+
+  const switchItemHandler = (item) => {
+      const newItem =         { 
+        ...item, 
+        visible: item.visible === "on" ? "off" : "on"
+      };
+      dispatch(updateProject(newItem));
+      setFilteredProjects(projects);
   }
 
   const projectsContent = filteredProjects.length > 0 ? filteredProjects.map(project => {
-    return <ProjectsItem key={project._id} item={project} />;
+    return <ProjectsItem key={project._id} item={project} switchItemHandler={switchItemHandler}/>;
   }) : "projects are loading...";
 
     return (
         <StyledProjectList>
           <div className="projects-box">
             <div className={btn_list_clazz}>
+            <FontAwesomeIcon icon="fa-light fa-lightbulb-exclamation" />
               <BiggerButton
                 variant="primary"
                 title="Pokaż listę projektów"
@@ -54,10 +71,13 @@ const ProjectsList = () => {
                 <ListBox
                   className="projects-list"
                 >
-                  <SmallerButton
+                  {/* <SmallerButton
                     className="remove-filter"
                   >
                     <FontAwesomeIcon title="usuń filtrowanie" icon={faTimes} />
+                  </SmallerButton> */}
+                  <SmallerButton className="remove-filter" onClick={() => setToggleVisibleProjectsList(toggleVisibleProjectsList === true ? false : true)}>
+                  <FontAwesomeIcon icon={faLightbulb} />
                   </SmallerButton>
                   <div className="filter-box">
                     <TextFieldGroup

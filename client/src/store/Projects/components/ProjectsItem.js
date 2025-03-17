@@ -7,14 +7,18 @@ import ProjectsEditForm from "./ProjectsEditForm";
 // import TasksShortList from "../../Tasks/components/TasksShortList";
 
 import { SmallerButton } from "../../../themes/basic";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const ProjectsItem = ({ projectTasks, item }) => {
+const ProjectsItem = ({ projectTasks, item, switchItemHandler }) => {
 
   const [ toggleEditForm, setToggleEditForm ] = useState(false);
 
   const loggedUser = useSelector(state=>state.users.logged_user);
+
+  const isActive = item.visible === "on" ? "active" : "";
+
+  console.log('isActive',isActive);
 
   return (
         <div className="item-box">
@@ -26,14 +30,19 @@ const ProjectsItem = ({ projectTasks, item }) => {
             <div className="buttons">
               {loggedUser.status === "Administrator" ||
               loggedUser.status === "Menedżer" ? (
-                  <SmallerButton
-                    title="edytuj"
-                    onClick={() =>
-                      setToggleEditForm(prevState => !prevState)
-                    }
-                  >
-                    <FontAwesomeIcon icon={faEdit} />
-                  </SmallerButton>
+                <>
+                    <SmallerButton isActive={isActive}>
+                      <FontAwesomeIcon icon={faLightbulb} onClick={() => switchItemHandler(item)}/>
+                    </SmallerButton>
+                    <SmallerButton
+                      title="edytuj"
+                      onClick={() =>
+                        setToggleEditForm(prevState => !prevState)
+                      }
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                    </SmallerButton>
+                  </>
               ) : null}
             </div>
           </div>

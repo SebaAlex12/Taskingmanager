@@ -58,6 +58,7 @@ export const ListBox = styled.div`
   width: 335px;
   display: flex;
   flex-direction: column;
+  height:100%;
   > div:nth-child(1) {
     margin-top: 28px;
   }
@@ -93,10 +94,10 @@ export const ListBox = styled.div`
     position: fixed;
     left: 240px;
     top: 60px;
-    color: grey;
     opacity: 0.5;
     cursor: default;
     z-index: 1000;
+    cursor:pointer;
   }
   .remove-filter.active {
     opacity: 1;
@@ -137,6 +138,7 @@ export const SmallerButton = styled(Button)`
   padding: 2px 4px;
   font-size: 12px;
   margin: 2px;
+  background-color: ${props => props.isActive ? "#008000" : "grey"};
 `;
 
 export const DisabledButton = styled(Button)`

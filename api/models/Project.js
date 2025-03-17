@@ -22,7 +22,7 @@ const ProjectSchema = new Schema({
     type: String
   },
   visible: {
-    visible: String
+    type: String
   }
 });
 

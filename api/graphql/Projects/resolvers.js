@@ -122,6 +122,7 @@ module.exports = {
     const data = {
       _id: projectInput._id,
       name: projectInput.name !== "" ? projectInput.name : project.name,
+      visible: projectInput.visible !== "" ? projectInput.visible : project.visible,
       company:
         projectInput.company !== "" ? projectInput.company : project.company,
       description:
@@ -142,8 +143,10 @@ module.exports = {
           : projectInput.panel,
     };
     try {
+
       project.overwrite(data);
       const storedProject = await project.save();
+
       return {
         ...storedProject._doc,
         _id: storedProject._id.toString(),

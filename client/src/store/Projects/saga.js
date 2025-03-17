@@ -33,6 +33,7 @@ function* fetchProjectsAsync(action) {
             cms
             ftp
             panel
+            visible
           }
         }
     `,
@@ -75,6 +76,7 @@ function* fetchProjectsByLoggedUserProjectsAsync(action) {
             cms
             ftp
             panel
+            visible
           }
         }
     `,
@@ -135,6 +137,7 @@ function* addProjectAsync(action) {
         cms
         ftp
         panel
+        visible
         errors{
           path
           message
@@ -201,6 +204,7 @@ function* updateProjectAsync(action) {
     cms: data.cms ? data.cms : "",
     ftp: data.ftp ? data.ftp : "",
     panel: data.panel ? data.panel : "",
+    visible: data.visible ? data.visible : ""
   };
 
   const graph = {
@@ -212,7 +216,8 @@ function* updateProjectAsync(action) {
       description: """${projectInput.description}""",
       cms: """${projectInput.cms}""",
       ftp: """${projectInput.ftp}""",
-      panel: """${projectInput.panel}"""}){
+      panel: """${projectInput.panel}""",
+      visible: """${projectInput.visible}"""}){
         _id
         name
         company
@@ -220,6 +225,7 @@ function* updateProjectAsync(action) {
         cms
         ftp
         panel
+        visible
         errors{
           path
           message
