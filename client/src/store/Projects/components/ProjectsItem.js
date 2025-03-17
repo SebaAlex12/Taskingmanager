@@ -20,7 +20,7 @@ const ProjectsItem = ({ projectTasks, item }) => {
         <div className="item-box">
           <div className="title">
             <div className="name">
-            <span className="task-counter" style={{fontWeight:"bold",marginRight:"4px"}}>{ projectTasks.length }</span>
+            {/* <span className="task-counter" style={{fontWeight:"bold",marginRight:"4px"}}>{ projectTasks.length }</span> */}
                 <span>{item.name}</span>
             </div>
             <div className="buttons">

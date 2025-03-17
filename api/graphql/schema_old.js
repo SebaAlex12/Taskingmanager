@@ -104,7 +104,6 @@ module.exports = buildSchema(`
         users: String
         lastActive: String
         createdAt: String
-        generateToken: String
         errors: [Error]
     }
 
@@ -125,16 +124,6 @@ module.exports = buildSchema(`
         mailingDate: String
     }
 
-    type Comment {
-        _id: String
-        taskId: String
-        userId: String
-        createdBy: String
-        description: String
-        createdAt: String
-        errors: [Error]
-    }
-
     type Task {
         _id: ID
         userId: String
@@ -151,9 +140,8 @@ module.exports = buildSchema(`
         finishedAt: String
         termAt: String
         mailRemainderData: String
-        comments: [Comment]
-        files: [String]
         errors: [Error]
+        files: [String]
     }
 
     type Catalog {
@@ -168,6 +156,16 @@ module.exports = buildSchema(`
         websites: String
         rank: String
         status: String
+        createdAt: String
+        errors: [Error]
+    }
+
+    type Comment {
+        _id: String
+        taskId: String
+        userId: String
+        createdBy: String
+        description: String
         createdAt: String
         errors: [Error]
     }
@@ -300,7 +298,6 @@ module.exports = buildSchema(`
         users: String
         lastActive: String
         createdAt: String
-        generateToken: String
     }
 
     input UserHistoryInputData {

@@ -8,7 +8,7 @@ const http = require("http");
 // const socketIo = require("socket.io");
 
 const graphql = require("express-graphql");
-const graphqlSchema = require("./graphql/schema_old");
+const graphqlSchema = require("./graphql/schema");
 const graphqlResolver = require("./graphql/resolvers");
 
 // const { fetchAllTasks } = require("./Api/Tasks");

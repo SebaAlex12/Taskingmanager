@@ -14,7 +14,7 @@ export const DashboardBox = styled.div`
   }
   
   .content-box{
-    width:1600px;
+    width:100%;
     display:flex;
     flex-direction: column;
   }

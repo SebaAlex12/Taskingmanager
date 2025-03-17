@@ -20,6 +20,9 @@ const ProjectSchema = new Schema({
   },
   panel: {
     type: String
+  },
+  visible: {
+    visible: String
   }
 });
 
