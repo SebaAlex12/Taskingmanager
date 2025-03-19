@@ -11,22 +11,48 @@ import { StyledProjectList } from "../styles/StyledProjectList";
 import { BiggerButton, SmallerButton, ListBox } from "../../../themes/basic";
 import { faArrowAltCircleDown, faLightbulb } from "@fortawesome/free-solid-svg-icons";
 
+let reloadProjects = false;
+
 const ProjectsList = () => {
 
+  console.log('render projects list...');
+
   const [ toggleProjectsList, setToggleProjectsList ] = useState(false);
-  const [ filteredProjects, setFilteredProjects ] = useState([]);
   const [ toggleVisibleProjectsList, setToggleVisibleProjectsList ] = useState(true);
+
+  const globalStateProjects = useSelector((state) => state.projects.projects);
+
+  // const projectsList = toggleVisibleProjectsList === true ? state.projects.projects.filter(project => project.visible === 'on') : state.projects.projects;
+
+  const [ projects, setProjects ] = useState([]);
+  const [ filteredProjects, setFilteredProjects ] = useState([]);
+
+  console.log('globalStateProjects',globalStateProjects);
 
   const dispatch = useDispatch();
 
-  const projects = useSelector((state) => {
-    const projectsList = toggleVisibleProjectsList === true ? state.projects.projects.filter(project => project.visible === 'on') : state.projects.projects;
-    return projectsList;
-  });
+  useEffect(() => {
+      console.log('use effect start');
+      reloadBaseProjects();
+  },[]);
 
   useEffect(() => {
-      setFilteredProjects(projects);
+    reloadBaseProjects();
   },[toggleProjectsList,toggleVisibleProjectsList]);
+
+  const reloadBaseProjects = () => {
+    console.log('reload base projects...');
+      const filtered = toggleVisibleProjectsList === true ? globalStateProjects.filter(project => project.visible === 'on') : globalStateProjects;
+      setProjects(globalStateProjects);
+      setFilteredProjects(filtered);
+  }
+
+  if(reloadProjects){
+    reloadBaseProjects();
+    reloadProjects = false;
+  }
+
+
 
   const btn_list_clazz = toggleProjectsList ? "project-list-flow-box active" : "project-list-flow-box";
 
@@ -37,7 +63,6 @@ const ProjectsList = () => {
             return item;
         }
       });
-
       setFilteredProjects(filtered);
   }
 
@@ -47,7 +72,7 @@ const ProjectsList = () => {
         visible: item.visible === "on" ? "off" : "on"
       };
       dispatch(updateProject(newItem));
-      setFilteredProjects(projects);
+      reloadProjects = true;
   }
 
   const projectsContent = filteredProjects.length > 0 ? filteredProjects.map(project => {
@@ -58,7 +83,6 @@ const ProjectsList = () => {
         <StyledProjectList>
           <div className="projects-box">
             <div className={btn_list_clazz}>
-            <FontAwesomeIcon icon="fa-light fa-lightbulb-exclamation" />
               <BiggerButton
                 variant="primary"
                 title="Pokaż listę projektów"
@@ -67,30 +91,30 @@ const ProjectsList = () => {
                 <FontAwesomeIcon icon={faArrowAltCircleDown} />
                 <span>Lista Projektów</span>
               </BiggerButton>
-              {toggleProjectsList ? (
-                <ListBox
-                  className="projects-list"
-                >
-                  {/* <SmallerButton
-                    className="remove-filter"
-                  >
-                    <FontAwesomeIcon title="usuń filtrowanie" icon={faTimes} />
-                  </SmallerButton> */}
-                  <SmallerButton className="remove-filter" onClick={() => setToggleVisibleProjectsList(toggleVisibleProjectsList === true ? false : true)}>
-                  <FontAwesomeIcon icon={faLightbulb} />
-                  </SmallerButton>
-                  <div className="filter-box">
-                    <TextFieldGroup
-                      onChange={event => filterProjectsHandler(event.target.value)}
-                      type="text"
-                      className="form-control"
-                      placeholder="filtruj po nazwie"
-                      title="filtruj po nazwie"
-                    />
-                  </div>
-                  <div className="items">{projectsContent}</div>
-                </ListBox>
-              ) : null}
+                  {toggleProjectsList ? (
+                    <ListBox
+                      className="projects-list"
+                    >
+                      {/* <SmallerButton
+                        className="remove-filter"
+                      >
+                        <FontAwesomeIcon title="usuń filtrowanie" icon={faTimes} />
+                      </SmallerButton> */}
+                      <SmallerButton className="remove-filter" onClick={() => setToggleVisibleProjectsList(toggleVisibleProjectsList === true ? false : true)}>
+                      <FontAwesomeIcon icon={faLightbulb} />
+                      </SmallerButton>
+                      <div className="filter-box">
+                        <TextFieldGroup
+                          onChange={event => filterProjectsHandler(event.target.value)}
+                          type="text"
+                          className="form-control"
+                          placeholder="filtruj po nazwie"
+                          title="filtruj po nazwie"
+                        />
+                      </div>
+                      <div className="items">{projectsContent}</div>
+                    </ListBox>
+                  ) : null}
             </div>
           </div>
         </StyledProjectList>

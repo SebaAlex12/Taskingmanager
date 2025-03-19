@@ -18,8 +18,6 @@ const ProjectsItem = ({ projectTasks, item, switchItemHandler }) => {
 
   const isActive = item.visible === "on" ? "active" : "";
 
-  console.log('isActive',isActive);
-
   return (
         <div className="item-box">
           <div className="title">
