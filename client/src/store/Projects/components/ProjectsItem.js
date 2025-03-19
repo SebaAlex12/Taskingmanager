@@ -26,22 +26,25 @@ const ProjectsItem = ({ projectTasks, item, switchItemHandler }) => {
                 <span>{item.name}</span>
             </div>
             <div className="buttons">
-              {loggedUser.status === "Administrator" ||
-              loggedUser.status === "Menedżer" ? (
-                <>
-                    <SmallerButton isActive={isActive}>
+              {
+                loggedUser.status === "Administrator" &&
+                  <SmallerButton isActive={isActive}>
                       <FontAwesomeIcon icon={faLightbulb} onClick={() => switchItemHandler(item)}/>
-                    </SmallerButton>
-                    <SmallerButton
-                      title="edytuj"
-                      onClick={() =>
-                        setToggleEditForm(prevState => !prevState)
-                      }
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </SmallerButton>
-                  </>
-              ) : null}
+                  </SmallerButton>
+              }
+              {
+                loggedUser.status === "Administrator" ||
+                loggedUser.status === "Menedżer" ? 
+                      <SmallerButton
+                        title="edytuj"
+                        onClick={() =>
+                          setToggleEditForm(prevState => !prevState)
+                        }
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </SmallerButton>
+                : null
+              }
             </div>
           </div>
           <div className="edit-form">
@@ -59,13 +62,15 @@ const ProjectsItem = ({ projectTasks, item, switchItemHandler }) => {
                 </ModalDialog>
               )
             } */}
-            {loggedUser.status === "Administrator" ||
-            loggedUser.status === "Menedżer" ||
-            loggedUser.status === "Pracownik" ? (
-              <>
-                {toggleEditForm ? <ProjectsEditForm item={item} /> : null}
-              </>
-            ) : null}
+            {
+              loggedUser.status === "Administrator" ||
+              loggedUser.status === "Menedżer" ||
+              loggedUser.status === "Pracownik" ? (
+                <>
+                  {toggleEditForm ? <ProjectsEditForm item={item} /> : null}
+                </>
+              ) : null
+            }
         </div>
       </div>
   )

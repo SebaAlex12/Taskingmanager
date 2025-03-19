@@ -11,59 +11,53 @@ import { StyledProjectList } from "../styles/StyledProjectList";
 import { BiggerButton, SmallerButton, ListBox } from "../../../themes/basic";
 import { faArrowAltCircleDown, faLightbulb } from "@fortawesome/free-solid-svg-icons";
 
-let reloadProjects = false;
-
 const ProjectsList = () => {
 
   console.log('render projects list...');
 
-  const [ toggleProjectsList, setToggleProjectsList ] = useState(false);
-  const [ toggleVisibleProjectsList, setToggleVisibleProjectsList ] = useState(true);
+  const dispatch = useDispatch();
 
   const globalStateProjects = useSelector((state) => state.projects.projects);
+  const loggedUser = useSelector((state) => state.users.logged_user);
 
-  // const projectsList = toggleVisibleProjectsList === true ? state.projects.projects.filter(project => project.visible === 'on') : state.projects.projects;
+  const [ toggleProjectsList, setToggleProjectsList ] = useState(false);
+  const [ toggleVisibleProjectsList, setToggleVisibleProjectsList ] = useState(true);
 
   const [ projects, setProjects ] = useState([]);
   const [ filteredProjects, setFilteredProjects ] = useState([]);
 
-  console.log('globalStateProjects',globalStateProjects);
-
-  const dispatch = useDispatch();
+  useEffect(() => {
+        setProjects(globalStateProjects);
+        const items = filterProjects(globalStateProjects);
+        setFilteredProjects(items);
+  },[globalStateProjects]);
 
   useEffect(() => {
-      console.log('use effect start');
-      reloadBaseProjects();
-  },[]);
+      const items = filterProjects(projects);
+      setFilteredProjects(items);
+  },[toggleVisibleProjectsList]);
 
-  useEffect(() => {
-    reloadBaseProjects();
-  },[toggleProjectsList,toggleVisibleProjectsList]);
-
-  const reloadBaseProjects = () => {
-    console.log('reload base projects...');
-      const filtered = toggleVisibleProjectsList === true ? globalStateProjects.filter(project => project.visible === 'on') : globalStateProjects;
-      setProjects(globalStateProjects);
-      setFilteredProjects(filtered);
+  const filterProjects = (items) => {
+      const filtered = toggleVisibleProjectsList === true ? items.filter(item => item.visible === 'on') : items;
+      return filtered;
   }
-
-  if(reloadProjects){
-    reloadBaseProjects();
-    reloadProjects = false;
-  }
-
-
 
   const btn_list_clazz = toggleProjectsList ? "project-list-flow-box active" : "project-list-flow-box";
 
   const filterProjectsHandler = (name) => {
 
-    const filtered =  projects.filter(item => {
+    const items = filterProjects(projects);
+
+    const filtered =  items.filter(item => {
         if(item.name.toLowerCase().includes(name.toLowerCase()) === true){
             return item;
         }
       });
       setFilteredProjects(filtered);
+  }
+
+  const switchVisibleProjectsHandler = () => {
+      setToggleVisibleProjectsList(toggleVisibleProjectsList === true ? false : true);
   }
 
   const switchItemHandler = (item) => {
@@ -72,7 +66,6 @@ const ProjectsList = () => {
         visible: item.visible === "on" ? "off" : "on"
       };
       dispatch(updateProject(newItem));
-      reloadProjects = true;
   }
 
   const projectsContent = filteredProjects.length > 0 ? filteredProjects.map(project => {
@@ -95,14 +88,13 @@ const ProjectsList = () => {
                     <ListBox
                       className="projects-list"
                     >
-                      {/* <SmallerButton
-                        className="remove-filter"
-                      >
-                        <FontAwesomeIcon title="usuń filtrowanie" icon={faTimes} />
-                      </SmallerButton> */}
-                      <SmallerButton className="remove-filter" onClick={() => setToggleVisibleProjectsList(toggleVisibleProjectsList === true ? false : true)}>
-                      <FontAwesomeIcon icon={faLightbulb} />
-                      </SmallerButton>
+                      
+                      { 
+                        loggedUser.status === 'Administrator' && 
+                          <SmallerButton className="remove-filter" onClick={switchVisibleProjectsHandler}>
+                              <FontAwesomeIcon icon={faLightbulb} />
+                          </SmallerButton> 
+                      }
                       <div className="filter-box">
                         <TextFieldGroup
                           onChange={event => filterProjectsHandler(event.target.value)}

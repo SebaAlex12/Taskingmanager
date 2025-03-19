@@ -59,9 +59,6 @@ export const ListBox = styled.div`
   display: flex;
   flex-direction: column;
   height:100%;
-  > div:nth-child(1) {
-    margin-top: 28px;
-  }
   .item-box > .title {
     display: flex;
     flex-direction: row;
