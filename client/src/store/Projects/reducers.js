@@ -31,7 +31,6 @@ export const projectsReducer = (state = initialState, action) => {
         )
       };
     case UPDATE_PROJECT_SUCCESS:
-      console.log('action.payload',action.payload);
       return {
         ...state,
         projects: state.projects.map(project => {

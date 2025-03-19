@@ -23,8 +23,6 @@ import { StyledResponsive } from "./StyledResponsive";
 
 function App() {
 
-  console.log('app',process.env);
-
   if (localStorage.jwtTokenAuthorization) {
     const {
       _id,

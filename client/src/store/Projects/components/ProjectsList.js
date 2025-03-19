@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { updateProject } from '../actions';
@@ -26,21 +26,21 @@ const ProjectsList = () => {
   const [ projects, setProjects ] = useState([]);
   const [ filteredProjects, setFilteredProjects ] = useState([]);
 
+  const filterProjects = useCallback((items) => {
+      const filtered = toggleVisibleProjectsList === true ? items.filter(item => item.visible === 'on') : items;
+      return filtered;
+  },[toggleVisibleProjectsList]);
+
   useEffect(() => {
         setProjects(globalStateProjects);
         const items = filterProjects(globalStateProjects);
         setFilteredProjects(items);
-  },[globalStateProjects]);
+  },[globalStateProjects,filterProjects]);
 
   useEffect(() => {
       const items = filterProjects(projects);
       setFilteredProjects(items);
-  },[toggleVisibleProjectsList]);
-
-  const filterProjects = (items) => {
-      const filtered = toggleVisibleProjectsList === true ? items.filter(item => item.visible === 'on') : items;
-      return filtered;
-  }
+  },[toggleVisibleProjectsList, filterProjects, projects]);
 
   const btn_list_clazz = toggleProjectsList ? "project-list-flow-box active" : "project-list-flow-box";
 
@@ -48,11 +48,7 @@ const ProjectsList = () => {
 
     const items = filterProjects(projects);
 
-    const filtered =  items.filter(item => {
-        if(item.name.toLowerCase().includes(name.toLowerCase()) === true){
-            return item;
-        }
-      });
+    const filtered =  items.filter(item => item.name.toLowerCase().includes(name.toLowerCase()) === true );
       setFilteredProjects(filtered);
   }
 

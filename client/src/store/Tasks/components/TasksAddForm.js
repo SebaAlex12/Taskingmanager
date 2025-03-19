@@ -35,7 +35,7 @@ const TasksAddForm = ({ closeFormAction }) => {
   const loggedUser = useSelector(state => state.users.logged_user);
 
   const loggedUserProjects = loggedUser.projects ? loggedUser.projects.split(",") : [];
-  const filteredProjects = projects.filter(project => loggedUserProjects.includes(project.name));
+  const filteredProjects = projects.filter(project => loggedUserProjects.includes(project.name) && project.visible === 'on');
   const filteredUsers = users.filter(user => user.projects.includes(projectName) && projectName.length > 0);
 
   const dispatch = useDispatch();
