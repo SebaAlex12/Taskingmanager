@@ -13,8 +13,6 @@ import { faArrowAltCircleDown, faLightbulb } from "@fortawesome/free-solid-svg-i
 
 const ProjectsList = () => {
 
-  console.log('render projects list...');
-
   const dispatch = useDispatch();
 
   const globalStateProjects = useSelector((state) => state.projects.projects);
