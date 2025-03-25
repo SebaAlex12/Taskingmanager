@@ -146,24 +146,9 @@ function* addProjectAsync(action) {
     }`,
   };
 
-  // const projectData = yield call(
-  //   [axios, axios.post],
-  //    apiUrl + "/graphql",
-  //   JSON.stringify(graph),
-  //   { headers: { "Content-Type": "application/json" } }
-  // );
-
   const projectData = yield call(
     [axios, axios.post],apiUrl+"graphql/",JSON.stringify(graph),{ headers: { "Content-Type": "application/json" } }
   );
-
-  //   yield put({
-  //     type: ADD_PROJECT_SUCCESS,
-  //     payload: projectData.data.data.addProject
-  //   });
-  // } catch (error) {
-  //   yield put({ type: PROJECTS_ERROR, payload: error });
-  // }
 
   const response = projectData.data.data.addProject;
 

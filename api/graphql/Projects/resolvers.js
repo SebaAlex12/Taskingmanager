@@ -58,7 +58,7 @@ module.exports = {
     });
     return prj;
   },
-  addProject: async function ({ projectInput }, req) {
+  addProject: async function ({ projectInput }) {
     const result = await Project.findOne({ name: projectInput.name });
     if (result) {
       console.log("Istnieje już projekt o podanej nazwie");
@@ -70,6 +70,7 @@ module.exports = {
     }
     const data = {
       name: projectInput.name,
+      visible: "on",
       company: projectInput.company,
       description:
         projectInput.description && projectInput.description.length > 1
@@ -91,9 +92,11 @@ module.exports = {
     const project = new Project(data);
     try {
       const storedProject = await project.save();
-      return {
+      const response = {
         ...storedProject._doc,
         _id: storedProject._id.toString(),
+        visible: storedProject.visible && storedProject.visible.length > 1 
+        ? storedProject.visible : "off",
         description:
           storedProject.description && storedProject.description.length > 1
             ? crypt.decrypt(storedProject.description)
@@ -111,11 +114,12 @@ module.exports = {
             ? crypt.decrypt(storedProject.panel)
             : storedProject.panel,
       };
+      return response;
     } catch (e) {
       return { errors: tools.formatErrors(e) };
     }
   },
-  updateProject: async function ({ projectInput }, req) {
+  updateProject: async function ({ projectInput }) {
     const _id = projectInput._id;
     const project = await Project.findOne({ _id });
 

@@ -208,7 +208,6 @@ module.exports = {
       let token = null;
       if(userInput.generateToken === 'true'){
           token = generateUserToken(storedUser);
-          console.log('token',token);
       }
 
       return { ...storedUser._doc, _id: storedUser._id.toString(), generateToken: token };
