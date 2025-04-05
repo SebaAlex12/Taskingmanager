@@ -1,5 +1,78 @@
 import styled from "styled-components";
-import { PropTypes } from "prop-types";
+
+export const DefaultForm = styled.div`
+    form{
+      display:flex;
+      align-items:center;
+      label{
+        margin:5px;
+      }
+      .form-group{
+            margin:5px;
+        }
+          
+    }
+`;
+
+export const Button = styled.button`
+  background-color: ${props =>
+    props.active ? 'blue' : 'green'};
+  color: #fff;
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    background-color: ${'#000'};
+    color: #fff;
+  }
+  span {
+    display: inline-block;
+    padding: 0px 5px;
+  }
+  border-width: 1px;
+  border-style: solid;
+  border-color: grey;
+  padding: 4px 8px;
+  border-radius: 5px;
+  margin: 5px;
+  min-width: 30px;
+`;
+
+export const BiggerButton = styled(Button)`
+  padding: 10px 18px;
+`;
+
+export const SmallerButton = styled(Button)`
+  padding: 2px 4px;
+  font-size: 12px;
+  margin: 2px;
+  background-color: ${props => props.isActive ? "#008000" : "grey"};
+`;
+
+export const DisabledButton = styled(Button)`
+  background-color: ${props => (props.active ? "red" : "orange")};
+  color: #fff;
+`;
+
+export const WarningButton = styled(Button)`
+  background-color: red;
+  color: #fff;
+  &:hover {
+    background-color: #000;
+    color: #fff;
+  }
+`;
+
+export const Title = styled.h1`
+  color: grey;
+  size: 14px;
+`;
+
+export const SubTitle = styled.h2`
+  color: #428839;
+  font-size: 18px;
+  font-weight: bold;
+`;
 
 export const DashboardBox = styled.div`
   display: flex;
@@ -102,71 +175,3 @@ export const ListBox = styled.div`
     cursor: pointer;
   }
 `;
-
-export const Button = styled.button`
-  background-color: ${props =>
-    props.active ? 'blue' : 'green'};
-  color: #fff;
-  &:focus {
-    outline: none;
-  }
-  &:hover {
-    background-color: ${'#000'};
-    color: #fff;
-  }
-  span {
-    display: inline-block;
-    padding: 0px 5px;
-  }
-  border-width: 1px;
-  border-style: solid;
-  border-color: grey;
-  padding: 4px 8px;
-  border-radius: 5px;
-  margin: 5px;
-  min-width: 30px;
-`;
-
-export const BiggerButton = styled(Button)`
-  padding: 10px 18px;
-`;
-
-export const SmallerButton = styled(Button)`
-  padding: 2px 4px;
-  font-size: 12px;
-  margin: 2px;
-  background-color: ${props => props.isActive ? "#008000" : "grey"};
-`;
-
-export const DisabledButton = styled(Button)`
-  background-color: ${props => (props.active ? "red" : "orange")};
-  color: #fff;
-`;
-
-export const WarningButton = styled(Button)`
-  background-color: red;
-  color: #fff;
-  &:hover {
-    background-color: #000;
-    color: #fff;
-  }
-`;
-
-export const Title = styled.h1`
-  color: grey;
-  size: 14px;
-`;
-
-export const SubTitle = styled.h2`
-  color: #428839;
-  font-size: 18px;
-  font-weight: bold;
-`;
-
-Button.propTypes = {
-  variant: PropTypes.oneOf(["default", "primary", "success", "warning"])
-};
-
-Button.defaultProps = {
-  variant: "default"
-};

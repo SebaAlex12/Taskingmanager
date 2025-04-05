@@ -47,6 +47,9 @@ app.use(cors());
 const reports = require("./routes/reports");
 app.use(basePath + "reports",reports);
 
+const reports_payments = require("./routes/reports_payments");
+app.use(basePath + "reports_payments",reports_payments);
+
 // const logger = winston.createLogger({
 //   transports: [
 //     new winston.transports.Console(),

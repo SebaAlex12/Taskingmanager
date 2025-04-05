@@ -98,6 +98,13 @@ import {
   updateReportWatcher
 } from "./Reports/saga";
 
+import {
+  fetchReportsPaymentsWatcher,
+  addReportPaymentsWatcher,
+  removeReportPaymentsWatcher,
+  updateReportPaymentsWatcher  
+} from './ReportsPayments/saga';
+
 export default function* rootSaga() {
   yield all([
     // fork(updateMessagesWatcher),
@@ -167,6 +174,10 @@ export default function* rootSaga() {
     fork(fetchReportsWatcher),
     fork(addReportWatcher),
     fork(removeReportWatcher),
-    fork(updateReportWatcher)
+    fork(updateReportWatcher),
+    fork(fetchReportsPaymentsWatcher),
+    fork(addReportPaymentsWatcher),
+    fork(removeReportPaymentsWatcher),
+    fork(updateReportPaymentsWatcher)
   ]);
 }

@@ -2,21 +2,17 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { addReport, removeReport } from '../actions';
+import { fetchReportsPayments } from '../../ReportsPayments/actions';
 import ReportsAddForm from './ReportsAddForm';
 import ReportsMonthSelector from './ReportsMonthSelector';
 import ReportsItem from './ReportsItem';
 import ReportsSummary from './ReportsSummary';
-// import axios from 'axios';
+
+import ReportsPaymentsForm from '../../ReportsPayments/components/ReportsPaymentsForm';
+
+import { salary } from '../../ini';
 
 import styles from '../styles/basic.module.css';
-
-const salary = [
-    {
-        date:'2023-05-31',
-        Marian: 34,
-        Piotrek: 34
-    }
-];
 
 const presentMonth = () => {
     const date = new Date();
@@ -35,6 +31,10 @@ const ReportsListContainer = () => {
     const [ filteredReports, setFilteredReports ] = useState([]);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchReportsPayments());
+    },[]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -112,11 +112,15 @@ const ReportsListContainer = () => {
         <div className={styles["reports-list-container-box"]}>
             <header>
                 <ReportsMonthSelector selectedMonth={month} changeMonthHandler={changeMonthHandler} />
-                { message && <div className={styles.message}>{ message }</div> }
+                <div>
+                    <ReportsPaymentsForm employerName={salary.employer_first} month={month}/>
+                    <ReportsPaymentsForm employerName={salary.employer_second} month={month}/>
+                </div>
             </header>
+            { message && <div className={styles.message}>{ message }</div> }
             <ReportsAddForm submitHandler={submitHandler} />
             <div className={styles['report-items-box']}>{ content }</div>
-            <ReportsSummary MarianSalary={salary[0].Marian} PiotrekSalary={salary[0].Piotrek} reports={filteredReports} />
+            <ReportsSummary MarianSalary={salary.Franek.Marian} PiotrekSalary={salary.Franek.Piotrek} reports={filteredReports} />
         </div>
     )
 }

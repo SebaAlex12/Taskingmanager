@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const Settings = require('../config/Settings');
+
 // Report Model
 
 const Report = require("../models/Reports");
@@ -15,10 +17,13 @@ const Report = require("../models/Reports");
 router.get(
   "/",
   (req, res) => {
-    Report.find()
+    Report.find({ year: Settings.reportYear })
       .sort({ date: 1 })
       .then(reports => res.json(reports))
-      .catch(err => res.status(404).json({ message: `No reports found` }));
+      .catch(error => {
+        console.log('error',error.toString());
+        return res.status(500).json({message:error});
+      });
   }
 );
 
@@ -48,12 +53,16 @@ router.post(
         date: req.body.date,
         description: req.body.description,
         Marian: req.body.Marian,
-        Piotrek: req.body.Piotrek
+        Piotrek: req.body.Piotrek,
+        year: 2025
     });
     newReport
       .save()
       .then(report => res.json(report))
-      .catch(error => console.log('error',error))
+      .catch(error => {
+        console.log('error',error.toString());
+        return res.status(500).json({message:error});
+      })
   }
 );
 
@@ -79,7 +88,8 @@ router.post(
         const newReportFromBase = await Report.findById(req.body._id);
         return res.json(newReportFromBase);
     }catch(error){
-        console.log('error',error);
+        console.log('error',error.toString());
+        res.status(500).json({message:error});
     }
 
   }
@@ -99,7 +109,10 @@ router.post(
             const response = res.json({id:id})
             return response;
       })
-      .catch(error => console.log('error',error));
+      .catch(error => {
+        console.log('error',error.toString());
+        return res.status(500).json({message:error});
+      });
   }
 );
 

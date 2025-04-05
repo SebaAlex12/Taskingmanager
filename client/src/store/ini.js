@@ -5,6 +5,15 @@
 export const apiUrl = process.env.NODE_ENV === 'production' ? 'http://crm.pozycjonowaniestron.hekko24.pl/api/': 'http://localhost:5000/';
 export const baseUrl = process.env.NODE_ENV === 'production' ? '' : '';
 
+export const salary = {
+  'employer_first':'Piotrek',
+  'employer_second':'Marian', 
+  'Franek': {
+      'Marian': 34,
+      'Piotrek': 34
+  }
+}
+
 export const user_statuses = [
   {
     _id: 1,

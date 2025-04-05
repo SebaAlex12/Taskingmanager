@@ -1,4 +1,4 @@
-import { FETCH_REPORTS_SUCCESS, ADD_REPORT_SUCCESS, REMOVE_REPORT_SUCCESS, UPDATE_REPORT_SUCCESS } from "./types";
+import { FETCH_REPORTS_SUCCESS, ADD_REPORT_SUCCESS, REMOVE_REPORT_SUCCESS, UPDATE_REPORT_SUCCESS, REPORTS_ERROR } from "./types";
 
 const initialState = {
     reports:[],
@@ -27,6 +27,11 @@ export const reportsReducer = (state = initialState,action) => {
             return {
                 ...state,
                 reports: state.reports.map(item => item._id === action.payload._id ? action.payload : item)
+            }
+        case REPORTS_ERROR:
+            return {
+                ...state,
+                errors:[ action.payload ]
             }
         default:
             return state;

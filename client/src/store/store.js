@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from "redux";
+import { legacy_createStore as createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 // import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";

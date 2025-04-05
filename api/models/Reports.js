@@ -7,16 +7,24 @@ const ReportsSchema = new Schema({
         required: true
     },
   date: {
-    type: String
+    type: String,
+    required: true
   },
   description: {
-    type: String
+    type: String,
+    required: true
   },
   Marian: {
-    type: Number
+    type: Number,
+    required: true
   },
   Piotrek: {
-    type: Number
+    type: Number,
+    required: true
+  },
+  year: {
+    type: Number,
+    required: true
   }
 });
 
