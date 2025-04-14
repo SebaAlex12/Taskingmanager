@@ -5,14 +5,24 @@
 export const apiUrl = process.env.NODE_ENV === 'production' ? 'http://crm.pozycjonowaniestron.hekko24.pl/api/': 'http://localhost:5000/';
 export const baseUrl = process.env.NODE_ENV === 'production' ? '' : '';
 
-export const salary = {
-  'employer_first':'Piotrek',
-  'employer_second':'Marian', 
-  'Franek': {
-      'Marian': 34,
-      'Piotrek': 34
-  }
-}
+export const salary = [
+    {
+        'id':'5d97128b60880011b0425489',
+        'name':'Franek',
+        'salary': [
+          {
+            'id':'5dc547b53d26f300176bbbab',
+            'name':'Marian',
+            'price':34
+          },
+          {
+            'id':'5dc547da3d26f300176bbbac',
+            'name':'Piotrek',
+            'price':34
+          }
+        ]
+    }
+]
 
 export const user_statuses = [
   {

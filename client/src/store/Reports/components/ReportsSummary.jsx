@@ -1,18 +1,16 @@
 import styles from '../styles/basic.module.css';
 
-const ReportsSummary = ({ MarianSalary, PiotrekSalary, reports }) => {
-    const MarianTotalHours = reports.reduce((total, item)=> total + item.Marian, 0);
-    const MSalary = MarianTotalHours * MarianSalary;
+const ReportsSummary = ({ employers, reports }) => {
 
-    const PiotrekTotalHours = reports.reduce((total, item)=> total + item.Piotrek, 0);
-    const PSalary = PiotrekTotalHours * PiotrekSalary;
+    const content = employers.map(employer => {
+        const TotalHours = reports.reduce((total, item)=> total + item[employer.name],0);
+        const MSalary = TotalHours * employer.price;
+        return <div key={employer.id}><span>{ employer.name }</span>: <span>{ TotalHours } * { employer.price } = { MSalary }</span>&nbsp;</div>
+    });
 
     return(
         <div className={styles['reports-summary']}>
-            <div>
-                <span>  Marian: </span>{ MarianTotalHours } * { MarianSalary } = { MSalary } /  
-                <span> Piotrek: </span>{ PiotrekTotalHours } * { PiotrekSalary } = { PSalary }
-            </div>
+            { content }
         </div>
     )
 

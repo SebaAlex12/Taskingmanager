@@ -24,8 +24,11 @@ router.post('/',async(req, res) => {
         const date = new Date();
 
         const fullYear = date.getFullYear();
-        const month = parseInt(date.getMonth()) < 10 ? `0${date.getMonth()}` : date.getMonth();
-        const day = parseInt(date.getDay()) < 10 ? `0${date.getDay()}` : date.getDay();
+        const month = parseInt(date.getMonth());
+        const day = parseInt(date.getDate());
+        
+        // const month = parseInt(date.getMonth()) < 10 ? `0${date.getMonth()}` : date.getMonth();
+        // const day = parseInt(date.getDay()) < 10 ? `0${date.getDay()}` : date.getDay();
 
         const presentDateFormat = `${fullYear}-${month}-${day}`;
 

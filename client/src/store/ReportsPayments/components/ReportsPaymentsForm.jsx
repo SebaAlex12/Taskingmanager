@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { addReportPayments, updateReportPayments } from '../actions';
@@ -6,63 +6,74 @@ import { addReportPayments, updateReportPayments } from '../actions';
 import { DefaultForm } from '../../../themes/basic';
 import classes from '../styles/basic.module.css';
 
-const ReportsPaymentsForm = ({employerName, month}) =>{
+const ReportsPaymentsForm = ({employerName, employerId, employeeId, month}) =>{
 
-    const employerRef = useRef();
-    const employeeRef = useRef();
-    const descriptionRef = useRef();
+    console.log('reports add form render...');
 
-    const loggedUser = useSelector(state => state.users.logged_user);
-    const employerData = useSelector(state => state.users.users.find(user=>user.name===employerName));
-    const paymentData = useSelector(state => state.reportsPayments.reportsPayments);
+    const paymentData = useSelector(state => state.reportsPayments.reportsPayments.find(payment=>payment.month===month && payment.sendedBy===employerId));
+
+    const [ sendedDate, setSendedDate ] = useState('');
+    const [ sendedBy, setSendedBy ] = useState(false);
+    const [ approvedBy, setApprovedBy ] = useState(false);
+    const [ description, setDescription ] = useState('');
 
     const dispatch = useDispatch();
+
+    console.log('reports add form paymentData before useEffect',paymentData);
+    
+    useEffect(() => {
+        if(paymentData){
+            setSendedDate(paymentData.sendedDate);
+            setSendedBy(paymentData.sendedBy && true);
+            setApprovedBy(paymentData.approvedBy && true);
+            setDescription(paymentData.description);
+        }
+    },[]);
 
     const savePayment = (event) => {
         
         event.preventDefault();
 
-        if(!employerRef.current.checked){
-            return;
-        }
-
-        // if(paymentId){
-        //     dispatch(updateReportPayments(paymentId));
-        // }else{
             const reqData = {
-                userId: loggedUser._id,
+                userId: employeeId,
                 month: month,
-                description: descriptionRef.current.value,
-                sendedBy: employerData._id,
-                approved: employeeRef.current.checked,
+                description: description,
+                sendedBy: employerId,
+                approved: employeeId,
                 MarianPrice: 300,
                 PiotrekPrice: 400
             };
 
             dispatch(addReportPayments(reqData));
-        // }
+
     }
+
+    const updatePayment = (event, paymentId) => {
+        event.preventDefault();
+        dispatch(updateReportPayments(paymentId));
+    }
+
 
     return(
         <DefaultForm>
             <form>
                 <div className="form-group">
                     <label htmlFor="">Data realizacji</label>
-                    <input type="date" value="" disabled/>
+                    <input value={sendedDate} onChange={(e) => setSendedDate(e.target.value)} disabled/>
                 </div>               
                 <div className="form-group">
-                    <label htmlFor="">{ employerData.name }</label>
-                    <input type="checkbox" ref={ employerRef } />
+                    <label htmlFor="">{ employerName }</label>
+                    <input type="checkbox" checked={ sendedBy } onChange={() => setSendedBy(prevState => !prevState)}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="">{ loggedUser.name }</label>
-                    <input type="checkbox" ref={ employeeRef }/>
+                    <label htmlFor="">Franek</label>
+                    <input type="checkbox" checked={ approvedBy } onChange={() => setApprovedBy(prevState => !prevState)}/>
                 </div>
                 <div className="form-group">
-                    <textarea ref={descriptionRef} className={classes.textarea}></textarea>
+                    <textarea className={classes.textarea} value={ description } onChange={(event) => setDescription(event.target.value)}></textarea>
                 </div>
                 <div className="actions">
-                    <button onClick={savePayment}>Zapisz</button>
+                    <button onClick={paymentData && paymentData._id ? (event) => updatePayment(event,paymentData._id) : savePayment}>{paymentData && paymentData._id ? 'Zaktualizuj' : 'Zapisz'}</button>
                 </div>
             </form>
         </DefaultForm>
