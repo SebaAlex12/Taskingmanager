@@ -1,6 +1,15 @@
 import axios from "axios";
 import { call, put, takeEvery } from "redux-saga/effects";
-import { FETCHING_REPORTS_PAYMENTS, ADDING_REPORT_PAYMENTS, UPDATING_REPORT_PAYMENTS, REMOVING_REPORT_PAYMENTS, FETCH_REPORTS_PAYMENTS_SUCCESS, ADD_REPORT_PAYMENTS_SUCCESS, REMOVE_REPORT_PAYMENTS_SUCCESS, UPDATE_REPORT_PAYMENTS_SUCCESS, REPORTS_PAYMENTS_ERROR } from "./types";
+import { 
+  FETCHING_REPORTS_PAYMENTS, 
+  ADDING_REPORT_PAYMENTS, 
+  UPDATING_REPORT_PAYMENTS, 
+  FETCH_REPORTS_PAYMENTS_SUCCESS, 
+  ADD_REPORT_PAYMENTS_SUCCESS, 
+  UPDATE_REPORT_PAYMENTS_SUCCESS, 
+  REPORTS_PAYMENTS_SUCCESS, 
+  REPORTS_PAYMENTS_ERROR 
+} from "./types";
 
 // import { UPDATE_MESSAGES_SUCCESS } from "../Messages/types";
 import { apiUrl } from '../../store/ini';
@@ -33,16 +42,16 @@ function* addReportPaymentsAsync(action) {
         description: data.description,
         sendedBy: data.sendedBy,
         approvedBy: '',
-        MarianPrice: data.MarianPrice,
-        PiotrekPrice: data.PiotrekPrice
+        sendedDate: data.sendedDate,
+        salary: data.salary
       }
       const res = yield call(
         [axios, axios.post],apiUrl+"reports_payments/",JSON.stringify(reqData),{ headers: { "Content-Type": "application/json" } }
       );
-      yield put({ type: ADD_REPORT_PAYMENTS_SUCCESS, payload: res.data })
+      yield put({ type: ADD_REPORT_PAYMENTS_SUCCESS, payload: res.data });
+      yield put({ type: REPORTS_PAYMENTS_SUCCESS, payload: 'Rekord został dodany pomyślnie' });
   }catch(error){
-    console.log('error',error);
-    yield put({ type: REPORTS_PAYMENTS_ERROR, payload: error });
+    yield put({ type: REPORTS_PAYMENTS_ERROR, payload: 'Rekord nie został dodany błąd serwera' });
   }
 }
 
@@ -54,13 +63,15 @@ function* updateReportPaymentsAsync(action){
     const data = action.data;
     try{
       const reqData = {
-        _id: data._id,
-        approvedBy: data.approvedBy
+        paymentId: data.paymentId,
+        approvedBy: data.approvedBy,
+        description: data.description
       }
       const res = yield call(
         [axios, axios.post],apiUrl+"reports_payments/update/",JSON.stringify(reqData),{ headers: { "Content-Type": "application/json" } }
       );
-      yield put({ type: UPDATE_REPORT_PAYMENTS_SUCCESS, payload: res.data })
+      yield put({ type: UPDATE_REPORT_PAYMENTS_SUCCESS, payload: res.data });
+      yield put({ type: REPORTS_PAYMENTS_SUCCESS, payload: 'Rekord został pomyślnie uaktualniony' });
     }catch(error){
       yield put({ type: REPORTS_PAYMENTS_ERROR, payload: error })
     }
@@ -70,21 +81,21 @@ export function* updateReportPaymentsWatcher(){
   yield takeEvery(UPDATING_REPORT_PAYMENTS,updateReportPaymentsAsync);
 }
 
-function* removeReportPaymentsAsync(action){
-  const id = action.id;
-  console.log('delete saga item',id);
+// function* removeReportPaymentsAsync(action){
+//   const id = action.id;
+//   console.log('delete saga item',id);
 
-  try{
-    const res = yield call(
-      [axios, axios.post],apiUrl+"reports_payments/delete/",JSON.stringify({reportId:id}),{ headers: { "Content-Type": "application/json" } }
-    );
-    yield put({ type: REMOVE_REPORT_PAYMENTS_SUCCESS, payload: res.data })
-  }catch(error){
-    yield put({ type: REPORTS_PAYMENTS_ERROR, payload: error });
-  }
+//   try{
+//     const res = yield call(
+//       [axios, axios.post],apiUrl+"reports_payments/delete/",JSON.stringify({reportId:id}),{ headers: { "Content-Type": "application/json" } }
+//     );
+//     yield put({ type: REMOVE_REPORT_PAYMENTS_SUCCESS, payload: res.data })
+//   }catch(error){
+//     yield put({ type: REPORTS_PAYMENTS_ERROR, payload: error });
+//   }
 
-}
+// }
 
-export function* removeReportPaymentsWatcher() {
-  yield takeEvery(REMOVING_REPORT_PAYMENTS,removeReportPaymentsAsync);
-}
+// export function* removeReportPaymentsWatcher() {
+//   yield takeEvery(REMOVING_REPORT_PAYMENTS,removeReportPaymentsAsync);
+// }

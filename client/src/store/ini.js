@@ -9,7 +9,7 @@ export const salary = [
     {
         'id':'5d97128b60880011b0425489',
         'name':'Franek',
-        'salary': [
+        'prices': [
           {
             'id':'5dc547b53d26f300176bbbab',
             'name':'Marian',

@@ -7,7 +7,9 @@ import ReportsMonthSelector from './ReportsMonthSelector';
 import ReportsItem from './ReportsItem';
 import ReportsSummary from './ReportsSummary';
 
+import ReportsPeymentsMessages from '../../ReportsPayments/components/ReportsPeymentsMessages';
 import ReportsPaymentsForm from '../../ReportsPayments/components/ReportsPaymentsForm';
+import { summaryPayments } from './ReportsSummary';
 
 import { salary } from '../../ini';
 
@@ -109,10 +111,15 @@ const ReportsListContainer = () => {
             </tbody> 
         </table> : 'Brak wyników dla wybranego miesiąca';
 
-    const peymentsList = filteredReports && mySalary.salary.map(employer => <ReportsPaymentsForm  key={employer.id} employerName={employer.name} employerId={employer.id} employeeId={mySalary.id} month={month}/>)
+    const peymentsList = filteredReports && mySalary.prices.map(employer => {
+            const { summarySalary } = summaryPayments(employer,filteredReports);
+            return <ReportsPaymentsForm key={employer.id} employerName={employer.name} employerId={employer.id} employeeId={mySalary.id} summarySalary={summarySalary} month={month}/>
+        }
+    )
 
     return(
         <div className={styles["reports-list-container-box"]}>
+            <ReportsPeymentsMessages />
             <header>
                 { filteredReports && <ReportsMonthSelector selectedMonth={month} changeMonthHandler={changeMonthHandler} /> }
                 <div>{ peymentsList }</div>
@@ -120,7 +127,7 @@ const ReportsListContainer = () => {
             { message && <div className={styles.message}>{ message }</div> }
             { filteredReports && <ReportsAddForm submitHandler={submitHandler} /> }
             <div className={styles['report-items-box']}>{ content }</div>
-            { filteredReports && <ReportsSummary employers={mySalary.salary} reports={filteredReports} /> }
+            { filteredReports && <ReportsSummary employers={mySalary.prices} reports={filteredReports} /> }
         </div>
     )
 }

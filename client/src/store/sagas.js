@@ -1,16 +1,16 @@
 import { fork, all } from "redux-saga/effects";
 import { fetchFiltersWatcher, updateFilterWatcher } from "./Filters/saga";
 import {
-  addMessengerWatcher,
+  // addMessengerWatcher,
   fetchMessengersByNameWatcher,
   updateMessengerWatcher,
 } from "./Messengers/saga";
-import {
-  updateMessagesWatcher,
-  updateAlertMessagesWatcher,
-  removeAlertMessagesWatcher,
-  fetchMessagesWatcher,
-} from "./Messages/saga";
+// import {
+//   updateMessagesWatcher,
+//   updateAlertMessagesWatcher,
+//   removeAlertMessagesWatcher,
+//   fetchMessagesWatcher,
+// } from "./Messages/saga";
 // import {
 //   fetchCalendarsWatcher,
 //   addCalendarWatcher,
@@ -101,7 +101,7 @@ import {
 import {
   fetchReportsPaymentsWatcher,
   addReportPaymentsWatcher,
-  removeReportPaymentsWatcher,
+  // removeReportPaymentsWatcher,
   updateReportPaymentsWatcher  
 } from './ReportsPayments/saga';
 
@@ -177,7 +177,7 @@ export default function* rootSaga() {
     fork(updateReportWatcher),
     fork(fetchReportsPaymentsWatcher),
     fork(addReportPaymentsWatcher),
-    fork(removeReportPaymentsWatcher),
+    // fork(removeReportPaymentsWatcher),
     fork(updateReportPaymentsWatcher)
   ]);
 }

@@ -28,11 +28,9 @@ const ReportsPaymentsSchema = new Schema({
     approvedBy: {
         type: String
     },
-    MarianPrice: {
-        type: Number
-    },
-    PiotrekPrice: {
-        type: Number
+    salary: {
+        type: Number,
+        required: true
     }
 });
 

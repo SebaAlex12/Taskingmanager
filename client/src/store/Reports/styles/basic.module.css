@@ -36,9 +36,7 @@
     width:960px;
 }
 .reports-list-container-box header{
-    display:flex;
     gap:5px;
-    margin-top:5px;
 }
 
 .reports-add-form-box{

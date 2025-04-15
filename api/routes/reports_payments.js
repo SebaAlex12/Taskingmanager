@@ -18,34 +18,20 @@ router.get('/',async(req, res) => {
 
 router.post('/',async(req, res) => {
     try{
-        console.log('req body',req.body);
         const data = req.body;
-
-        const date = new Date();
-
-        const fullYear = date.getFullYear();
-        const month = parseInt(date.getMonth());
-        const day = parseInt(date.getDate());
-        
-        // const month = parseInt(date.getMonth()) < 10 ? `0${date.getMonth()}` : date.getMonth();
-        // const day = parseInt(date.getDay()) < 10 ? `0${date.getDay()}` : date.getDay();
-
-        const presentDateFormat = `${fullYear}-${month}-${day}`;
 
         const reqData = {
             userId: data.userId,
             month: data.month,
             year: 2025,
-            sendedDate: presentDateFormat,
+            sendedDate: data.sendedDate,
             description: data.description,
             sendedBy: data.sendedBy,
             approvedBy: data.approvedBy,
-            MarianPrice: data.MarianPrice,
-            PiotrekPrice: data.PiotrekPrice
+            salary: data.salary
           }
 
           const ReportsPaymentsObject = new ReportsPayments(reqData);
-
           const response = await ReportsPaymentsObject.save();
 
           res.json(response);
@@ -55,5 +41,29 @@ router.post('/',async(req, res) => {
         res.status(500).json({message:error});
     }
 });
+
+router.post(
+  "/update",
+  async(req, res) => {
+
+    const filter = { _id: req.body.paymentId };
+
+    const update = {
+        description: req.body.description ? req.body.description : '',
+        approvedBy: req.body.approvedBy
+    };
+
+    try{
+        const ReportsPaymentsObject = await ReportsPayments.findOneAndUpdate(filter, update, { includeResultMetadata: true});
+        const response = await ReportsPayments.findById(req.body.paymentId);
+        return res.json(response);
+    }catch(error){
+        console.log('error',error.toString());
+        res.status(500).json({message:error});
+    }
+
+  }
+);
+
 
 module.exports = router;
