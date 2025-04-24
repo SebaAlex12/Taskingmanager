@@ -20,7 +20,7 @@ export const salary = [
             'name':'Piotrek',
             'price':34
           }
-        ]
+        ],
     }
 ]
 

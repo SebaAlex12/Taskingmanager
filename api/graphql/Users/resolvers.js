@@ -17,6 +17,7 @@ const generateUserToken = (userData) => {
             users: userData.users ? userData.users : "",
             lastActive: userData.lastActive ? userData.lastActive : "",
             createdAt: userData.createdAt,
+            employer: userData.employer ? userData.employer : false,
             tokenCreatedAt: new Date(),
             logged: true,
           },

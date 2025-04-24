@@ -32,6 +32,9 @@ const UserSchema = new Schema({
   lastActive: {
     type: String,
   },
+  employer: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

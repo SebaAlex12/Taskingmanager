@@ -104,6 +104,7 @@ module.exports = buildSchema(`
         users: String
         lastActive: String
         createdAt: String
+        employer: String
         generateToken: String
         errors: [Error]
     }
@@ -301,6 +302,7 @@ module.exports = buildSchema(`
         users: String
         lastActive: String
         createdAt: String
+        employer: String
         generateToken: String
     }
 
@@ -403,6 +405,7 @@ module.exports = buildSchema(`
         projects: String
         users: String
         lastActive: String
+        employer: String
         token: String
         errors: [Error]
     }

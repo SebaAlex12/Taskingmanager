@@ -35,6 +35,7 @@ function* loginUserAsync(action) {
             users
             lastActive
             createdAt
+            employer
             token
             errors{
               path
@@ -184,6 +185,7 @@ function* fetchUsersAsync(action) {
             users
             lastActive
             createdAt
+            employer
             errors{
               path
               message
@@ -238,6 +240,7 @@ function* fetchUsersByLoggedUserProjectsAsync(action) {
             users
             lastActive
             createdAt
+            employer
             errors{
               path
               message

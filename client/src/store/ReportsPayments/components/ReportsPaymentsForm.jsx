@@ -9,6 +9,7 @@ import classes from '../styles/basic.module.css';
 const ReportsPaymentsForm = ({employerName, employerId, employeeId, summarySalary, month}) =>{
 
     const paymentData = useSelector(state => state.reportsPayments.reportsPayments.find(payment=>payment.month===month && payment.sendedBy===employerId));
+    const loggedUser = useSelector(state => state.users.logged_user);
 
     const [ sendedDate, setSendedDate ] = useState('');
     const [ sendedBy, setSendedBy ] = useState(false);
@@ -72,6 +73,7 @@ const ReportsPaymentsForm = ({employerName, employerId, employeeId, summarySalar
         dispatch(updateReportPayments({paymentId,approvedBy:employeeId,description}));
     }
 
+    console.log('xpaymentData',paymentData);
 
     return(
         <DefaultForm>
@@ -82,11 +84,11 @@ const ReportsPaymentsForm = ({employerName, employerId, employeeId, summarySalar
                 </div>               
                 <div className="form-group">
                     <label htmlFor="">{ employerName }</label>
-                    <input type="checkbox" checked={ sendedBy } onChange={() => setSendedBy(prevState => !prevState)} disabled={sendedBy}/>
+                    <input type="checkbox" checked={ sendedBy } onChange={() => setSendedBy(prevState => !prevState)} disabled={true}/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="">Franek</label>
-                    <input type="checkbox" checked={ approvedBy } onChange={() => setApprovedBy(prevState => !prevState)} disabled={approvedBy}/>
+                    <input type="checkbox" checked={ approvedBy } onChange={() => setApprovedBy(prevState => !prevState)} disabled={true}/>
                 </div>
                 <div className="form-group">
                     <input className={classes.input} type="text" value={salary} onChange={(e) => setSalary(e.target.value)} disabled/>
@@ -95,7 +97,9 @@ const ReportsPaymentsForm = ({employerName, employerId, employeeId, summarySalar
                     <textarea className={classes.textarea} value={ description } onChange={(event) => setDescription(event.target.value)}></textarea>
                 </div>
                 <div className="actions">
-                    <button onClick={paymentData && paymentData._id ? (event) => updatePayment(event,paymentData._id) : savePayment}>{paymentData && paymentData._id ? 'Zatwierdź' : 'Dodaj'}</button>
+                    { loggedUser.employer === "true" && !paymentData && <button onClick={(event) => savePayment(event)}>Dodaj</button> }
+                    { loggedUser.employer !== "true" && paymentData && paymentData.approvedBy.length === 0 && <button onClick={(event) => updatePayment(event,paymentData._id)}>Zatwierdź</button> }
+                    {/* <button onClick={paymentData && paymentData._id ? (event) => updatePayment(event,paymentData._id) : savePayment}>{paymentData && paymentData._id ? 'Zatwierdź' : 'Dodaj'}</button> */}
                 </div>
             </form>
         </DefaultForm>

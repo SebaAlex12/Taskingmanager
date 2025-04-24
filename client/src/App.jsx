@@ -34,6 +34,7 @@ function App() {
       users,
       lastActive,
       createdAt,
+      employer,
       tokenCreatedAt,
       logged,
     } = jwt_decode(localStorage.jwtTokenAuthorization);
@@ -53,6 +54,7 @@ function App() {
           projects,
           users,
           createdAt,
+          employer,
           lastActive,
           tokenCreatedAt,
           logged,
