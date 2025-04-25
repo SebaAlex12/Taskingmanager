@@ -40,7 +40,7 @@ export const StyledTaskListContainer = styled.div`
     background-color: rgba(128, 128, 128, 0.1);
   }
   .task-items-box table .createdAt {
-    width: 128px;
+    width: 160px;
   }
   .task-items-box table .details {
     text-align: left;
