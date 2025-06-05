@@ -5,6 +5,8 @@ const router = express.Router();
 const TaskModel = require('../models/Task');
 const ProjectModel = require('../models/Project');
 const UserModel = require('../models/User');
+const MailModel = require('../models/Mail');
+const CommentModel = require('../models/Comment');
 
 const getAllUsers = async() => {
 
@@ -108,6 +110,72 @@ const updateTasksList = async(tasks,users) => {
     });
     return promise;
 }
+
+router.use('/remove_tasks', async(request,response) => {
+
+    const removeSelectedTasks = () => {
+
+        const promise = new Promise(async(resolve,reject) => {
+            try{
+                const response = await TaskModel.deleteMany({createdAt: { $regex: '2022' }});
+                resolve(response);
+            }catch(error){
+                reject({error:error});
+            }
+        });
+
+        return promise;
+
+    }
+
+    const result = await removeSelectedTasks();
+
+    return response.json({result: result});
+});
+
+router.use('/remove_comments', async(request,response) => {
+
+    const removeSelectedComments = () => {
+
+        const promise = new Promise(async(resolve,reject) => {
+            try{
+                const response = await CommentModel.deleteMany({createdAt: { $regex: '2022' }});
+                resolve(response);
+            }catch(error){
+                reject({error:error});
+            }
+        });
+
+        return promise;
+
+    }
+
+    const result = await removeSelectedComments();
+
+    return response.json({result: result});
+});
+
+router.use('/remove_emails', async(request,response) => {
+
+    const removeSelectedEmails = () => {
+
+        const promise = new Promise(async(resolve,reject) => {
+            try{
+                const response = await MailModel.deleteMany({createdAt: { $regex: '2020-02-07' }});
+                resolve(response);
+            }catch(error){
+                reject({error:error});
+            }
+        });
+
+        return promise;
+
+    }
+
+    const result = await removeSelectedEmails();
+
+    return response.json({result: result});
+});
 
 router.use('/update_collections',async(request,response)=>{
     console.log('update collections');
