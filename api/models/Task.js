@@ -6,7 +6,7 @@ const TaskSchema = new Schema({
     type: String,
     required: true
   },
-  createdBy: {
+  createdById: {
     type: String,
     required: true
   },
@@ -18,7 +18,7 @@ const TaskSchema = new Schema({
     type: String,
     required: [true, "Nazwa projektu jest wymagana"]
   },
-  responsiblePerson: {
+  responsiblePersonId: {
     type: String,
     required: [true, "Odpowiedzialna osoba jest wymagana"]
   },

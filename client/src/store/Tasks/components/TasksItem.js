@@ -21,11 +21,11 @@ const TaskItem = (props) => {
       title,
       description,
       projectName,
-      responsiblePerson,
+      responsiblePersonId,
       responsiblePersonLastComment,
       status,
       priority,
-      createdBy,
+      createdById,
       termAt,
       createdAt,
       comments,
@@ -114,7 +114,7 @@ const TaskItem = (props) => {
               className="form-control"
               onChange={onChangeSelect}
               name="priority"
-              disabled={loggedUser.name !== createdBy ? "disabled" : null}
+              disabled={loggedUser._id !== createdById ? "disabled" : null}
               defaultValue={priority}
               required
             >
@@ -134,15 +134,15 @@ const TaskItem = (props) => {
             </select>
           </td>
           <td className="createdBy">
-            <div>{createdBy}</div>
+            <div>{createdById}</div>
           </td>
           <td className="responsiblePerson">
             <select
               className="form-control"
               onChange={onChangeSelect}
               name="responsiblePerson"
-              disabled={loggedUser.name !== createdBy ? "disabled" : null}
-              defaultValue={responsiblePerson}
+              disabled={loggedUser._id !== createdById ? "disabled" : null}
+              defaultValue={responsiblePersonId}
               required
             >
               {users
@@ -178,7 +178,7 @@ const TaskItem = (props) => {
               <FontAwesomeIcon icon={faEdit} />
             </Button>
             {
-              loggedUser.name === createdBy && (
+              loggedUser._id === createdById && (
                 <WarningButton
                   warning
                   onClick={remove}
@@ -212,14 +212,14 @@ const TaskItem = (props) => {
                 </div>
                 <CommentsList
                   comments={commentsTask}
-                  responsiblePerson={responsiblePerson}
+                  responsiblePersonId={responsiblePersonId}
                 />
                 <CommentsAddForm
                   taskId={_id}
                   taskProjectName={projectName}
                   taskTitle={title}
-                  taskCreatedBy={createdBy}
-                  responsiblePerson={responsiblePerson}
+                  taskCreatedById={createdById}
+                  responsiblePersonId={responsiblePersonId}
                   addCommentHandler={addComment}
                 />
               </td>

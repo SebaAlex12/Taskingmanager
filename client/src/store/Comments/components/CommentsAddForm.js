@@ -25,7 +25,7 @@ const CommentsAddForm = (props) => {
     const data = {
       taskId: taskId,
       userId: loggedUser._id,
-      createdBy: loggedUser.name,
+      createdById: loggedUser._id,
       description,
     };
 

@@ -26,7 +26,7 @@ class TasksMailReminder extends Component {
       to,
       projectName,
       taskTitle,
-      createdBy,
+      createdById,
       description,
       priority,
       termAt,
@@ -54,7 +54,7 @@ class TasksMailReminder extends Component {
           "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
           priority +
           "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
-          createdBy +
+          createdById +
           "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
           termAt +
           "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
@@ -67,7 +67,7 @@ class TasksMailReminder extends Component {
           projectName,
           title: "Zadanie do wykonania: " + taskTitle,
           description: html,
-          createdBy
+          createdById
         };
         updateTask({
           _id: taskId,

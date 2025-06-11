@@ -24,7 +24,7 @@ const isDisabled =
         <div className="date">
           {moment(new Date(item.createdAt)).locale("pl").format("LLLL")}
         </div>
-        <div className="creator-name">{item.createdBy}</div>
+        <div className="creator-name">{item.createdById}</div>
         <div className="comment-item-box">
           <div className="details">
             <i

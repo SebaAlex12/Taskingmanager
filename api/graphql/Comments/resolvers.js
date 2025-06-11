@@ -10,7 +10,7 @@ module.exports = {
     const comment = new Comment({
       taskId: commentInput.taskId,
       userId: commentInput.userId,
-      createdBy: commentInput.createdBy,
+      createdById: commentInput.createdById,
       description: commentInput.description,
       createdAt: commentInput.createdAt
     });

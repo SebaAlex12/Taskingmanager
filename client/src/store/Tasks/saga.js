@@ -26,8 +26,8 @@ function* fetchTasksAsync(action) {
   const data = action.data ? action.data : {};
   const taskInput = {
     projectName: data.projectName ? data.projectName : "",
-    createdBy: data.createdBy ? data.createdBy : "",
-    responsiblePerson: data.responsiblePerson ? data.responsiblePerson : "",
+    createdById: data.createdById ? data.createdById : "",
+    responsiblePersonId: data.responsiblePersonId ? data.responsiblePersonId : "",
     mailReminderData: data.mailReminderData ? data.mailReminderData : ""
   }
   try {
@@ -36,14 +36,14 @@ function* fetchTasksAsync(action) {
         query {
           fetchTasks(taskInput:{
             projectName: "${taskInput.projectName}",
-            createdBy: "${taskInput.createdBy}", 
-            responsiblePerson: "${taskInput.responsiblePerson}",
+            createdById: "${taskInput.createdById}", 
+            responsiblePersonId: "${taskInput.responsiblePersonId}",
             mailRemainderData: "${taskInput.mailRemainderData}"}){
             _id
-            createdBy
+            createdById
             projectId
             projectName
-            responsiblePerson
+            responsiblePersonId
             title
             description
             priority
@@ -57,7 +57,7 @@ function* fetchTasksAsync(action) {
                 _id
                 taskId
                 userId
-                createdBy
+                createdById
                 description
                 createdAt
             }
@@ -66,6 +66,8 @@ function* fetchTasksAsync(action) {
         }
     `,
     };
+
+    // console.log('fetch tasks query',JSON.stringify(graph));
 
     // const res = yield call(
     //   [axios, axios.post],
@@ -96,14 +98,14 @@ function* fetchTasksByLoggedUserProjectsAsync(action) {
         query {
           fetchTasksByLoggedUserProjects(taskInput:{
             projectName: "${data.projectName}",
-            createdBy: "${data.createdBy}", 
-            responsiblePerson: "${data.responsiblePerson}",
+            createdById: "${data.createdById}", 
+            responsiblePersonId: "${data.responsiblePersonId}",
             mailRemainderData: "${data.mailRemainderData}"},projects: "${data.projects}"){
             _id
-            createdBy
+            createdById
             projectId
             projectName
-            responsiblePerson
+            responsiblePersonId
             title
             description
             priority
@@ -117,7 +119,7 @@ function* fetchTasksByLoggedUserProjectsAsync(action) {
                 _id
                 taskId
                 userId
-                createdBy
+                createdById
                 description
                 createdAt
             }
@@ -159,10 +161,10 @@ function* addTaskAsync(action) {
 
   const taskInput = {
     userId: data.userId,
-    createdBy: data.createdBy,
+    createdById: data.createdById,
     projectId: data.projectId,
     projectName: data.projectName,
-    responsiblePerson: data.responsiblePerson,
+    responsiblePersonId: data.responsiblePersonId,
     title: data.title,
     description: data.description,
     priority: data.priority,
@@ -176,10 +178,10 @@ function* addTaskAsync(action) {
   const graph = {
     query: `mutation {
       addTask(taskInput: {userId: "${taskInput.userId}",
-      createdBy: "${taskInput.createdBy}",
+      createdById: "${taskInput.createdById}",
       projectId: "${taskInput.projectId}",
       projectName: "${taskInput.projectName}",
-      responsiblePerson: "${taskInput.responsiblePerson}",
+      responsiblePersonId: "${taskInput.responsiblePersonId}",
       title: "${taskInput.title}",
       description: """${taskInput.description}""",
       priority: "${taskInput.priority}",
@@ -190,10 +192,10 @@ function* addTaskAsync(action) {
       termAt: "${taskInput.termAt}",
       mailRemainderData: "${taskInput.mailRemainderData}"}){
         _id
-        createdBy
+        createdById
         projectId
         projectName
-        responsiblePerson
+        responsiblePersonId
         title
         description
         priority
@@ -207,7 +209,7 @@ function* addTaskAsync(action) {
             _id
             taskId
             userId
-            createdBy
+            createdById
             description
             createdAt
         }
@@ -257,10 +259,10 @@ function* updateTaskAsync(action) {
   const taskInput = {
     _id: data._id,
     userId: 1,
-    createdBy: data.createdBy ? data.createdBy : "",
+    createdById: data.createdById ? data.createdById : "",
     projectId: data.projectId ? data.projectId : "",
     projectName: data.projectName ? data.projectName : "",
-    responsiblePerson: data.responsiblePerson ? data.responsiblePerson : "",
+    responsiblePersonId: data.responsiblePersonId ? data.responsiblePersonId : "",
     title: data.title ? data.title : "",
     description: data.description ? data.description : "",
     priority: data.priority ? data.priority : "",
@@ -283,10 +285,10 @@ function* updateTaskAsync(action) {
       updateTask(taskInput: {
       _id: "${taskInput._id}",  
       userId: "${taskInput.userId}",
-      createdBy: "${taskInput.createdBy}",
+      createdById: "${taskInput.createdById}",
       projectId: "${taskInput.projectId}",
       projectName: "${taskInput.projectName}",
-      responsiblePerson: "${taskInput.responsiblePerson}",
+      responsiblePersonId: "${taskInput.responsiblePersonId}",
       title: "${taskInput.title}",
       description: """${taskInput.description}""",
       priority: "${taskInput.priority}",
@@ -296,10 +298,10 @@ function* updateTaskAsync(action) {
       termAt: "${taskInput.termAt}",
       mailRemainderData: "${taskInput.mailRemainderData}"}){
         _id
-        createdBy
+        createdById
         projectId
         projectName
-        responsiblePerson
+        responsiblePersonId
         title
         description
         priority
@@ -313,7 +315,7 @@ function* updateTaskAsync(action) {
             _id
             taskId
             userId
-            createdBy
+            createdById
             description
             createdAt
         }

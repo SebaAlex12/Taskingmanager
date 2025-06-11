@@ -113,7 +113,7 @@ module.exports = buildSchema(`
         _id: ID
         userId: String
         userName: String
-        taskCreatedBy: String
+        taskCreatedById: String
         taskProjectName: String
         taskTitle: String
         event: String
@@ -130,7 +130,7 @@ module.exports = buildSchema(`
         _id: String
         taskId: String
         userId: String
-        createdBy: String
+        createdById: String
         description: String
         createdAt: String
         errors: [Error]
@@ -139,10 +139,10 @@ module.exports = buildSchema(`
     type Task {
         _id: ID
         userId: String
-        createdBy: String
+        createdById: String
         projectId: String
         projectName: String
-        responsiblePerson: String
+        responsiblePersonId: String
         title: String
         description: String
         priority: String
@@ -325,15 +325,15 @@ module.exports = buildSchema(`
     input TaskInputData {
         _id: String
         userId: String
-        createdBy: String
+        createdById: String
         projectId: String
         projectName: String
-        responsiblePerson: String
+        responsiblePersonId: String
         title: String
         description: String
         priority: String
         status: String
-        responsiblePersonLastComment: String
+        responsiblePersonLastCommentId: String
         createdAt: String
         finishedAt: String
         termAt: String
@@ -357,7 +357,7 @@ module.exports = buildSchema(`
         _id: String
         taskId: String
         userId: String
-        createdBy: String
+        createdById: String
         description: String
         createdAt: String
     }

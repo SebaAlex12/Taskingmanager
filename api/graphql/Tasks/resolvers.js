@@ -13,7 +13,7 @@ module.exports = {
   fetchTasks: async function ({ taskInput }) {
 
         let params = [
-            { "responsiblePerson":taskInput.responsiblePerson},{"createdBy":taskInput.createdBy}
+            { "responsiblePersonId":taskInput.responsiblePersonId},{"createdById":taskInput.createdById}
           ];
 
     try{
@@ -27,10 +27,10 @@ module.exports = {
                 let newTask = {
                   _id: task._id,
                   userId: task.userId,
-                  createdBy: task.createdBy,
+                  createdById: task.createdById,
                   projectId: task.projectId,
                   projectName: task.projectName,
-                  responsiblePerson: task.responsiblePerson,
+                  responsiblePersonId: task.responsiblePersonId,
                   title: task.title,
                   description: task.description,
                   priority: task.priority,
@@ -54,8 +54,8 @@ module.exports = {
           return newTasks;
         }
               
-      }catch(e){
-          return { errors: tools.formatErrors(e) };
+      }catch(error){
+          return { errors: tools.formatErrors(error) };
       }
   },
   fetchTasksByLoggedUserProjects: async function ({ taskInput, projects }) {
@@ -67,13 +67,13 @@ module.exports = {
       params.projectName = taskInput.projectName;
 
     if (
-      taskInput.responsiblePerson &&
-      taskInput.responsiblePerson !== "undefined"
+      taskInput.responsiblePersonId &&
+      taskInput.responsiblePersonId !== "undefined"
     )
-      params.responsiblePerson = taskInput.responsiblePerson;
+      params.responsiblePersonId = taskInput.responsiblePersonId;
 
-    if (taskInput.createdBy && taskInput.createdBy !== "undefined")
-      params.createdBy = taskInput.createdBy;
+    if (taskInput.createdById && taskInput.createdById !== "undefined")
+      params.createdById = taskInput.createdById;
 
     // let tasks = await Task.find(params);
 
@@ -106,10 +106,10 @@ module.exports = {
   addTask: async function ({ taskInput }, req) {
     const task = new Task({
       userId: taskInput.userId,
-      createdBy: taskInput.createdBy,
+      createdById: taskInput.createdById,
       projectId: taskInput.projectId,
       projectName: taskInput.projectName,
-      responsiblePerson: taskInput.responsiblePerson,
+      responsiblePersonId: taskInput.responsiblePersonId,
       title: taskInput.title,
       description: taskInput.description,
       priority: taskInput.priority,
@@ -145,16 +145,16 @@ module.exports = {
     const data = {
       _id: taskInput._id,
       userId: taskInput.userId !== "" ? taskInput.userId : task.userId,
-      createdBy:
-        taskInput.createdBy !== "" ? taskInput.createdBy : task.createdBy,
+      createdById:
+        taskInput.createdById !== "" ? taskInput.createdById : task.createdById,
       projectId:
         taskInput.projectId !== "" ? taskInput.projectId : task.projectId,
       projectName:
         taskInput.projectName !== "" ? taskInput.projectName : task.projectName,
-      responsiblePerson:
-        taskInput.responsiblePerson !== ""
-          ? taskInput.responsiblePerson
-          : task.responsiblePerson,
+      responsiblePersonId:
+        taskInput.responsiblePersonId !== ""
+          ? taskInput.responsiblePersonId
+          : task.responsiblePersonId,
       title: taskInput.title !== "" ? taskInput.title : task.title,
       description:
         taskInput.description !== "" ? taskInput.description : task.description,
@@ -213,7 +213,7 @@ module.exports = {
 
       if (tasks.length > 0) {
         tasks.forEach(async (task) => {
-          const senderUser = await User.find({ name: task.createdBy });
+          const senderUser = await User.find({ name: task.createdById });
           const reciverUser = await User.find({
             name: task.responsiblePerson,
           });
@@ -225,7 +225,7 @@ module.exports = {
             "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
             task.priority +
             "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
-            task.createdBy +
+            task.createdById +
             "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
             task.termAt +
             "</td><td style='padding:10px 20px;border:1px solid grey;'>" +
@@ -234,10 +234,10 @@ module.exports = {
           sendMail({
             from: senderUser[0].email,
             to: reciverUser[0].email,
-            sender: task.createdBy,
+            sender: task.createdById,
             subject: "Zadanie do wykonania: " + task.title,
             html,
-            createdBy: task.createdBy,
+            createdById: task.createdById,
           });
 
           task.mailRemainderData = presentDay;

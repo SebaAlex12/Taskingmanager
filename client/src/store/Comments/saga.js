@@ -24,7 +24,7 @@ function* fetchCommentsAsync(action) {
             _id
             taskId
             userId
-            createdBy
+            createdById
             description
             createdAt
           }
@@ -62,7 +62,7 @@ function* addCommentAsync(action) {
   const commentInput = {
     taskId: data.taskId,
     userId: data.userId,
-    createdBy: data.createdBy,
+    createdById: data.createdById,
     description: data.description,
     createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format()
   };
@@ -71,13 +71,13 @@ function* addCommentAsync(action) {
       addComment(commentInput: {
       taskId: "${commentInput.taskId}",
       userId: "${commentInput.userId}",
-      createdBy: "${commentInput.createdBy}",
+      createdById: "${commentInput.createdById}",
       description: """${commentInput.description}""",
       createdAt: "${commentInput.createdAt}"}){
         _id
         taskId
         userId
-        createdBy
+        createdById
         description
         createdAt
         errors{

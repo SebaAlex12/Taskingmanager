@@ -3,7 +3,7 @@ import React from "react";
 import { StyledCommentList } from "../styles/StyledCommentList";
 import CommentsItem from "./CommentsItem";
 
-const CommentsList = ({comments, responsiblePerson}) => {
+const CommentsList = ({comments, responsiblePersonId}) => {
 
     const commentsContent = comments.length > 0
       ? comments.map((comment) => {
@@ -11,7 +11,7 @@ const CommentsList = ({comments, responsiblePerson}) => {
             <CommentsItem
               item={comment}
               key={comment._id ? comment._id : Math.random()}
-              responsiblePerson={responsiblePerson}
+              responsiblePersonId={responsiblePersonId}
             />
           );
         })

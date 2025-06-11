@@ -18,7 +18,7 @@ const TasksListContainer = () => {
     setFilteredTasks(
         sortItems(
           tasks.filter(
-            task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name) 
+            task => (isResponsiblePerson ? task.responsiblePersonId === loggedUser._id : task.createdById === loggedUser._id) 
             && (task.status === status)),
             'createdAt',
             'desc'
@@ -32,7 +32,7 @@ const TasksListContainer = () => {
       setFilteredTasks(
         sortItems(
           tasks.filter(
-            task => (reversIsResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name) 
+            task => (reversIsResponsiblePerson ? task.responsiblePersonId === loggedUser._id : task.createdById === loggedUser._id) 
             && (task.status === 'Do wykonania')),
             'createdAt',
             'desc'
@@ -52,11 +52,11 @@ const TasksListContainer = () => {
             tasks.filter(
               task => {
                     if(isResponsiblePerson === true){
-                        if(task.responsiblePerson === loggedUser.name && task.status === event.target.value){
+                        if(task.responsiblePersonId === loggedUser._id && task.status === event.target.value){
                             return task;
                         }
                     }else{
-                        if(task.createdBy === loggedUser.name && task.status === event.target.value){
+                        if(task.createdById === loggedUser._id && task.status === event.target.value){
                             return task;
                         }
                     }
@@ -65,7 +65,7 @@ const TasksListContainer = () => {
             )
       }else{
         setFilteredTasks(
-          tasks.filter( task => (isResponsiblePerson ? task.responsiblePerson === loggedUser.name : task.createdBy === loggedUser.name)));
+          tasks.filter( task => (isResponsiblePerson ? task.responsiblePersonId === loggedUser._id : task.createdById === loggedUser._id)));
       }
       setStatus(event.target.value);
   }

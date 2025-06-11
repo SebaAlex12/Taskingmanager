@@ -69,7 +69,7 @@ const TasksAddForm = ({ closeFormAction }) => {
     }else{
           const data = {
             userId: loggedUser._id,
-            createdBy: loggedUser.name,
+            createdById: loggedUser._id,
             projectId: "1",
             projectName,
             responsiblePerson,

@@ -14,14 +14,17 @@ import UsersList from './../store/Users/components/UsersList';
 const Tasks = () => {
 
   const dispatch = useDispatch();
-  const loggedUserName = useSelector(state => state.users.logged_user.name);
+  // const loggedUserName = useSelector(state => state.users.logged_user.name);
+
+  const loggedUser = useSelector(state => state.users.logged_user);
+  // console.log('loggedUser',loggedUser);
 
   useEffect(() => {
       dispatch(fetchProjects({company:'Blumoseo'}));
-      dispatch(fetchTasks({responsiblePerson:loggedUserName,createdBy:loggedUserName}));
+      dispatch(fetchTasks({responsiblePersonId:loggedUser._id,createdById:loggedUser._id}));
       dispatch(fetchReports());
       dispatch(fetchReportsPayments());
-  },[dispatch,loggedUserName]);
+  },[dispatch,loggedUser]);
 
   return(
     <React.Fragment>

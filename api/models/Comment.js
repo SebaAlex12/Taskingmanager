@@ -10,7 +10,7 @@ const CommentSchema = new Schema({
     type: String,
     required: true
   },
-  createdBy: {
+  createdById: {
     type: String,
     required: true
   },
