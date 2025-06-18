@@ -83,32 +83,58 @@ const updateUsersList = async(users,projects) => {
 
 }
 
-const updateTasksList = async(tasks,users) => {
-    const promise = new Promise(async(resolve,reject) => {
-        try{
-            tasks.forEach(async(task) => {
-                const userTaskCreator = users.find(user=>user.name===task.createdBy);
-                const userTaskResponsible = users.find(user=>user.name===task.responsiblePerson);
+const updateTasksList = async(tasks,users,projects) => {
 
-                if(userTaskCreator && userTaskResponsible){
-                        const createdById = userTaskCreator._id;
-                        const responsiblePersonId = userTaskResponsible._id;
 
-                        console.log('createdById',createdById);
-                        console.log('responsiblePersonId',responsiblePersonId);
+    let i = 0;
 
-                        const update = await TaskModel.findOneAndUpdate({ _id:task._id }, { createdBy: createdById, responsiblePerson: responsiblePersonId });
-                        console.log('updated collection:',update);
-                }
+    // console.log('tasks',tasks);
+    
+    try{
 
-                resolve('success');
+    // const promises = new Promise(async(resolve,reject) => {
+            const promises = tasks.map(async(task) => {
+                        if(i<5){
 
+                            console.log('do something');
+
+                            const userTaskCreator = users.find(user=>user.name===task.createdBy);
+                            const userTaskResponsible = users.find(user=>user.name===task.responsiblePerson);
+                            const selectedProject = projects.find(project=>project.name===task.projectName);
+
+                            // console.log('selected project', selectedProject);
+                            // console.log('task',task);
+
+                            if(selectedProject){
+                                const update = await TaskModel.findOneAndUpdate({ _id:task._id }, { projectId: selectedProject._id });
+                                // console.log('updated collection:',{ projectId: selectedProject._id }, update);
+    
+                                // if(userTaskCreator && userTaskResponsible){
+                                //         const createdById = userTaskCreator._id;
+                                //         const responsiblePersonId = userTaskResponsible._id;
+    
+                                //         console.log('createdById',createdById);
+                                //         console.log('responsiblePersonId',responsiblePersonId);
+    
+                                //         const update = await TaskModel.findOneAndUpdate({ _id:task._id }, { createdBy: createdById, responsiblePerson: responsiblePersonId });
+                                //         console.log('updated collection:',update);
+                                // }
+                                return update;
+                            }
+                        }
+                    i++;
             });
+
+            const result = await Promise.all(promises);
+
+            console.log('result',result);
+            
+
         }catch(error){
-            reject(error);
+            console.log('error',error);
         }
-    });
-    return promise;
+    // });
+    // return result;
 }
 
 router.use('/remove_tasks', async(request,response) => {
@@ -182,15 +208,15 @@ router.use('/update_collections',async(request,response)=>{
 
     try{
         const usersResult = await getAllUsers();
-        // const projectsResult = await getAllProjects();
+        const projectsResult = await getAllProjects();
         const tasksResult = await getAllTasks();
 
         /*  update users insert projects ids  */
         // const updateProjects = await updateUsersList(usersResult,projectsResult);
         /*  update tasks insert users ids  */
-        // const updateTasks = await updateTasksList(tasksResult,usersResult);
+        const updateTasks = await updateTasksList(tasksResult,usersResult,projectsResult);
 
-        response.json({response:updateResult});
+        response.json({response:updateTasks});
     }catch(error){
         response.json({response:error});
     }

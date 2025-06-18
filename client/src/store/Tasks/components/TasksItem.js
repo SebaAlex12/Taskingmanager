@@ -18,6 +18,7 @@ import {
 const TaskItem = (props) => {
     const {
       _id,
+      projectId,
       title,
       description,
       projectName,
@@ -34,6 +35,10 @@ const TaskItem = (props) => {
     const dispatch = useDispatch();
     const loggedUser = useSelector(state => state.users.logged_user);
     const users = useSelector(state => state.users.users);
+
+    const responsiblePerson = users.find(user => user._id === responsiblePersonId);
+    const createdByPerson = users.find(user => user._id === createdById);
+    const selectedProject = useSelector(state => state.projects.projects.find(project => project._id === projectId)); 
 
     const descriptionRef = useRef();
     const [ isActive, setIsActive ] = useState(false);
@@ -85,7 +90,7 @@ const TaskItem = (props) => {
               }
             ></i>
           </td>
-          <td className="project-name">{projectName}</td>
+          <td className="project-name">{selectedProject && selectedProject.name}</td>
           <td className="status">
             <select
               className="form-control"
@@ -133,8 +138,8 @@ const TaskItem = (props) => {
                 : null}
             </select>
           </td>
-          <td className="createdBy">
-            <div>{createdById}</div>
+          <td className="createdByPerson">
+            <div>{createdByPerson.name}</div>
           </td>
           <td className="responsiblePerson">
             <select
@@ -142,13 +147,13 @@ const TaskItem = (props) => {
               onChange={onChangeSelect}
               name="responsiblePerson"
               disabled={loggedUser._id !== createdById ? "disabled" : null}
-              defaultValue={responsiblePersonId}
+              defaultValue={responsiblePerson.name}
               required
             >
               {users
                 ? users.map((item) => {
                     if (item.projects) {
-                      if (item.projects.split(",").includes(projectName)) {
+                      if (item.projects.split(",").includes(projectId)) {
                         return (
                           <option
                             key={item._id}

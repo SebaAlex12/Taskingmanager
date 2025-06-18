@@ -15,8 +15,8 @@ const TasksAddForm = ({ closeFormAction }) => {
   const [ description, setDescription ] = useState("");
   const [ priority, setPriority ] = useState("Normalny");
   const [ termAt, setTermAt ] = useState("");
-  const [ projectName, setProjectName ] = useState("");
-  const [ responsiblePerson, setResponsiblePerson ] = useState("");
+  const [ projectId, setProjectId ] = useState("");
+  const [ responsiblePersonId, setResponsiblePersonId ] = useState("");
   const [ status, setStatus] = useState("Do wykonania");
   const [ validation, setValidation ] = useState(initialIsValid);
 
@@ -33,10 +33,11 @@ const TasksAddForm = ({ closeFormAction }) => {
   const users = useSelector(state => state.users.users);
   const projects = useSelector(state => state.projects.projects);
   const loggedUser = useSelector(state => state.users.logged_user);
+  
 
   const loggedUserProjects = loggedUser.projects ? loggedUser.projects.split(",") : [];
-  const filteredProjects = projects.filter(project => loggedUserProjects.includes(project.name) && project.visible === 'on');
-  const filteredUsers = users.filter(user => user.projects.includes(projectName) && projectName.length > 0);
+  const filteredProjects = loggedUser.status === 'Administrator' ? projects : projects.filter(project => loggedUserProjects.includes(project._id) && project.visible === 'on');
+  const filteredUsers = users.filter(user => user.projects.includes(projectId) && projectId.length > 0);
 
   const dispatch = useDispatch();
 
@@ -47,8 +48,8 @@ const TasksAddForm = ({ closeFormAction }) => {
     const checkTitleIsValid = isValid(title, {notEmpty:true});
     const checkDescriptionIsValid = isValid(description, {notEmpty:true});
     const checkPriorityIsValid = isValid(priority, {notEmpty:true});
-    const checkProjectNameIsValid = isValid(projectName, {notEmpty:true});
-    const checkResponsiblePersonIsValid = isValid(responsiblePerson, {notEmpty:true});
+    const checkProjectNameIsValid = isValid(projectId, {notEmpty:true});
+    const checkResponsiblePersonIsValid = isValid(responsiblePersonId, {notEmpty:true});
     const checkStatusIsValid = isValid(status, {notEmpty:true});
 
     setTitleIsValid(checkTitleIsValid);
@@ -70,12 +71,12 @@ const TasksAddForm = ({ closeFormAction }) => {
           const data = {
             userId: loggedUser._id,
             createdById: loggedUser._id,
-            projectId: "1",
-            projectName,
-            responsiblePerson,
+            projectId: projectId,
+            projectName: projectId,
+            responsiblePersonId,
             title,
             description,
-            responsiblePersonLastComment:false,
+            responsiblePersonLastCommentId:false,
             priority,
             status,
             termAt,
@@ -87,8 +88,8 @@ const TasksAddForm = ({ closeFormAction }) => {
           setDescription("");
           setPriority("");
           setTermAt("");
-          setProjectName("");
-          setResponsiblePerson("");
+          setProjectId("");
+          setResponsiblePersonId("");
           setStatus("");
 
           setValidation({status:true,message:""});
@@ -166,15 +167,15 @@ const TasksAddForm = ({ closeFormAction }) => {
                 <div className="form-group">
                   <select
                     className={`form-control ${ projectNameIsValid.status === false ? "notValid" : "" }`}
-                    onChange={(event) => setProjectName(event.target.value)}
-                    name="projectName"
+                    onChange={(event) => setProjectId(event.target.value)}
+                    name="projectId"
                     required
                   >
                     <option>Wybierz projekt</option>
                     {
                       filteredProjects.map((project) => 
                             (
-                                <option key={project._id} value={project.name}>
+                                <option key={project._id} value={project._id}>
                                       {project.name}
                                   </option>
                             )
@@ -186,14 +187,14 @@ const TasksAddForm = ({ closeFormAction }) => {
                 <div className="form-group">
                   <select
                     className={`form-control ${ responsiblePersonIsValid.status === false ? "notValid" : "" }`}
-                    onChange={(event) => setResponsiblePerson(event.target.value)}
-                    name="responsiblePerson"
+                    onChange={(event) => setResponsiblePersonId(event.target.value)}
+                    name="responsiblePersonId"
                     required
                   >
                     <option>Przypisz do</option>
                     {
                         filteredUsers.map((user) => (
-                            <option key={user._id} value={user.name}>
+                            <option key={user._id} value={user._id}>
                               {user.name}
                             </option>
                           ))

@@ -24,7 +24,7 @@ module.exports = {
 
           const newTasksPromises = tasks.map(async(task) => {
               const comments = await Comment.find({ taskId: task._id });
-                let newTask = {
+                const newTask = {
                   _id: task._id,
                   userId: task.userId,
                   createdById: task.createdById,
@@ -34,7 +34,7 @@ module.exports = {
                   title: task.title,
                   description: task.description,
                   priority: task.priority,
-                  responsiblePersonLastComment: task.responsiblePersonLastComment,
+                  responsiblePersonLastCommentId: task.responsiblePersonLastCommentId,
                   createdAt: task.createdAt,
                   finishedAt: task.finishedAt,
                   termAt: task.termAt,
@@ -104,7 +104,8 @@ module.exports = {
     return newTasks;
   },
   addTask: async function ({ taskInput }, req) {
-    const task = new Task({
+
+    const data = {
       userId: taskInput.userId,
       createdById: taskInput.createdById,
       projectId: taskInput.projectId,
@@ -113,12 +114,16 @@ module.exports = {
       title: taskInput.title,
       description: taskInput.description,
       priority: taskInput.priority,
-      responsiblePersonLastComment: taskInput.responsiblePersonLastComment,
+      responsiblePersonLastCommentId: taskInput.responsiblePersonLastCommentId,
       status: taskInput.status,
       createdAt: taskInput.createdAt,
       termAt: taskInput.termAt,
       mailRemainderData: null,
-    });
+    };
+
+    console.log('new data',data);
+
+    const task = new Task(data);
 
     // const taskExists = await Task.findOne({
     //   title: taskInput.title,
@@ -133,10 +138,12 @@ module.exports = {
     // }
 
     try {
+
       const storedTask = await task.save();
+
       return { ...storedTask._doc, _id: storedTask._id.toString() };
     } catch (e) {
-      return { errors: [{path: 'Tasks add', message : 'Błąd serwera - status 500' }] };
+      return { errors: [{path: 'Tasks add', message : e.message }] };
     }
   },
   updateTask: async function ({ taskInput }, req) {
@@ -160,10 +167,10 @@ module.exports = {
         taskInput.description !== "" ? taskInput.description : task.description,
       priority: taskInput.priority !== "" ? taskInput.priority : task.priority,
       status: taskInput.status !== "" ? taskInput.status : task.status,
-      responsiblePersonLastComment:
-        taskInput.responsiblePersonLastComment !== ""
-          ? tools.stringToBoolean(taskInput.responsiblePersonLastComment)
-          : task.responsiblePersonLastComment,
+      responsiblePersonLastCommentId:
+        taskInput.responsiblePersonLastCommentId !== ""
+          ? tools.stringToBoolean(taskInput.responsiblePersonLastCommentId)
+          : task.responsiblePersonLastCommentId,
       termAt: taskInput.termAt !== "" ? taskInput.termAt : task.termAt,
       mailRemainderData:
         taskInput.mailRemainderData.length > 5

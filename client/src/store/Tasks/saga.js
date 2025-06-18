@@ -48,7 +48,7 @@ function* fetchTasksAsync(action) {
             description
             priority
             status
-            responsiblePersonLastComment
+            responsiblePersonLastCommentId
             createdAt
             finishedAt
             termAt
@@ -110,7 +110,7 @@ function* fetchTasksByLoggedUserProjectsAsync(action) {
             description
             priority
             status
-            responsiblePersonLastComment
+            responsiblePersonLastCommentId
             createdAt
             finishedAt
             mailRemainderData
@@ -170,7 +170,7 @@ function* addTaskAsync(action) {
     priority: data.priority,
     status: data.status,
     mailRemainderData: null,
-    responsiblePersonLastComment: data.responsiblePersonLastComment,
+    responsiblePersonLastCommentId: data.responsiblePersonLastCommentId,
     createdAt: moment(new Date(), "YYYY-MM-DD HH:mm:ss").format(),
     termAt: moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format(),
     // finishedAt: data.finishedAt
@@ -186,7 +186,7 @@ function* addTaskAsync(action) {
       description: """${taskInput.description}""",
       priority: "${taskInput.priority}",
       status: "${taskInput.status}",
-      responsiblePersonLastComment: "${taskInput.responsiblePersonLastComment}",
+      responsiblePersonLastCommentId: "${taskInput.responsiblePersonLastCommentId}",
       createdAt: "${taskInput.createdAt}",
       finishedAt: "",
       termAt: "${taskInput.termAt}",
@@ -200,7 +200,7 @@ function* addTaskAsync(action) {
         description
         priority
         status
-        responsiblePersonLastComment
+        responsiblePersonLastCommentId
         createdAt
         finishedAt
         termAt
@@ -268,10 +268,10 @@ function* updateTaskAsync(action) {
     priority: data.priority ? data.priority : "",
     status: data.status ? data.status : "",
     mailRemainderData: data.mailRemainderData ? data.mailRemainderData : null,
-    responsiblePersonLastComment:
-      data.responsiblePersonLastComment === true ||
-      data.responsiblePersonLastComment === false
-        ? data.responsiblePersonLastComment
+    responsiblePersonLastCommentId:
+      data.responsiblePersonLastCommentId === true ||
+      data.responsiblePersonLastCommentId === false
+        ? data.responsiblePersonLastCommentId
         : "",
     termAt: data.termAt
       ? moment(data.termAt, "YYYY-MM-DD HH:mm:ss").format()
@@ -293,7 +293,7 @@ function* updateTaskAsync(action) {
       description: """${taskInput.description}""",
       priority: "${taskInput.priority}",
       status: "${taskInput.status}",
-      responsiblePersonLastComment: "${taskInput.responsiblePersonLastComment}",
+      responsiblePersonLastCommentId: "${taskInput.responsiblePersonLastCommentId}",
       finishedAt: "${taskInput.finishedAt}",
       termAt: "${taskInput.termAt}",
       mailRemainderData: "${taskInput.mailRemainderData}"}){
@@ -306,7 +306,7 @@ function* updateTaskAsync(action) {
         description
         priority
         status
-        responsiblePersonLastComment
+        responsiblePersonLastCommentId
         createdAt
         finishedAt
         termAt

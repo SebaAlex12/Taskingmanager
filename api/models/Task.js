@@ -40,8 +40,8 @@ const TaskSchema = new Schema({
   createdAt: {
     type: String
   },
-  responsiblePersonLastComment: {
-    type: Boolean
+  responsiblePersonLastCommentId: {
+    type: String
   },
   finishedAt: {
     type: String

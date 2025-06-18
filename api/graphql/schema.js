@@ -147,7 +147,7 @@ module.exports = buildSchema(`
         description: String
         priority: String
         status: String
-        responsiblePersonLastComment: String
+        responsiblePersonLastCommentId: String
         createdAt: String
         finishedAt: String
         termAt: String
