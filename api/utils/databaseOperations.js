@@ -49,9 +49,9 @@ const getAllTasks = async() => {
 
 const updateUsersList = async(users,projects) => {
         
-    const promise = new Promise(async(resolve,reject) => {
+    // const promise = new Promise(async(resolve,reject) => {
         try{
-                users.forEach(async(user) => {
+               const promises = users.forEach(async(user) => {
                     // console.log('user',user);
                     const userProjectsName = user.projects.split(',');
                     let userProjectsId = [];
@@ -70,16 +70,17 @@ const updateUsersList = async(users,projects) => {
 
                 });
 
-                resolve('success');
+                const result = await Promise.all(promises);
+
+                console.log('result',result);
 
             }catch(error){
                 console.log('error',error);
-                reject(error);
             }
 
-        });
+        // });
 
-        return promise;
+        // return promise;
 
 }
 
@@ -96,7 +97,7 @@ const updateTasksList = async(tasks,users,projects) => {
             const promises = tasks.map(async(task) => {
                         if(i<5){
 
-                            console.log('do something');
+                            // console.log('do something');
 
                             const userTaskCreator = users.find(user=>user.name===task.createdBy);
                             const userTaskResponsible = users.find(user=>user.name===task.responsiblePerson);
@@ -137,71 +138,71 @@ const updateTasksList = async(tasks,users,projects) => {
     // return result;
 }
 
-router.use('/remove_tasks', async(request,response) => {
+// router.use('/remove_tasks', async(request,response) => {
 
-    const removeSelectedTasks = () => {
+//     const removeSelectedTasks = () => {
 
-        const promise = new Promise(async(resolve,reject) => {
-            try{
-                const response = await TaskModel.deleteMany({createdAt: { $regex: '2022' }});
-                resolve(response);
-            }catch(error){
-                reject({error:error});
-            }
-        });
+//         const promise = new Promise(async(resolve,reject) => {
+//             try{
+//                 const response = await TaskModel.deleteMany({createdAt: { $regex: '2022' }});
+//                 resolve(response);
+//             }catch(error){
+//                 reject({error:error});
+//             }
+//         });
 
-        return promise;
+//         return promise;
 
-    }
+//     }
 
-    const result = await removeSelectedTasks();
+//     const result = await removeSelectedTasks();
 
-    return response.json({result: result});
-});
+//     return response.json({result: result});
+// });
 
-router.use('/remove_comments', async(request,response) => {
+// router.use('/remove_comments', async(request,response) => {
 
-    const removeSelectedComments = () => {
+//     const removeSelectedComments = () => {
 
-        const promise = new Promise(async(resolve,reject) => {
-            try{
-                const response = await CommentModel.deleteMany({createdAt: { $regex: '2022' }});
-                resolve(response);
-            }catch(error){
-                reject({error:error});
-            }
-        });
+//         const promise = new Promise(async(resolve,reject) => {
+//             try{
+//                 const response = await CommentModel.deleteMany({createdAt: { $regex: '2022' }});
+//                 resolve(response);
+//             }catch(error){
+//                 reject({error:error});
+//             }
+//         });
 
-        return promise;
+//         return promise;
 
-    }
+//     }
 
-    const result = await removeSelectedComments();
+//     const result = await removeSelectedComments();
 
-    return response.json({result: result});
-});
+//     return response.json({result: result});
+// });
 
-router.use('/remove_emails', async(request,response) => {
+// router.use('/remove_emails', async(request,response) => {
 
-    const removeSelectedEmails = () => {
+//     const removeSelectedEmails = () => {
 
-        const promise = new Promise(async(resolve,reject) => {
-            try{
-                const response = await MailModel.deleteMany({createdAt: { $regex: '2020-02-07' }});
-                resolve(response);
-            }catch(error){
-                reject({error:error});
-            }
-        });
+//         const promise = new Promise(async(resolve,reject) => {
+//             try{
+//                 const response = await MailModel.deleteMany({createdAt: { $regex: '2020-02-07' }});
+//                 resolve(response);
+//             }catch(error){
+//                 reject({error:error});
+//             }
+//         });
 
-        return promise;
+//         return promise;
 
-    }
+//     }
 
-    const result = await removeSelectedEmails();
+//     const result = await removeSelectedEmails();
 
-    return response.json({result: result});
-});
+//     return response.json({result: result});
+// });
 
 router.use('/update_collections',async(request,response)=>{
     console.log('update collections');
@@ -212,7 +213,7 @@ router.use('/update_collections',async(request,response)=>{
         const tasksResult = await getAllTasks();
 
         /*  update users insert projects ids  */
-        // const updateProjects = await updateUsersList(usersResult,projectsResult);
+        // const updateUsers = await updateUsersList(usersResult,projectsResult);
         /*  update tasks insert users ids  */
         const updateTasks = await updateTasksList(tasksResult,usersResult,projectsResult);
 

@@ -45,8 +45,8 @@ const basePath = process.env.BASEPATH || '/';
 app.use(cors());
 
 /* for development enviroment only begin */
-// const databaseOperations = require('./utils/databaseOperations');
-// app.use(basePath + "database_operations",databaseOperations);
+const databaseOperations = require('./utils/databaseOperations');
+app.use(basePath + "database_operations",databaseOperations);
 /* for development enviroment only end */
 
 const reports = require("./routes/reports");
@@ -172,7 +172,7 @@ app.post(basePath + "delete-files/", bodyParserJson, (req, res) => {
   });
 });
 
-app.use(
+app.post(
   basePath + "graphql",
   graphql.graphqlHTTP({
     schema: graphqlSchema,
