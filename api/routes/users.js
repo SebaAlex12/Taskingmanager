@@ -11,6 +11,7 @@ const User = require('../models/User');
 router.get('/',async(req,res) => {
     try{
         const users = await User.find({});
+        console.log('users list',users);
         res.json(users);
     }catch(error){
         console.log('error'.error.message.toString());
