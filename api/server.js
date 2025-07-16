@@ -55,6 +55,9 @@ app.use(basePath + "reports",reports);
 const reports_payments = require("./routes/reports_payments");
 app.use(basePath + "reports_payments",reports_payments);
 
+const users = require('./routes/users');
+app.use(basePath + "users",users);
+
 // const logger = winston.createLogger({
 //   transports: [
 //     new winston.transports.Console(),

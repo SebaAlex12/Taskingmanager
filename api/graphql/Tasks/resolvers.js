@@ -121,8 +121,6 @@ module.exports = {
       mailRemainderData: null,
     };
 
-    console.log('new data',data);
-
     const task = new Task(data);
 
     // const taskExists = await Task.findOne({

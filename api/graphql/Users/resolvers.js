@@ -53,7 +53,7 @@ module.exports = {
     ]);
     return users;
   },
-  createUser: async function ({ userInput }, req) {
+  createUser: async function ({ userInput }, res) {
     // if (!userInput.name || !userInput.email || !userInput.password) {
     //   const err = new Error("You left input fields epmty");
     //   throw err;
@@ -62,12 +62,10 @@ module.exports = {
     const mailExists = await User.findOne({ email: userInput.email });
 
     if (mailExists) {
-      return {
+      console.log("Istnieje już email o podanej nazwie");
+      throw {
         errors: [
-          {
-            path: "Dodawanie użytkownika",
-            message: "Istnieje już email o podanej nazwie",
-          },
+          { path: "name", message: "Istnieje już email o podanej nazwie" },
         ],
       };
     }
@@ -75,12 +73,10 @@ module.exports = {
     const userNameExists = await User.findOne({ name: userInput.name });
 
     if (userNameExists) {
-      return {
+      console.log("Istnieje już użytkownik o podanej nazwie");
+      throw {
         errors: [
-          {
-            path: "Dodawanie użytkownika",
-            message: "Istnieje już użytkownik o podanej nazwie",
-          },
+          { path: "name", message: "Istnieje już użytkownik o podanej nazwie" },
         ],
       };
     }
@@ -103,56 +99,51 @@ module.exports = {
     try {
       const storedUser = await user.save();
       return { ...storedUser._doc, _id: storedUser._id.toString() };
-    } catch (e) {
-      return {
-        errors: [
-          {
-            path: "dodawanie użytkownika",
-            message: e,
-          },
-        ],
-      };
+    } catch (error) {
+      console.log('error',error.toString);
+      res.status(500).json({message:error});
     }
   },
   loginUser: async function ({ email, password }) {
     if (!email || !password) {
-      return {
-        errors: [{
-            path: "Logowanie użytkownika",
-            message: "Email lub hasło nie zostało wprowadzone",
-          }],
-      };
+        console.log("Email lub hasło nie zostało wprowadzone");
+        throw {
+          errors: [
+            { path: "Logowanie użytkownika", message: "Email lub hasło nie zostało wprowadzone" },
+          ],
+        };
     }
 
     const userData = await User.findOne({ email: email });
 
     if (!userData) {
-      return {
-        errors: [
-          {
-            path: "Logowanie użytkownika",
-            message: "Użytkownik o podanym adresie email nie istnieje",
-          },
-        ],
+      console.log("Użytkownik o podanym adresie email nie istnieje");
+        throw {
+          errors: [
+            { path: "Logowanie użytkownika", message: "Użytkownik o podanym adresie email nie istnieje" },
+          ],
       };
     }
 
     const pass = await bcrypt.compare(password, userData.password);
 
     if (!pass) {
-      return {
-        errors: [
-          {
-            path: "Logowanie użytkownika",
-            message: "Podałeś niepoprawne hasło",
-          },
-        ],
-      };
+      console.log("Użytkownik o podanym adresie email nie istnieje");
+        throw {
+          errors: [
+            { path: "Logowanie użytkownika", message: "Podałeś niepoprawne hasło" },
+          ],   
+        };
     }
-    if(userData){
-        const token = generateUserToken(userData);
-        return { ...userData._doc, _id: userData._id.toString(), token: token };
+    try{
+      if(userData){
+          const token = generateUserToken(userData);
+          return { ...userData._doc, _id: userData._id.toString(), token: token };
+      }
+    }catch(error){
+        return { errors: tools.formatErrors(e) };
     }
+
     // const token = await jwt.sign(
     //   {
     //     _id: userData._id.toString(),
@@ -176,14 +167,12 @@ module.exports = {
   updateUser: async function ({ userInput }, req) {
 
     if (!userInput.name || !userInput.email) {
-      return {
-        errors: [
-          {
-            path: "Aktualizacja danych użytkownika",
-            message: "Pozostawiłeś nazwę lub email pusty",
-          },
-        ],
-      };
+        console.log("Pozostawiłeś nazwę lub email pusty");
+        throw {
+          errors: [
+            { path: "Aktualizacja danych użytkownika", message: "Pozostawiłeś nazwę lub email pusty" },
+          ],   
+        };
     }
     const _id = userInput._id;
     const user = await User.findOne({ _id });

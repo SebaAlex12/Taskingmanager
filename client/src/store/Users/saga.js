@@ -135,20 +135,26 @@ function* registerUserAsync(action) {
     const response = res.data.data.createUser;
     const { errors } = res.data.data.createUser;
       if(errors){
-          yield put({ type: USER_ERROR, payload: errors });
+          // yield put({ type: USER_ERROR, payload: errors });
           // yield put({ type: UPDATE_ALERT_MESSAGES_SUCCESS, payload:errors });
+          // console.log('errors',errors);
+          yield put({
+            type: UPDATE_MESSAGE,
+            payload: errors,
+          });
       }else{
           yield put({
             type: REGISTER_USER_SUCCESS,
             payload: response,
           });
-          // yield put({
-          //   type: UPDATE_MESSAGES_SUCCESS,
-          //   payload: [{ message: "Użytkownik został dodany" }],
-          // });
+          yield put({
+            type: UPDATE_MESSAGE,
+            payload: "Użytkownik został zarejestrowany",
+          });
       }
     }
   } catch (error) {
+    console.log('saga error',error);
     yield put({ type: USER_ERROR, payload: error });
   }
 }
@@ -382,10 +388,10 @@ function* logoutUserAsync() {
   try {
     localStorage.removeItem("jwtTokenAuthorization");
     yield put({ type: LOGGED_OUT_SUCCESS, payload: [] });
-    // yield put({
-    //   type: UPDATE_MESSAGES_SUCCESS,
-    //   payload: { success: [{ message: "Użytkownik został wylogowany" }] },
-    // });
+    yield put({
+      type: UPDATE_MESSAGE,
+      payload: { success: [{ message: "Użytkownik został wylogowany" }] },
+    });
   } catch (error) {
     yield put({ type: USER_ERROR, payload: error });
   }

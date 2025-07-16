@@ -7,6 +7,8 @@ import { user_statuses } from "../../ini";
 import { updateMessages } from "../../Messages/actions";
 import { StyledUserForm } from "../styles/StyledUserForm";
 
+import { getProjectIdsByNames } from "../../Projects/components/Functions";
+
 class RegistryForm extends Component {
   constructor(props) {
     super(props);
@@ -50,19 +52,17 @@ class RegistryForm extends Component {
       selectedProjects,
     } = this.state;
 
+    const projectsIds = getProjectIdsByNames(selectedProjects,this.props.projects);
+
     const data = {
       name,
       email,
       password,
       status,
       company: companyName ? companyName : loggedUser.company,
-      projects: selectedProjects,
+      projects: projectsIds,
     };
-
-    const response = registerUser(data);
-    if (response) {
-      updateMessages([{ name: "Użytkownik" }, { value: "użytkownik dodany" }]);
-    }
+    registerUser(data);
   };
   onChangeProjectsMultiCheckbox = (event) => {
     let { selectedProjects } = this.state;
