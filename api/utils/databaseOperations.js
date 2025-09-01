@@ -99,36 +99,40 @@ const updateTasksList = async(tasks,users,projects) => {
 
                             // console.log('do something');
 
-                            const userTaskCreator = users.find(user=>user.name===task.createdBy);
-                            const userTaskResponsible = users.find(user=>user.name===task.responsiblePerson);
-                            const selectedProject = projects.find(project=>project.name===task.projectName);
+                            const userTaskCreator = await users.find(user=>user.name===task.createdBy);
+                            const userTaskResponsible = await users.find(user=>user.name===task.responsiblePerson);
+                            const selectedProject = await projects.find(project=>project.name===task.projectName);
 
                             // console.log('selected project', selectedProject);
                             // console.log('task',task);
 
                             if(selectedProject){
-                                const update = await TaskModel.findOneAndUpdate({ _id:task._id }, { projectId: selectedProject._id });
+                              //  const update = await TaskModel.findOneAndUpdate({ _id:task._id }, { projectId: selectedProject._id });
                                 // console.log('updated collection:',{ projectId: selectedProject._id }, update);
     
-                                // if(userTaskCreator && userTaskResponsible){
-                                //         const createdById = userTaskCreator._id;
-                                //         const responsiblePersonId = userTaskResponsible._id;
+                                if(userTaskCreator && userTaskResponsible){
+                                        const createdById = userTaskCreator._id;
+                                        const responsiblePersonId = userTaskResponsible._id;
     
-                                //         console.log('createdById',createdById);
-                                //         console.log('responsiblePersonId',responsiblePersonId);
-    
-                                //         const update = await TaskModel.findOneAndUpdate({ _id:task._id }, { createdBy: createdById, responsiblePerson: responsiblePersonId });
-                                //         console.log('updated collection:',update);
-                                // }
-                                return update;
+                                    if(createdById && responsiblePersonId){
+                                        console.log('createdById',createdById);
+                                        console.log('responsiblePersonId',responsiblePersonId);
+                                        const update = await TaskModel.findOneAndUpdate({ _id:task._id }, { projectId: selectedProject._id, createdById: userTaskCreator._id, responsiblePersonId: userTaskResponsible._id });
+                                        if(update){
+                                            console.log('data',{ projectId: selectedProject._id, createdById: userTaskCreator._id, responsiblePersonId: userTaskResponsible._id });
+                                        }
+                                    }
+                                      //   console.log('updated collection:',update);
+                                }
+                                // return update;
                             }
+                            i++;
                         }
-                    i++;
             });
 
             const result = await Promise.all(promises);
 
-            console.log('result',result);
+            // console.log('result',result);
             
 
         }catch(error){
@@ -205,7 +209,6 @@ const updateTasksList = async(tasks,users,projects) => {
 // });
 
 router.use('/update_collections',async(request,response)=>{
-    console.log('update collections');
 
     try{
         const usersResult = await getAllUsers();
