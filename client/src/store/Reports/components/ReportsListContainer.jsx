@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { addReport, removeReport } from '../actions';
 import ReportsAddForm from './ReportsAddForm';
+import ReportsYearSelector from './ReportsYearSelector';
 import ReportsMonthSelector from './ReportsMonthSelector';
 import ReportsItem from './ReportsItem';
 import ReportsSummary from './ReportsSummary';
@@ -21,6 +22,12 @@ const presentMonth = () => {
     return parseInt(month);
 }
 
+const presentYear = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    return year;
+}
+
 const ReportsListContainer = () => {
 
     console.log('reports container render...');
@@ -32,6 +39,7 @@ const ReportsListContainer = () => {
 
     const [ message, setMessage ] = useState(null);
     const [ month, setMonth ] = useState(presentMonth());
+    const [ year, setYear ] = useState(presentYear());
     // const [ reports, setReports ] = useState([]);
     const [ filteredReports, setFilteredReports ] = useState();
 
@@ -50,19 +58,25 @@ const ReportsListContainer = () => {
     // },[reportsList]);
 
     const Reportselector = useCallback(() => {
+
+        console.log('selected year',year);
+
         const selected = reportsList.filter(row => {
             const d = new Date(row.date);
             const m = d.getMonth() + 1;
+            const y = d.getFullYear();
             // console.log('month',month);
             // console.log('m',m);
-            if(m === month){
+            console.log('reports selector year',y);
+
+            if(m === month && y === year){
                 return row;  
             }else{
                 return false;
             }
         });
         return selected ;
-    },[month,reportsList]);
+    },[month,year,reportsList]);
 
     useEffect(()=>{
         const selected = Reportselector(reportsList);
@@ -96,6 +110,10 @@ const ReportsListContainer = () => {
         setMonth(parseInt(event.target.value));
     }
 
+    const changeYearHandler = (event) => {
+        setYear(parseInt(event.target.value));
+    }
+
     console.log('filteredReports',filteredReports);
 
     const list = filteredReports && filteredReports.length > 0 && filteredReports.map((report,index)=>{
@@ -122,6 +140,7 @@ const ReportsListContainer = () => {
             <ReportsPeymentsMessages />
             <header>
                 { filteredReports && <ReportsMonthSelector selectedMonth={month} changeMonthHandler={changeMonthHandler} /> }
+                { filteredReports && <ReportsYearSelector selectedYear={year} changeYearHandler={changeYearHandler} /> }
                 <div>{ peymentsList }</div>
             </header>
             { message && <div className={styles.message}>{ message }</div> }
