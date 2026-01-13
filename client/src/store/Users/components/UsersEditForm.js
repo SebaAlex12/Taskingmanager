@@ -75,8 +75,6 @@ class UsersEditFrom extends Component {
       projects: selectedProjectsIds,
     };
 
-   // console.log('update user handler',data);
-
     const response = updateUser(data);
     
   };
@@ -90,7 +88,6 @@ class UsersEditFrom extends Component {
     } = this.state;
     const { loggedUser } = this.props;
     const { projects } = this.props;
-    console.log('projects from props',projects);
     let projectContent = "";
     let userContent = "";
     let projectsIds = [];
@@ -103,7 +100,6 @@ class UsersEditFrom extends Component {
       }
     }
     if (projectsIds) {
-      console.log('projectsIds',projectsIds);
       let counter = 1;
       projectContent = projects.map((project) => {
         return (
