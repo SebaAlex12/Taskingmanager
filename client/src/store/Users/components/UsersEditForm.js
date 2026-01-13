@@ -12,7 +12,7 @@ class UsersEditFrom extends Component {
       email: "",
       password: "",
       status: "",
-      selectedProjects: [],
+      selectedProjectsIds: [],
     };
   }
   componentDidMount() {
@@ -22,9 +22,10 @@ class UsersEditFrom extends Component {
       name: item ? item.name : "",
       email: item ? item.email : "",
       status: item ? item.status : "",
-      selectedProjects: item ? item.projects.split(",") : [],
+      selectedProjectsIds: item ? item.projects.split(",") : [],
     });
   }
+  
   onChangeInput = (event) => {
     this.setState({
       ...this.state,
@@ -38,17 +39,17 @@ class UsersEditFrom extends Component {
     });
   };
   onChangeProjectsMultiCheckbox = (event) => {
-    let { selectedProjects } = this.state;
+    let { selectedProjectsIds } = this.state;
 
-    selectedProjects.includes(event.currentTarget.value)
-      ? (selectedProjects = selectedProjects.filter(
+    selectedProjectsIds.includes(event.currentTarget.value)
+      ? (selectedProjectsIds = selectedProjectsIds.filter(
           (item) => item !== event.currentTarget.value
         ))
-      : selectedProjects.push(event.currentTarget.value);
+      : selectedProjectsIds.push(event.currentTarget.value);
 
     this.setState({
       ...this.state,
-      selectedProjects: selectedProjects,
+      selectedProjectsIds: selectedProjectsIds,
     });
   };
   updateHandler = (event) => {
@@ -60,7 +61,7 @@ class UsersEditFrom extends Component {
       email,
       password,
       status,
-      selectedProjects,
+      selectedProjectsIds,
       selectedUsers,
     } = this.state;
 
@@ -71,8 +72,10 @@ class UsersEditFrom extends Component {
       password,
       status,
       company: loggedUser.company,
-      projects: selectedProjects,
+      projects: selectedProjectsIds,
     };
+
+   // console.log('update user handler',data);
 
     const response = updateUser(data);
     
@@ -83,33 +86,36 @@ class UsersEditFrom extends Component {
       email,
       password,
       status,
-      selectedProjects,
+      selectedProjectsIds,
     } = this.state;
     const { loggedUser } = this.props;
-    let { projects } = this.props;
+    const { projects } = this.props;
+    console.log('projects from props',projects);
     let projectContent = "";
     let userContent = "";
+    let projectsIds = [];
 
     if (projects && loggedUser) {
       if (loggedUser.status !== "Administrator") {
-        projects = loggedUser.projects.split(",");
+        projectsIds = loggedUser.projects.split(",");
       } else {
-        projects = projects.map((item) => item.name);
+        projectsIds = projects.map((item) => item._id);
       }
     }
-    if (projects) {
+    if (projectsIds) {
+      console.log('projectsIds',projectsIds);
       let counter = 1;
       projectContent = projects.map((project) => {
         return (
           <div className="checkbox-item" key={counter++}>
             <input
               type="checkbox"
-              name={project}
-              value={project}
+              name={project.name}
+              value={project._id}
               onChange={this.onChangeProjectsMultiCheckbox}
-              checked={selectedProjects.includes(project)}
+              checked={selectedProjectsIds.includes(project._id)}
             />
-            <div>{project}</div>
+            <div>{project.name}</div>
           </div>
         );
       });

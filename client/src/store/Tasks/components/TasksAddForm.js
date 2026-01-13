@@ -39,6 +39,9 @@ const TasksAddForm = ({ closeFormAction }) => {
   const filteredProjects = loggedUser.status === 'Administrator' ? projects : projects.filter(project => loggedUserProjects.includes(project._id) && project.visible === 'on');
   const filteredUsers = users.filter(user => user.projects.includes(projectId) && projectId.length > 0);
 
+  console.log('projectId',projectId);
+  console.log('filtered users',filteredUsers);
+
   const dispatch = useDispatch();
 
   const addHandler = (event) => {
@@ -82,6 +85,8 @@ const TasksAddForm = ({ closeFormAction }) => {
             termAt,
           };
       
+          console.log('add task data',data);
+
           dispatch(addTask(data));
       
           setTitle("");
