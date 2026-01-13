@@ -23,7 +23,7 @@ const RightButtonsBox = () => {
     return (
         <div className="right-buttons-box">
             {
-                loggedUser.name === "Franek" || loggedUser.name === "Piotrek" || loggedUser.name =="Marian" ? (
+                loggedUser._id === "5d97128b60880011b0425489" || loggedUser._id === "5dc547da3d26f300176bbbac" || loggedUser._id =="5dc547b53d26f300176bbbab" ? (
                     <div className="item">
                         <BiggerButton
                                 variant="primary"
