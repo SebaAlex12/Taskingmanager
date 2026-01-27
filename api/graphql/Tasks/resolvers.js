@@ -11,11 +11,11 @@ const tools = require("../../utils/tools");
 
 module.exports = {
   fetchTasks: async function ({ taskInput }) {
-
+console.log('fetch tasks');
         let params = [
             { "responsiblePersonId":taskInput.responsiblePersonId},{"createdById":taskInput.createdById}
           ];
-
+console.log('params',params);
     try{
 
         let tasks = await Task.find().or(params).sort({ createdAt: "desc" });
@@ -23,7 +23,9 @@ module.exports = {
         if(tasks.length > 0){
 
           const newTasksPromises = tasks.map(async(task) => {
+            
               const comments = await Comment.find({ taskId: task._id });
+              
                 const newTask = {
                   _id: task._id,
                   userId: task.userId,
@@ -42,10 +44,13 @@ module.exports = {
                   errors: task.errors,
                   comments: comments.length > 0 ? comments : []
                 }; 
+
+                
                 return newTask;
-          });
+              });
 
           const newTasks = await Promise.all(newTasksPromises).then((results) => {
+            console.log('fetch data results',results);
               return results;
           }).catch((e) => {
               return { errors: [{path: 'Tasks fetch', message : 'Błąd serwera - status 500' }] }
