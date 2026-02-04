@@ -175,7 +175,7 @@ app.post(basePath + "delete-files/", bodyParserJson, (req, res) => {
   });
 });
 
-app.post(
+app.use(
   basePath + "graphql",
   graphql.graphqlHTTP({
     schema: graphqlSchema,

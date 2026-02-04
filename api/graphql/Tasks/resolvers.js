@@ -11,52 +11,64 @@ const tools = require("../../utils/tools");
 
 module.exports = {
   fetchTasks: async function ({ taskInput }) {
-console.log('fetch tasks');
+// console.log('fetch tasks',taskInput);
         let params = [
             { "responsiblePersonId":taskInput.responsiblePersonId},{"createdById":taskInput.createdById}
           ];
-console.log('params',params);
+// console.log('params',params);
     try{
 
         let tasks = await Task.find().or(params).sort({ createdAt: "desc" });
+        
+        // console.log('tasks',tasks);
 
         if(tasks.length > 0){
 
           const newTasksPromises = tasks.map(async(task) => {
             
-              const comments = await Comment.find({ taskId: task._id });
+            // if(task._id){
+                // const comments = await Comment.find({ taskId: task._id });
+                // console.log('comments',comments);
+            // }
+
+              // console.log('task._id',task._id);
               
                 const newTask = {
-                  _id: task._id,
-                  userId: task.userId,
-                  createdById: task.createdById,
-                  projectId: task.projectId,
-                  projectName: task.projectName,
-                  responsiblePersonId: task.responsiblePersonId,
-                  title: task.title,
-                  description: task.description,
-                  priority: task.priority,
-                  responsiblePersonLastCommentId: task.responsiblePersonLastCommentId,
-                  createdAt: task.createdAt,
-                  finishedAt: task.finishedAt,
-                  termAt: task.termAt,
-                  status: task.status,
-                  errors: task.errors,
-                  comments: comments.length > 0 ? comments : []
+                  _id: task._id ? task._id : "",
+                  userId: task.userId ? task.userId : "",
+                  createdById: task.createdById ? task.createdById : "",
+                  projectId: task.projectId ? task.projectId : "",
+                  projectName: task.projectName ? task.projectName : "",
+                  responsiblePersonId: task.responsiblePersonId ? task.responsiblePersonId : "",
+                  title: task.title ? task.title : "",
+                  description: task.description ? task.description : "",
+                  priority: task.priority ? task.priority : "",
+                  status: task.status ? task.status : "",
+                  responsiblePersonLastCommentId: task.responsiblePersonLastCommentId ? task.responsiblePersonLastCommentId : "",
+                  createdAt: task.createdAt ? task.createdAt : "",
+                  finishedAt: task.finishedAt ? task.finishedAt : "",
+                  termAt: task.termAt ? task.termAt : "",
+                  errors: task.errors ? task.errors : "",
+                //  comments: comments.length > 0 ? comments : []
                 }; 
 
-                
+                // console.log('new task',newTask);
+
                 return newTask;
               });
 
           const newTasks = await Promise.all(newTasksPromises).then((results) => {
-            console.log('fetch data results',results);
               return results;
-          }).catch((e) => {
-              return { errors: [{path: 'Tasks fetch', message : 'Błąd serwera - status 500' }] }
+          })
+          .catch((e) => {
+              return { errors: [{path: 'Tasks fetch', message: e.message }] }
           });
 
+          // console.log('newTasks',newTasks);
+
           return newTasks;
+          // return tasks;
+          // return newTasksPromises;
         }
               
       }catch(error){

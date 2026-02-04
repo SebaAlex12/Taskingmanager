@@ -3,20 +3,16 @@ const Schema = mongoose.Schema;
 
 const CommentSchema = new Schema({
   taskId: {
-    type: String,
-    required: true
+    type: String
   },
   userId: {
-    type: String,
-    required: true
+    type: String
   },
   createdById: {
-    type: String,
-    required: true
+    type: String
   },
   description: {
-    type: String,
-    required: true
+    type: String
   },
   createdAt: {
     type: String
