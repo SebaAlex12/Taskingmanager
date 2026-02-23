@@ -215,10 +215,10 @@ const TaskItem = (props) => {
                     rows="10"
                   ></textarea>
                 </div>
-                <CommentsList
+                {/* <CommentsList
                   comments={commentsTask}
                   responsiblePersonId={responsiblePersonId}
-                />
+                /> */}
                 <CommentsAddForm
                   taskId={_id}
                   taskProjectName={projectName}
