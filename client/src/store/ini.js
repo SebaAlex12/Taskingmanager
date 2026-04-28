@@ -13,7 +13,7 @@ export const salary = [
           {
             'id':'5dc547b53d26f300176bbbab',
             'name':'Marian',
-            'price':34
+            'price':36
           },
           {
             'id':'5dc547da3d26f300176bbbac',
