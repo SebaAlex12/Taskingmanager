@@ -18,7 +18,7 @@ export const salary = [
           {
             'id':'5dc547da3d26f300176bbbac',
             'name':'Piotrek',
-            'price':34
+            'price':36
           }
         ],
     }
